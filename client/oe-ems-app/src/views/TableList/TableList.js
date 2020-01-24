@@ -87,6 +87,7 @@ export default function TableList() {
                 ["4","Shivam Sharma", "Korea, South", "Overland Park"],
                 ["5","Bhushan Patil", "Malawi", "Feldkirchen in Kärnten"]
               ]}
+              showLink={true}
             />
           </CardBody>
         </Card>

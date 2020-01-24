@@ -18,7 +18,7 @@ const useStyles = makeStyles(styles);
 
 export default function CustomTable(props) {
   const classes = useStyles();
-  const { tableHead, tableData, tableHeaderColor } = props;
+  const { tableHead, tableData, tableHeaderColor,showLink } = props;
   return (
  
     <Switch>
@@ -38,8 +38,7 @@ export default function CustomTable(props) {
                 );
                 
               })}
-              <TableCell >
-                </TableCell>
+              {showLink ?<TableCell /> : null }
             </TableRow>
           </TableHead>
         ) : null}
@@ -54,18 +53,19 @@ export default function CustomTable(props) {
                     </TableCell>
                   );
                 })}
-                <TableCell className={classes.tableCell} key={key}>
+                {showLink ? <TableCell className={classes.tableCell} key={key}>
                   <Button color="success" size="sm">
-                    <Link to="/admin/user"> SearchProduct </Link>
+                    <Link style={{textDecoration:"none" , color:"#FFFFFF"}} to="/admin/user"> SearchProduct </Link>
                   </Button>
-                </TableCell>
+                  <Route path="/admin/user" component={UserProfile} />
+                </TableCell> : null }
               </TableRow>
             );
           })}
         </TableBody>
       </Table>
     </div>
-      <Route path="/admin/user" component={UserProfile} />
+      
     </Switch>
   );
 }

@@ -50,6 +50,7 @@ const tableStyle = theme => ({
     ...defaultFont,
     lineHeight: "1.42857143",
     padding: "12px 8px",
+    textAlign:"center",
     verticalAlign: "middle",
     fontSize: "0.8125rem"
   },
