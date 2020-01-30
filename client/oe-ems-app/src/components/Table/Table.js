@@ -23,7 +23,7 @@ export default function CustomTable(props) {
  
     <Switch>
     <div className={classes.tableResponsive}>
-      <Table className={classes.table}>
+      {(tableHead && tableData)?<Table className={classes.table}>
         {tableHead !== undefined ? (
           <TableHead className={classes[tableHeaderColor + "TableHeader"]}>
             <TableRow className={classes.tableHeadRow}>
@@ -31,7 +31,7 @@ export default function CustomTable(props) {
                 return (
                   <TableCell
                     className={classes.tableCell + " " + classes.tableHeadCell}
-                    key={key}
+                    key={key+"cell"}
                   >
                     {prop}
                   </TableCell>
@@ -53,7 +53,7 @@ export default function CustomTable(props) {
                     </TableCell>
                   );
                 })}
-                {showLink ? <TableCell className={classes.tableCell} key={key}>
+                {showLink ? <TableCell className={classes.tableCell} key={key+"cell"}>
                   <Button color="success" size="sm">
                     <Link style={{textDecoration:"none" , color:"#FFFFFF"}} to="/admin/user"> SearchProduct </Link>
                   </Button>
@@ -63,7 +63,7 @@ export default function CustomTable(props) {
             );
           })}
         </TableBody>
-      </Table>
+      </Table>:null}
     </div>
       
     </Switch>
@@ -85,5 +85,5 @@ CustomTable.propTypes = {
     "gray"
   ]),
   tableHead: PropTypes.arrayOf(PropTypes.string),
-  tableData: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.string))
+  //tableData: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.string))
 };

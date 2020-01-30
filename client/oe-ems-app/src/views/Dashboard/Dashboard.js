@@ -1,9 +1,18 @@
 import React from "react";
 import { Link, Route ,Switch } from 'react-router-dom';
+import { connect } from 'react-redux';
+import {loadAllStatesData} from '../../actions';
+import {compose} from 'redux';
 // react plugin for creating charts
 // @material-ui/core
-import { makeStyles } from "@material-ui/core/styles";
+import { withStyles } from "@material-ui/core/styles";
 import InputLabel from "@material-ui/core/InputLabel";
+import Input from "@material-ui/core/Input"
+import MenuItem from '@material-ui/core/MenuItem';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
+import Chip from '@material-ui/core/Chip';
 // @material-ui/icons
 import BugReport from "@material-ui/icons/BugReport";
 import Code from "@material-ui/icons/Code";
@@ -22,10 +31,43 @@ import { bugs, website, server } from "../../variables/general.js";
 
 import styles from "../../assets/jss/material-dashboard-react/views/dashboardStyle.js";
 
-const useStyles = makeStyles(styles);
 
-export default function Dashboard() {
-  const classes = useStyles();
+class Dashboard extends React.Component {
+  constructor(){
+    super();
+   this.state= {
+      selectedState:"",
+      selectedCity:"",
+      personName:[]
+   };
+  this.MenuProps = {
+    PaperProps: {
+      style: {
+        maxHeight: 48 * 4.5 + 8,
+        width: 250,
+      },
+    },
+  };
+  };
+    componentDidMount() {
+      this.props.loadAllStatesData();
+    }
+    componentDidUpdate() {
+    }
+    handleChange =(e)=>{
+      if(e.target.name === "SelectState"){
+      this.setState({selectedState:e.target.value});
+      }
+      else if(e.target.name === "selectCity"){
+      this.setState({selectedCity:e.target.value});
+      }
+      else
+      {this.setState({personName:e.target.value});}
+    }
+ 
+  render(){
+    const { classes ,StatesData} = this.props;
+    const { selectedState , selectedCity ,personName} =this.state;
   return (
       <Switch>
     <div>
@@ -81,7 +123,7 @@ export default function Dashboard() {
                         panelFooter={
                             <>
                             <Button color="success" size="sm">
-                            <Link style={{textDecoration:"none" , color:"#FFFFFF"}} to="/admin/user"> Apply Leave </Link>
+                            <Link style={{textDecoration:"none" , color:"#FFFFFF"}} to="/admin/LeaveForm"> Apply Leave </Link>
                             </Button>
                             <Route path="/admin/user" component={UserProfile} />
                             </>
@@ -103,7 +145,7 @@ export default function Dashboard() {
                         panelFooter={
                             <>
                             <Button color="success" size="sm">
-                            <Link style={{textDecoration:"none" , color:"#FFFFFF"}} to="/admin/user"> Apply Work From Home </Link>
+                            <Link style={{textDecoration:"none" , color:"#FFFFFF"}} to="/admin/WFHForm"> Apply Work From Home </Link>
                             </Button>
                             <Route path="/admin/user" component={UserProfile} />
                             </>
@@ -151,8 +193,88 @@ export default function Dashboard() {
             ]}
           />
         </GridItem>
+        <GridItem xs={12} sm={12} md={6}>
+          <FormControl >
+          <InputLabel>State</InputLabel>
+            <Select
+              name="SelectState"
+              onChange={this.handleChange}
+              value={this.state.selectedState}
+            >
+            <MenuItem value="" key={-1} disabled>Choose State</MenuItem>
+            {StatesData ? Object.keys(StatesData.data).map((prop, key) => {
+            return (
+              <MenuItem value={prop} key={key}>{prop}</MenuItem>
+            );
+            }):null}
+          </Select>
+          <FormHelperText>Some important helper text</FormHelperText>
+        </FormControl>
+        </GridItem>
+        <GridItem xs={12} sm={12} md={6}>
+          <FormControl >
+          <InputLabel>City</InputLabel>
+          <Select
+            name="selectCity"
+            value={selectedCity}
+            onChange={this.handleChange}
+          >
+            <MenuItem value="" key={-1} disabled>Choose City</MenuItem>
+            {selectedState ? StatesData.data[selectedState].map((prop, key) => {
+            return (
+              <MenuItem value={prop} key={key}>{prop}</MenuItem>
+            );
+            }):null}
+          </Select>
+          <FormHelperText>Some important helper text</FormHelperText>
+        </FormControl>
+        </GridItem>
+        <GridItem xs={12} sm={12} md={6}>
+          <FormControl >
+            <InputLabel>States</InputLabel>
+            <Select
+              labelId="demo-mutiple-chip-label"
+              id="demo-mutiple-chip"
+              multiple
+              value={personName}
+              onChange={this.handleChange}
+              input={<Input id="select-multiple-chip" />}
+              renderValue={selected => (
+                <div>
+                  {selected.map(value => (
+                    <Chip key={value} label={value} className={classes.chip} />
+                  ))}
+                </div>
+              )}
+              MenuProps={this.MenuProps}
+            >
+              {StatesData ? Object.keys(StatesData.data).map(name => (
+                <MenuItem key={name} value={name}>
+                  {name}
+                </MenuItem>
+              )):null}
+            </Select>
+          <FormHelperText>Some important helper text</FormHelperText>
+        </FormControl>
+        </GridItem>
       </GridContainer>
     </div>
     </Switch>
   );
 }
+}
+const mapStateToProps = (state) =>{
+  return {
+      StatesData: state.StateInfo.StateSelectData,
+    };
+}
+const mapDispatchToProps = (dispatch) => ({
+  loadAllStatesData: () => dispatch(loadAllStatesData())
+});
+
+
+const DashBoardWithHOC = compose(
+  withStyles(styles),
+  connect(mapStateToProps, mapDispatchToProps)
+)(Dashboard);
+export default DashBoardWithHOC;

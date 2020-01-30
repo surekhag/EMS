@@ -1,13 +1,20 @@
 import React from "react";
+import { connect } from 'react-redux';
+import {compose} from 'redux';
+//@material-ui/icons components
+import Search from "@material-ui/icons/Search";
 // @material-ui/core components
-import { makeStyles } from "@material-ui/core/styles";
+import { withStyles } from "@material-ui/core/styles";
 // core components
+import CustomInput from "../../components/CustomInput/CustomInput.js";
+import Button from "../../components/CustomButtons/Button.js";
 import GridItem from "../../components/Grid/GridItem";
 import GridContainer from "../../components/Grid/GridContainer.js";
 import Table from "../../components/Table/Table.js";
 import Card from "../../components/Card/Card.js";
 import CardHeader from "../../components/Card/CardHeader.js";
 import CardBody from "../../components/Card/CardBody.js";
+import { loadAllEmployeeData } from "../../actions/index.js";
 
 const styles = {
   cardCategoryWhite: {
@@ -39,59 +46,97 @@ const styles = {
   }
 };
 
-const useStyles = makeStyles(styles);
 
-export default function TableList() {
-  const classes = useStyles();
-  return (
-    <GridContainer>
-      {/* <GridItem xs={12} sm={12} md={12}>
-        <Card>
-          <CardHeader color="primary">
-            <h4 className={classes.cardTitleWhite}>Simple Table</h4>
-            <p className={classes.cardCategoryWhite}>
-              Here is a subtitle for this table
-            </p>
-          </CardHeader>
-          <CardBody>
-            <Table
-              tableHeaderColor="gray"
-              tableHead={["Name", "Country", "City", "Salary"]}
-              tableData={[
-                ["Dakota Rice", "Niger", "Oud-Turnhout", "$36,738"],
-                ["Minerva Hooper", "Curaçao", "Sinaai-Waas", "$23,789"],
-                ["Sage Rodriguez", "Netherlands", "Baileux", "$56,142"],
-                ["Philip Chaney", "Korea, South", "Overland Park", "$38,735"],
-                ["Doris Greene", "Malawi", "Feldkirchen in Kärnten", "$63,542"],
-                ["Mason Porter", "Chile", "Gloucester", "$78,615"]
-              ]}
+class TableList extends React.Component {
+
+  componentDidMount(){
+    this.props.loadAllEmployeeData();
+  }
+  
+  render(){
+    const { classes } = this.props;
+    let tempArr =[];
+    if(this.props.EmployeeData){
+      this.props.EmployeeData.data.map((key,value)=>{
+        tempArr.push((Object.values(key)));
+      });
+    }
+    return (
+      <GridContainer>
+        {/* <GridItem xs={12} sm={12} md={12}>
+          <Card>
+            <CardHeader color="primary">
+              <h4 className={classes.cardTitleWhite}>Simple Table</h4>
+              <p className={classes.cardCategoryWhite}>
+                Here is a subtitle for this table
+              </p>
+            </CardHeader>
+            <CardBody>
+              <Table
+                tableHeaderColor="gray"
+                tableHead={["Name", "Country", "City", "Salary"]}
+                tableData={[
+                  ["Dakota Rice", "Niger", "Oud-Turnhout", "$36,738"],
+                  ["Minerva Hooper", "Curaçao", "Sinaai-Waas", "$23,789"],
+                  ["Sage Rodriguez", "Netherlands", "Baileux", "$56,142"],
+                  ["Philip Chaney", "Korea, South", "Overland Park", "$38,735"],
+                  ["Doris Greene", "Malawi", "Feldkirchen in Kärnten", "$63,542"],
+                  ["Mason Porter", "Chile", "Gloucester", "$78,615"]
+                ]}
+              />
+            </CardBody>
+          </Card>
+        </GridItem> */}
+        <GridItem xs={12} sm={12} md={12}>
+            <CustomInput
+              formControlProps={{
+                className: classes.margin + " " + classes.search
+              }}
+              inputProps={{
+                placeholder: "Search",
+                inputProps: {
+                  "aria-label": "Search"
+                }
+              }}
             />
-          </CardBody>
-        </Card>
-      </GridItem> */}
-      <GridItem xs={12} sm={12} md={12}>
-        <Card plain>
-          <CardHeader plain color="primary">
-            <h4 className={classes.cardTitleWhite}>
-              Employee List
-            </h4>
-          </CardHeader>
-          <CardBody>
-            <Table
-              tableHeaderColor="gray"
-              tableHead={["ID", "Name", "City","Country"]}
-              tableData={[
-                ["1","Rakshanda Wankhede", "Niger", "Oud-Turnhout"],
-                ["2","Deeparti Wani", "Curaçao", "Sinaai-Waas"],
-                ["3","Aatish Bondge", "Netherlands", "Baileux"],
-                ["4","Shivam Sharma", "Korea, South", "Overland Park"],
-                ["5","Bhushan Patil", "Malawi", "Feldkirchen in Kärnten"]
-              ]}
-              showLink={true}
-            />
-          </CardBody>
-        </Card>
-      </GridItem>
-    </GridContainer>
-  );
+            <Button color="white" aria-label="edit" justIcon round>
+              <Search />
+            </Button>
+        </GridItem>
+        <GridItem xs={12} sm={12} md={12}>
+          <Card plain>
+            <CardHeader plain color="primary">
+              <h4 className={classes.cardTitleWhite}>
+                Employee List
+              </h4>
+            </CardHeader>
+            <CardBody>
+              <Table
+                tableHeaderColor="gray"
+                tableHead={this.props.EmployeeData ? Object.keys(this.props.EmployeeData.data[0]):null}
+                tableData={tempArr  ? tempArr:null}
+                showLink={true}
+              />
+            </CardBody>
+          </Card>
+        </GridItem>
+      </GridContainer>
+    );
+  }
 }
+
+const mapStateToProps = (state) =>{
+  return {
+      EmployeeData: state.EmployeeInfo.EmployeeData,
+    };
+}
+const mapDispatchToProps = (dispatch) => ({
+  loadAllEmployeeData: () => dispatch(loadAllEmployeeData())
+});
+
+
+const TableListWithHOC = compose(
+  withStyles(styles),
+  connect(mapStateToProps, mapDispatchToProps)
+)(TableList);
+export default TableListWithHOC;
