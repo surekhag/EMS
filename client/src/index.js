@@ -6,14 +6,14 @@ import * as serviceWorker from './serviceWorker';
 import {Provider} from 'react-redux';
 import store from '../src/store/index.js'
 import { Router, Route, Switch, Redirect } from "react-router-dom";
-import Admin from "./layouts/Admin.js"
+import User from "./layouts/User"
 
 const hist = createBrowserHistory();
 ReactDOM.render(
   <Provider store={store}>
       <Router history={hist}>
         <Switch>
-          <Route path="/admin" component={Admin} />
+          <Route path="/admin" component={User} />
           <Redirect from="/" to="/admin/dashboard" />
         </Switch>
       </Router>
