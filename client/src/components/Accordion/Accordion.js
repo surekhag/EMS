@@ -16,7 +16,7 @@ import styles from "../../assets/jss/material-dashboard-react/components/accordi
 
 const useStyles = makeStyles(styles);
 
-export default function Accordion(props) {
+export default function Accordion(props) {//es6
     const classes = useStyles();
     const {panelHeading, panelData ,panelFooter } = props;
   return (

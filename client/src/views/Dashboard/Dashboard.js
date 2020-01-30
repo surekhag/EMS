@@ -32,7 +32,7 @@ import { bugs, website, server } from "../../variables/general.js";
 import styles from "../../assets/jss/material-dashboard-react/views/dashboardStyle.js";
 
 
-class Dashboard extends React.Component {
+class Dashboard extends React.Component {//@@todo - make it functional 
   constructor(){
     super();
    this.state= {
@@ -49,10 +49,10 @@ class Dashboard extends React.Component {
     },
   };
   };
-    componentDidMount() {
+    componentDidMount() { // use hooks
       this.props.loadAllStatesData();
     }
-    componentDidUpdate() {
+    componentDidUpdate() { // remove this
     }
     handleChange =(e)=>{
       if(e.target.name === "SelectState"){
@@ -246,7 +246,7 @@ class Dashboard extends React.Component {
                   ))}
                 </div>
               )}
-              MenuProps={this.MenuProps}
+              //MenuProps={this.MenuProps}
             >
               {StatesData ? Object.keys(StatesData.data).map(name => (
                 <MenuItem key={name} value={name}>
