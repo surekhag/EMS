@@ -48,16 +48,27 @@ const styles = {
 
 
 class TableList extends React.Component {
+  constructor(){
+    super();
+    this.state={
+      searchText:''
+    }
+  }
 
   componentDidMount(){
     this.props.loadAllEmployeeData();
   }
+  changeHandler=(e)=>{
+    this.setState({searchText:e.target.value});
+  }
   
   render(){
     const { classes } = this.props;
+    const {searchText} = this.state;
     let tempArr =[];
     if(this.props.EmployeeData){
-      this.props.EmployeeData.data.map((key,value)=>{
+      let filteredEmployee = this.props.EmployeeData.data.filter(cls => cls.Name.toLowerCase().includes(searchText.toLowerCase().trim()));
+      filteredEmployee.map((key,value)=>{
         tempArr.push((Object.values(key)));
       });
     }
@@ -93,10 +104,12 @@ class TableList extends React.Component {
                 className: classes.margin + " " + classes.search
               }}
               inputProps={{
-                placeholder: "Search",
+                onChange:this.changeHandler,
+                placeholder: "Search Employee",
                 inputProps: {
                   "aria-label": "Search"
                 }
+
               }}
             />
             <Button color="white" aria-label="edit" justIcon round>
