@@ -7,14 +7,16 @@ import {Provider} from 'react-redux';
 import store from '../src/store/index.js'
 import { Router, Route, Switch, Redirect } from "react-router-dom";
 import User from "./layouts/User"
+import Login from './views/Login/Login';
 
 const hist = createBrowserHistory();
 ReactDOM.render(
   <Provider store={store}>
       <Router history={hist}>
         <Switch>
+          <Route exact path="/login" component={Login} />
           <Route path="/admin" component={User} />
-          <Redirect from="/" to="/admin/dashboard" />
+          <Redirect from="/" to="/login" />
         </Switch>
       </Router>
     </Provider>
