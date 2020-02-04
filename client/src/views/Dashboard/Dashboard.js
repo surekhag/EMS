@@ -1,11 +1,10 @@
-import React from "react";
+import React , { useState , useEffect } from "react";
 import { Link, Route ,Switch } from 'react-router-dom';
-import { connect } from 'react-redux';
+import { useSelector , useDispatch } from 'react-redux'
 import {loadAllStatesData} from '../../actions';
-import {compose} from 'redux';
 // react plugin for creating charts
 // @material-ui/core
-import { withStyles } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import InputLabel from "@material-ui/core/InputLabel";
 import Input from "@material-ui/core/Input"
 import MenuItem from '@material-ui/core/MenuItem';
@@ -31,43 +30,30 @@ import { bugs, website, server } from "../../variables/general.js";
 
 import styles from "../../assets/jss/material-dashboard-react/views/dashboardStyle.js";
 
-
-class Dashboard extends React.Component {//@@todo - make it functional 
-  constructor(){
-    super();
-   this.state= {
-      selectedState:"",
-      selectedCity:"",
-      personName:[]
-   };
-  this.MenuProps = {
-    PaperProps: {
-      style: {
-        maxHeight: 48 * 4.5 + 8,
-        width: 250,
-      },
-    },
-  };
-  };
-    componentDidMount() { // use hooks
-      this.props.loadAllStatesData();
-    }
-    componentDidUpdate() { // remove this
-    }
-    handleChange =(e)=>{
+  const useStyles = makeStyles(styles);
+  const Dashboard=(props)=>{
+    const classes = useStyles();
+    const [selectedState, setSelectedState] = useState("");
+    const [selectedCity, setSelectedCity] = useState("");
+    const [multipleStatesName, setMultipleStatesName] = useState([]);
+    const dispatch = useDispatch();
+    const StatesData = useSelector(state => state.StateInfo.StateSelectData);
+    const loadAllStates =() => { dispatch(loadAllStatesData())}
+    useEffect(() => {
+      loadAllStates();
+    },[]);
+    const handleChange =(e)=>{
       if(e.target.name === "SelectState"){
-      this.setState({selectedState:e.target.value});
+        setSelectedState(e.target.value);
       }
       else if(e.target.name === "selectCity"){
-      this.setState({selectedCity:e.target.value});
+        setSelectedCity(e.target.value);
       }
       else
-      {this.setState({personName:e.target.value});}
+        setMultipleStatesName(e.target.value);
     }
- 
-  render(){
-    const { classes ,StatesData} = this.props;
-    const { selectedState , selectedCity ,personName} =this.state;
+    
+    
   return (
       <Switch>
     <div>
@@ -75,7 +61,7 @@ class Dashboard extends React.Component {//@@todo - make it functional
         <GridItem xs={12} sm={12} md={12}>
             <InputLabel className={classes.cardTitle}>Welcome RAKSHANDA</InputLabel>    
         </GridItem>
-        <GridItem xs={12} sm={12} md={12}>
+        <GridItem xs={12} sm={12} md={6}>
             <Accordion panelHeading="Allowcated Projects"
                     panelData={<Table
                     tableHeaderColor="gray"
@@ -99,7 +85,7 @@ class Dashboard extends React.Component {//@@todo - make it functional
                      
                 </Accordion>
         </GridItem>
-        <GridItem xs={12} sm={12} md={12}> 
+        <GridItem xs={12} sm={12} md={6}> 
             <Accordion panelHeading="Leave Summary"
                         panelData={<Table
                         tableHeaderColor="gray"
@@ -198,8 +184,8 @@ class Dashboard extends React.Component {//@@todo - make it functional
           <InputLabel>State</InputLabel>
             <Select
               name="SelectState"
-              onChange={this.handleChange}
-              value={this.state.selectedState}
+              onChange={handleChange}
+              value={selectedState}
             >
             <MenuItem value="" key={-1} disabled>Choose State</MenuItem>
             {StatesData ? Object.keys(StatesData.data).map((prop, key) => {
@@ -217,7 +203,7 @@ class Dashboard extends React.Component {//@@todo - make it functional
           <Select
             name="selectCity"
             value={selectedCity}
-            onChange={this.handleChange}
+            onChange={handleChange}
           >
             <MenuItem value="" key={-1} disabled>Choose City</MenuItem>
             {selectedState ? StatesData.data[selectedState].map((prop, key) => {
@@ -229,15 +215,15 @@ class Dashboard extends React.Component {//@@todo - make it functional
           <FormHelperText>Some important helper text</FormHelperText>
         </FormControl>
         </GridItem>
-        <GridItem xs={12} sm={12} md={6}>
+        <GridItem xs={12} sm={12} md={6}> 
           <FormControl >
             <InputLabel>States</InputLabel>
             <Select
               labelId="demo-mutiple-chip-label"
               id="demo-mutiple-chip"
               multiple
-              value={personName}
-              onChange={this.handleChange}
+              value={multipleStatesName}
+              onChange={handleChange}
               input={<Input id="select-multiple-chip" />}
               renderValue={selected => (
                 <div>
@@ -246,7 +232,6 @@ class Dashboard extends React.Component {//@@todo - make it functional
                   ))}
                 </div>
               )}
-              //MenuProps={this.MenuProps}
             >
               {StatesData ? Object.keys(StatesData.data).map(name => (
                 <MenuItem key={name} value={name}>
@@ -262,19 +247,4 @@ class Dashboard extends React.Component {//@@todo - make it functional
     </Switch>
   );
 }
-}
-const mapStateToProps = (state) =>{
-  return {
-      StatesData: state.StateInfo.StateSelectData,
-    };
-}
-const mapDispatchToProps = (dispatch) => ({
-  loadAllStatesData: () => dispatch(loadAllStatesData())
-});
-
-
-const DashBoardWithHOC = compose(
-  withStyles(styles),
-  connect(mapStateToProps, mapDispatchToProps)
-)(Dashboard);
-export default DashBoardWithHOC;
+export default Dashboard;

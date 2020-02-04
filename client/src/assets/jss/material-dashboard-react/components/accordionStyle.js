@@ -24,6 +24,8 @@ import {
     fontFamily: "'Roboto', 'Helvetica', 'Arial', sans-serif",
     marginBottom: "3px",
     textDecoration: "none",
+    fontSize: "x-large",
+    textTransform: "uppercase",
     "& small": {
       color: grayColor[1],
       fontWeight: "400",
