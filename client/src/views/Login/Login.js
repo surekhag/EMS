@@ -45,7 +45,7 @@ const styles = {
 
 const useStyles = makeStyles(styles);
 
-export default function Login() {
+function Login() {
   const [username, setUserName] = useState('');
   const [password, setPassword] = useState('');
 
@@ -70,7 +70,7 @@ export default function Login() {
                <GridItem xs={12} sm={12} md={12}>              
                <CustomInput
                     labelText="Username"
-                    id="username"                    
+                    id="username"
                     formControlProps={{
                       fullWidth: true
                     }}                    
@@ -144,3 +144,11 @@ export default function Login() {
     </div>
   );
 }
+const mapStateToProps= (state)=>{
+
+}
+
+const mapDispatchToProps = (dispatch)=>{
+  loginToSite : () => dispatch(loginToSite())
+}
+export default Login;
