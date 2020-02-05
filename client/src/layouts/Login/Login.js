@@ -6,7 +6,8 @@ import InputLabel from "@material-ui/core/InputLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import {Radio , RadioGroup }from '@material-ui/core';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-
+import { loginToSite } from '../../actions/loginAction';
+import { connect } from 'react-redux';
 //@material-ui/icons
 import Check from "@material-ui/icons/Check";
 import Brightness1Icon from '@material-ui/icons/Brightness1';
@@ -22,6 +23,7 @@ import CardBody from "../../components/Card/CardBody.js";
 import CardFooter from "../../components/Card/CardFooter.js";
 import './Login.css';
 import Input from "@material-ui/core/Input";
+import {Redirect} from 'react-router-dom';
 
 const styles = {
     ...checkboxAdnRadioStyle,
@@ -45,19 +47,22 @@ const styles = {
 
 const useStyles = makeStyles(styles);
 
-function Login() {
+function Login(props) {
   const [username, setUserName] = useState('');
   const [password, setPassword] = useState('');
+  const [redirect, setRedirect] = useState(false);
 
   const handleInputChange = (e)=>{
-  e.preventDefault();
-  console.log("in function");
+  e.preventDefault();  
+  setRedirect(true);
+  // props.loginToSite(username,password);  
   }
 
   const classes = useStyles();
 
   return (
     <div className="loginForm">
+      {redirect ? <Redirect  from= '/login' to="/admin/dashboard" /> : false}
       <GridContainer>
         <GridItem xs={11} sm={8} md={5}>
           <form onSubmit={handleInputChange}>
@@ -144,11 +149,13 @@ function Login() {
     </div>
   );
 }
-const mapStateToProps= (state)=>{
 
-}
+const mapStateToProps= (state)=>({
+loginStatus : state.loginStatus,
+loginError : state.loginError
+});
 
-const mapDispatchToProps = (dispatch)=>{
-  loginToSite : () => dispatch(loginToSite())
-}
-export default Login;
+const mapDispatchToProps = (dispatch)=>({
+  loginToSite : (username, password) => dispatch(loginToSite(username, password))
+ })
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

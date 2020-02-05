@@ -7,7 +7,7 @@ import {Provider} from 'react-redux';
 import store from '../src/store/index.js'
 import { Router, Route, Switch, Redirect } from "react-router-dom";
 import User from "./layouts/User"
-import Login from './views/Login/Login';
+import Login from './layouts/Login/Login';
 
 const hist = createBrowserHistory();
 ReactDOM.render(
