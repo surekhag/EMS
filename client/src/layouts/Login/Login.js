@@ -54,15 +54,15 @@ function Login(props) {
 
   const handleInputChange = (e)=>{
   e.preventDefault();  
-  setRedirect(true);
-  // props.loginToSite(username,password);  
+  // setRedirect(true);
+  props.loginToSite(username,password);  
   }
 
   const classes = useStyles();
 
   return (
     <div className="loginForm">
-      {redirect ? <Redirect  from= '/login' to="/admin/dashboard" /> : false}
+      {/* {redirect ? <Redirect  from= '/login' to="/admin/dashboard" /> : false} */}
       <GridContainer>
         <GridItem xs={11} sm={8} md={5}>
           <form onSubmit={handleInputChange}>

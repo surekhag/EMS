@@ -6,10 +6,13 @@ import { LOGIN_TO_SITE,
 import { loginToSiteSuccess } from '../../actions/loginAction';
 import { logInToSiteApi } from '../../api/loginApi';
 
-function* workerLoginSaga() {
-    // console.log("in saga");
+function* workerLoginSaga(userinfo) {
+    
+    const username = userinfo.payload.username;
+    const password = userinfo.payload.password;
   try{
-    const loginStatus = yield call(logInToSiteApi);
+    const loginStatus = yield call(logInToSiteApi, username, password);
+    console.log('loginStatus');
     yield put(loginToSiteSuccess(loginStatus));
   }
   catch(e){

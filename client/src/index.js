@@ -14,9 +14,9 @@ ReactDOM.render(
   <Provider store={store}>
       <Router history={hist}>
         <Switch>
-          {/* <Route exact path="/login" component={Login} /> */}
+          <Route exact path="/login" component={Login} />
           <Route path="/admin" component={User} />
-          <Redirect from="/" to="/admin/dashboard" />
+          <Redirect from="/" to="/login" />
         </Switch>
       </Router>
     </Provider>
