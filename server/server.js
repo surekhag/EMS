@@ -1,14 +1,3 @@
-// const express = require('express'); 
-// const logger = require('morgan');
-// const bodyParser = require('body-parser');
-// const app = express();
-// app.use(logger('dev'));
-// app.use(bodyParser.urlencoded({extended: false}));
-// app.get('/', function(req, res){
-//  res.json({"tutorial" : "Build REST API with node.js"});
-// });
-// app.listen(3000, function(){ console.log('Node server listening on port 3000');});
-
 const express = require('express');
 const logger = require('morgan');
 const movies = require('./routes/movies') ;
@@ -60,6 +49,6 @@ app.use(function(err, req, res, next) {
   else 
     res.status(500).json({message: "Something looks wrong :( !!!"});
 });
-app.listen(3000, function(){
- console.log('Node server listening on port 3000');
+app.listen(3001, function(){
+ console.log('Node server listening on port 3001');
 });

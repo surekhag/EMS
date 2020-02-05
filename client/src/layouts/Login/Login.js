@@ -23,6 +23,7 @@ import CardBody from "../../components/Card/CardBody.js";
 import CardFooter from "../../components/Card/CardFooter.js";
 import './Login.css';
 import Input from "@material-ui/core/Input";
+import {Redirect} from 'react-router-dom';
 
 const styles = {
     ...checkboxAdnRadioStyle,
@@ -49,16 +50,19 @@ const useStyles = makeStyles(styles);
 function Login(props) {
   const [username, setUserName] = useState('');
   const [password, setPassword] = useState('');
+  const [redirect, setRedirect] = useState(false);
 
   const handleInputChange = (e)=>{
-  e.preventDefault();
-  props.loginToSite(username,password);
+  e.preventDefault();  
+  setRedirect(true);
+  // props.loginToSite(username,password);  
   }
 
   const classes = useStyles();
 
   return (
     <div className="loginForm">
+      {redirect ? <Redirect  from= '/login' to="/admin/dashboard" /> : false}
       <GridContainer>
         <GridItem xs={11} sm={8} md={5}>
           <form onSubmit={handleInputChange}>
