@@ -85,9 +85,10 @@ function Login(props) {
                       inputProps: {                        
                         onChange : (e)=> setUserName(e.target.value),
                         "aria-label": "Search", 
+                        // pattern : '/^[a-zA-Z0-9.\-_$@*!]{3,30}$/',
                         // type : 'email',
                         // pattern : '^[\w]{1,}[\w.+-]{0,}@[\w-]{2,}([.][a-zA-Z]{2,}|[.][\w-]{2,}[.][a-zA-Z]{2,})$',
-                        title : 'Enter a valid email',
+                        title : 'Enter a valid Username',
                         required : true                     
                       }
                     }}                                         
@@ -107,7 +108,8 @@ function Login(props) {
                       type : 'password',
                       inputProps: {                        
                         onChange : (e)=> setPassword(e.target.value),
-                        "aria-label": "Search",
+                        // "aria-label": "Search",
+                        // pattern : '/^[a-zA-Z0-9.\-_$@*!]{3,30}$/',
                         required : true                      
                       }
                     }}                    

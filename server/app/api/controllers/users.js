@@ -1,6 +1,7 @@
 const userModel = require('../models/users');
 const bcrypt = require('bcrypt'); 
 const jwt = require('jsonwebtoken');
+
 module.exports = {
  create: function(req, res, next) {
 
@@ -17,18 +18,12 @@ res.setHeader('Access-Control-Allow-Credentials', true); // If needed
       
     });
  },
+
 authenticate: function(req, res, next) {
 
-   // (req, res, next) => {
-   //    console.log(req.body);
-   //    res.send('BODY ==> ' + JSON.stringify(req.body));
-//   }
-
-
-   console.log("inside authenticate");
-   console.log(req);
-   // console.log(req.body);
-
+console.log("inside authenticate", req.body);   
+console.log(JSON.stringify(req.body));
+  
 res.setHeader('Access-Control-Allow-Origin', '*');
 // res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE'); // If needed
 res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,contenttype'); // If needed
