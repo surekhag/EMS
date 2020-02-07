@@ -51,20 +51,21 @@ const useStyles = makeStyles(styles);
 function Login(props) {
   const [username, setUserName] = useState('');
   const [password, setPassword] = useState('');
+  const [userrole, setUserRole] = useState('Admin');
   const [redirect, setRedirect] = useState(false);
 
   let status = useSelector((state) => state.loginReducer.loginStatus);
 
   const handleInputChange = (e)=>{
-  e.preventDefault();  
-  props.loginToSite(username,password);  
+  e.preventDefault();
+  props.loginToSite(username,password,userrole);
   }
 
   useEffect(()=>{    
     if(status && status.status && status.data){
       localStorage.setItem('token', JSON.stringify(status.data.token));
       console.log("user available");      
-      // setRedirect(true);
+      setRedirect(true);
     }
     else if(status && status.status && status.data === null){
       console.log("user not available");
@@ -115,7 +116,7 @@ function Login(props) {
                       value: password,                      
                       type : 'password',
                       inputProps: {                        
-                        onChange : (e)=> setPassword(e.target.value),                       
+                        onChange : (e)=> setPassword(e.target.value),                 
                         required : true                      
                       }
                     }}                    
@@ -125,23 +126,25 @@ function Login(props) {
               <GridContainer>               
                 <GridItem xs={12} sm={12} md={12}>
                   <div className="radioContainer">
-                  <RadioGroup defaultValue = 'admin' className="radioButtons" aria-label="userType" name="userType">
-                       <FormControlLabel value="admin" control={<Radio 
+                  <RadioGroup defaultValue = 'Admin' className="radioButtons" aria-label="userType" name="userType">
+                       <FormControlLabel value="Admin" control={<Radio 
                                                     checkedIcon={<Brightness1Icon className={classes.radioChecked} />}
                                                     icon={<Brightness1Icon className={classes.radioUnchecked} />}
                                                     classes={{
                                                     checked: classes.radio,
                                                     root: classes.root
                                                 }}
-                        />} label="Admin" />
-                         <FormControlLabel value="user" control={<Radio 
+                        />} label="Admin" 
+                        onChange={()=>setUserRole("Admin")}  />
+                         <FormControlLabel value="User" control={<Radio 
                                                     checkedIcon={<Brightness1Icon className={classes.radioChecked} />}
                                                     icon={<Brightness1Icon className={classes.radioUnchecked} />}
                                                     classes={{
                                                     checked: classes.radio,
                                                     root: classes.root
                                                 }}
-                        />} label="User" />
+                        />} label="User"
+                        onChange={()=>setUserRole("User")}  />
                     </RadioGroup>
                   </div>                   
                 </GridItem>
@@ -159,6 +162,6 @@ function Login(props) {
 }
 
 const mapDispatchToProps = (dispatch)=>({
-  loginToSite : (username, password) => dispatch(loginToSite(username, password))
+  loginToSite : (username, password, userrole) => dispatch(loginToSite(username, password, userrole))
  })
 export default connect(null, mapDispatchToProps)(Login);

@@ -8,9 +8,10 @@ import { logInToSiteApi } from '../../api/loginApi';
 function* workerLoginSaga(userinfo) {    
     const username = userinfo.payload.username;
     const password = userinfo.payload.password;
+    const userrole = userinfo.payload.userrole;
     
   try{
-    const loginStatus = yield call(logInToSiteApi, username, password);    
+    const loginStatus = yield call(logInToSiteApi, username, password, userrole);    
     yield put(loginToSiteSuccess(loginStatus));    
   }
   catch(e){

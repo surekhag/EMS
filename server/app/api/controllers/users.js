@@ -10,7 +10,7 @@ res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, D
 res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,contenttype'); // If needed
 res.setHeader('Access-Control-Allow-Credentials', true); // If needed
 
-  userModel.create({ name: req.body.name, email: req.body.email, password: req.body.password, userType : req.body.userType }, function (err, result) {
+  userModel.create({ userName: req.body.userName, email: req.body.email, password: req.body.password, userRole : req.body.userRole }, function (err, result) {
       if (err) 
        next(err);
       else
@@ -25,7 +25,7 @@ res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,contenttype'); /
 res.setHeader('Access-Control-Allow-Credentials', true); // If needed
 res.setHeader('Access-Control-Allow-Methods' , 'POST');
 
-  userModel.findOne({email:req.body.email}, function(err, userInfo){       
+  userModel.findOne({userName:req.body.userName, userRole : req.body.userRole},  function(err, userInfo){       
      if (err) {
       console.log("in err") ;
       next(err);
@@ -37,6 +37,6 @@ res.json({status:"success", message: "user found!!!", data:{user: userInfo, toke
 res.json({status:"error", message: "Invalid email/password!!!", data:null});
 }
 }
-});    
+});
  },
 }

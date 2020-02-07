@@ -3,11 +3,11 @@ import {
   LOGIN_URL  
 } from '../configurations/config';
 
-
-export function logInToSiteApi(username, password) {   
+export function logInToSiteApi(userName, password, userRole) {   
   const reqBody = {
-    email: username,
-    password: password
+    userName: userName,
+    password: password,
+    userRole : userRole
   };
   const headerData = {
     'Content-Type' : 'application/json',    

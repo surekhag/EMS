@@ -1,11 +1,12 @@
 import {LOGIN_TO_SITE, LOGIN_TO_SITE_SUCCESS} from '../constants';
 
-export const loginToSite =(username, password)=>{    
+export const loginToSite =(username, password, userrole)=>{   
     return {
         type : LOGIN_TO_SITE,
         payload :{
             username : username,
-            password : password
+            password : password,
+            userrole : userrole,
         }
     }
   }
