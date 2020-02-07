@@ -10,8 +10,7 @@ export const loginToSite =(username, password)=>{
     }
   }
 
-  export const loginToSiteSuccess =(loginStatus)=>{
-      console.log("loginToSiteSuccess");
+  export const loginToSiteSuccess =(loginStatus)=>{      
     return {
         type : LOGIN_TO_SITE_SUCCESS,
         loginStatus    

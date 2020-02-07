@@ -1,27 +1,20 @@
 import {
-    LOGIN_TO_SITE_SUCCESS,
-    LOGIN_TO_SITE_ERROR
+    LOGIN_TO_SITE_SUCCESS
   } from '../constants'
   
   const initialState ={
-      loginStatus : null,
-      loginError : null
+      loginStatus : null,   
+      
   }
-  export default function setBrowserInfo(state = initialState, action) {
-      console.log(action);
+  export default function setBrowserInfo(state = initialState, action) {      
       switch (action.type) {
-        case LOGIN_TO_SITE_SUCCESS:
+        case LOGIN_TO_SITE_SUCCESS: 
+        console.log(action.loginStatus.data);
           return {
             ...state,
-           // code for status update
-           //loginStatus :
-          };
-           case LOGIN_TO_SITE_ERROR:
-          return {
-            ...state,
-           // code for status update
-           //loginError:
-          };         
+           loginStatus : action.loginStatus.data
+          };       
+                   
         default:
           return state;
       }

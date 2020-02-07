@@ -1,4 +1,5 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
+import {useSelector} from 'react-redux';
 
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
@@ -52,17 +53,29 @@ function Login(props) {
   const [password, setPassword] = useState('');
   const [redirect, setRedirect] = useState(false);
 
+  let status = useSelector((state) => state.loginReducer.loginStatus);
+
   const handleInputChange = (e)=>{
   e.preventDefault();  
-  // setRedirect(true);
   props.loginToSite(username,password);  
   }
 
+  useEffect(()=>{    
+    // const currentUserStatus = status ? status.status: null;
+    if(status && status.status && status.data){
+      console.log("user available");      
+      // setRedirect(true);
+    }
+    else if(status && status.status && status.data === null){
+      console.log("user not available");
+    }
+    
+  });
   const classes = useStyles();
 
   return (
     <div className="loginForm">
-      {/* {redirect ? <Redirect  from= '/login' to="/admin/dashboard" /> : false} */}
+      {redirect ? <Redirect  from= '/login' to="/admin/dashboard" /> : false}
       <GridContainer>
         <GridItem xs={11} sm={8} md={5}>
           <form onSubmit={handleInputChange}>
@@ -84,11 +97,7 @@ function Login(props) {
                       value: username,                    
                       inputProps: {                        
                         onChange : (e)=> setUserName(e.target.value),
-                        "aria-label": "Search", 
-                        // pattern : '/^[a-zA-Z0-9.\-_$@*!]{3,30}$/',
-                        // type : 'email',
-                        // pattern : '^[\w]{1,}[\w.+-]{0,}@[\w-]{2,}([.][a-zA-Z]{2,}|[.][\w-]{2,}[.][a-zA-Z]{2,})$',
-                        title : 'Enter a valid Username',
+                        "aria-label": "Search",                        
                         required : true                     
                       }
                     }}                                         
@@ -107,9 +116,7 @@ function Login(props) {
                       value: password,                      
                       type : 'password',
                       inputProps: {                        
-                        onChange : (e)=> setPassword(e.target.value),
-                        // "aria-label": "Search",
-                        // pattern : '/^[a-zA-Z0-9.\-_$@*!]{3,30}$/',
+                        onChange : (e)=> setPassword(e.target.value),                       
                         required : true                      
                       }
                     }}                    
@@ -152,12 +159,7 @@ function Login(props) {
   );
 }
 
-const mapStateToProps= (state)=>({
-loginStatus : state.loginStatus,
-loginError : state.loginError
-});
-
 const mapDispatchToProps = (dispatch)=>({
   loginToSite : (username, password) => dispatch(loginToSite(username, password))
  })
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default connect(null, mapDispatchToProps)(Login);

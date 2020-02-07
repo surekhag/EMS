@@ -1,29 +1,18 @@
 const express = require('express');
 const logger = require('morgan');
+const bodyParser = require('body-parser');
 
+const cors = require('cors');
 const app = express();
-var cors = require('cors');
-// app.options('*', cors())
+
+app.options('*', cors());
 app.use(cors());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
-
-// app.use(function (req, res, next) {
-//   // Website you wish to allow to connect
-//   res.setHeader('Access-Control-Allow-Origin', '*');
-//   // Request methods you wish to allow
-//   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT,    PATCH, DELETE');
-//   // Request headers you wish to allow
-//   res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
-//   // Set to true if you need the website to include cookies in the requests sent
-//   // to the API (e.g. in case you use sessions)
-//   res.setHeader('Access-Control-Allow-Credentials', true);
-//   // Pass to next layer of middleware
-//   next();
-// });
 
 const movies = require('./routes/movies') ;
 const users = require('./routes/users');
-const bodyParser = require('body-parser');
 const mongoose = require('./config/database'); //database configuration
 var jwt = require('jsonwebtoken');
 app.set('secretKey', 'nodeRestApi'); // jwt secret token
@@ -36,11 +25,13 @@ res.json({"tutorial" : "Build REST API with node.js"});
 });
 // public route
 app.use('/users', users);
+
 // private route
 app.use('/movies', validateUser, movies);
 app.get('/favicon.ico', function(req, res) {
     res.sendStatus(204);
 });
+
 function validateUser(req, res, next) {
   jwt.verify(req.headers['x-access-token'], req.app.get('secretKey'), function(err, decoded) {
     if (err) {
@@ -69,7 +60,7 @@ app.use(function(err, req, res, next) {
   else 
     res.status(500).json({message: "Something looks wrong :( !!!"});
 });
+
 app.listen(3001, function(){
  console.log('Node server listening on port 3001');
 });
-console.log("in node");
