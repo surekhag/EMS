@@ -10,7 +10,7 @@ res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, D
 res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,contenttype'); // If needed
 res.setHeader('Access-Control-Allow-Credentials', true); // If needed
 
-  userModel.create({ name: req.body.name, email: req.body.email, password: req.body.password }, function (err, result) {
+  userModel.create({ name: req.body.name, email: req.body.email, password: req.body.password, userType : req.body.userType }, function (err, result) {
       if (err) 
        next(err);
       else

@@ -61,15 +61,14 @@ function Login(props) {
   }
 
   useEffect(()=>{    
-    // const currentUserStatus = status ? status.status: null;
     if(status && status.status && status.data){
+      localStorage.setItem('token', JSON.stringify(status.data.token));
       console.log("user available");      
       // setRedirect(true);
     }
     else if(status && status.status && status.data === null){
       console.log("user not available");
     }
-    
   });
   const classes = useStyles();
 
