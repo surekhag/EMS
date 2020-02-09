@@ -1,6 +1,9 @@
 //Set up mongoose connection
-const mongoose = require('mongoose');
-const mongoDB = 'mongodb://localhost/node_rest_api';
-mongoose.connect(mongoDB);
+const mongoose = require("mongoose");
+const config = require("./index");
+mongoose.connect(config.mongoUrl, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+});
 mongoose.Promise = global.Promise;
 module.exports = mongoose;
