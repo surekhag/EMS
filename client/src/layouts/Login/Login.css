@@ -1,21 +1,21 @@
-.radioButtons{
+.radioButtons {
     flex-direction: row !important;
 }
 .loginForm {
     padding-top: 40px;
 }
-.loginForm > div{
+.loginForm > div {
     display: flex;
     justify-content: center;
 }
-.radioContainer > div{
+.radioContainer > div {
     justify-content: center;
     padding-top: 20px;
 }
-.inputLabelText{
+.inputLabelText {
     display: inline-block !important;
     width: 50%;
 }
-.centerButton{
+.centerButton {
     justify-content: center !important;
 }
