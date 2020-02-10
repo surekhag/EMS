@@ -19,18 +19,18 @@
 .centerButton {
     justify-content: center !important;
 }
-.radioContainer{
+.radioContainer {
     display: flex;
 }
-.role{
-padding-top: 20px;
-padding-right: 50px;
-font-size: 1rem;
-display: flex;
-align-items: center;
+.role {
+    padding-top: 20px;
+    padding-right: 50px;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
 }
 @media (max-width: 767px) {
-.role {
-    padding-right: 10px;
-}
+    .role {
+        padding-right: 10px;
+    }
 }

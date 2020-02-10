@@ -8,16 +8,19 @@ import store from '../src/store/index.js'
 import { Router, Route, Switch, Redirect } from 'react-router-dom'
 import User from './layouts/User'
 import Login from './layouts/Login/Login'
+import { ToastProvider } from 'react-toast-notifications'
 
 const hist = createBrowserHistory()
 ReactDOM.render(
     <Provider store={store}>
         <Router history={hist}>
-            <Switch>
-                <Route exact path="/login" component={Login} />
-                <Route path="/admin" component={User} />
-                <Redirect from="/" to="/login" />
-            </Switch>
+            <ToastProvider>
+                <Switch>
+                    <Route exact path="/login" component={Login} />
+                    <Route path="/admin" component={User} />
+                    <Redirect from="/" to="/login" />
+                </Switch>
+            </ToastProvider>
         </Router>
     </Provider>,
     document.getElementById('root')

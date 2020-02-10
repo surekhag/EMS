@@ -50,7 +50,7 @@ module.exports = {
         } else {
           res.json({
             status: "error",
-            message: "Invalid username/password/userrole!!!",
+            message: "Invalid Username/Password!!!",
             data: null
           });
         }

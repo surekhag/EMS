@@ -1,17 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
-
+import { withToastManager, useToasts } from 'react-toast-notifications'
 // @material-ui/core components
 import { makeStyles } from '@material-ui/core/styles'
-import InputLabel from '@material-ui/core/InputLabel'
-import Checkbox from '@material-ui/core/Checkbox'
-import { Radio, RadioGroup } from '@material-ui/core'
-import FormControlLabel from '@material-ui/core/FormControlLabel'
 import { loginToSite } from '../../actions/loginAction'
 import { connect } from 'react-redux'
 //@material-ui/icons
-import Check from '@material-ui/icons/Check'
-import Brightness1Icon from '@material-ui/icons/Brightness1'
 // core components
 import checkboxAdnRadioStyle from '../../assets/jss/material-dashboard-react/checkboxAdnRadioStyle.js'
 import GridItem from '../../components/Grid/GridItem.js'
@@ -23,7 +17,6 @@ import CardHeader from '../../components/Card/CardHeader.js'
 import CardBody from '../../components/Card/CardBody.js'
 import CardFooter from '../../components/Card/CardFooter.js'
 import './Login.css'
-import Input from '@material-ui/core/Input'
 import { Redirect } from 'react-router-dom'
 
 const styles = {
@@ -49,27 +42,25 @@ const styles = {
 const useStyles = makeStyles(styles)
 
 function Login(props) {
+    const { addToast } = useToasts()
     const [username, setUserName] = useState('')
     const [password, setPassword] = useState('')
-    const [userrole, setUserRole] = useState('Admin')
     const [redirect, setRedirect] = useState(false)
 
     let status = useSelector(state => state.loginReducer.loginStatus)
 
     const handleInputChange = e => {
         e.preventDefault()
-        props.loginToSite(username, password, userrole)
+        props.loginToSite(username, password)
     }
 
     useEffect(() => {
-        if (status && status.status && status.data) {
-            localStorage.setItem('token', JSON.stringify(status.data.token))
-            console.log('user available')
+        if (status && status.status == 'success') {
             setRedirect(true)
-        } else if (status && status.status && status.data === null) {
-            console.log('user not available')
+        } else if (status && status.status == 'error') {
+            addToast(status.message, { appearance: 'error', autoDismiss: true })
         }
-    })
+    }, [status])
     const classes = useStyles()
 
     return (
@@ -134,82 +125,6 @@ function Login(props) {
                                         />
                                     </GridItem>
                                 </GridContainer>
-                                <GridContainer>
-                                    <GridItem xs={12} sm={12} md={12}>
-                                        <div className="radioContainer">
-                                        <div className="role"> <span>User Role :</span> </div>
-                                            <RadioGroup
-                                                defaultValue="Admin"
-                                                className="radioButtons"
-                                                aria-label="userType"
-                                                name="userType"
-                                            >
-                                                <FormControlLabel
-                                                    value="Admin"
-                                                    control={
-                                                        <Radio
-                                                            checkedIcon={
-                                                                <Brightness1Icon
-                                                                    className={
-                                                                        classes.radioChecked
-                                                                    }
-                                                                />
-                                                            }
-                                                            icon={
-                                                                <Brightness1Icon
-                                                                    className={
-                                                                        classes.radioUnchecked
-                                                                    }
-                                                                />
-                                                            }
-                                                            classes={{
-                                                                checked:
-                                                                    classes.radio,
-                                                                root:
-                                                                    classes.root
-                                                            }}
-                                                        />
-                                                    }
-                                                    label="Admin"
-                                                    onChange={() =>
-                                                        setUserRole('Admin')
-                                                    }
-                                                />
-                                                <FormControlLabel
-                                                    value="User"
-                                                    control={
-                                                        <Radio
-                                                            checkedIcon={
-                                                                <Brightness1Icon
-                                                                    className={
-                                                                        classes.radioChecked
-                                                                    }
-                                                                />
-                                                            }
-                                                            icon={
-                                                                <Brightness1Icon
-                                                                    className={
-                                                                        classes.radioUnchecked
-                                                                    }
-                                                                />
-                                                            }
-                                                            classes={{
-                                                                checked:
-                                                                    classes.radio,
-                                                                root:
-                                                                    classes.root
-                                                            }}
-                                                        />
-                                                    }
-                                                    label="User"
-                                                    onChange={() =>
-                                                        setUserRole('User')
-                                                    }
-                                                />
-                                            </RadioGroup>
-                                        </div>
-                                    </GridItem>
-                                </GridContainer>
                             </CardBody>
                             <CardFooter className="centerButton">
                                 <Button type="submit" color="primary">
@@ -225,7 +140,7 @@ function Login(props) {
 }
 
 const mapDispatchToProps = dispatch => ({
-    loginToSite: (username, password, userrole) =>
-        dispatch(loginToSite(username, password, userrole))
+    loginToSite: (username, password) =>
+        dispatch(loginToSite(username, password))
 })
-export default connect(null, mapDispatchToProps)(Login)
+export default connect(null, mapDispatchToProps)(withToastManager(Login))

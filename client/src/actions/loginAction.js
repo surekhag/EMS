@@ -1,12 +1,11 @@
 import { LOGIN_TO_SITE, LOGIN_TO_SITE_SUCCESS } from './actionTypes'
 
-export const loginToSite = (username, password, userrole) => {
+export const loginToSite = (username, password) => {
     return {
         type: LOGIN_TO_SITE,
         payload: {
             username: username,
-            password: password,
-            userrole: userrole
+            password: password
         }
     }
 }
