@@ -6,10 +6,32 @@ module.exports = {
   create: function(req, res, next) {
     userModel.create(
       {
-        userName: req.body.userName,
-        email: req.body.email,
-        password: req.body.password,
-        userRole: req.body.userRole
+          employee_id : req.body.employee_id ,
+          email: req.body.email ,
+          userName: req.body.userName ,
+          password: req.body.password,
+          firstname : req.body.firstname ,
+          lastname: req.body.lastname ,
+          middlename: req.body.middlename ,
+          address1: req.body.address1 ,
+          address2 : req.body.address2 ,
+          city : req.body.city ,
+          zip : req.body.zip ,
+          state : req.body.state ,
+          country : req.body.country ,
+          gender : req.body.gender ,
+          dateofbirth : req.body.dateofbirth ,
+          dateofjoining : req.body.dateofjoining ,
+          status : req.body.status,
+          experience_at_joining : req.body.experience_at_joining ,
+          work_location : req.body.work_location ,
+          timezone : req.body.timezone ,
+          shift_timing : req.body.shift_timing ,
+          designation : req.body.designation ,
+          employment_status : req.body.employment_status ,
+          userRole: req.body.userRole ,
+          reporting_manager : req.body.reporting_manager ,
+          functional_manager: req.body.functional_manager ,
       },
       function(err, result) {
         if (err) next(err);
@@ -71,5 +93,18 @@ module.exports = {
         });
       }
     });
+  },
+  update: function(req, res, next) {
+    console.log("update node", req.body);
+    userModel.findOne({ userName: req.body.userName }, function(err, userInfo) {
+    console.log(userInfo);
+      });
+  },
+  delete: function(req, res, next) {
+    console.log("delete node", req.body);
+    userModel.findOne({ userName: req.body.userName }, function(err, userInfo) {
+    console.log(userInfo);
+    });
+
   }
 };

@@ -4,23 +4,135 @@ const saltRounds = 10;
 //Define a schema
 const Schema = mongoose.Schema;
 const UserSchema = new Schema({
-  userName: {
+  employee_id : {
     type: String,
     trim: true,
-    required: true
-  },
+    required: true,
+    unique: true 
+  }, 
   email: {
     type: String,
     trim: true,
     required: true,
-    unique: true //todo unique validations are not working
+    unique: true 
+  },
+  userName: {
+    type: String,
+    trim: true,
+    required: true,
+    unique: true
   },
   password: {
     type: String,
     trim: true,
     required: true
   },
-  userRole: {
+  firstname : {
+    type: String,
+    trim: true,
+    required: true
+  },
+  lastname: {
+    type: String,
+    trim: true,
+    required: true
+  },
+  middlename: {
+    type: String,
+    trim: true,
+    required: true
+  },
+  address1: {
+    type: String,
+    trim: true,
+    required: true
+  },
+  address2 : {
+    type: String,
+    trim: true,
+    required: false
+  },
+  city : {
+    type: String,
+    trim: true,
+    required: true
+  },
+  zip : {
+    type: String,
+    trim: true,
+    required: true
+  },
+  state : {
+    type: String,
+    trim: true,
+    required: true
+  },
+  country : {
+    type: String,
+    trim: true,
+    required: true
+  },
+  gender : {
+    type: String,
+    trim: true,
+    required: true
+  },
+  dateofbirth : {
+    type: String,
+    trim: true,
+    required: true
+  },
+  dateofjoining : {
+    type: String,
+    trim: true,
+    required: true
+  },
+  status : {
+    type: String,
+    trim: true,
+    required: true
+  },
+  experience_at_joining : {
+    type: String,
+    trim: true,
+    required: true
+  },
+  work_location : {
+    type: String,
+    trim: true,
+    required: true
+  },
+  timezone : {
+    type: String,
+    trim: true,
+    required: true
+  },
+  shift_timing : {
+    type: String,
+    trim: true,
+    required: false
+  },
+  designation : {
+    type: String,
+    trim: true,
+    required: true
+  },
+  employment_status : {
+    type: String,
+    trim: true,
+    required: true
+  },
+    userRole: {
+    type: String,
+    trim: true,
+    required: true
+  },
+  reporting_manager : {
+    type: String,
+    trim: true,
+    required: true
+  },
+  functional_manager: {
     type: String,
     trim: true,
     required: true

@@ -1,4 +1,4 @@
-const movies = require("./movies");
+// const movies = require("./movies");
 const users = require("./users");
 const validateUser = require("../middleware/validate-user");
 module.exports = app => {
@@ -6,7 +6,7 @@ module.exports = app => {
   app.use("/users", users);
 
   // private route
-  app.use("/movies", movies);
+  // app.use("/movies", movies);
 
   //app.use(logger('dev'));
   app.get("/", function(req, res) {
