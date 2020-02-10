@@ -137,6 +137,7 @@ function Login(props) {
                                 <GridContainer>
                                     <GridItem xs={12} sm={12} md={12}>
                                         <div className="radioContainer">
+                                        <div className="role"> <span>User Role :</span> </div>
                                             <RadioGroup
                                                 defaultValue="Admin"
                                                 className="radioButtons"

@@ -7,9 +7,5 @@ export function logInToSiteApi(userName, password, userRole) {
         password: password,
         userRole: userRole
     }
-    // const headerData = {
-    //   "Content-Type": "application/json"
-    // };
-
     return axios.post(LOGIN_URL, reqBody)
 }
