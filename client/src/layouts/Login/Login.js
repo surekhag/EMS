@@ -125,8 +125,8 @@ function Login(props) {
               </GridContainer>                 
               <GridContainer>               
                 <GridItem xs={12} sm={12} md={12}>
-                  <div className="radioContainer">
-                  <RadioGroup defaultValue = 'Admin' className="radioButtons" aria-label="userType" name="userType">
+                  <div className="radioContainer">  
+                  <div className="role"> <span>User Role :</span> </div> <RadioGroup defaultValue = 'Admin' className="radioButtons" aria-label="userType" name="userType">
                        <FormControlLabel value="Admin" control={<Radio 
                                                     checkedIcon={<Brightness1Icon className={classes.radioChecked} />}
                                                     icon={<Brightness1Icon className={classes.radioUnchecked} />}

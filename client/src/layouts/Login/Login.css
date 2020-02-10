@@ -8,6 +8,22 @@
     display: flex;
     justify-content: center;
 }
+.radioContainer{
+    display: flex;
+}
+.role{
+padding-top: 20px;
+padding-right: 50px;
+font-size: 1rem;
+display: flex;
+align-items: center;
+}
+
+@media (max-width: 767px) {
+.role {
+    padding-right: 10px;
+}
+}
 .radioContainer > div{
     justify-content: center;
     padding-top: 20px;
