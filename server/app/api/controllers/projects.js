@@ -1,75 +1,102 @@
-const userModel = require("../models/projects");
+const projectModel = require("../models/projects");
 // const bcrypt = require("bcrypt");
-// const jwt = require("jsonwebtoken");
+const jwt = require("jsonwebtoken");
 const config = require("../../../config");
 module.exports = {
   create: function(req, res, next) {
-    userModel.create(
-      {
-        userName: req.body.userName,
-        email: req.body.email,
-        password: req.body.password,
-        userRole: req.body.userRole
+    projectModel.create(
+      {          
+          title  : req.body.title,
+          description  : req.body.description,
+          startdate : req.body.startdate,
+          enddate : req.body.enddate,
+          technology : req.body.technology,
+          client : req.body.client,
+          client_location : req.body.client_location ,
+          status : req.body.status,
+          type : req.body.type,
+          created_date : req.body.created_date ,
+          created_by : req.body.created_by,
+          updated_date : req.body.updated_date,
+          last_updated_by : req.body.last_updated_by,
       },
       function(err, result) {
         if (err) next(err);
         else
           res.json({
             status: "success",
-            message: "User added successfully!!!",
-            data: null
+            message: "Project added successfully!!!",            
           });
       }
     );
   },
-
-  authenticate: function(req, res, next) {
-    userModel.findOne({ userName: req.body.userName }, function(err, userInfo) {
+  getProject: function(req, res, next) {
+    console.log(req.user);
+    //todo - remove or optimize it
+    projectModel.findOne({ title: req.params.title }, function(err, users) {
       if (err) {
-        console.log("in err");
         next(err);
       } else {
-        if (
-          userInfo &&
-          bcrypt.compareSync(req.body.password, userInfo.password)
-        ) {
-          const { password, ...userWithoutPassword } = userInfo._doc;
-          const token = jwt.sign(
-            { id: userInfo._id, role: userInfo.userRole },
-            config.secret,
-            {
-              expiresIn: config.tokenExpiry
-            }
-          );
-
-          res.json({
-            status: "success",
-            message: "user found!!!",
-            data: { user: userWithoutPassword, token: token }
-          });
-        } else {
-          res.json({
-            status: "error",
-            message: "Invalid Username/Password!!!",
-            data: null
-          });
-        }
+        res.json({
+          status: "success",
+          message: "Project found!!!",
+          data: users
+        });
       }
     });
   },
   getAll: function(req, res, next) {
     console.log(req.user);
     //todo - remove or optimize it
-    userModel.find({}, function(err, users) {
+    projectModel.find({}, function(err, users) {
       if (err) {
         next(err);
       } else {
         res.json({
           status: "success",
-          message: "Users list found!!!",
+          message: "Project list found!!!",
           data: users
         });
       }
     });
+  },
+  update: function(req, res, next) {    
+    projectModel.findOneAndUpdate({ title: req.params.title }, 
+      {
+          $set: req.body 
+      },
+      {upsert: true}, 
+      function(err, userInfo) {      
+      if (err) {
+        console.log("in err");
+        next(err);
+      }      
+      else {
+              res.json({
+                status: "success",
+                message: "Project updated successfully!!!",                
+              });
+            }
+        });
+  },
+
+  delete: function(req, res, next) {
+    projectModel.findOneAndUpdate({ title: req.params.title }, 
+      {
+         status : "Inactive"
+      },
+      {upsert: true}, 
+      function(err, userInfo) {      
+      if (err) {
+        console.log("in err");
+        next(err);
+      }      
+      else {
+              res.json({
+                status: "success",
+                message: "Project deleted successfully!!!",                
+              });
+            }
+        });
   }
 };
