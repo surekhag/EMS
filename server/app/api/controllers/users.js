@@ -92,7 +92,7 @@ module.exports = {
     });
   },
   update: function(req, res, next) {    
-    userModel.findOneAndUpdate({ id: req.params._id }, 
+    userModel.findOneAndUpdate({ id: req.params.id }, 
       {
           $set: req.body 
       },      
@@ -111,7 +111,7 @@ module.exports = {
   },
 
   delete: function(req, res, next) {
-    userModel.findOneAndUpdate({ id: req.params._id }, 
+    userModel.findOneAndUpdate({ id: req.params.id }, 
       {
          status : "Inactive"
       },      
