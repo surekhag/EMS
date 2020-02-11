@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-const Work_outside_office_log_Schema = new Schema({ 
+const WorkOutsideOfficeLogSchema = new Schema({ 
     employee_id : {
         type: String,
         trim: true,
@@ -63,4 +63,4 @@ const Work_outside_office_log_Schema = new Schema({
       },
 });
 
-module.exports = mongoose.model("PeerReview", Work_outside_office_log_Schema);
+module.exports = mongoose.model("Work_Outside_Office_Log", WorkOutsideOfficeLogSchema);

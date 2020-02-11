@@ -1,7 +1,7 @@
 
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-const Leaves_credit_summary_Schema = new Schema({ 
+const LeavesCreditSummarySchema = new Schema({ 
     employee_id  : {
         type: String,
         trim: true,
@@ -49,4 +49,4 @@ const Leaves_credit_summary_Schema = new Schema({
       },
 });
 
-module.exports = mongoose.model("PeerReview", Leaves_credit_summary_Schema);
+module.exports = mongoose.model("Leaves_Credit_Summary", LeavesCreditSummarySchema);

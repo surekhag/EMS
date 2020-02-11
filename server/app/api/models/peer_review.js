@@ -1,7 +1,7 @@
 
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-const Peer_Review_Schema = new Schema({   
+const PeerReviewSchema = new Schema({   
       employee_under_review : {
         type: String,
         trim: true,
@@ -69,4 +69,4 @@ const Peer_Review_Schema = new Schema({
       },   
 });
 
-module.exports = mongoose.model("PeerReview", Peer_Review_Schema);
+module.exports = mongoose.model("Peer_Review", PeerReviewSchema);

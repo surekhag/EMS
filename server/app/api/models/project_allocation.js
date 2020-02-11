@@ -2,7 +2,7 @@
 
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-const Project_allocation_Schema = new Schema({   
+const ProjectAllocationSchema = new Schema({   
     project_id  : {
         type: String,
         trim: true,
@@ -51,7 +51,7 @@ const Project_allocation_Schema = new Schema({
       },
 });
 
-module.exports = mongoose.model("PeerReview", Project_allocation_Schema);
+module.exports = mongoose.model("Project_Allocation", ProjectAllocationSchema);
 
 
 

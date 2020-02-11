@@ -2,7 +2,7 @@
 
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-const Leaves_application_Schema = new Schema({ 
+const LeavesApplicationSchema = new Schema({ 
     employee_id  : {
         type: String,
         trim: true,
@@ -65,4 +65,4 @@ const Leaves_application_Schema = new Schema({
       },
 });
 
-module.exports = mongoose.model("PeerReview", Leaves_application_Schema);
+module.exports = mongoose.model("Leaves_Application", LeavesApplicationSchema);
