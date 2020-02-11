@@ -50,6 +50,7 @@ export default function AdminNavbarLinks() {
     }
     const handleClose =()=>{
         localStorage.removeItem("token");
+        window.location.reload();
     }
     return (
         <div>
