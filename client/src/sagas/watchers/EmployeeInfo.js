@@ -1,8 +1,8 @@
 import { put, takeLatest, call } from 'redux-saga/effects'
 
 import { LOAD_ALL_EMPLOYEE_SAGA } from '../../actions/actionTypes.js'
-import { setAllEmployeeData } from '../../actions'
-import { loadAllEmployeeData } from '../../api/api'
+import { setAllEmployeeData } from '../../actions/employeeAction.js'
+import { loadAllEmployeeData } from '../../api/employeeApi.js'
 
 function* workerEmployeeInfoSaga() {
     try {

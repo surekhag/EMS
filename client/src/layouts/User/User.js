@@ -3,7 +3,7 @@ import { Switch, Route, Redirect } from 'react-router-dom'
 import PerfectScrollbar from 'perfect-scrollbar'
 import 'perfect-scrollbar/css/perfect-scrollbar.css'
 import { makeStyles } from '@material-ui/core/styles'
-import bgImage from "../../assets/img/sidebar-2.jpg";
+import bgImage from '../../assets/img/sidebar-2.jpg'
 import Navbar from '../../components/Navbars/Navbar.js'
 import Footer from '../../components/Footer/Footer.js'
 import Sidebar from '../../components/Sidebar/Sidebar.js'
@@ -40,7 +40,7 @@ export default function User({ ...rest }) {
     const mainPanel = React.createRef()
     // states and functions
     const [mobileOpen, setMobileOpen] = React.useState(false)
-    const color = "blue";
+    const color = 'blue'
 
     const handleDrawerToggle = () => {
         setMobileOpen(!mobileOpen)
@@ -69,10 +69,6 @@ export default function User({ ...rest }) {
             window.removeEventListener('resize', resizeFunction)
         }
     }, [mainPanel])
-    const token = localStorage.getItem('token');
-    if (!token) {
-        return <Redirect to='/login' />;
-      }
     return (
         <div className={classes.wrapper}>
             <Sidebar

@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { LOGIN_URL } from '../configurations/config'
+import { LOGIN_URL } from '../configurations/End-Points'
 
 export function logInToSiteApi(userName, password, userRole) {
     const reqBody = {

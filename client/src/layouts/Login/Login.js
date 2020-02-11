@@ -63,12 +63,12 @@ function Login(props) {
         if (status && status.status && status.data) {
             localStorage.setItem('token', status.data.token)
             console.log('user available')
-            Interceptors(status.data.token);
+            Interceptors(status.data.token)
             setRedirect(true)
         } else if (status && status.status && status.data === null) {
             console.log('user not available')
         }
-    })
+    }, [status])
     const classes = useStyles()
 
     return (
