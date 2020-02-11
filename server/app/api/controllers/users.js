@@ -79,8 +79,6 @@ module.exports = {
     });
   },
   getAll: function(req, res, next) {
-    console.log(req.user);
-    //todo - remove or optimize it
     userModel.find({}, function(err, users) {
       if (err) {
         next(err);
@@ -94,11 +92,10 @@ module.exports = {
     });
   },
   update: function(req, res, next) {    
-    userModel.findOneAndUpdate({ userName: req.params.userName }, 
+    userModel.findOneAndUpdate({ _id: req.params._id }, 
       {
           $set: req.body 
-      },
-      {upsert: true}, 
+      },      
       function(err, userInfo) {      
       if (err) {
         console.log("in err");
@@ -114,11 +111,10 @@ module.exports = {
   },
 
   delete: function(req, res, next) {
-    userModel.findOneAndUpdate({ userName: req.params.userName }, 
+    userModel.findOneAndUpdate({ _id: req.params._id }, 
       {
          status : "Inactive"
-      },
-      {upsert: true}, 
+      },      
       function(err, userInfo) {      
       if (err) {
         console.log("in err");

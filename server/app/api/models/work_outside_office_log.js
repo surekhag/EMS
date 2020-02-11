@@ -1,0 +1,66 @@
+const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
+const Work_outside_office_log_Schema = new Schema({ 
+    employee_id : {
+        type: String,
+        trim: true,
+        required: true,        
+      },
+    date : {
+        type: String,
+        trim: true,
+        required: true,        
+      },
+    time_from : {
+        type: String,
+        trim: true,
+        required: true,        
+      },
+    time_to : {
+        type: String,
+        trim: true,
+        required: true,        
+      },
+    task : {
+        type: String,
+        trim: true,
+        required: true,        
+      },
+    manager_id : {
+        type: String,
+        trim: true,
+        required: true,        
+      },
+    project_id : {
+        type: String,
+        trim: true,
+        required: true,        
+      },
+    created_date : {
+        type: String,
+        trim: true,
+        required: true,        
+      },
+    created_by : {
+        type: String,
+        trim: true,
+        required: true,        
+      },
+    updated_date : {
+        type: String,
+        trim: true,
+        required: true,        
+      },
+    updated_by : {
+        type: String,
+        trim: true,
+        required: true,        
+      },
+    status : {
+        type: String,
+        trim: true,
+        required: true,        
+      },
+});
+
+module.exports = mongoose.model("PeerReview", Work_outside_office_log_Schema);

@@ -1,7 +1,4 @@
 const projectModel = require("../models/projects");
-// const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
-const config = require("../../../config");
 module.exports = {
   create: function(req, res, next) {
     projectModel.create(
@@ -30,10 +27,9 @@ module.exports = {
       }
     );
   },
-  getProject: function(req, res, next) {
-    console.log(req.user);
+  getProject: function(req, res, next) {    
     //todo - remove or optimize it
-    projectModel.findOne({ title: req.params.title }, function(err, users) {
+    projectModel.findOne({ _id: req.params._id }, function(err, users) {
       if (err) {
         next(err);
       } else {
@@ -45,8 +41,7 @@ module.exports = {
       }
     });
   },
-  getAll: function(req, res, next) {
-    console.log(req.user);
+  getAll: function(req, res, next) {    
     //todo - remove or optimize it
     projectModel.find({}, function(err, users) {
       if (err) {
@@ -61,11 +56,10 @@ module.exports = {
     });
   },
   update: function(req, res, next) {    
-    projectModel.findOneAndUpdate({ title: req.params.title }, 
+    projectModel.findOneAndUpdate({ _id: req.params._id }, 
       {
           $set: req.body 
-      },
-      {upsert: true}, 
+      },      
       function(err, userInfo) {      
       if (err) {
         console.log("in err");
@@ -81,11 +75,10 @@ module.exports = {
   },
 
   delete: function(req, res, next) {
-    projectModel.findOneAndUpdate({ title: req.params.title }, 
+    projectModel.findOneAndUpdate({ _id: req.params._id }, 
       {
          status : "Inactive"
-      },
-      {upsert: true}, 
+      },      
       function(err, userInfo) {      
       if (err) {
         console.log("in err");

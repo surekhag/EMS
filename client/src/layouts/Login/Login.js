@@ -41,7 +41,7 @@ const styles = {
 
 const useStyles = makeStyles(styles)
 
-function Login(props) {
+    const Login = (props)=>{
     const { addToast } = useToasts()
     const [username, setUserName] = useState('')
     const [password, setPassword] = useState('')
