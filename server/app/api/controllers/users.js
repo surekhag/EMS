@@ -44,7 +44,6 @@ module.exports = {
       }
     );
   },
-
   authenticate: function(req, res, next) {
     userModel.findOne({ userName: req.body.userName }, function(err, userInfo) {
       if (err) {
@@ -94,17 +93,43 @@ module.exports = {
       }
     });
   },
-  update: function(req, res, next) {
-    console.log("update node", req.body);
-    userModel.findOne({ userName: req.body.userName }, function(err, userInfo) {
-    console.log(userInfo);
-      });
+  update: function(req, res, next) {    
+    userModel.findOneAndUpdate({ userName: req.params.userName }, 
+      {
+          $set: req.body 
+      },
+      {upsert: true}, 
+      function(err, userInfo) {      
+      if (err) {
+        console.log("in err");
+        next(err);
+      }      
+      else {
+              res.json({
+                status: "success",
+                message: "User Info  updated successfully!!!",                
+              });
+            }
+        });
   },
-  delete: function(req, res, next) {
-    console.log("delete node", req.body);
-    userModel.findOne({ userName: req.body.userName }, function(err, userInfo) {
-    console.log(userInfo);
-    });
 
+  delete: function(req, res, next) {
+    userModel.findOneAndUpdate({ userName: req.params.userName }, 
+      {
+         status : "Inactive"
+      },
+      {upsert: true}, 
+      function(err, userInfo) {      
+      if (err) {
+        console.log("in err");
+        next(err);
+      }      
+      else {
+              res.json({
+                status: "success",
+                message: "User Info deleted successfully!!!",                
+              });
+            }
+        });
   }
 };
