@@ -1,4 +1,4 @@
-import { LOGIN_TO_SITE_SUCCESS } from '../constants'
+import { LOGIN_TO_SITE_SUCCESS } from '../actions/actionTypes.js'
 
 const initialState = {
     loginStatus: null

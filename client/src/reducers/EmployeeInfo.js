@@ -1,4 +1,4 @@
-import { SET_ALL_EMPLOYEES } from '../constants'
+import { SET_ALL_EMPLOYEES } from '../actions/actionTypes.js'
 
 const initialState = {
     EmployeeData: null

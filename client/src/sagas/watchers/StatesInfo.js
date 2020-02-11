@@ -1,6 +1,6 @@
 import { put, takeLatest, call } from 'redux-saga/effects'
 
-import { LOAD_ALL_STATES_SAGA } from '../../constants'
+import { LOAD_ALL_STATES_SAGA } from '../../actions/actionTypes.js'
 import { setAllStatesData } from '../../actions'
 import { loadAllStatesData } from '../../api/api'
 

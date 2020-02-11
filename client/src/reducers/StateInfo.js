@@ -1,4 +1,4 @@
-import { SET_ALL_STATES } from '../constants'
+import { SET_ALL_STATES } from '../actions/actionTypes.js'
 
 const initialState = {
     StateSelectData: null
@@ -10,12 +10,6 @@ export default function setBrowserInfo(state = initialState, action) {
                 ...state,
                 StateSelectData: action.payload.data
             }
-        // case CLEAR_USER:
-        //   localStorage.removeItem('user');
-        //   return {
-        //     ...state,
-        //     userData: null,
-        //   };
         default:
             return state
     }

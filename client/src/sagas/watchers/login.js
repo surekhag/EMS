@@ -1,6 +1,6 @@
 import { put, takeLatest, call } from 'redux-saga/effects'
 
-import { LOGIN_TO_SITE } from '../../constants'
+import { LOGIN_TO_SITE } from '../../actions/actionTypes.js'
 import { loginToSiteSuccess } from '../../actions/loginAction'
 import { logInToSiteApi } from '../../api/loginApi'
 

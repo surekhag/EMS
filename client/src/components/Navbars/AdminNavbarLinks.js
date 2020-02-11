@@ -21,6 +21,7 @@ import Button from '../../components/CustomButtons/Button.js'
 
 import styles from '../../assets/jss/material-dashboard-react/components/headerLinksStyle.js'
 
+
 const useStyles = makeStyles(styles)
 
 export default function AdminNavbarLinks() {
@@ -46,6 +47,9 @@ export default function AdminNavbarLinks() {
     }
     const handleCloseProfile = () => {
         setOpenProfile(null)
+    }
+    const handleClose =()=>{
+        localStorage.removeItem("token");
     }
     return (
         <div>
@@ -222,7 +226,7 @@ export default function AdminNavbarLinks() {
                                         </MenuItem>
                                         <Divider light />
                                         <MenuItem
-                                            onClick={handleCloseProfile}
+                                            onClick={handleClose}
                                             className={classes.dropdownItem}
                                         >
                                             Logout

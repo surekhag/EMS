@@ -1,6 +1,6 @@
 import { put, takeLatest, call } from 'redux-saga/effects'
 
-import { LOAD_ALL_EMPLOYEE_SAGA } from '../../constants'
+import { LOAD_ALL_EMPLOYEE_SAGA } from '../../actions/actionTypes.js'
 import { setAllEmployeeData } from '../../actions'
 import { loadAllEmployeeData } from '../../api/api'
 

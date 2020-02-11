@@ -3,14 +3,11 @@ import { useSelector } from 'react-redux'
 
 // @material-ui/core components
 import { makeStyles } from '@material-ui/core/styles'
-import InputLabel from '@material-ui/core/InputLabel'
-import Checkbox from '@material-ui/core/Checkbox'
 import { Radio, RadioGroup } from '@material-ui/core'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import { loginToSite } from '../../actions/loginAction'
 import { connect } from 'react-redux'
 //@material-ui/icons
-import Check from '@material-ui/icons/Check'
 import Brightness1Icon from '@material-ui/icons/Brightness1'
 // core components
 import checkboxAdnRadioStyle from '../../assets/jss/material-dashboard-react/checkboxAdnRadioStyle.js'
@@ -23,8 +20,9 @@ import CardHeader from '../../components/Card/CardHeader.js'
 import CardBody from '../../components/Card/CardBody.js'
 import CardFooter from '../../components/Card/CardFooter.js'
 import './Login.css'
-import Input from '@material-ui/core/Input'
 import { Redirect } from 'react-router-dom'
+
+import Interceptors from '../../helpers/interceptors.js'
 
 const styles = {
     ...checkboxAdnRadioStyle,
@@ -63,8 +61,9 @@ function Login(props) {
 
     useEffect(() => {
         if (status && status.status && status.data) {
-            localStorage.setItem('token', JSON.stringify(status.data.token))
+            localStorage.setItem('token', status.data.token)
             console.log('user available')
+            Interceptors(status.data.token);
             setRedirect(true)
         } else if (status && status.status && status.data === null) {
             console.log('user not available')
