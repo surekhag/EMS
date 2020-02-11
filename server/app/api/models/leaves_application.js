@@ -4,22 +4,22 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const LeavesApplicationSchema = new Schema({ 
     employee_id  : {
-        type: String,
+        type: Number,
         trim: true,
         required: true,        
       },
     manager_id  : {
-        type: String,
+        type: Number,
         trim: true,
         required: true,        
       },
     leave_date_from  : {
-        type: String,
+        type: Date,
         trim: true,
         required: true,        
       },
     leave_date_to  : {
-        type: String,
+        type: Date,
         trim: true,
         required: true,        
       },
@@ -44,12 +44,12 @@ const LeavesApplicationSchema = new Schema({
         required: true,        
       },
     created_date  : {
-        type: String,
+        type: Date,
         trim: true,
         required: true,        
       },
     updated_date  : {
-        type: String,
+        type: Date,
         trim: true,
         required: true,        
       },

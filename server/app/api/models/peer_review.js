@@ -18,22 +18,22 @@ const PeerReviewSchema = new Schema({
         required: true,        
       },
       from_date : {
-        type: String,
+        type: Date,
         trim: true,
         required: true,        
       },
       to_date : {
-        type: String,
+        type: Date,
         trim: true,
         required: true,        
       },
       due_from  : {
-        type: String,
+        type: Date,
         trim: true,
         required: true,        
       },
       due_to  : {
-        type: String,
+        type: Date,
         trim: true,
         required: true,        
       },
@@ -48,12 +48,12 @@ const PeerReviewSchema = new Schema({
         required: true,        
       },
       created_date  : {
-        type: String,
+        type: Date,
         trim: true,
         required: true,        
       },
       updated_date  : {
-        type: String,
+        type: Date,
         trim: true,
         required: true,        
       },

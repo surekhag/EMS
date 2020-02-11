@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const ProjectSchema = new Schema({   
     title : {
-        type: Schema.Types.String,
+        type: String,
         trim: true,
         required: true,
         unique: true
@@ -14,12 +14,12 @@ const ProjectSchema = new Schema({
         required: false
       },
     startdate : {
-        type: String,
+        type: Date,
         trim: true,
         required: true
       },
     enddate : {
-        type: String,
+        type: Date,
         trim: true,
         required: false
       },
@@ -49,7 +49,7 @@ const ProjectSchema = new Schema({
         required: true
       },
     created_date : {
-        type: String,
+        type: Date,
         trim: true,
         required: true
       },
@@ -59,7 +59,7 @@ const ProjectSchema = new Schema({
         required: false
       },
     updated_date : {
-        type: String,
+        type: Date,
         trim: true,
         required: true
       },

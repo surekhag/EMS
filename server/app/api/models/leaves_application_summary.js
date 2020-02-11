@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const LeavesApplicationSummarySchema = new Schema({ 
     employee_id : {
-        type: String,
+        type: Number,
         trim: true,
         required: true,
         unique: true       
@@ -13,12 +13,12 @@ const LeavesApplicationSummarySchema = new Schema({
         required: true,        
       },
     count : {
-        type: String,
+        type: Number,
         trim: true,
         required: true,        
       },
     balance : {
-        type: String,
+        type: Number,
         trim: true,
         required: true,        
       },
@@ -33,7 +33,7 @@ const LeavesApplicationSummarySchema = new Schema({
         required: true,        
       },
     created_date : {
-        type: String,
+        type: Date,
         trim: true,
         required: true,        
       },
@@ -43,7 +43,7 @@ const LeavesApplicationSummarySchema = new Schema({
         required: true,        
       },
     updated_date : {
-        type: String,
+        type: Date,
         trim: true,
         required: true,        
       },

@@ -5,7 +5,7 @@ const saltRounds = 10;
 const Schema = mongoose.Schema;
 const UserSchema = new Schema({
   employee_id : {
-    type: String,
+    type: Number,
     trim: true,
     required: true,
     unique: true 
@@ -58,7 +58,7 @@ const UserSchema = new Schema({
     required: true
   },
   zip : {
-    type: String,
+    type: Number,
     trim: true,
     required: true
   },
@@ -78,12 +78,12 @@ const UserSchema = new Schema({
     required: true
   },
   dateofbirth : {
-    type: String,
+    type: Date,
     trim: true,
     required: true
   },
   dateofjoining : {
-    type: String,
+    type: Date,
     trim: true,
     required: true
   },
@@ -93,7 +93,7 @@ const UserSchema = new Schema({
     required: true
   },
   experience_at_joining : {
-    type: String,
+    type: Number,
     trim: true,
     required: true
   },
@@ -108,7 +108,7 @@ const UserSchema = new Schema({
     required: true
   },
   shift_timing : {
-    type: String,
+    type: Date,
     trim: true,
     required: false
   },

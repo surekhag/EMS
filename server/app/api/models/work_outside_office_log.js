@@ -2,22 +2,22 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const WorkOutsideOfficeLogSchema = new Schema({ 
     employee_id : {
-        type: String,
+        type: Number,
         trim: true,
         required: true,        
       },
     date : {
-        type: String,
+        type: Date,
         trim: true,
         required: true,        
       },
     time_from : {
-        type: String,
+        type: Date,
         trim: true,
         required: true,        
       },
     time_to : {
-        type: String,
+        type: Date,
         trim: true,
         required: true,        
       },
@@ -27,17 +27,17 @@ const WorkOutsideOfficeLogSchema = new Schema({
         required: true,        
       },
     manager_id : {
-        type: String,
+        type: Number,
         trim: true,
         required: true,        
       },
     project_id : {
-        type: String,
+        type: Number,
         trim: true,
         required: true,        
       },
     created_date : {
-        type: String,
+        type: Date,
         trim: true,
         required: true,        
       },
@@ -47,7 +47,7 @@ const WorkOutsideOfficeLogSchema = new Schema({
         required: true,        
       },
     updated_date : {
-        type: String,
+        type: Date,
         trim: true,
         required: true,        
       },
