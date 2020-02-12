@@ -32,6 +32,9 @@ module.exports = {
           userRole: req.body.userRole ,
           reporting_manager : req.body.reporting_manager ,
           functional_manager: req.body.functional_manager ,
+          skills : req.body.skills,
+          certifications : req.body.certifications,
+          achievements : req.body.achievements
       },
       function(err, result) {
         if (err) next(err);

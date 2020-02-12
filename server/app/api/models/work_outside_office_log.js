@@ -12,12 +12,12 @@ const WorkOutsideOfficeLogSchema = new Schema({
         required: true,        
       },
     time_from : {
-        type: Date,
+        type: String,
         trim: true,
         required: true,        
       },
     time_to : {
-        type: Date,
+        type: String,
         trim: true,
         required: true,        
       },
@@ -32,7 +32,7 @@ const WorkOutsideOfficeLogSchema = new Schema({
         required: true,        
       },
     project_id : {
-        type: Number,
+        type: String,
         trim: true,
         required: true,        
       },

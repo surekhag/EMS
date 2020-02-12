@@ -5,12 +5,12 @@ const LeavesCreditSummarySchema = new Schema({
     employee_id  : {
         type: Number,
         trim: true,
-        required: true,        
+        required: true,
       },
     type  : {
         type: String,
         trim: true,
-        required: true,        
+        required: true,
       },
     count  : {
         type: Number,

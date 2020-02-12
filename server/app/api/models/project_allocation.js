@@ -4,7 +4,7 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const ProjectAllocationSchema = new Schema({   
     project_id  : {
-        type: Number,
+        type: String,
         trim: true,
         required: true,
         unique : true      

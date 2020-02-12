@@ -136,7 +136,22 @@ const UserSchema = new Schema({
     type: String,
     trim: true,
     required: true
-  }
+  },
+  skills : {
+    type: String,
+    trim: true,
+    required: true
+  },
+  certifications : {
+    type: String,
+    trim: true,
+    required: false
+  },
+  achievements : {
+    type: String,
+    trim: true,
+    required: false
+  },
 });
 // hash user password before saving into database
 UserSchema.pre("save", function(next) {
