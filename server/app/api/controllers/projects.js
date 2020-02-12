@@ -29,7 +29,7 @@ module.exports = {
   },
   getProject: function(req, res, next) {    
     //todo - remove or optimize it
-    projectModel.findOne({ id: req.params.id }, function(err, users) {
+    projectModel.findOne({ _id: req.params.id }, function(err, users) {
       if (err) {
         next(err);
       } else {
@@ -56,7 +56,7 @@ module.exports = {
     });
   },
   update: function(req, res, next) {    
-    projectModel.findOneAndUpdate({ id: req.params.id }, 
+    projectModel.findOneAndUpdate({ _id: req.params.id }, 
       {
           $set: req.body 
       },      
@@ -75,7 +75,7 @@ module.exports = {
   },
 
   delete: function(req, res, next) {
-    projectModel.findOneAndUpdate({ id: req.params.id }, 
+    projectModel.findOneAndUpdate({ _id: req.params.id }, 
       {
          status : "Inactive"
       },      
