@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import { makeStyles } from '@material-ui/core/styles'
 import GridContainer from '../../components/Grid/GridContainer.js'
 import GridItem from '../../components/Grid/GridItem.js'
 import Card from '../../components/Card/Card.js'
@@ -8,10 +9,16 @@ import CardBody from '../../components/Card/CardBody.js'
 import CardFooter from '../../components/Card/CardFooter.js'
 import Button from '../../components/CustomButtons/Button.js'
 import CustomInput from '../../components/CustomInput/CustomInput.js'
-import Select from "@material-ui/core/Select";
+// import Select from "@material-ui/core/Select";
+import Select from 'react-select'
 import 'date-fns';
 import DateFnsUtils from '@date-io/date-fns';
+import InputLabel from '@material-ui/core/InputLabel'
 import Grid from '@material-ui/core/Grid';
+import { Radio, RadioGroup } from '@material-ui/core'
+import FormControlLabel from '@material-ui/core/FormControlLabel'
+import Brightness1Icon from '@material-ui/icons/Brightness1'
+import checkboxAdnRadioStyle from '../../assets/jss/material-dashboard-react/checkboxAdnRadioStyle.js'
 
 import {
     MuiPickersUtilsProvider,
@@ -19,19 +26,44 @@ import {
     KeyboardDatePicker,
   } from '@material-ui/pickers';
 
+  const styles = {
+    ...checkboxAdnRadioStyle,
+    cardCategoryWhite: {
+        color: 'rgba(255,255,255,.62)',
+        margin: '0',
+        fontSize: '14px',
+        marginTop: '0',
+        marginBottom: '0'
+    },
+    cardTitleWhite: {
+        color: '#FFFFFF',
+        marginTop: '0px',
+        minHeight: 'auto',
+        fontWeight: '300',
+        fontFamily: "'Roboto', 'Helvetica', 'Arial', sans-serif",
+        marginBottom: '3px',
+        textDecoration: 'none'
+    }
+}
+const useStyles = makeStyles(styles);
 const Project = ()=>{
+    const classes = useStyles();
     const [addNewProject, setAddNewProject] = useState("block");
     const [editProject, setEditProject] = useState("none");
     const [deleteProject, setDeleteProject] = useState("none");
-
-
-    const [selectedDate, setSelectedDate] = React.useState(new Date('2014-08-18T21:11:54'));
+    const [selectedDate, setSelectedDate] = React.useState(new Date());
 
   const handleDateChange = date => {
     setSelectedDate(date);
   };
 
+const technologies= [
+    { value: 'chocolate', label: 'Chocolate' },
+    { value: 'strawberry', label: 'Strawberry' },
+    { value: 'vanilla', label: 'Vanilla' }
+];
 
+// ['React', 'OCC', 'OSF', 'Middleware','AI'];
 return(
     <div>
         <GridContainer>
@@ -42,6 +74,94 @@ return(
     <Button color="primary">Add New Project</Button>
     <Button color="primary">Edit Project</Button>
     <Button color="primary">Delete Project</Button>
+
+    {/* <InputLabel style={{ color: '#AAAAAA' }}>
+                                        Status
+                                    </InputLabel> */}
+                                    <RadioGroup style ={{display: "flex", flexDirection : "row"}}
+                                        aria-label="Status"
+                                        name="Status1"
+                                    >
+                                        <FormControlLabel
+                                            value="add_new_project"
+                                            control={
+                                                <Radio
+                                                    checkedIcon={
+                                                        <Brightness1Icon
+                                                            className={
+                                                                classes.radioChecked
+                                                            }
+                                                        />
+                                                    }
+                                                    icon={
+                                                        <Brightness1Icon
+                                                            className={
+                                                                classes.radioUnchecked
+                                                            }
+                                                        />
+                                                    }
+                                                    classes={{
+                                                        checked: classes.radio,
+                                                        root: classes.root
+                                                    }}
+                                                />
+                                            }
+                                            label="Add New Project"
+                                        />
+                                        <FormControlLabel
+                                            value="update_project"
+                                            control={
+                                                <Radio
+                                                    checkedIcon={
+                                                        <Brightness1Icon
+                                                            className={
+                                                                classes.radioChecked
+                                                            }
+                                                        />
+                                                    }
+                                                    icon={
+                                                        <Brightness1Icon
+                                                            className={
+                                                                classes.radioUnchecked
+                                                            }
+                                                        />
+                                                    }
+                                                    classes={{
+                                                        checked: classes.radio,
+                                                        root: classes.root
+                                                    }}
+                                                />
+                                            }
+                                            label="Update Project"
+                                        />
+                                          <FormControlLabel
+                                            value="delete_project"
+                                            control={
+                                                <Radio
+                                                    checkedIcon={
+                                                        <Brightness1Icon
+                                                            className={
+                                                                classes.radioChecked
+                                                            }
+                                                        />
+                                                    }
+                                                    icon={
+                                                        <Brightness1Icon
+                                                            className={
+                                                                classes.radioUnchecked
+                                                            }
+                                                        />
+                                                    }
+                                                    classes={{
+                                                        checked: classes.radio,
+                                                        root: classes.root
+                                                    }}
+                                                />
+                                            }
+                                            label="Delete Project"
+                                        />
+                                    </RadioGroup>
+
     </CardBody>
     </Card>
     
@@ -72,6 +192,16 @@ return(
             }}           
         />
         </GridItem>
+        {/* <GridItem xs={12} sm={12} md={6}>
+        <CustomInput
+            labelText="Technology"
+            id="technology"
+            formControlProps={{
+                fullWidth: true
+            }}
+        />
+        </GridItem> */}       
+
         <GridItem xs={12} sm={12} md={6}>
         <CustomInput
             labelText="Client"
@@ -91,6 +221,169 @@ return(
         />
         </GridItem>
         <GridItem xs={12} sm={12} md={6}>
+        <InputLabel
+            htmlFor="simple-select"
+            className={classes.selectLabel}
+          >
+            Technology
+          </InputLabel>
+        <Select multiple={true} label="Technology" options={technologies}>
+            {/* <option>React</option> */}
+            {/* {technologies} */}
+            </Select>
+        </GridItem>
+        
+        <GridItem xs={12} sm={12} md={3}>
+        <MuiPickersUtilsProvider utils={DateFnsUtils}>
+       <Grid container justify="space-around">
+        <KeyboardDatePicker
+          disableToolbar
+          variant="inline"
+          format="MM/dd/yyyy"
+          margin="normal"
+          id="start_date"
+          label="Start Date"
+          value={selectedDate}
+          onChange={handleDateChange}
+          KeyboardButtonProps={{
+            'aria-label': 'change date',
+          }}
+        />
+        </Grid>
+        </MuiPickersUtilsProvider>
+        </GridItem>
+        
+
+        <GridItem xs={12} sm={12} md={3}>
+        <MuiPickersUtilsProvider utils={DateFnsUtils}>
+       <Grid container justify="space-around">
+        <KeyboardDatePicker
+          disableToolbar
+          variant="inline"
+          format="MM/dd/yyyy"
+          margin="normal"
+          id="end_date"
+          label="End Date"
+          value={selectedDate}
+          onChange={handleDateChange}
+          KeyboardButtonProps={{
+            'aria-label': 'change date',
+          }}
+        />
+        </Grid>
+        </MuiPickersUtilsProvider>
+        </GridItem>
+
+       
+        <GridItem xs={12} sm={12} md={6}>
+                                    <InputLabel style={{ color: '#AAAAAA' }}>
+                                        Status
+                                    </InputLabel>
+                                    <RadioGroup style ={{display: "flex", flexDirection : "row"}}
+                                        aria-label="Status"
+                                        name="Status1"
+                                    >
+                                        <FormControlLabel
+                                            value="active"
+                                            control={
+                                                <Radio
+                                                    checkedIcon={
+                                                        <Brightness1Icon
+                                                            className={
+                                                                classes.radioChecked
+                                                            }
+                                                        />
+                                                    }
+                                                    icon={
+                                                        <Brightness1Icon
+                                                            className={
+                                                                classes.radioUnchecked
+                                                            }
+                                                        />
+                                                    }
+                                                    classes={{
+                                                        checked: classes.radio,
+                                                        root: classes.root
+                                                    }}
+                                                />
+                                            }
+                                            label="Active"
+                                        />
+                                        <FormControlLabel
+                                            value="Inactive"
+                                            control={
+                                                <Radio
+                                                    checkedIcon={
+                                                        <Brightness1Icon
+                                                            className={
+                                                                classes.radioChecked
+                                                            }
+                                                        />
+                                                    }
+                                                    icon={
+                                                        <Brightness1Icon
+                                                            className={
+                                                                classes.radioUnchecked
+                                                            }
+                                                        />
+                                                    }
+                                                    classes={{
+                                                        checked: classes.radio,
+                                                        root: classes.root
+                                                    }}
+                                                />
+                                            }
+                                            label="Inactive"
+                                        />
+                                    </RadioGroup>
+
+
+
+                                </GridItem>
+
+
+
+       
+        <GridItem xs={12} sm={12} md={3}>
+        <MuiPickersUtilsProvider utils={DateFnsUtils}>
+       <Grid container justify="space-around">
+        <KeyboardDatePicker
+          disableToolbar
+          variant="inline"
+          format="MM/dd/yyyy"
+          margin="normal"
+          id="created_date"
+          label="Created Date"
+          value={selectedDate}
+          onChange={handleDateChange}
+          KeyboardButtonProps={{
+            'aria-label': 'change date',
+          }}
+        />
+        </Grid>
+        </MuiPickersUtilsProvider>
+        </GridItem>       
+        
+        <GridItem xs={12} sm={12} md={3}>
+        <MuiPickersUtilsProvider utils={DateFnsUtils}>
+       <Grid container justify="space-around">
+        <KeyboardDatePicker
+          disableToolbar
+          variant="inline"
+          format="MM/dd/yyyy"
+          margin="normal"
+          id="date-picker-inline"
+          label="Updated Date"
+          value={selectedDate}
+          onChange={handleDateChange}
+          KeyboardButtonProps={{
+            'aria-label': 'change date',
+          }}
+        />
+        </Grid>
+        </MuiPickersUtilsProvider>
+        </GridItem>
+        <GridItem xs={12} sm={12} md={6}>
         <CustomInput
             labelText="Created By"
             id="created_by"
@@ -99,6 +392,8 @@ return(
             }}
         />
         </GridItem>
+
+
         <GridItem xs={12} sm={12} md={6}>
         <CustomInput
             labelText="Last Updated By"
@@ -108,9 +403,11 @@ return(
             }}
         />
         </GridItem>
-        <GridItem xs={12} sm={12} md={12}>
+        
+
+        {/* <GridItem xs={12} sm={12} md={12}>
         <CustomInput
-        labelText="About me"
+        labelText="Description"
          id="about-me"
         formControlProps={{
         fullWidth: true
@@ -122,24 +419,8 @@ return(
         />
 
         </GridItem>
-
-        <MuiPickersUtilsProvider utils={DateFnsUtils}>
-      <Grid container justify="space-around">
-        <KeyboardDatePicker
-          disableToolbar
-          variant="inline"
-          format="MM/dd/yyyy"
-          margin="normal"
-          id="date-picker-inline"
-          label="Date picker inline"
-          value={selectedDate}
-          onChange={handleDateChange}
-          KeyboardButtonProps={{
-            'aria-label': 'change date',
-          }}
-        />
-        </Grid>
-        </MuiPickersUtilsProvider>
+        */}
+ 
 
 
           {/* title  : req.body.title,
