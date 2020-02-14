@@ -6,9 +6,7 @@ import { loadAllEmployeeData } from '../../api/employeeApi.js'
 
 function* workerEmployeeInfoSaga() {
     try {
-        console.log('worker')
         const employees = yield call(loadAllEmployeeData)
-        console.log("emp",employees);
         yield put(setAllEmployeeData(employees))
     } catch (e) {
         // yield put(setError(INVALID_CREDENTIAL));

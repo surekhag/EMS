@@ -25,16 +25,16 @@ const Dashboard = props => {
     const [searchText, setsearchText] = useState('')
 
     const dispatch = useDispatch()
-    const EmployeeData = useSelector(state => state.EmployeeInfo.EmployeeData)
-
+    const EmployeeData = useSelector(state => state.EmployeeInfo.EmployeeData);
+    const user = useSelector(state =>state.loginReducer.loginStatus);
     useEffect(() => {
         dispatch(loadAllEmployeeData())
     }, [dispatch])
 
     let tempArr = []
     if (EmployeeData) {
-        let filteredEmployee = EmployeeData.data.data.filter(cls =>
-            cls.userName.toLowerCase().includes(searchText.toLowerCase().trim())
+        let filteredEmployee = EmployeeData.data.data.filter(cls => 
+            cls.userName.toLowerCase().includes(searchText.toLowerCase().trim()) && cls.status !=="Inactive"
         )
         filteredEmployee.map((key, value) => {
             tempArr.push(Object.values(key))
@@ -48,7 +48,7 @@ const Dashboard = props => {
         <GridContainer>
             <GridItem xs={12} sm={12} md={12}>
                 <InputLabel className={classes.cardTitle}>
-                    Welcome RAKSHANDA
+                    Welcome {user.status ? user.currentUser.userName : null}
                 </InputLabel>
             </GridItem>
             <GridItem xs={12} sm={12} md={12}>

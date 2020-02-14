@@ -1,5 +1,6 @@
 const projects = require("./projects");
 const users = require("./users");
+const peersReview = require("./peer_review");
 const validateUser = require("../middleware/validate-user");
 module.exports = app => {
   // public route
@@ -7,6 +8,8 @@ module.exports = app => {
 
   // private route
   app.use("/projects", projects);
+
+  app.use("/peersReview",peersReview);
 
   //app.use(logger('dev'));
   app.get("/", function(req, res) {
