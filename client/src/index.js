@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import ReactDOM from 'react-dom'
+import { ToastProvider } from 'react-toast-notifications'
 import './index.css'
 import { createBrowserHistory } from 'history'
 import * as serviceWorker from './serviceWorker'
@@ -15,20 +16,21 @@ const hist = createBrowserHistory()
 
 const Index = props => {
     useEffect(() => {
-        const token = localStorage.getItem('token')
-        if (token) {
-            Interceptors(token)
-        }
+            Interceptors();
+            console.log("useeffect");
     }, [])
+    console.log("check");
     const UserWithAuthentication = AuthenticationHOC(User)
     return (
         <Provider store={store}>
             <Router history={hist}>
+              <ToastProvider>
                 <Switch>
                     <Route exact path="/login" component={Login} />
                     <Route path="/admin" component={UserWithAuthentication} />
                     <Redirect from="/" to="/login" />
                 </Switch>
+              </ToastProvider>
             </Router>
         </Provider>
     )

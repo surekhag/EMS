@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { EMPLOYEE_URL } from '../configurations/End-Points'
+import { EMPLOYEE_URL } from '../configurations/endPoints'
 
 
 export function loadAllEmployeeData() {

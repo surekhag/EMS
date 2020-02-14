@@ -1,14 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
-
+import { withToastManager, useToasts } from 'react-toast-notifications'
 // @material-ui/core components
 import { makeStyles } from '@material-ui/core/styles'
-import { Radio, RadioGroup } from '@material-ui/core'
-import FormControlLabel from '@material-ui/core/FormControlLabel'
 import { loginToSite } from '../../actions/loginAction'
 import { connect } from 'react-redux'
 //@material-ui/icons
-import Brightness1Icon from '@material-ui/icons/Brightness1'
 // core components
 import checkboxAdnRadioStyle from '../../assets/jss/material-dashboard-react/checkboxAdnRadioStyle.js'
 import GridItem from '../../components/Grid/GridItem.js'
@@ -46,27 +43,28 @@ const styles = {
 
 const useStyles = makeStyles(styles)
 
-function Login(props) {
+    const Login = (props)=>{
+    const { addToast } = useToasts()
     const [username, setUserName] = useState('')
     const [password, setPassword] = useState('')
-    const [userrole, setUserRole] = useState('Admin')
     const [redirect, setRedirect] = useState(false)
 
     let status = useSelector(state => state.loginReducer.loginStatus)
 
     const handleInputChange = e => {
         e.preventDefault()
-        props.loginToSite(username, password, userrole)
+        props.loginToSite(username, password)
     }
 
     useEffect(() => {
-        if (status && status.status && status.data) {
+        if (status && status.status === 'success') {
+            console.log("token",status);
             localStorage.setItem('token', status.data.token)
-            console.log('user available')
-            Interceptors(status.data.token)
-            setRedirect(true)
-        } else if (status && status.status && status.data === null) {
-            console.log('user not available')
+            setRedirect(true);
+            Interceptors()}
+
+        else if (status && status.status === 'error') {
+            addToast(status.message, { appearance: 'error', autoDismiss: true })
         }
     }, [status])
     const classes = useStyles()
@@ -133,81 +131,6 @@ function Login(props) {
                                         />
                                     </GridItem>
                                 </GridContainer>
-                                <GridContainer>
-                                    <GridItem xs={12} sm={12} md={12}>
-                                        <div className="radioContainer">
-                                            <RadioGroup
-                                                defaultValue="Admin"
-                                                className="radioButtons"
-                                                aria-label="userType"
-                                                name="userType"
-                                            >
-                                                <FormControlLabel
-                                                    value="Admin"
-                                                    control={
-                                                        <Radio
-                                                            checkedIcon={
-                                                                <Brightness1Icon
-                                                                    className={
-                                                                        classes.radioChecked
-                                                                    }
-                                                                />
-                                                            }
-                                                            icon={
-                                                                <Brightness1Icon
-                                                                    className={
-                                                                        classes.radioUnchecked
-                                                                    }
-                                                                />
-                                                            }
-                                                            classes={{
-                                                                checked:
-                                                                    classes.radio,
-                                                                root:
-                                                                    classes.root
-                                                            }}
-                                                        />
-                                                    }
-                                                    label="Admin"
-                                                    onChange={() =>
-                                                        setUserRole('Admin')
-                                                    }
-                                                />
-                                                <FormControlLabel
-                                                    value="User"
-                                                    control={
-                                                        <Radio
-                                                            checkedIcon={
-                                                                <Brightness1Icon
-                                                                    className={
-                                                                        classes.radioChecked
-                                                                    }
-                                                                />
-                                                            }
-                                                            icon={
-                                                                <Brightness1Icon
-                                                                    className={
-                                                                        classes.radioUnchecked
-                                                                    }
-                                                                />
-                                                            }
-                                                            classes={{
-                                                                checked:
-                                                                    classes.radio,
-                                                                root:
-                                                                    classes.root
-                                                            }}
-                                                        />
-                                                    }
-                                                    label="User"
-                                                    onChange={() =>
-                                                        setUserRole('User')
-                                                    }
-                                                />
-                                            </RadioGroup>
-                                        </div>
-                                    </GridItem>
-                                </GridContainer>
                             </CardBody>
                             <CardFooter className="centerButton">
                                 <Button type="submit" color="primary">
@@ -223,7 +146,7 @@ function Login(props) {
 }
 
 const mapDispatchToProps = dispatch => ({
-    loginToSite: (username, password, userrole) =>
-        dispatch(loginToSite(username, password, userrole))
+    loginToSite: (username, password) =>
+        dispatch(loginToSite(username, password))
 })
-export default connect(null, mapDispatchToProps)(Login)
+export default connect(null, mapDispatchToProps)(withToastManager(Login))

@@ -1,6 +1,6 @@
 import { all, fork } from 'redux-saga/effects'
-import watchLogoutSaga from './watchers/logOut.js'
-import watchEmployeeInfoSaga from './watchers/EmployeeInfo.js'
+import watchLogoutSaga from './watchers/logout.js'
+import watchEmployeeInfoSaga from './watchers/employeeInfo.js'
 import watchLoginSaga from './watchers/login'
 
 export default function* root() {

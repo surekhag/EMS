@@ -1,17 +1,32 @@
 import { LOGIN_TO_SITE_SUCCESS } from '../actions/actionTypes.js'
 
 const initialState = {
-    loginStatus: null
+    loginStatus: {
+        userData: null,
+        status: null,
+        message: null
+    }
 }
 export default function setBrowserInfo(state = initialState, action) {
     switch (action.type) {
         case LOGIN_TO_SITE_SUCCESS:
-            console.log(action.loginStatus.data)
-            return {
-                ...state,
-                loginStatus: action.loginStatus.data
-            }
+            const userData = action.loginStatus.data
+            let userInfo
+            if (userData.status === 'success') {
+                localStorage.setItem(
+                    'token',
+                    JSON.stringify(userData.data.token)
+                )
+                userInfo = userData.data.user
+            } else userInfo = userData.data
 
+            return {
+                loginStatus: {
+                    currentUser: userInfo,
+                    status: userData.status,
+                    message: userData.message
+                }
+            }
         default:
             return state
     }
