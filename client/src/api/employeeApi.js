@@ -1,7 +1,7 @@
 import axios from 'axios'
-import { EMPLOYEE_URL } from '../configurations/endPoints'
+import { FETCH_EMPLOYEE_URL } from '../configurations/endPoints'
 
 
 export function loadAllEmployeeData() {
-    return axios.get(EMPLOYEE_URL)
+    return axios.get(FETCH_EMPLOYEE_URL)
 }

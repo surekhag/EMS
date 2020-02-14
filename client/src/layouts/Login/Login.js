@@ -58,10 +58,8 @@ const useStyles = makeStyles(styles)
 
     useEffect(() => {
         if (status && status.status === 'success') {
-            console.log("token",status);
-            localStorage.setItem('token', status.data.token)
-            setRedirect(true);
-            Interceptors()}
+            Interceptors()
+            setRedirect(true);}
 
         else if (status && status.status === 'error') {
             addToast(status.message, { appearance: 'error', autoDismiss: true })
@@ -73,9 +71,7 @@ const useStyles = makeStyles(styles)
         <div className="loginForm">
             {redirect ? (
                 <Redirect from="/login" to="/admin/dashboard" />
-            ) : (
-                false
-            )}
+            ) : false}
             <GridContainer>
                 <GridItem xs={11} sm={8} md={5}>
                     <form onSubmit={handleInputChange}>
