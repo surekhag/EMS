@@ -27,4 +27,17 @@ module.exports = {
             }
           );
         },
+        getAll: function(req, res, next) {
+          Peer_Review_Model.find({}, function(err, users) {
+            if (err) {
+              next(err);
+            } else {
+              res.json({
+                status: "success",
+                message: "Peer Review list found!!!",
+                data: users
+              });
+            }
+          });
+        }
 };
