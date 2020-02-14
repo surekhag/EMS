@@ -19,6 +19,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Brightness1Icon from '@material-ui/icons/Brightness1'
 import checkboxAdnRadioStyle from '../../assets/jss/material-dashboard-react/checkboxAdnRadioStyle.js'
 import MenuItem from "@material-ui/core/MenuItem";
+import FormControl from "@material-ui/core/FormControl";
 
 import {
     MuiPickersUtilsProvider,
@@ -42,6 +43,17 @@ import {
         fontFamily: "'Roboto', 'Helvetica', 'Arial', sans-serif",
         marginBottom: '3px',
         textDecoration: 'none'
+    },
+    root: {
+      display: "flex",
+      flexWrap: "wrap"
+    },
+    formControl: {
+      margin: 11,
+      minWidth: 120
+    },
+    selectEmpty: {
+      marginTop: 10
     }
 }
 const useStyles = makeStyles(styles);
@@ -259,10 +271,65 @@ return (
             }}
         />
  </GridItem>
- <GridItem xs={12} sm={12} md={6}> 
- city
+ <GridItem xs={12} sm={12} md={3}> 
+ <FormControl className={classes.formControl}>
+<InputLabel htmlFor="city"> City</InputLabel>
+<Select
+            value={selectedOptionTest}
+            onChange={handleChangeSelect}
+            inputProps={{
+              name: "city",
+              id: "city"
+            }}
+          >
+            <MenuItem value="">
+              <em>None</em>
+            </MenuItem>
+            {datatoloop.map(item => {
+              return <MenuItem value={item.id}>{item.subject}</MenuItem>;
+            })}
+</Select></FormControl>
  </GridItem>
- <GridItem xs={12} sm={12} md={6}> 
+ 
+ <GridItem xs={12} sm={12} md={3}> 
+ <FormControl className={classes.formControl}>
+<InputLabel htmlFor="state">State</InputLabel>
+<Select
+            value={selectedOptionTest}
+            onChange={handleChangeSelect}
+            inputProps={{
+              name: "state",
+              id: "state"
+            }}
+          >
+            <MenuItem value="">
+              <em>None</em>
+            </MenuItem>
+            {datatoloop.map(item => {
+              return <MenuItem value={item.id}>{item.subject}</MenuItem>;
+            })}
+</Select></FormControl>
+ </GridItem>
+ <GridItem xs={12} sm={12} md={3}> 
+ <FormControl className={classes.formControl}>
+<InputLabel htmlFor="country"> Country</InputLabel>
+<Select
+            value={selectedOptionTest}
+            onChange={handleChangeSelect}
+            inputProps={{
+              name: "country",
+              id: "country"
+            }}
+          >
+            <MenuItem value="">
+              <em>None</em>
+            </MenuItem>
+            {datatoloop.map(item => {
+              return <MenuItem value={item.id}>{item.subject}</MenuItem>;
+            })}
+</Select></FormControl>
+ </GridItem>
+ <GridItem xs={12} sm={12} md={3}> 
  <CustomInput
             labelText="Zip"
             id="zip"
@@ -272,13 +339,23 @@ return (
         />
  </GridItem>
  <GridItem xs={12} sm={12} md={6}> 
- state
- </GridItem>
- <GridItem xs={12} sm={12} md={6}> 
- country
- </GridItem>
- <GridItem xs={12} sm={12} md={6}> 
- gender
+ <FormControl className={classes.formControl}>
+<InputLabel htmlFor="gender"> Gender</InputLabel>
+<Select
+            value={selectedOptionTest}
+            onChange={handleChangeSelect}
+            inputProps={{
+              name: "gender",
+              id: "gender"
+            }}
+          >
+            <MenuItem value="">
+              <em>None</em>
+            </MenuItem>
+            {datatoloop.map(item => {
+              return <MenuItem value={item.id}>{item.subject}</MenuItem>;
+            })}
+</Select></FormControl>
  </GridItem>
  {/* <GridItem xs={12} sm={12} md={6}> 
  dateofbirth
@@ -328,11 +405,26 @@ return (
         </MuiPickersUtilsProvider>
 </GridItem>
 
- <GridItem xs={12} sm={12} md={6}> 
- status
+ <GridItem xs={12} sm={12} md={6}>
+ <FormControl className={classes.formControl}>
+<InputLabel htmlFor="age-simple"> Status</InputLabel>
+<Select
+            value={selectedOptionTest}
+            onChange={handleChangeSelect}
+            inputProps={{
+              name: "status",
+              id: "status"
+            }}
+          >
+            <MenuItem value="">
+              <em>None</em>
+            </MenuItem>
+            {datatoloop.map(item => {
+              return <MenuItem value={item.id}>{item.subject}</MenuItem>;
+            })}
+</Select></FormControl>
  </GridItem>
  <GridItem xs={12} sm={12} md={6}> 
- experience_at_joining
  <CustomInput
             labelText="Experience At Joining"
             id="experience_at_joining"
@@ -342,13 +434,15 @@ return (
         />
  </GridItem>
  <GridItem xs={12} sm={12} md={6}> 
- work_location
- <Select
+ {/* work_location */}
+ <FormControl className={classes.formControl}>
+<InputLabel htmlFor="work_location"> Work Location</InputLabel>
+<Select
             value={selectedOptionTest}
             onChange={handleChangeSelect}
             inputProps={{
-              name: "age",
-              id: "age-simple"
+              name: "work_location",
+              id: "work_location"
             }}
           >
             <MenuItem value="">
@@ -357,16 +451,17 @@ return (
             {datatoloop.map(item => {
               return <MenuItem value={item.id}>{item.subject}</MenuItem>;
             })}
-</Select>
+</Select></FormControl>
  </GridItem>
  <GridItem xs={12} sm={12} md={6}> 
- timezone
- <Select
+ <FormControl className={classes.formControl}>
+<InputLabel htmlFor="timezone"> Timezone</InputLabel>
+<Select
             value={selectedOptionTest}
             onChange={handleChangeSelect}
             inputProps={{
-              name: "age",
-              id: "age-simple"
+              name: "timezone",
+              id: "timezone"
             }}
           >
             <MenuItem value="">
@@ -375,7 +470,7 @@ return (
             {datatoloop.map(item => {
               return <MenuItem value={item.id}>{item.subject}</MenuItem>;
             })}
-</Select>
+</Select></FormControl>
  </GridItem> 
 
  <GridItem xs={12} sm={12} md={6}>
@@ -398,13 +493,14 @@ return (
         </MuiPickersUtilsProvider>
 </GridItem>
  <GridItem xs={12} sm={12} md={6}> 
- designation
- <Select
+ <FormControl className={classes.formControl}>
+<InputLabel htmlFor="designation">Designation </InputLabel>
+<Select
             value={selectedOptionTest}
             onChange={handleChangeSelect}
             inputProps={{
-              name: "age",
-              id: "age-simple"
+              name: "designation",
+              id: "designation"
             }}
           >
             <MenuItem value="">
@@ -413,19 +509,17 @@ return (
             {datatoloop.map(item => {
               return <MenuItem value={item.id}>{item.subject}</MenuItem>;
             })}
-</Select>
+</Select></FormControl>
  </GridItem>
  <GridItem xs={12} sm={12} md={6}> 
- employment_status
- </GridItem>
- <GridItem xs={12} sm={12} md={6}> 
- userRole
- <Select
+ <FormControl className={classes.formControl}>
+<InputLabel htmlFor="employment_status"> Employment Status</InputLabel>
+<Select
             value={selectedOptionTest}
             onChange={handleChangeSelect}
             inputProps={{
-              name: "age",
-              id: "age-simple"
+              name: "employment_status",
+              id: "employment_status"
             }}
           >
             <MenuItem value="">
@@ -434,16 +528,17 @@ return (
             {datatoloop.map(item => {
               return <MenuItem value={item.id}>{item.subject}</MenuItem>;
             })}
-</Select>
+</Select></FormControl>
  </GridItem>
- <GridItem xs={12} sm={12} md={6}> 
- reporting_manager
- <Select
+ <GridItem xs={12} sm={12} md={6}>
+ <FormControl className={classes.formControl}>
+<InputLabel htmlFor="userRole"> User Role</InputLabel>
+<Select
             value={selectedOptionTest}
             onChange={handleChangeSelect}
             inputProps={{
-              name: "age",
-              id: "age-simple"
+              name: "userRole",
+              id: "userRole"
             }}
           >
             <MenuItem value="">
@@ -452,16 +547,17 @@ return (
             {datatoloop.map(item => {
               return <MenuItem value={item.id}>{item.subject}</MenuItem>;
             })}
-</Select>
+</Select></FormControl>
  </GridItem>
  <GridItem xs={12} sm={12} md={6}> 
- functional_manager
- <Select
+ <FormControl className={classes.formControl}>
+<InputLabel htmlFor="reporting_manager">Reporting Manager</InputLabel>
+<Select
             value={selectedOptionTest}
             onChange={handleChangeSelect}
             inputProps={{
-              name: "age",
-              id: "age-simple"
+              name: "reporting_manager",
+              id: "reporting_manager"
             }}
           >
             <MenuItem value="">
@@ -470,7 +566,26 @@ return (
             {datatoloop.map(item => {
               return <MenuItem value={item.id}>{item.subject}</MenuItem>;
             })}
-</Select>
+</Select></FormControl>
+ </GridItem>
+ <GridItem xs={12} sm={12} md={6}> 
+ <FormControl className={classes.formControl}>
+<InputLabel htmlFor="functional_manager"> Functional Manager</InputLabel>
+<Select
+            value={selectedOptionTest}
+            onChange={handleChangeSelect}
+            inputProps={{
+              name: "functional_manager",
+              id: "functional_manager"
+            }}
+          >
+            <MenuItem value="">
+              <em>None</em>
+            </MenuItem>
+            {datatoloop.map(item => {
+              return <MenuItem value={item.id}>{item.subject}</MenuItem>;
+            })}
+</Select></FormControl>
  </GridItem>
  <GridItem xs={12} sm={12} md={6}> 
  <CustomInput
@@ -499,24 +614,7 @@ return (
                 fullWidth: true
             }}
         />
- </GridItem>
- <Select
-            value={selectedOptionTest}
-            onChange={handleChangeSelect}
-            inputProps={{
-              name: "age",
-              id: "age-simple"
-            }}
-          >
-            <MenuItem value="">
-              <em>None</em>
-            </MenuItem>
-            {datatoloop.map(item => {
-              return <MenuItem value={item.id}>{item.subject}</MenuItem>;
-            })}
-</Select>
-
-
+ </GridItem> 
 </GridContainer>
  </CardBody>
 
