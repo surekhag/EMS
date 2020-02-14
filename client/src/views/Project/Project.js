@@ -10,7 +10,8 @@ import CardFooter from '../../components/Card/CardFooter.js'
 import Button from '../../components/CustomButtons/Button.js'
 import CustomInput from '../../components/CustomInput/CustomInput.js'
 // import Select from "@material-ui/core/Select";
-import Select from 'react-select'
+// import Select from 'react-select'
+import Select from '@material-ui/core/Select';
 import 'date-fns';
 import DateFnsUtils from '@date-io/date-fns';
 import InputLabel from '@material-ui/core/InputLabel'
@@ -227,7 +228,7 @@ return(
           >
             Technology
           </InputLabel>
-        <Select multiple={true} label="Technology" options={technologies}>
+        <Select label="Technology" options={technologies}>
             {/* <option>React</option> */}
             {/* {technologies} */}
             </Select>
@@ -403,7 +404,11 @@ return(
             }}
         />
         </GridItem>
-        
+        <select value="B">
+    <option value="A">Apple</option>
+    <option value="B">Banana</option>
+    <option value="C">Cranberry</option>
+  </select>
 
         {/* <GridItem xs={12} sm={12} md={12}>
         <CustomInput
