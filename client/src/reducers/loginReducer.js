@@ -2,7 +2,7 @@ import { LOGIN_TO_SITE_SUCCESS } from '../constants'
 
 const initialState = {
     loginStatus: {
-        userData: null,
+        currentUser: null,
         status: null,
         message: null
     }
@@ -15,7 +15,7 @@ export default function setBrowserInfo(state = initialState, action) {
             if (userData.status == 'success') {
                 localStorage.setItem(
                     'token',
-                    JSON.stringify(userData.data.token)
+                    userData.data.token
                 )
                 userInfo = userData.data.user
             } else userInfo = userData.data
