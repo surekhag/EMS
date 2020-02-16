@@ -1,8 +1,8 @@
 import axios from 'axios'
 
-const Interceptors =()=> {
-    const token = localStorage.getItem('token');
-    if(token){
+const interceptors = () => {
+    const token = localStorage.getItem('token')
+    if (token) {
         axios.interceptors.request.use(
             config => {
                 config.headers['Authorization'] = 'Bearer ' + token
@@ -14,4 +14,4 @@ const Interceptors =()=> {
         )
     }
 }
-export default Interceptors
+export default interceptors

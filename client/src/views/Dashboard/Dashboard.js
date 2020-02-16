@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { loadAllEmployeeData } from '../../actions/employeeAction.js'
 // react plugin for creating charts
@@ -17,24 +17,29 @@ import Card from '../../components/Card/Card.js'
 import CardHeader from '../../components/Card/CardHeader.js'
 import CardBody from '../../components/Card/CardBody.js'
 
-import styles from '../../assets/jss/material-dashboard-react/views/dashboardStyle.js'
-
+import styles from '../../assets/jss/material-dashboard-react/views/dashboardStyle'
+import withAuth from '../../HOC/withAuth'
+import { UserContext } from '../../context-provider/user-context'
 const useStyles = makeStyles(styles)
 const Dashboard = props => {
     const classes = useStyles()
     const [searchText, setsearchText] = useState('')
-
+    const { currentUser } = useContext(UserContext)
     const dispatch = useDispatch()
-    const EmployeeData = useSelector(state => state.EmployeeInfo.EmployeeData);
-    const user = useSelector(state =>state.loginReducer.loginStatus);
+    const EmployeeData = useSelector(state => state.EmployeeInfo.EmployeeData)
+
     useEffect(() => {
         dispatch(loadAllEmployeeData())
     }, [dispatch])
 
     let tempArr = []
     if (EmployeeData) {
-        let filteredEmployee = EmployeeData.data.data.filter(cls => 
-            cls.userName.toLowerCase().includes(searchText.toLowerCase().trim()) && cls.status !=="Inactive"
+        let filteredEmployee = EmployeeData.data.data.filter(
+            cls =>
+                cls.userName
+                    .toLowerCase()
+                    .includes(searchText.toLowerCase().trim()) &&
+                cls.status !== 'Inactive'
         )
         filteredEmployee.map((key, value) => {
             tempArr.push(Object.values(key))
@@ -48,7 +53,7 @@ const Dashboard = props => {
         <GridContainer>
             <GridItem xs={12} sm={12} md={12}>
                 <InputLabel className={classes.cardTitle}>
-                    Welcome {user.status ? user.currentUser.userName : null}
+                    Welcome {currentUser ? currentUser.userName : null}
                 </InputLabel>
             </GridItem>
             <GridItem xs={12} sm={12} md={12}>
@@ -92,4 +97,4 @@ const Dashboard = props => {
         </GridContainer>
     )
 }
-export default Dashboard
+export default withAuth(Dashboard)
