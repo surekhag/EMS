@@ -1,4 +1,4 @@
-import { SET_ALL_EMPLOYEES } from '../constants'
+import { SET_ALL_EMPLOYEES } from '../actions/actionTypes.js'
 
 const initialState = {
     EmployeeData: null
@@ -10,12 +10,6 @@ export default function setBrowserInfo(state = initialState, action) {
                 ...state,
                 EmployeeData: action.payload.data
             }
-        // case CLEAR_USER:
-        //   localStorage.removeItem('user');
-        //   return {
-        //     ...state,
-        //     userData: null,
-        //   };
         default:
             return state
     }

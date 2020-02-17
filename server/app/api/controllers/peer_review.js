@@ -1,4 +1,4 @@
-const Peer_Review_Model = require("../models/peer-review");
+const Peer_Review_Model = require("../models/peer_review");
 module.exports = {    
         create: function(req, res, next) {
           Peer_Review_Model.create(
@@ -39,5 +39,6 @@ module.exports = {
               });
             }
           });
-        }
+        },
+
 };

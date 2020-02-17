@@ -3,14 +3,13 @@ import { Switch, Route, Redirect } from 'react-router-dom'
 import PerfectScrollbar from 'perfect-scrollbar'
 import 'perfect-scrollbar/css/perfect-scrollbar.css'
 import { makeStyles } from '@material-ui/core/styles'
-
-import Navbar from '../components/Navbars/Navbar.js'
-import Footer from '../components/Footer/Footer.js'
-import Sidebar from '../components/Sidebar/Sidebar.js'
-import routes from '../routes.js'
-import styles from '../assets/jss/material-dashboard-react/layouts/adminStyle.js'
-import bgImage from '../assets/img/sidebar-2.jpg'
-import logo from '../assets/img/oelogo.png'
+import bgImage from '../../assets/img/sidebar-2.jpg'
+import Navbar from '../../components/Navbars/Navbar.js'
+import Footer from '../../components/Footer/Footer.js'
+import Sidebar from '../../components/Sidebar/Sidebar.js'
+import routes from '../../routes.js'
+import styles from '../../assets/jss/material-dashboard-react/layouts/userStyle.js'
+import logo from '../../assets/img/oelogo.png'
 
 let ps
 
@@ -40,9 +39,8 @@ export default function User({ ...rest }) {
     // ref to help us initialize PerfectScrollbar on windows devices
     const mainPanel = React.createRef()
     // states and functions
-    const [image, setImage] = React.useState(bgImage)
-    const [color, setColor] = React.useState('blue')
     const [mobileOpen, setMobileOpen] = React.useState(false)
+    const color = 'blue'
 
     const handleDrawerToggle = () => {
         setMobileOpen(!mobileOpen)
@@ -77,7 +75,7 @@ export default function User({ ...rest }) {
                 routes={routes}
                 logoText={'Object Edge'}
                 logo={logo}
-                image={image}
+                image={bgImage}
                 handleDrawerToggle={handleDrawerToggle}
                 open={mobileOpen}
                 color={color}

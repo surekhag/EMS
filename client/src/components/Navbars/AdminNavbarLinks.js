@@ -1,5 +1,6 @@
 import React from 'react'
 import classNames from 'classnames'
+import { useDispatch } from 'react-redux'
 // @material-ui/core components
 import { makeStyles } from '@material-ui/core/styles'
 import MenuItem from '@material-ui/core/MenuItem'
@@ -18,13 +19,14 @@ import Search from '@material-ui/icons/Search'
 // core components
 import CustomInput from '../../components/CustomInput/CustomInput.js'
 import Button from '../../components/CustomButtons/Button.js'
-
+import { logOut } from '../../actions/logoutAction'
 import styles from '../../assets/jss/material-dashboard-react/components/headerLinksStyle.js'
 
 const useStyles = makeStyles(styles)
 
 export default function AdminNavbarLinks() {
     const classes = useStyles()
+    const dispatch = useDispatch()
     const [openNotification, setOpenNotification] = React.useState(null)
     const [openProfile, setOpenProfile] = React.useState(null)
     const handleClickNotification = event => {
@@ -46,6 +48,10 @@ export default function AdminNavbarLinks() {
     }
     const handleCloseProfile = () => {
         setOpenProfile(null)
+    }
+    const handleClose = () => {
+        dispatch(logOut())
+        window.location.reload()
     }
     return (
         <div>
@@ -222,7 +228,7 @@ export default function AdminNavbarLinks() {
                                         </MenuItem>
                                         <Divider light />
                                         <MenuItem
-                                            onClick={handleCloseProfile}
+                                            onClick={handleClose}
                                             className={classes.dropdownItem}
                                         >
                                             Logout

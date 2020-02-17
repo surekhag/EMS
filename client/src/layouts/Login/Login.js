@@ -19,6 +19,8 @@ import CardFooter from '../../components/Card/CardFooter.js'
 import './Login.css'
 import { Redirect } from 'react-router-dom'
 
+import interceptors from '../../helpers/interceptors'
+
 const styles = {
     ...checkboxAdnRadioStyle,
     cardCategoryWhite: {
@@ -41,7 +43,7 @@ const styles = {
 
 const useStyles = makeStyles(styles)
 
-    const Login = (props)=>{
+const Login = props => {
     const { addToast } = useToasts()
     const [username, setUserName] = useState('')
     const [password, setPassword] = useState('')
@@ -49,15 +51,16 @@ const useStyles = makeStyles(styles)
 
     let status = useSelector(state => state.loginReducer.loginStatus)
 
-    const handleInputChange = e => {
+    const handleFormSubmit = e => {
         e.preventDefault()
         props.loginToSite(username, password)
     }
 
     useEffect(() => {
-        if (status && status.status == 'success') {
+        if (status && status.status === 'success') {
+            interceptors()
             setRedirect(true)
-        } else if (status && status.status == 'error') {
+        } else if (status && status.status === 'error') {
             addToast(status.message, { appearance: 'error', autoDismiss: true })
         }
     }, [status])
@@ -72,7 +75,7 @@ const useStyles = makeStyles(styles)
             )}
             <GridContainer>
                 <GridItem xs={11} sm={8} md={5}>
-                    <form onSubmit={handleInputChange}>
+                    <form onSubmit={handleFormSubmit}>
                         <Card>
                             <CardHeader color="primary">
                                 <h4 className={classes.cardTitleWhite}>

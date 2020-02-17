@@ -1,4 +1,4 @@
-import { LOGIN_TO_SITE_SUCCESS } from '../constants'
+import { LOGIN_TO_SITE_SUCCESS } from '../actions/actionTypes.js'
 
 const initialState = {
     loginStatus: {
@@ -7,16 +7,13 @@ const initialState = {
         message: null
     }
 }
-export default function setBrowserInfo(state = initialState, action) {
+const loginReducer = (state = initialState, action) => {
     switch (action.type) {
         case LOGIN_TO_SITE_SUCCESS:
             const userData = action.loginStatus.data
-            let userInfo
-            if (userData.status == 'success') {
-                localStorage.setItem(
-                    'token',
-                    userData.data.token
-                )
+            let userInfo = null
+            if (userData.status === 'success') {
+                localStorage.setItem('token', userData.data.token)
                 userInfo = userData.data.user
             } else userInfo = userData.data
 
@@ -25,9 +22,12 @@ export default function setBrowserInfo(state = initialState, action) {
                     currentUser: userInfo,
                     status: userData.status,
                     message: userData.message
-                }
+                },
+                currentUser: userInfo
             }
         default:
             return state
     }
 }
+
+export default loginReducer
