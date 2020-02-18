@@ -1,0 +1,13 @@
+.radioButtons {
+    flex-direction: row !important;
+}
+.loginForm {
+    padding-top: 40px;
+}
+.loginForm > div {
+    display: flex;
+    justify-content: center;
+}
+.centerButton {
+    justify-content: center !important;
+}

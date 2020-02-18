@@ -6,6 +6,7 @@ const interceptors = () => {
         axios.interceptors.request.use(
             config => {
                 config.headers['Authorization'] = 'Bearer ' + token
+                console.log("Config" , config);
                 return config
             },
             error => {

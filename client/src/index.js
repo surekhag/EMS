@@ -1,39 +1,86 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import ReactDOM from 'react-dom'
 import { ToastProvider } from 'react-toast-notifications'
 import './index.css'
+import axios from 'axios'
 import { createBrowserHistory } from 'history'
 import * as serviceWorker from './serviceWorker'
 import { Provider } from 'react-redux'
 import store from '../src/store/index.js'
 import { Router, Route, Switch, Redirect } from 'react-router-dom'
 import interceptors from './helpers/interceptors'
+import validateSession from './helpers/validateSession';
 import User from './layouts/User/User'
-import Login from './layouts/Login/Login'
+import Login from './components/Login/Login';
+import {AUTH_URL} from './configurations/config';
 import UserContexProvider from './context-provider/user-context'
+import { Link } from 'react-router-dom'
+
 
 const hist = createBrowserHistory()
 
 const Index = props => {
+    const [redirectToPath, setPath] = useState(null);
+
     useEffect(() => {
         interceptors()
         //relogin to site if token is available
+    }, [])
+
+    useEffect(() => {
+        console.log("in use effect");
+        // const val = validateSession();  
+        // console.log(val)  ;
+
+        const token = localStorage.getItem('token');
+        if (token) {
+            const options = { headers: { Authorization: 'Bearer ' + token }};
+            axios.get(AUTH_URL, options)
+            .then(
+                res =>{   
+                    console.log("user data", res)         
+                  if(window.location.pathname =='/login')
+                    setPath("/admin/dashboard");           
+             },
+        (error) => {
+            // console.log( error.response);        
+            if(error.response.status ==401 && error.response.data.message == "Invalid Token"){
+                    console.log("In error", window.location.pathname);
+                    localStorage.clear();
+                    if(window.location.pathname != '/login'){                   
+                        // setPath("/login");                        
+                        window.location.href = '/login';
+                    }                   
+            }
+        }
+    )
+    }
     }, [])
 
     return (
         <Provider store={store}>
             <UserContexProvider>
                 <Router history={hist}>
+                {redirectToPath}       
                     <ToastProvider>
                         <Switch>
-                            <Route exact path="/login" component={Login} />
+                        {/* {redirectToPath &&  <Redirect to={redirectToPath}/> } */}
+                            <Route exact path="/login" component={Login} >
+
+                                </Route>
                             <Route path="/admin" component={User} />
                             <Redirect from="/" to="/login" />
+                            {redirectToPath &&  <Redirect to={redirectToPath}/>}            
+
+                            {/* <Route>
+                {redirectToPath &&  <Redirect to={redirectToPath}/>}            
+                            </Route> */}
+                              {/* <Redirect push to="/somewhere/else" /> */}
                         </Switch>
                     </ToastProvider>
                 </Router>
             </UserContexProvider>
-        </Provider>
+        </Provider>        
     )
 }
 ReactDOM.render(<Index />, document.getElementById('root'))
