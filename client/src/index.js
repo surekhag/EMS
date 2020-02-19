@@ -19,7 +19,7 @@ const Index = props => {
         interceptors()
         //relogin to site if token is available
     }, [])
-
+    
     return (
         <Provider store={store}>
             <UserContexProvider>

@@ -43,7 +43,7 @@ const headerLinksStyle = theme => ({
                 marginLeft: '-15px'
             },
             '& .fab,& .fas,& .far,& .fal,& .material-icons': {
-                fontSize: '24px',
+                fontSize: '30px',
                 lineHeight: '30px',
                 width: '24px',
                 height: '30px',
