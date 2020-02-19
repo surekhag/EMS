@@ -54,11 +54,11 @@ export default function Sidebar(props) {
                         activeClassName="active"
                         key={key}
                     >
-                        <ListItem
+                     {prop.name !== "Create Peer" ?  <ListItem
                             button
                             className={classes.itemLink + listItemClasses}
                         >
-                            {typeof prop.icon === 'string' ? (
+                         {typeof prop.icon === 'string' ? (
                                 <Icon
                                     className={classNames(
                                         classes.itemIcon,
@@ -96,7 +96,8 @@ export default function Sidebar(props) {
                                 )}
                                 disableTypography={true}
                             />
-                        </ListItem>
+                        </ListItem> : null }
+
                     </NavLink>
                 )
             })}

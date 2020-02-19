@@ -6,6 +6,11 @@ import GroupIcon from '@material-ui/icons/Group';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 import Projects from './views/Project/Project';
 import Employee from './views/Employee/Employee';
+import GroupIcon from '@material-ui/icons/Group';
+import DashboardPage from './views/Dashboard/Dashboard'
+import UserProfile from './views/UserProfile/UserProfile'
+import PeerReview from './views/PeerReview/PeerReview'
+import CreatePeer from  './components/CreatePeerForm/CreatePeerForm'
 
 const dashboardRoutes = [
     {
@@ -40,7 +45,22 @@ const dashboardRoutes = [
         component: Projects,
         layout: '/admin'
     },
-
+{
+        path: '/peerReview',
+        name: 'Peer Review',
+        rtlName: 'ملف تعريفي للمستخدم',
+        icon: GroupIcon,
+        component: PeerReview,
+        layout: '/admin'
+    },
+    {
+        path: '/createPeer',
+        name: 'Create Peer',
+        rtlName: 'ملف تعريفي للمستخدم',
+        icon: GroupIcon,
+        component: CreatePeer,
+        layout: '/admin'
+    }
 ]
 
 export default dashboardRoutes

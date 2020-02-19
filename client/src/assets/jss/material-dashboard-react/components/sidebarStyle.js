@@ -287,7 +287,17 @@ const sidebarStyle = theme => ({
         overflow: 'auto',
         width: '260px',
         zIndex: '4',
-        overflowScrolling: 'touch'
+        overflowScrolling: 'touch',
+        '&:after': {
+            content: '""',
+            position: 'absolute',
+            bottom: '0',
+
+            height: '1px',
+            right: '15px',
+            width: 'calc(100% - 30px)',
+            backgroundColor: 'rgba(' + hexToRgb(grayColor[6]) + ', 0.3)'
+        }
     },
     activePro: {
         [theme.breakpoints.up('md')]: {

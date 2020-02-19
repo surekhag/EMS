@@ -20,21 +20,22 @@ import CardBody from '../../components/Card/CardBody.js'
 import styles from '../../assets/jss/material-dashboard-react/views/dashboardStyle'
 import withAuth from '../../HOC/withAuth'
 import { UserContext } from '../../context-provider/user-context'
+
 const useStyles = makeStyles(styles)
 const Dashboard = props => {
     const classes = useStyles()
     const [searchText, setsearchText] = useState('')
     const { currentUser } = useContext(UserContext)
     const dispatch = useDispatch()
-    const EmployeeData = useSelector(state => state.EmployeeInfo.EmployeeData)
+    const employeeData = useSelector(state => state.EmployeeInfo.employeeData)
 
     useEffect(() => {
         dispatch(loadAllEmployeeData())
     }, [dispatch])
 
     let tempArr = []
-    if (EmployeeData) {
-        let filteredEmployee = EmployeeData.data.data.filter(
+    if (employeeData) {
+        let filteredEmployee = employeeData.data.data.filter(
             cls =>
                 cls.userName
                     .toLowerCase()
@@ -84,8 +85,8 @@ const Dashboard = props => {
                         <Table
                             tableHeaderColor="gray"
                             tableHead={
-                                EmployeeData
-                                    ? Object.keys(EmployeeData.data.data[0])
+                                employeeData
+                                    ? Object.keys(employeeData.data.data[0])
                                     : null
                             }
                             tableData={tempArr ? tempArr : null}
