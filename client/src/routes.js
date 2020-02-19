@@ -6,9 +6,6 @@ import GroupIcon from '@material-ui/icons/Group';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 import Projects from './views/Project/Project';
 import Employee from './views/Employee/Employee';
-import GroupIcon from '@material-ui/icons/Group';
-import DashboardPage from './views/Dashboard/Dashboard'
-import UserProfile from './views/UserProfile/UserProfile'
 import PeerReview from './views/PeerReview/PeerReview'
 import CreatePeer from  './components/CreatePeerForm/CreatePeerForm'
 
