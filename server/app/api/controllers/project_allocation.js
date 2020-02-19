@@ -23,4 +23,17 @@ module.exports = {
             }
           );
         },
+        getAll: function(req, res, next) {
+          Project_Allocation_Model.find({}, function(err, users) {
+            if (err) {
+              next(err);
+            } else {
+              res.json({
+                status: "success",
+                message: "Project list found!!!",
+                data: users
+              });
+            }
+          });
+        }
 };

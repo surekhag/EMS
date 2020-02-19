@@ -34,7 +34,7 @@ module.exports = {
             } else {
               res.json({
                 status: "success",
-                message: "Users list found!!!",
+                message: "Peer Review list found!!!",
                 data: users
               });
             }

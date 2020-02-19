@@ -2,7 +2,7 @@ import { LOGIN_TO_SITE_SUCCESS } from '../actions/actionTypes.js'
 
 const initialState = {
     loginStatus: {
-        userData: null,
+        currentUser: null,
         status: null,
         message: null
     }
