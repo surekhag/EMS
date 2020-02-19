@@ -26,16 +26,13 @@ const Index = props => {
     }, [])
 
     useEffect(() => {
-        console.log("in use effect");     
-       
             axios.get(AUTH_URL)
             .then(
                 res =>{                    
                   if(window.location.pathname =='/login')
-                    setPath("/admin/dashboard"); 
-                       
+                    setPath("/admin/dashboard");
              },
-        (error) => {
+         (error) => {
             // console.log( error.response);        
             if(error.response.status ==401 && error.response.data.message == "Invalid Token"){
                     console.log("In error", window.location.pathname);
@@ -52,17 +49,14 @@ const Index = props => {
     return (
         <Provider store={store}>
             <UserContexProvider>
-                <Router history={hist}>
-                {/* {redirectToPath}        */}
+                <Router history={hist}>              
                     <ToastProvider>
-                        <Switch>
-                        {/* {redirectToPath &&  <Redirect to={redirectToPath}/> } */}
+                        <Switch>                        
                             <Route exact path="/login" component={Login} >
 
                                 </Route>
                             <Route path="/admin" component={User} />
-                            <Redirect from="/" to="/login" />
-                           {/* {redirectToPath &&  <Redirect to={redirectToPath}/>} */}
+                            <Redirect from="/" to="/login" />                           
                         </Switch>
                     </ToastProvider>
                 </Router>
