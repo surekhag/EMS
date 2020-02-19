@@ -90,8 +90,6 @@ return (
     <div>
 <GridContainer>
 <GridItem xs={12} sm={12} md={12}>
-{/* <Card> */}
-{/* <CardBody> */}
 <RadioGroup style ={{display: "flex", flexDirection : "row"}}
                                         aria-label="Status"
                                         name="Status1"
@@ -124,65 +122,9 @@ return (
     }
     label="Add New Employee"
 />
-<FormControlLabel
-    value="update_employee"
-    control={
-        <Radio
-            checkedIcon={
-                <Brightness1Icon
-                    className={
-                        classes.radioChecked
-                    }
-                />
-            }
-            icon={
-                <Brightness1Icon
-                    className={
-                        classes.radioUnchecked
-                    }
-                />
-            }
-            classes={{
-                checked: classes.radio,
-                root: classes.root
-            }}
-            checked ={selectedOption === "update_employee"}
-            onChange ={handleOptionChange}
-        />
-    }
-    label="Update Employee"
-/>
-    <FormControlLabel
-    value="delete_employee"
-    control={
-        <Radio
-            checkedIcon={
-                <Brightness1Icon
-                    className={
-                        classes.radioChecked
-                    }
-                />
-            }
-            icon={
-                <Brightness1Icon
-                    className={
-                        classes.radioUnchecked
-                    }
-                />
-            }
-            classes={{
-                checked: classes.radio,
-                root: classes.root
-            }}
-            checked ={selectedOption === "delete_employee"}
-            onChange ={handleOptionChange}
-        />
-    }
-    label="Delete Employee"
-/>
+
 </RadioGroup>
-{/* </CardBody> */}
-{/* </Card> */}
+
 <Card id="add_new_employee" style={{display : selectedOption =="add_new_employee"? 'block': 'none' }}>
  <CardHeader color="primary">
  <h4 className={classes.cardTitleWhite}> ADD EMPLOYEE </h4>
@@ -357,10 +299,6 @@ return (
             })}
 </Select></FormControl>
  </GridItem>
- {/* <GridItem xs={12} sm={12} md={6}> 
- dateofbirth
- </GridItem> */}
-
  <GridItem xs={12} sm={12} md={6}>
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
        <Grid container justify="space-around">
@@ -380,10 +318,6 @@ return (
         </Grid>
         </MuiPickersUtilsProvider>
 </GridItem>
-
- {/* <GridItem xs={12} sm={12} md={6}> 
- dateofjoining
- </GridItem> */}
 
  <GridItem xs={12} sm={12} md={6}>
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
@@ -623,17 +557,6 @@ return (
  </CardFooter>
 
 </Card>
-<Card id="update_employee" style={{display : selectedOption =="update_employee"? 'block': 'none' }}>
-    <CardBody>
-    Update Employee
-    </CardBody>
-</Card>
-<Card id="delete_employee" style={{display : selectedOption =="delete_employee"? 'block': 'none' }}>
-    <CardBody>
-    del
-    </CardBody>
-</Card>
-
 </GridItem>
 </GridContainer>
     </div>

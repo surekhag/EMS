@@ -9,13 +9,11 @@ import { Provider } from 'react-redux'
 import store from '../src/store/index.js'
 import { Router, Route, Switch, Redirect } from 'react-router-dom'
 import interceptors from './helpers/interceptors'
-import validateSession from './helpers/validateSession';
 import User from './layouts/User/User'
 import Login from './components/Login/Login';
 import {AUTH_URL} from './configurations/config';
 import UserContexProvider from './context-provider/user-context'
 import { Link } from 'react-router-dom'
-
 
 const hist = createBrowserHistory()
 
@@ -28,19 +26,14 @@ const Index = props => {
     }, [])
 
     useEffect(() => {
-        console.log("in use effect");
-        // const val = validateSession();  
-        // console.log(val)  ;
-
-        const token = localStorage.getItem('token');
-        if (token) {
-            const options = { headers: { Authorization: 'Bearer ' + token }};
-            axios.get(AUTH_URL, options)
+        console.log("in use effect");     
+       
+            axios.get(AUTH_URL)
             .then(
-                res =>{   
-                    console.log("user data", res)         
+                res =>{                    
                   if(window.location.pathname =='/login')
-                    setPath("/admin/dashboard");           
+                    setPath("/admin/dashboard"); 
+                       
              },
         (error) => {
             // console.log( error.response);        
@@ -54,14 +47,13 @@ const Index = props => {
             }
         }
     )
-    }
     }, [])
 
     return (
         <Provider store={store}>
             <UserContexProvider>
                 <Router history={hist}>
-                {redirectToPath}       
+                {/* {redirectToPath}        */}
                     <ToastProvider>
                         <Switch>
                         {/* {redirectToPath &&  <Redirect to={redirectToPath}/> } */}
@@ -70,12 +62,7 @@ const Index = props => {
                                 </Route>
                             <Route path="/admin" component={User} />
                             <Redirect from="/" to="/login" />
-                            {redirectToPath &&  <Redirect to={redirectToPath}/>}            
-
-                            {/* <Route>
-                {redirectToPath &&  <Redirect to={redirectToPath}/>}            
-                            </Route> */}
-                              {/* <Redirect push to="/somewhere/else" /> */}
+                            {/* {redirectToPath &&  <Redirect to={redirectToPath}/>}                                 */}
                         </Switch>
                     </ToastProvider>
                 </Router>
