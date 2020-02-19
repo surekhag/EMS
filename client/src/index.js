@@ -52,9 +52,7 @@ const Index = props => {
                 <Router history={hist}>              
                     <ToastProvider>
                         <Switch>                        
-                            <Route exact path="/login" component={Login} >
-
-                                </Route>
+                            <Route exact path="/login" component={Login} />                                
                             <Route path="/admin" component={User} />
                             <Redirect from="/" to="/login" />                           
                         </Switch>
