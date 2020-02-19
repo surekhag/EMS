@@ -562,5 +562,4 @@ return (
     </div>
     )
 }
-
 export default Employee; 

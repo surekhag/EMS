@@ -62,7 +62,7 @@ const Index = props => {
                                 </Route>
                             <Route path="/admin" component={User} />
                             <Redirect from="/" to="/login" />
-                            {/* {redirectToPath &&  <Redirect to={redirectToPath}/>}                                 */}
+                           {/* {redirectToPath &&  <Redirect to={redirectToPath}/>} */}
                         </Switch>
                     </ToastProvider>
                 </Router>
