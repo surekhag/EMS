@@ -36,7 +36,7 @@ export default function AdminNavbarLinks() {
     }
     const handleClose = () => {
         dispatch(logOut())
-        window.location.reload()
+        window.location.href="/login";
     }
     return (
         <div>
