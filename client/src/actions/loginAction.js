@@ -1,4 +1,4 @@
-import { LOGIN_TO_SITE, LOGIN_TO_SITE_SUCCESS, USER_ATHENTICATION,LOGIN_TO_SITE_ERROR } from './actionTypes'
+import { LOGIN_TO_SITE, LOGIN_TO_SITE_SUCCESS, USER_ATHENTICATION,LOGIN_TO_SITE_ERROR} from './actionTypes'
 
 export const loginToSite = (username, password) => {
     return {
@@ -28,7 +28,6 @@ export const loginToSiteError = message => {
 }
 
 export const authenticateUserSession = ()=>{
-    console.log("authenticateUserSession");
     return {
           type : USER_ATHENTICATION    
     }
