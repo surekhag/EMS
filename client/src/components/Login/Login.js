@@ -59,7 +59,9 @@ const Login = props => {
 
     useEffect(() => {        
         if(userInfo)
+        {  interceptors()
           setRedirect(true)
+        }
     }, [userInfo]);
 
     useEffect(() => {        

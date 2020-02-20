@@ -262,7 +262,6 @@ const CreatePeerForm = () => {
                                                 format="MM/dd/yyyy"
                                                 name="selectedRFD"
                                                 margin="normal"
-                                                id="date-picker-inline"
                                                 label="Date picker inline"
                                                 value={values.selectedRFD}
                                                 onChange={date =>
@@ -296,7 +295,6 @@ const CreatePeerForm = () => {
                                                 name="selectedRTD"
                                                 format="MM/dd/yyyy"
                                                 margin="normal"
-                                                id="date-picker-inline"
                                                 label="Date picker inline"
                                                 value={values.selectedRTD}
                                                 onChange={date =>
@@ -332,7 +330,6 @@ const CreatePeerForm = () => {
                                                 name="selectedDFD"
                                                 format="MM/dd/yyyy"
                                                 margin="normal"
-                                                id="date-picker-inline"
                                                 label="Date picker inline"
                                                 value={values.selectedDFD}
                                                 onChange={date =>
@@ -366,7 +363,6 @@ const CreatePeerForm = () => {
                                                 name="selectedDTD"
                                                 format="MM/dd/yyyy"
                                                 margin="normal"
-                                                id="date-picker-inline"
                                                 label="Date picker inline"
                                                 value={values.selectedDTD}
                                                 onChange={date =>
