@@ -3,23 +3,23 @@ import { useSelector } from 'react-redux'
 import { withToastManager, useToasts } from 'react-toast-notifications'
 // @material-ui/core components
 import { makeStyles } from '@material-ui/core/styles'
-import { loginToSite } from '../../actions/loginAction'
+import { loginToSite, authenticateUserSession } from '../../actions/loginAction'
 import { connect } from 'react-redux'
 //@material-ui/icons
 // core components
-import checkboxAdnRadioStyle from '../../assets/jss/material-dashboard-react/checkboxAdnRadioStyle.js'
-import GridItem from '../Grid/GridItem.js'
-import GridContainer from '../Grid/GridContainer.js'
-import CustomInput from '../CustomInput/CustomInput.js'
-import Button from '../CustomButtons/Button.js'
-import Card from '../Card/Card.js'
-import CardHeader from '../Card/CardHeader.js'
-import CardBody from '../Card/CardBody.js'
-import CardFooter from '../Card/CardFooter.js'
-import './Login.css'
-import { Redirect } from 'react-router-dom'
-
+import checkboxAdnRadioStyle from '../../assets/jss/material-dashboard-react/checkboxAdnRadioStyle'
+import GridItem from '../Grid/GridItem'
+import GridContainer from '../Grid/GridContainer'
+import CustomInput from '../CustomInput/CustomInput'
+import Button from '../CustomButtons/Button'
+import Card from '../Card/Card';
+import CardHeader from '../Card/CardHeader';
+import CardBody from '../Card/CardBody';
+import CardFooter from '../Card/CardFooter';
+import './Login.css';
+import { Redirect } from 'react-router-dom';
 import interceptors from '../../helpers/interceptors'
+
 
 const styles = {
     ...checkboxAdnRadioStyle,
@@ -49,21 +49,24 @@ const Login = props => {
     const [password, setPassword] = useState('')
     const [redirect, setRedirect] = useState(false)
 
-    let status = useSelector(state => state.loginReducer.loginStatus)
+    let userInfo = useSelector(state => state.loginReducer.currentUser)
+    let error = useSelector(state => state.loginReducer.error)
 
     const handleFormSubmit = e => {
         e.preventDefault()
         props.loginToSite(username, password)
     }
 
-    useEffect(() => {
-        if (status && status.status === 'success') {
-            interceptors()
-            setRedirect(true)
-        } else if (status && status.status === 'error') {
-            addToast(status.message, { appearance: 'error', autoDismiss: true })
-        }
-    }, [status])
+    useEffect(() => {        
+        if(userInfo)
+          setRedirect(true)
+    }, [userInfo]);
+
+    useEffect(() => {        
+        if(error && error == 'Invalid Username/Password!!!')
+        addToast(error, { appearance: 'error', autoDismiss: true })
+      }, [error]);
+
     const classes = useStyles()
 
     return (
