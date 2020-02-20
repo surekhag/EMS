@@ -1,7 +1,5 @@
 import setBrowserInfo from '../reducers/employeeInfo'
 
+const employeeData = setBrowserInfo().employeeData
 
-const employeeData = setBrowserInfo().employeeData;
-
-
-export {employeeData}
+export { employeeData }

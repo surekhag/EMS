@@ -1,30 +1,27 @@
-import React, { useState } from 'react';
+import React from 'react'
 // @material-ui/core components
 import { makeStyles } from '@material-ui/core/styles'
-import InputLabel from '@material-ui/core/InputLabel'
 
-import DateFnsUtils from '@date-io/date-fns';
+import DateFnsUtils from '@date-io/date-fns'
+import { Formik, Form } from 'formik'
 import {
-  MuiPickersUtilsProvider,
-  KeyboardTimePicker,
-  KeyboardDatePicker,
-} from '@material-ui/pickers';
-
+    MuiPickersUtilsProvider,
+    KeyboardDatePicker
+} from '@material-ui/pickers'
 
 // core components
 import checkboxAdnRadioStyle from '../../assets/jss/material-dashboard-react/checkboxAdnRadioStyle.js'
-import GridItem from '../../components/Grid/GridItem.js'
-import GridContainer from '../../components/Grid/GridContainer.js'
+import Grid from '@material-ui/core/Grid'
 import CustomInput from '../../components/CustomInput/CustomInput.js'
 import Button from '../../components/CustomButtons/Button.js'
 import Card from '../../components/Card/Card.js'
 import CardHeader from '../../components/Card/CardHeader.js'
-import MenuItem from '@material-ui/core/MenuItem';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem'
+import FormControl from '@material-ui/core/FormControl'
+import Select from '@material-ui/core/Select'
 import CardBody from '../../components/Card/CardBody.js'
 import CardFooter from '../../components/Card/CardFooter.js'
-import { useSelector } from 'react-redux';
+import { useSelector } from 'react-redux'
 
 const styles = {
     ...checkboxAdnRadioStyle,
@@ -44,180 +41,389 @@ const styles = {
         marginBottom: '3px',
         textDecoration: 'none'
     },
-    marginSet : {
-        marginTop: "27px",
+    container: {
+        marginTop: '27px'
+    },
+    grid: {
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        textAlign: 'center'
+    },
+    formControl: {
+        margin: 11,
+        minWidth: 200
+    },
+    marginTop: {
+        margin: '0px'
     }
 }
 
 const useStyles = makeStyles(styles)
 
-const CreatePeerForm =()=>{
-    const classes = useStyles();
+const CreatePeerForm = () => {
+    const classes = useStyles()
     const employeeData = useSelector(state => state.EmployeeInfo.employeeData)
-    const [selectedEmployee, setselectedEmployee] = useState('');
-    const [selectedDate, setSelectedDate] = React.useState(new Date('2014-08-18T21:11:54'));
-
-  const handleDateChange = date => {
-    setSelectedDate(date);
-  };
-    const changeHandler = e => {
-        setselectedEmployee(e.target.value)
+    const sapmle = (values) => {
+        console.log(values);
     }
-    
-    return(
-        <GridContainer>
-            <GridItem xs={12} sm={12} md={12}>
+    return (
+        <Grid>
+            <Formik
+                initialValues={{
+                    selectedEUR: '',
+                    selectedER: '',
+                    selectedProject: '',
+                    selectedRFD: new Date(),
+                    selectedRTD: new Date(),
+                    selectedDFD: new Date(),
+                    selectedDTD: new Date(),
+                    gFormLink: ''
+                }}
+                onSubmit={(values, { setSubmitting }) => {
+                    sapmle(values)
+                    setSubmitting(false)
+                }}
+            >
+                {({ isSubmitting, values, setFieldValue, handleChange }) => (
                     <Card>
-                        <CardHeader color="primary">
-                            <h4 className={classes.cardTitleWhite}>
-                                CREATE PEER FORM
-                            </h4>
-                        </CardHeader>
-                        <CardBody>
-                            <GridContainer className={classes.marginSet}>
-                                <GridItem xs={12} sm={12} md={5}>
-                                    <CustomInput
-                                        labelText="Object Edge"
-                                        id="company-disabled"
-                                        formControlProps={{
-                                            fullWidth: true
-                                        }}
-                                        inputProps={{
-                                            disabled: true
-                                        }}
-                                    />
-                                </GridItem>
-                            </GridContainer >
-                            <GridContainer className={classes.marginSet}>
-                                <GridItem xs={6} sm={6} md={3}>
-                                    Employee Under Review
-                                </GridItem>
-                                <GridItem xs={6} sm={6} md={3}>
-                                <FormControl >
-                                    <Select
-                                        name="SelectEmployee"
-                                        onChange={changeHandler}
-                                        value={selectedEmployee}
-                                        displayEmpty
+                        <Form>
+                            <CardHeader color="primary">
+                                <h4 className={classes.cardTitleWhite}>
+                                    CREATE PEER FORM
+                                </h4>
+                            </CardHeader>
+                            <CardBody>
+                                <Grid className={classes.container} container>
+                                    <Grid
+                                        xs={6}
+                                        sm={6}
+                                        md={3}
+                                        className={classes.grid}
+                                        item
+                                    >
+                                        Employee Under Review
+                                    </Grid>
+                                    <Grid xs={6} sm={6} md={3} item>
+                                        <FormControl
+                                            className={classes.formControl}
                                         >
-                                        <MenuItem value="" key={-1} disabled>Select Employee</MenuItem>
-                                        {employeeData ? employeeData.data.data.map((prop, key) => {
-                                            return prop.status !== "Inactive" ?
-                                            <MenuItem value={prop.userName} key={key}>{prop.userName}</MenuItem>
-                                            : null
-                                        }):null}
-                                    </Select>
-                                </FormControl>
-                                </GridItem>
-                                <GridItem xs={6} sm={6} md={3}>
-                                    Employee Reviewing
-                                </GridItem>
-                                <GridItem xs={6} sm={6} md={3}>
-                                <FormControl >
-                                    <Select
-                                        name="SelectEmployee"
-                                        onChange={changeHandler}
-                                        value={selectedEmployee}
-                                        displayEmpty
-                                        >
-                                        <MenuItem value="" key={-1} disabled>Select Employee</MenuItem>
-                                        {employeeData ? employeeData.data.data.map((prop, key) => {
-                                            return prop.status !== "Inactive" ?
-                                            <MenuItem value={prop.userName} key={key}>{prop.userName}</MenuItem>
-                                            : null
-                                        }):null}
-                                    </Select>
-                                </FormControl>
-                                </GridItem>
-                            </GridContainer >
-                            <GridContainer className={classes.marginSet}>
-                                <GridItem xs={6} sm={6} md={3}>
-                                        Project
-                                </GridItem>
-                                <GridItem xs={6} sm={6} md={3}>
-                                    <FormControl >
-                                        <Select
-                                            name="SelectEmployee"
-                                            onChange={changeHandler}
-                                            value={selectedEmployee}
-                                            displayEmpty
+                                            <Select
+                                                name="selectedEUR"
+                                                onChange={handleChange}
+                                                value={values.selectedEUR}
+                                                displayEmpty
                                             >
-                                            <MenuItem value="" key={-1} disabled>Select Project</MenuItem>
-                                            {employeeData ? employeeData.data.data.map((prop, key) => {
-                                                return prop.status !== "Inactive" ?
-                                                <MenuItem value={prop.userName} key={key}>{prop.userName}</MenuItem>
-                                                : null
-                                            }):null}
-                                        </Select>
-                                    </FormControl>
-                                </GridItem>
-                            </GridContainer>
-                            <GridContainer className={classes.marginSet}>
-                                <GridItem xs={6} sm={6} md={3}>
-                                        From Date
-                                </GridItem>
-                                <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                                    <GridItem xs={6} sm={6} md={3}>
-                                        <KeyboardDatePicker
-                                            disableToolbar
-                                            variant="inline"
-                                            format="MM/dd/yyyy"
-                                            margin="normal"
-                                            id="date-picker-inline"
-                                            label="Date picker inline"
-                                            value={selectedDate}
-                                            onChange={handleDateChange}
-                                            KeyboardButtonProps={{
-                                                'aria-label': 'change date',
+                                                <MenuItem
+                                                    value=""
+                                                    key={-1}
+                                                    disabled
+                                                >
+                                                    Select Employee
+                                                </MenuItem>
+                                                {employeeData
+                                                    ? employeeData.data.data.map(
+                                                          (prop, key) => {
+                                                              return prop.status !==
+                                                                  'Inactive' ? (
+                                                                  <MenuItem
+                                                                      value={
+                                                                          prop.userName
+                                                                      }
+                                                                      key={key}
+                                                                  >
+                                                                      {
+                                                                          prop.userName
+                                                                      }
+                                                                  </MenuItem>
+                                                              ) : null
+                                                          }
+                                                      )
+                                                    : null}
+                                            </Select>
+                                        </FormControl>
+                                    </Grid>
+                                    <Grid
+                                        xs={6}
+                                        sm={6}
+                                        md={3}
+                                        className={classes.grid}
+                                        item
+                                    >
+                                        Employee Reviewing
+                                    </Grid>
+                                    <Grid xs={6} sm={6} md={3} item>
+                                        <FormControl
+                                            className={classes.formControl}
+                                        >
+                                            <Select
+                                                name="selectedER"
+                                                onChange={handleChange}
+                                                value={values.selectedER}
+                                                displayEmpty
+                                            >
+                                                <MenuItem
+                                                    value=""
+                                                    key={-1}
+                                                    disabled
+                                                >
+                                                    Select Employee
+                                                </MenuItem>
+                                                {employeeData
+                                                    ? employeeData.data.data.map(
+                                                          (prop, key) => {
+                                                              return prop.status !==
+                                                                  'Inactive' ? (
+                                                                  <MenuItem
+                                                                      value={
+                                                                          prop.userName
+                                                                      }
+                                                                      key={key}
+                                                                  >
+                                                                      {
+                                                                          prop.userName
+                                                                      }
+                                                                  </MenuItem>
+                                                              ) : null
+                                                          }
+                                                      )
+                                                    : null}
+                                            </Select>
+                                        </FormControl>
+                                    </Grid>
+                                </Grid>
+                                <Grid className={classes.container} container>
+                                    <Grid
+                                        xs={6}
+                                        sm={6}
+                                        md={3}
+                                        className={classes.grid}
+                                        item
+                                    >
+                                        Project
+                                    </Grid>
+                                    <Grid xs={6} sm={6} md={3} item>
+                                        <FormControl
+                                            className={classes.formControl}
+                                        >
+                                            <Select
+                                                name="selectedProject"
+                                                onChange={handleChange}
+                                                value={values.selectedProject}
+                                                displayEmpty
+                                            >
+                                                <MenuItem
+                                                    value=""
+                                                    key={-1}
+                                                    disabled
+                                                >
+                                                    Select Project
+                                                </MenuItem>
+                                                {employeeData
+                                                    ? employeeData.data.data.map(
+                                                          (prop, key) => {
+                                                              return prop.status !==
+                                                                  'Inactive' ? (
+                                                                  <MenuItem
+                                                                      value={
+                                                                          prop.userName
+                                                                      }
+                                                                      key={key}
+                                                                  >
+                                                                      {
+                                                                          prop.userName
+                                                                      }
+                                                                  </MenuItem>
+                                                              ) : null
+                                                          }
+                                                      )
+                                                    : null}
+                                            </Select>
+                                        </FormControl>
+                                    </Grid>
+                                </Grid>
+                                <Grid className={classes.container} container>
+                                    <Grid
+                                        xs={6}
+                                        sm={6}
+                                        md={3}
+                                        className={classes.grid}
+                                        item
+                                    >
+                                        Review From Date
+                                    </Grid>
+                                    <MuiPickersUtilsProvider
+                                        utils={DateFnsUtils}
+                                    >
+                                        <Grid xs={6} sm={6} md={3}>
+                                            <KeyboardDatePicker
+                                                disableToolbar
+                                                variant="inline"
+                                                format="MM/dd/yyyy"
+                                                name="selectedRFD"
+                                                margin="normal"
+                                                id="date-picker-inline"
+                                                label="Date picker inline"
+                                                value={values.selectedRFD}
+                                                onChange={date =>
+                                                    setFieldValue(
+                                                        'selectedRFD',
+                                                        date
+                                                    )
+                                                }
+                                                KeyboardButtonProps={{
+                                                    'aria-label': 'change date'
+                                                }}
+                                            />
+                                        </Grid>
+                                    </MuiPickersUtilsProvider>
+                                    <Grid
+                                        xs={6}
+                                        sm={6}
+                                        md={3}
+                                        className={classes.grid}
+                                        item
+                                    >
+                                        Review To Date
+                                    </Grid>
+                                    <MuiPickersUtilsProvider
+                                        utils={DateFnsUtils}
+                                    >
+                                        <Grid xs={6} sm={6} md={3}>
+                                            <KeyboardDatePicker
+                                                disableToolbar
+                                                variant="inline"
+                                                name="selectedRTD"
+                                                format="MM/dd/yyyy"
+                                                margin="normal"
+                                                id="date-picker-inline"
+                                                label="Date picker inline"
+                                                value={values.selectedRTD}
+                                                onChange={date =>
+                                                    setFieldValue(
+                                                        'selectedRTD',
+                                                        date
+                                                    )
+                                                }
+                                                KeyboardButtonProps={{
+                                                    'aria-label': 'change date'
+                                                }}
+                                            />
+                                        </Grid>
+                                    </MuiPickersUtilsProvider>
+                                </Grid>
+                                <Grid className={classes.container} container>
+                                    <Grid
+                                        xs={6}
+                                        sm={6}
+                                        md={3}
+                                        className={classes.grid}
+                                        item
+                                    >
+                                        Due From Date
+                                    </Grid>
+                                    <MuiPickersUtilsProvider
+                                        utils={DateFnsUtils}
+                                    >
+                                        <Grid xs={6} sm={6} md={3}>
+                                            <KeyboardDatePicker
+                                                disableToolbar
+                                                variant="inline"
+                                                name="selectedDFD"
+                                                format="MM/dd/yyyy"
+                                                margin="normal"
+                                                id="date-picker-inline"
+                                                label="Date picker inline"
+                                                value={values.selectedDFD}
+                                                onChange={date =>
+                                                    setFieldValue(
+                                                        'selectedDFD',
+                                                        date
+                                                    )
+                                                }
+                                                KeyboardButtonProps={{
+                                                    'aria-label': 'change date'
+                                                }}
+                                            />
+                                        </Grid>
+                                    </MuiPickersUtilsProvider>
+                                    <Grid
+                                        xs={6}
+                                        sm={6}
+                                        md={3}
+                                        className={classes.grid}
+                                        item
+                                    >
+                                        Due To Date
+                                    </Grid>
+                                    <MuiPickersUtilsProvider
+                                        utils={DateFnsUtils}
+                                    >
+                                        <Grid xs={6} sm={6} md={3}>
+                                            <KeyboardDatePicker
+                                                disableToolbar
+                                                variant="inline"
+                                                name="selectedDTD"
+                                                format="MM/dd/yyyy"
+                                                margin="normal"
+                                                id="date-picker-inline"
+                                                label="Date picker inline"
+                                                value={values.selectedDTD}
+                                                onChange={date =>
+                                                    setFieldValue(
+                                                        'selectedDTD',
+                                                        date
+                                                    )
+                                                }
+                                                KeyboardButtonProps={{
+                                                    'aria-label': 'change date'
+                                                }}
+                                            />
+                                        </Grid>
+                                    </MuiPickersUtilsProvider>
+                                </Grid>
+                                <Grid className={classes.container} container>
+                                    <Grid
+                                        xs={6}
+                                        sm={6}
+                                        md={3}
+                                        className={classes.grid}
+                                        item
+                                    >
+                                        Google Form Link
+                                    </Grid>
+                                    <Grid xs={6} sm={6} md={3} item>
+                                        <CustomInput
+                                            labelText="Link"
+                                            id="google_form_link"
+                                            formControlProps={{
+                                                fullWidth: true,
+                                                className: classes.marginTop
                                             }}
-                                        />
-                                    </GridItem>
-                                </MuiPickersUtilsProvider>
-                                <GridItem xs={6} sm={6} md={3}>
-                                        Due Date
-                                </GridItem>
-                                <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                                    <GridItem xs={6} sm={6} md={3}>
-                                        <KeyboardDatePicker
-                                            disableToolbar
-                                            variant="inline"
-                                            format="MM/dd/yyyy"
-                                            margin="normal"
-                                            id="date-picker-inline"
-                                            label="Date picker inline"
-                                            value={selectedDate}
-                                            onChange={handleDateChange}
-                                            KeyboardButtonProps={{
-                                                'aria-label': 'change date',
+                                            inputProps={{
+                                                value: values.gFormLink,
+                                                name: 'gFormLink',
+                                                onChange: handleChange
                                             }}
-                                        />
-                                    </GridItem>
-                                </MuiPickersUtilsProvider>
-                            </GridContainer>
-                            <GridContainer>
-                                <GridItem xs={12} sm={12} md={12}>
-                                    <InputLabel style={{ color: "#AAAAAA" }}>Link</InputLabel>
-                                    <CustomInput
-                                        id="about-me"
-                                        formControlProps={{
-                                            fullWidth: true
-                                        }}
-                                        inputProps={{
-                                            multiline: true,
-                                            rows: 2
-                                        }}
-                                    />
-                                </GridItem>
-                            </GridContainer>
-                        </CardBody>
-                        <CardFooter>
-                            <Button color="primary">CREATE PEER</Button>
-                        </CardFooter>
+                                        ></CustomInput>
+                                    </Grid>
+                                </Grid>
+                            </CardBody>
+                            <CardFooter>
+                                <Button
+                                    type="submit"
+                                    color="primary"
+                                    disabled={isSubmitting}
+                                >
+                                    CREATE PEER
+                                </Button>
+                            </CardFooter>
+                        </Form>
                     </Card>
-                </GridItem>
-        </GridContainer>
+                )}
+            </Formik>
+        </Grid>
     )
-
 }
 
-export default CreatePeerForm;
+export default CreatePeerForm

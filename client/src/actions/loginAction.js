@@ -1,4 +1,8 @@
-import { LOGIN_TO_SITE, LOGIN_TO_SITE_SUCCESS, USER_ATHENTICATION } from './actionTypes'
+import {
+    LOGIN_TO_SITE,
+    LOGIN_TO_SITE_SUCCESS,
+    USER_ATHENTICATION
+} from './actionTypes'
 
 export const loginToSite = (username, password) => {
     return {
@@ -17,8 +21,8 @@ export const loginToSiteSuccess = loginStatus => {
     }
 }
 
-export const userAuthentication = ()=>{
+export const userAuthentication = () => {
     return {
-          type : USER_ATHENTICATION    
+        type: USER_ATHENTICATION
     }
 }

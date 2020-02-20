@@ -9,6 +9,6 @@ export function logInToSiteApi(userName, password) {
     return axios.post(LOGIN_URL, reqBody)
 }
 
-export function verifySession(){
+export function verifySession() {
     return axios.post(LOGIN_URL)
 }
