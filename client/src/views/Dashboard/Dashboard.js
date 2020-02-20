@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { loadAllEmployeeData } from '../../actions/employeeAction.js'
+import {loadAllProjects} from '../../actions/projectAction'
 // react plugin for creating charts
 // @material-ui/core
 import { makeStyles } from '@material-ui/core/styles'
@@ -30,7 +31,8 @@ const Dashboard = props => {
     const employeeData = useSelector(state => state.EmployeeInfo.employeeData)
 
     useEffect(() => {
-        dispatch(loadAllEmployeeData())
+        dispatch(loadAllEmployeeData());
+        dispatch(loadAllProjects());
     }, [dispatch])
 
     let tempArr = []

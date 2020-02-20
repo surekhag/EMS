@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 // @material-ui/core components
 import { makeStyles } from '@material-ui/core/styles'
 
@@ -64,9 +64,13 @@ const useStyles = makeStyles(styles)
 const CreatePeerForm = () => {
     const classes = useStyles()
     const employeeData = useSelector(state => state.EmployeeInfo.employeeData)
+    const projects = useSelector(state=>state.projectReducer.projects)
     const sapmle = (values) => {
         console.log(values);
     }
+    useEffect(()=>{
+        console.log(projects,"proj");
+    },[projects])
     return (
         <Grid>
             <Formik
