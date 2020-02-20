@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux'
 import { withToastManager, useToasts } from 'react-toast-notifications'
 // @material-ui/core components
 import { makeStyles } from '@material-ui/core/styles'
-import { loginToSite } from '../../actions/loginAction'
+import { loginToSite, authenticateUserSession } from '../../actions/loginAction'
 import { connect } from 'react-redux'
 //@material-ui/icons
 // core components
@@ -18,8 +18,9 @@ import CardBody from '../Card/CardBody.js'
 import CardFooter from '../Card/CardFooter.js'
 import './Login.css'
 import { Redirect } from 'react-router-dom'
-
+import {getToken} from '../../helpers/auth';
 import interceptors from '../../helpers/interceptors'
+import { useDispatch } from 'react-redux'
 
 const styles = {
     ...checkboxAdnRadioStyle,
@@ -48,22 +49,32 @@ const Login = props => {
     const [username, setUserName] = useState('')
     const [password, setPassword] = useState('')
     const [redirect, setRedirect] = useState(false)
-
-    let status = useSelector(state => state.loginReducer.loginStatus)
+    const dispatch = useDispatch();
+    
+    let userInfo = useSelector(state => state.loginReducer.currentUser)
+    let error = useSelector(state => state.loginReducer.error)
 
     const handleFormSubmit = e => {
         e.preventDefault()
         props.loginToSite(username, password)
     }
 
-    useEffect(() => {
-        if (status && status.status === 'success') {
-            interceptors()
-            setRedirect(true)
-        } else if (status && status.status === 'error') {
-            addToast(status.message, { appearance: 'error', autoDismiss: true })
+    useEffect(() => {        
+        if(userInfo)
+          setRedirect(true)
+    }, [userInfo]);
+
+    useEffect(() => {        
+        if(error)
+        addToast(error, { appearance: 'error', autoDismiss: true })
+      }, [error]);
+
+    useEffect(() => {        
+        if(getToken()){
+            dispatch(authenticateUserSession());
         }
-    }, [status])
+    }, []);
+
     const classes = useStyles()
 
     return (

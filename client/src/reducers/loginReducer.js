@@ -1,29 +1,22 @@
-import { LOGIN_TO_SITE_SUCCESS } from '../actions/actionTypes.js'
+import { LOGIN_TO_SITE_SUCCESS,LOGIN_TO_SITE_ERROR } from '../actions/actionTypes.js'
 
 const initialState = {
-    loginStatus: {
-        currentUser: null,
-        status: null,
-        message: null
-    }
+    currentUser : null,
+    error : null,   
 }
-const loginReducer = (state = initialState, action) => {
-    switch (action.type) {
-        case LOGIN_TO_SITE_SUCCESS:
-            const userData = action.loginStatus.data
-            let userInfo = null
-            if (userData.status === 'success') {
-                localStorage.setItem('token', userData.data.token)
-                userInfo = userData.data.user
-            } else userInfo = userData.data
 
-            return {
-                loginStatus: {
-                    currentUser: userInfo,
-                    status: userData.status,
-                    message: userData.message
-                },
-                currentUser: userInfo
+const loginReducer = (state = initialState, action) => {    
+    switch (action.type) {
+        case LOGIN_TO_SITE_SUCCESS: 
+            return {               
+                currentUser: action.payload.userInfo.user,
+                error : null               
+            }
+
+        case LOGIN_TO_SITE_ERROR:         
+            return{
+                ...state,
+                error : action.message
             }
         default:
             return state

@@ -1,4 +1,4 @@
-import { LOGIN_TO_SITE, LOGIN_TO_SITE_SUCCESS, USER_ATHENTICATION } from './actionTypes'
+import { LOGIN_TO_SITE, LOGIN_TO_SITE_SUCCESS, USER_ATHENTICATION,LOGIN_TO_SITE_ERROR } from './actionTypes'
 
 export const loginToSite = (username, password) => {
     return {
@@ -10,14 +10,24 @@ export const loginToSite = (username, password) => {
     }
 }
 
-export const loginToSiteSuccess = loginStatus => {
+export const loginToSiteSuccess = loginStatus => {  
     return {
         type: LOGIN_TO_SITE_SUCCESS,
-        loginStatus
+        payload :{
+            userInfo : loginStatus.data.data,
+            message : loginStatus.data.message
+        }        
     }
 }
 
-export const userAuthentication = ()=>{
+export const loginToSiteError = message => {
+    return {
+        type: LOGIN_TO_SITE_ERROR,
+        message
+    }
+}
+
+export const authenticateUserSession = ()=>{
     return {
           type : USER_ATHENTICATION    
     }

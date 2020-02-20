@@ -1,7 +1,8 @@
 import { all, fork } from 'redux-saga/effects'
 import watchLogoutSaga from './watchers/logout.js'
 import watchEmployeeInfoSaga from './watchers/employeeInfo.js'
-import watchLoginSaga from './watchers/login'
+import watchLoginSaga from './watchers/login';  
+import {watchAuthenticateSaga} from './watchers/login';
 import watchPeerReviewSaga from './watchers/peerReview'
 
 export default function* root() {
@@ -9,6 +10,7 @@ export default function* root() {
         fork(watchLogoutSaga),
         fork(watchEmployeeInfoSaga),
         fork(watchLoginSaga),
-        fork(watchPeerReviewSaga)
+        fork(watchPeerReviewSaga),
+        fork(watchAuthenticateSaga),
     ])
 }
