@@ -28,6 +28,7 @@ export const loginToSiteError = message => {
 }
 
 export const authenticateUserSession = ()=>{
+    console.log("authenticateUserSession");
     return {
           type : USER_ATHENTICATION    
     }

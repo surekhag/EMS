@@ -65,12 +65,13 @@ const Login = props => {
     }, [userInfo]);
 
     useEffect(() => {        
-        if(error)
+        if(error && error == 'Invalid Username/Password!!!')
         addToast(error, { appearance: 'error', autoDismiss: true })
       }, [error]);
 
     useEffect(() => {        
         if(getToken()){
+            interceptors();
             dispatch(authenticateUserSession());
         }
     }, []);

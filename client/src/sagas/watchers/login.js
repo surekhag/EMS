@@ -13,8 +13,10 @@ function* workerLoginSaga(userinfo) {
             yield put(loginToSiteError(loginStatus.data.message));
         }
         if(loginStatus.data.status == 'success'){
+            console.log(loginStatus);
             yield put(loginToSiteSuccess(loginStatus));
-            setToken(loginStatus.data.data.token); 
+            // if(loginStatus.data.data && loginStatus.data.data.token)
+                setToken(loginStatus.data.data.token); 
         }        
     } catch (e) {
         yield put(loginToSiteError(e));
@@ -29,10 +31,12 @@ function* workerAuthenticateSaga() {
     try {        
         const userSessionData = yield call(userSessionApi);  
         yield put(loginToSiteSuccess(userSessionData));        
-    } catch (e) {        
+    } catch (e) {     
+        console.log("workerAuthenticateSaga", e);
         if(e.response.data && e.response.data.message){
             yield put(loginToSiteError(e.response.data.message));
-            if(e.response.data.message == 'Invalid Token'){                
+            if(e.response.data.message == 'Invalid Token'){  
+                console.log("remove token")              
                 removeToken();                
             }
         }        
