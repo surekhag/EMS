@@ -22,7 +22,7 @@ module.exports = {
           gender : req.body.gender ,
           dateofbirth : req.body.dateofbirth ,
           dateofjoining : req.body.dateofjoining ,
-          status : req.body.status,
+          status : "Active",
           experience_at_joining : req.body.experience_at_joining ,
           work_location : req.body.work_location ,
           timezone : req.body.timezone ,
@@ -59,7 +59,7 @@ module.exports = {
         ) {
           const { password, ...userWithoutPassword } = userInfo._doc;
           const token = jwt.sign(
-            { id: userInfo._id, role: userInfo.userRole },
+            { id: userInfo._id, userName : userInfo.userName, role: userInfo.userRole },
             config.secret,
             {
               expiresIn: config.tokenExpiry
