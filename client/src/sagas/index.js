@@ -5,6 +5,7 @@ import watchLoginSaga from './watchers/login';
 import {watchAuthenticateSaga} from './watchers/login';
 import watchPeerReviewSaga from './watchers/peerReview'
 import watchLoadAllProjects from './watchers/project'
+import watchCreatePeerReviewSaga from './watchers/createPeerReview'
 
 export default function* root() {
     yield all([
@@ -13,6 +14,7 @@ export default function* root() {
         fork(watchLoginSaga),
         fork(watchPeerReviewSaga),
         fork(watchAuthenticateSaga),
-        fork(watchLoadAllProjects)
+        fork(watchLoadAllProjects),
+        fork(watchCreatePeerReviewSaga)
     ])
 }

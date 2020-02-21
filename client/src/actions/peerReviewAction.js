@@ -1,4 +1,4 @@
-import { LOAD_ALL_PEER_SAGA, SET_ALL_PEER } from './actionTypes'
+import { LOAD_ALL_PEER_SAGA, SET_ALL_PEER , CREATE_PEER_SAGA, SET_PEER_SUCCESS_MESSAGE } from './actionTypes'
 
 export function LoadAllPeerReviews() {
     return {
@@ -12,3 +12,16 @@ export function SetAllPeerReviews(data) {
         payload: { data }
     }
 }
+export function createPeerReview(body) {
+    return {
+        type: CREATE_PEER_SAGA,
+        payload: {body}
+    }
+}
+export function setPeerReviewSuccess (messageStatus) {
+    return {
+        type: SET_PEER_SUCCESS_MESSAGE,
+        payload: { messageStatus }
+    }
+}
+

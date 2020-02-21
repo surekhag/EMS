@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 // @material-ui/core components
 import { makeStyles } from '@material-ui/core/styles'
 
@@ -8,6 +8,7 @@ import {
     MuiPickersUtilsProvider,
     KeyboardDatePicker
 } from '@material-ui/pickers'
+import {createPeerReview} from '../../actions/peerReviewAction'
 
 // core components
 import checkboxAdnRadioStyle from '../../assets/jss/material-dashboard-react/checkboxAdnRadioStyle.js'
@@ -21,7 +22,7 @@ import FormControl from '@material-ui/core/FormControl'
 import Select from '@material-ui/core/Select'
 import CardBody from '../../components/Card/CardBody.js'
 import CardFooter from '../../components/Card/CardFooter.js'
-import { useSelector } from 'react-redux'
+import { useSelector , useDispatch} from 'react-redux'
 
 const styles = {
     ...checkboxAdnRadioStyle,
@@ -65,24 +66,23 @@ const CreatePeerForm = () => {
     const classes = useStyles()
     const employeeData = useSelector(state => state.EmployeeInfo.employeeData)
     const projects = useSelector(state=>state.projectReducer.projects)
+    const dispatch = useDispatch();
     const sapmle = (values) => {
+        dispatch(createPeerReview(values));
         console.log(values);
     }
-    useEffect(()=>{
-        console.log(projects,"proj");
-    },[projects])
     return (
         <Grid>
             <Formik
                 initialValues={{
-                    selectedEUR: '',
-                    selectedER: '',
-                    selectedProject: '',
-                    selectedRFD: new Date(),
-                    selectedRTD: new Date(),
-                    selectedDFD: new Date(),
-                    selectedDTD: new Date(),
-                    gFormLink: ''
+                    employee_under_review: '',
+                    employee_reviewing: '',
+                    project: '',
+                    from_date: new Date(),
+                    to_date: new Date(),
+                    due_from: new Date(),
+                    due_to: new Date(),
+                    review_form_link: ''
                 }}
                 onSubmit={(values, { setSubmitting }) => {
                     sapmle(values)
@@ -113,9 +113,9 @@ const CreatePeerForm = () => {
                                             className={classes.formControl}
                                         >
                                             <Select
-                                                name="selectedEUR"
+                                                name="employee_under_review"
                                                 onChange={handleChange}
-                                                value={values.selectedEUR}
+                                                value={values.employee_under_review}
                                                 displayEmpty
                                             >
                                                 <MenuItem
@@ -161,9 +161,9 @@ const CreatePeerForm = () => {
                                             className={classes.formControl}
                                         >
                                             <Select
-                                                name="selectedER"
+                                                name="employee_reviewing"
                                                 onChange={handleChange}
-                                                value={values.selectedER}
+                                                value={values.employee_reviewing}
                                                 displayEmpty
                                             >
                                                 <MenuItem
@@ -211,9 +211,9 @@ const CreatePeerForm = () => {
                                             className={classes.formControl}
                                         >
                                             <Select
-                                                name="selectedProject"
+                                                name="project"
                                                 onChange={handleChange}
-                                                value={values.selectedProject}
+                                                value={values.project}
                                                 displayEmpty
                                             >
                                                 <MenuItem
@@ -223,22 +223,21 @@ const CreatePeerForm = () => {
                                                 >
                                                     Select Project
                                                 </MenuItem>
-                                                {employeeData
-                                                    ? employeeData.data.data.map(
+                                                {projects
+                                                    ? projects.map(
                                                           (prop, key) => {
-                                                              return prop.status !==
-                                                                  'Inactive' ? (
+                                                              return (
                                                                   <MenuItem
                                                                       value={
-                                                                          prop.userName
+                                                                          prop.title
                                                                       }
                                                                       key={key}
                                                                   >
                                                                       {
-                                                                          prop.userName
+                                                                          prop.title
                                                                       }
                                                                   </MenuItem>
-                                                              ) : null
+                                                              ) 
                                                           }
                                                       )
                                                     : null}
@@ -259,18 +258,18 @@ const CreatePeerForm = () => {
                                     <MuiPickersUtilsProvider
                                         utils={DateFnsUtils}
                                     >
-                                        <Grid xs={6} sm={6} md={3}>
+                                        <Grid xs={6} sm={6} md={3} item>
                                             <KeyboardDatePicker
                                                 disableToolbar
                                                 variant="inline"
                                                 format="MM/dd/yyyy"
-                                                name="selectedRFD"
+                                                name="from_date"
                                                 margin="normal"
                                                 label="Date picker inline"
-                                                value={values.selectedRFD}
+                                                value={values.from_date}
                                                 onChange={date =>
                                                     setFieldValue(
-                                                        'selectedRFD',
+                                                        'from_date',
                                                         date
                                                     )
                                                 }
@@ -292,18 +291,18 @@ const CreatePeerForm = () => {
                                     <MuiPickersUtilsProvider
                                         utils={DateFnsUtils}
                                     >
-                                        <Grid xs={6} sm={6} md={3}>
+                                        <Grid xs={6} sm={6} md={3} item>
                                             <KeyboardDatePicker
                                                 disableToolbar
                                                 variant="inline"
-                                                name="selectedRTD"
+                                                name="to_date"
                                                 format="MM/dd/yyyy"
                                                 margin="normal"
                                                 label="Date picker inline"
-                                                value={values.selectedRTD}
+                                                value={values.to_date}
                                                 onChange={date =>
                                                     setFieldValue(
-                                                        'selectedRTD',
+                                                        'to_date',
                                                         date
                                                     )
                                                 }
@@ -327,18 +326,18 @@ const CreatePeerForm = () => {
                                     <MuiPickersUtilsProvider
                                         utils={DateFnsUtils}
                                     >
-                                        <Grid xs={6} sm={6} md={3}>
+                                        <Grid xs={6} sm={6} md={3} item>
                                             <KeyboardDatePicker
                                                 disableToolbar
                                                 variant="inline"
-                                                name="selectedDFD"
+                                                name="due_from"
                                                 format="MM/dd/yyyy"
                                                 margin="normal"
                                                 label="Date picker inline"
-                                                value={values.selectedDFD}
+                                                value={values.due_from}
                                                 onChange={date =>
                                                     setFieldValue(
-                                                        'selectedDFD',
+                                                        'due_from',
                                                         date
                                                     )
                                                 }
@@ -360,18 +359,18 @@ const CreatePeerForm = () => {
                                     <MuiPickersUtilsProvider
                                         utils={DateFnsUtils}
                                     >
-                                        <Grid xs={6} sm={6} md={3}>
+                                        <Grid xs={6} sm={6} md={3} item>
                                             <KeyboardDatePicker
                                                 disableToolbar
                                                 variant="inline"
-                                                name="selectedDTD"
+                                                name="due_to"
                                                 format="MM/dd/yyyy"
                                                 margin="normal"
                                                 label="Date picker inline"
-                                                value={values.selectedDTD}
+                                                value={values.due_to}
                                                 onChange={date =>
                                                     setFieldValue(
-                                                        'selectedDTD',
+                                                        'due_to',
                                                         date
                                                     )
                                                 }
@@ -395,15 +394,16 @@ const CreatePeerForm = () => {
                                     <Grid xs={6} sm={6} md={3} item>
                                         <CustomInput
                                             labelText="Link"
-                                            id="google_form_link"
+                                            id="review_form_link"
                                             formControlProps={{
                                                 fullWidth: true,
                                                 className: classes.marginTop
                                             }}
                                             inputProps={{
-                                                value: values.gFormLink,
-                                                name: 'gFormLink',
-                                                onChange: handleChange
+                                                value: values.review_form_link,
+                                                name: 'review_form_link',
+                                                onChange: handleChange,
+                                                required : true
                                             }}
                                         ></CustomInput>
                                     </Grid>

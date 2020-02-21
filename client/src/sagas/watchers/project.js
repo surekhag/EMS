@@ -6,7 +6,6 @@ import { setAllProjectsData } from '../../actions/projectAction'
 function* workerLoadAllProjects() {
     try {
         const projects = yield call(loadAllProjects)
-        console.log("worker",projects);
         yield put(setAllProjectsData(projects))
     } catch (e) {
         console.log(e)

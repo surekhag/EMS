@@ -8,7 +8,7 @@ export default function projectReducer(state = initialState, action) {
         case SET_ALL_PROJECTS:
             return {
                 ...state,
-                projects: action.payload.data
+                projects: action.payload.data.data.data
             }
         default:
             return state
