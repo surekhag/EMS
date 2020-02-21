@@ -1,6 +1,8 @@
-import React from 'react'
+import React, { useEffect , useState } from 'react'
 // @material-ui/core components
 import { makeStyles } from '@material-ui/core/styles'
+import { Redirect } from 'react-router-dom';
+import { withToastManager, useToasts } from 'react-toast-notifications'
 
 import DateFnsUtils from '@date-io/date-fns'
 import { Formik, Form } from 'formik'
@@ -64,15 +66,35 @@ const useStyles = makeStyles(styles)
 
 const CreatePeerForm = () => {
     const classes = useStyles()
+    const { addToast } = useToasts()
+    const [isRedirect,setIsRedirect] = useState(false)
     const employeeData = useSelector(state => state.EmployeeInfo.employeeData)
     const projects = useSelector(state=>state.projectReducer.projects)
+    const peerReviewStatusMessage = useSelector(state=>state.peerReviewReducer.peerReviewMessage)
     const dispatch = useDispatch();
+    useEffect(()=>{
+        if(peerReviewStatusMessage){
+            if(peerReviewStatusMessage.status === 200) {
+                addToast("successfully saved", { appearance: 'success', autoDismiss: true })
+                setIsRedirect(true)
+            }
+            else
+            {
+                addToast("Error while saving form", { appearance: 'error', autoDismiss: true })
+           }
+        }
+
+    },[peerReviewStatusMessage,addToast])
     const sapmle = (values) => {
         dispatch(createPeerReview(values));
-        console.log(values);
     }
     return (
         <Grid>
+            {isRedirect ? (
+                <Redirect to="/admin/peerReview" />
+            ) : (
+                false
+            )}
             <Formik
                 initialValues={{
                     employee_under_review: '',
@@ -426,4 +448,4 @@ const CreatePeerForm = () => {
     )
 }
 
-export default CreatePeerForm
+export default withToastManager(CreatePeerForm);

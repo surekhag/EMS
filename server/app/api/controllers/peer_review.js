@@ -11,11 +11,11 @@ module.exports = {
                 due_from :req.body.due_from ,
                 due_to :req.body. due_to ,
                 review_form_link :req.body.review_form_link ,
-                status :req.body.status ,
-                created_date :req.body.created_date ,
-                updated_date :req.body.updated_date ,
-                created_by :req.body.created_by ,
-                last_updated_by :req.body.last_updated_by ,
+                status :"Active" ,
+                created_date :new Date() ,
+                updated_date :new Date(),
+                created_by : "Admin" ,
+                last_updated_by : "Admin" ,
             },
             function(err, result) {
               if (err) next(err);

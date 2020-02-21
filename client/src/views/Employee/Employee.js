@@ -4,7 +4,6 @@ import GridContainer from '../../components/Grid/GridContainer.js'
 import GridItem from '../../components/Grid/GridItem.js'
 import Card from '../../components/Card/Card.js'
 import CardHeader from '../../components/Card/CardHeader.js'
-import CardAvatar from '../../components/Card/CardAvatar.js'
 import CardBody from '../../components/Card/CardBody.js'
 import CardFooter from '../../components/Card/CardFooter.js'
 import Button from '../../components/CustomButtons/Button.js'
@@ -23,7 +22,6 @@ import FormControl from '@material-ui/core/FormControl'
 
 import {
     MuiPickersUtilsProvider,
-    KeyboardTimePicker,
     KeyboardDatePicker
 } from '@material-ui/pickers'
 const styles = {
@@ -69,11 +67,6 @@ const Employee = () => {
         setSelectedDate(date)
     }
     const [selectedDate, setSelectedDate] = React.useState(new Date())
-    const technologies = [
-        { value: 'chocolate', label: 'Chocolate' },
-        { value: 'strawberry', label: 'Strawberry' },
-        { value: 'vanilla', label: 'Vanilla' }
-    ]
 
     let datatoloop = [
         { id: 100, subject: 'math' },
@@ -126,7 +119,7 @@ const Employee = () => {
                         id="add_new_employee"
                         style={{
                             display:
-                                selectedOption == 'add_new_employee'
+                                selectedOption === 'add_new_employee'
                                     ? 'block'
                                     : 'none'
                         }}

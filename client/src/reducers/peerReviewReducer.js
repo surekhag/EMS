@@ -14,7 +14,7 @@ export default function peerReviewReducer(state = initialState, action) {
         case SET_PEER_SUCCESS_MESSAGE:
             return{
                 ...state,
-                peerReviewMessage: action.payload.data
+                peerReviewMessage: action.payload.messageStatus
             }
         default:
             return state

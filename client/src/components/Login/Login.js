@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux'
 import { withToastManager, useToasts } from 'react-toast-notifications'
 // @material-ui/core components
 import { makeStyles } from '@material-ui/core/styles'
-import { loginToSite, authenticateUserSession } from '../../actions/loginAction'
+import { loginToSite } from '../../actions/loginAction'
 import { connect } from 'react-redux'
 //@material-ui/icons
 // core components
@@ -65,9 +65,9 @@ const Login = props => {
     }, [userInfo]);
 
     useEffect(() => {        
-        if(error && error == 'Invalid Username/Password!!!')
+        if(error && error === 'Invalid Username/Password!!!')
         addToast(error, { appearance: 'error', autoDismiss: true })
-      }, [error]);
+      }, [error,addToast]);
 
     const classes = useStyles()
 

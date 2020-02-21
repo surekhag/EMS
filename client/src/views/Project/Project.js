@@ -1,10 +1,9 @@
-import React, { useState } from 'react'
+import React  from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import GridContainer from '../../components/Grid/GridContainer.js'
 import GridItem from '../../components/Grid/GridItem.js'
 import Card from '../../components/Card/Card.js'
 import CardHeader from '../../components/Card/CardHeader.js'
-import CardAvatar from '../../components/Card/CardAvatar.js'
 import CardBody from '../../components/Card/CardBody.js'
 import CardFooter from '../../components/Card/CardFooter.js'
 import Button from '../../components/CustomButtons/Button.js'
@@ -23,7 +22,6 @@ import checkboxAdnRadioStyle from '../../assets/jss/material-dashboard-react/che
 
 import {
     MuiPickersUtilsProvider,
-    KeyboardTimePicker,
     KeyboardDatePicker
 } from '@material-ui/pickers'
 
@@ -49,9 +47,9 @@ const styles = {
 const useStyles = makeStyles(styles)
 const Project = () => {
     const classes = useStyles()
-    const [addNewProject, setAddNewProject] = useState('block')
-    const [editProject, setEditProject] = useState('none')
-    const [deleteProject, setDeleteProject] = useState('none')
+    const addNewProject ='block'
+    const editProject='none'
+    const deleteProject ='none'
     const [selectedDate, setSelectedDate] = React.useState(new Date())
 
     const handleDateChange = date => {
