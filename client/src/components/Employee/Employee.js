@@ -57,12 +57,12 @@ const styles = {
 const useStyles = makeStyles(styles)
 const Employee = () => {
     const classes = useStyles()
-    const [selectedOption, setSelectedOption] = useState('add_new_employee')
+    // const [selectedOption, setSelectedOption] = useState('add_new_employee')
     const [selectedOptionTest, setSelectedOptionTest] = useState()
 
-    const handleOptionChange = event => {
-        setSelectedOption(event.target.value)
-    }
+    // const handleOptionChange = event => {
+    //     setSelectedOption(event.target.value)
+    // }
     const handleDateChange = date => {
         setSelectedDate(date)
     }
@@ -82,7 +82,7 @@ const Employee = () => {
         <div>
             <GridContainer>
                 <GridItem xs={12} sm={12} md={12}>
-                    <RadioGroup
+                    {/* <RadioGroup
                         style={{ display: 'flex', flexDirection: 'row' }}
                         aria-label="Status"
                         name="Status1"
@@ -113,16 +113,16 @@ const Employee = () => {
                             }
                             label="Add New Employee"
                         />
-                    </RadioGroup>
+                    </RadioGroup> */}
 
                     <Card
                         id="add_new_employee"
-                        style={{
-                            display:
-                                selectedOption === 'add_new_employee'
-                                    ? 'block'
-                                    : 'none'
-                        }}
+                        // style={{
+                        //     display:
+                        //         selectedOption === 'add_new_employee'
+                        //             ? 'block'
+                        //             : 'none'
+                        // }}
                     >
                         <CardHeader color="primary">
                             <h4 className={classes.cardTitleWhite}>

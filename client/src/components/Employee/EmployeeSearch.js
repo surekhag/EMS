@@ -19,12 +19,11 @@ import CardHeader from '../../components/Card/CardHeader.js'
 import CardBody from '../../components/Card/CardBody.js'
 
 import styles from '../../assets/jss/material-dashboard-react/views/dashboardStyle'
-import withAuth from '../../HOC/withAuth'
+// import withAuth from '../../HOC/withAuth'
 import { UserContext } from '../../context-provider/user-context'
-import Employee from '../../components/Employee/Employee';
 
 const useStyles = makeStyles(styles)
-const Dashboard = props => {
+const EmployeeSearch = props => {
     const classes = useStyles()
     const [searchText, setsearchText] = useState('')
     const { currentUser } = useContext(UserContext)
@@ -54,12 +53,7 @@ const Dashboard = props => {
         setsearchText(e.target.value)
     }
     return (
-        // <>
-        // <Employee />
-        // </>
-
-
-        <GridContainer>            
+        <GridContainer>
             <GridItem xs={12} sm={12} md={12}>
                 <InputLabel className={classes.cardTitle}>
                     Welcome {currentUser ? currentUser.userName : null}
@@ -104,7 +98,6 @@ const Dashboard = props => {
                 </Card>
             </GridItem>
         </GridContainer>
-    
     )
 }
-export default withAuth(Dashboard)
+export default EmployeeSearch
