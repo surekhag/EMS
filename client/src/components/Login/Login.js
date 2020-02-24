@@ -65,7 +65,7 @@ const Login = props => {
     }, [userInfo]);
 
     useEffect(() => {        
-        if(error && error === 'Invalid Username/Password!!!')
+        if(error)
         addToast(error, { appearance: 'error', autoDismiss: true })
       }, [error,addToast]);
 
