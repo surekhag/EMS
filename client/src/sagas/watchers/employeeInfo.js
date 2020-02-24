@@ -5,14 +5,14 @@ import { setAllEmployeeData } from '../../actions/employeeAction.js'
 import { loadAllEmployeeData } from '../../api/employeeApi.js'
 
 function* workerEmployeeInfoSaga() {
-    try {
-        const employees = yield call(loadAllEmployeeData)
-        yield put(setAllEmployeeData(employees))
-    } catch (e) {
-        // yield put(setError(INVALID_CREDENTIAL));
-    }
+  try {
+    const employees = yield call(loadAllEmployeeData)
+    yield put(setAllEmployeeData(employees))
+  } catch (e) {
+    // yield put(setError(INVALID_CREDENTIAL));
+  }
 }
 
 export default function* watchEmployeeInfoSaga() {
-    yield takeLatest(LOAD_ALL_EMPLOYEE_SAGA, workerEmployeeInfoSaga)
+  yield takeLatest(LOAD_ALL_EMPLOYEE_SAGA, workerEmployeeInfoSaga)
 }

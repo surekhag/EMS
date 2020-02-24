@@ -4,14 +4,14 @@ import { loadAllProjects } from '../../api/projectsApi'
 import { setAllProjectsData } from '../../actions/projectAction'
 
 function* workerLoadAllProjects() {
-    try {
-        const projects = yield call(loadAllProjects)
-        yield put(setAllProjectsData(projects))
-    } catch (e) {
-        console.log(e)
-    }
+  try {
+    const projects = yield call(loadAllProjects)
+    yield put(setAllProjectsData(projects))
+  } catch (e) {
+    console.log(e)
+  }
 }
 
 export default function* watchLoadAllProjects() {
-    yield takeLatest(FETCH_ALL_PROJECTS_SAGA, workerLoadAllProjects)
+  yield takeLatest(FETCH_ALL_PROJECTS_SAGA, workerLoadAllProjects)
 }

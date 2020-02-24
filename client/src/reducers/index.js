@@ -5,8 +5,8 @@ import peerReviewReducer from './peerReviewReducer'
 import projectReducer from './projectReducer'
 
 export default combineReducers({
-    EmployeeInfo,
-    loginReducer,
-    peerReviewReducer,
-    projectReducer
+  EmployeeInfo,
+  loginReducer,
+  peerReviewReducer,
+  projectReducer
 })

@@ -1,74 +1,74 @@
 {
-    "name": "oe-ems-app",
-    "version": "0.1.0",
-    "private": true,
-    "dependencies": {
-        "@date-io/date-fns": "^1.3.13",
-        "@material-ui/core": "^4.8.3",
-        "@material-ui/icons": "^4.5.1",
-        "@material-ui/pickers": "^3.2.8",
-        "@testing-library/jest-dom": "^4.2.4",
-        "@testing-library/react": "^9.4.0",
-        "@testing-library/user-event": "^7.2.1",
-        "axios": "^0.19.2",
-        "classnames": "^2.2.6",
-        "connected-react-router": "^6.6.1",
-        "date-fns": "^2.8.1",
-        "formik": "^2.1.4",
-        "history": "^4.10.1",
-        "perfect-scrollbar": "^1.5.0",
-        "react": "^16.12.0",
-        "react-dom": "^16.12.0",
-        "react-loader-spinner": "^3.1.5",
-        "react-redux": "^7.1.3",
-        "react-router-dom": "^5.1.2",
-        "react-scripts": "3.3.0",
-        "react-select": "^3.0.8",
-        "react-toast-notifications": "^2.4.0",
-        "recompose": "^0.30.0",
-        "redux": "^4.0.5",
-        "redux-devtools-extension": "^2.13.8",
-        "redux-saga": "^1.1.3",
-        "saga": "^4.0.0-alpha"
-    },
-    "scripts": {
-        "start": "react-scripts start",
-        "build": "react-scripts build",
-        "test": "react-scripts test",
-        "eject": "react-scripts eject",
-        "lint": "eslint .",
-        "lint:fix": "eslint --fix .",
-        "format": "prettier --write \"**/*.+(js|jsx|json|css|md)\""
-    },
-    "eslintConfig": {
-        "extends": "react-app"
-    },
-    "browserslist": {
-        "production": [
-            ">0.2%",
-            "not dead",
-            "not op_mini all"
-        ],
-        "development": [
-            "last 1 chrome version",
-            "last 1 firefox version",
-            "last 1 safari version"
-        ]
-    },
-    "description": "EMS for Objectedge",
-    "main": "index.js",
-    "devDependencies": {
-        "eslint": "^6.8.0",
-        "eslint-config-prettier": "^6.10.0",
-        "eslint-config-standard": "^14.1.0",
-        "eslint-plugin-import": "^2.20.1",
-        "eslint-plugin-node": "^11.0.0",
-        "eslint-plugin-prettier": "^3.1.2",
-        "eslint-plugin-promise": "^4.2.1",
-        "eslint-plugin-react": "^7.18.3",
-        "eslint-plugin-standard": "^4.0.1",
-        "prettier": "^1.19.1"
-    },
-    "author": "",
-    "license": "ISC"
+  "name": "oe-ems-app",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@date-io/date-fns": "^1.3.13",
+    "@material-ui/core": "^4.8.3",
+    "@material-ui/icons": "^4.5.1",
+    "@material-ui/pickers": "^3.2.8",
+    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/react": "^9.4.0",
+    "@testing-library/user-event": "^7.2.1",
+    "axios": "^0.19.2",
+    "classnames": "^2.2.6",
+    "connected-react-router": "^6.6.1",
+    "date-fns": "^2.8.1",
+    "formik": "^2.1.4",
+    "history": "^4.10.1",
+    "perfect-scrollbar": "^1.5.0",
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0",
+    "react-loader-spinner": "^3.1.5",
+    "react-redux": "^7.1.3",
+    "react-router-dom": "^5.1.2",
+    "react-scripts": "3.3.0",
+    "react-select": "^3.0.8",
+    "react-toast-notifications": "^2.4.0",
+    "recompose": "^0.30.0",
+    "redux": "^4.0.5",
+    "redux-devtools-extension": "^2.13.8",
+    "redux-saga": "^1.1.3",
+    "saga": "^4.0.0-alpha"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "lint": "eslint .",
+    "lint:fix": "eslint --fix .",
+    "format": "prettier --write \"**/*.+(js|jsx|json|css|md)\""
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "description": "EMS for Objectedge",
+  "main": "index.js",
+  "devDependencies": {
+    "eslint": "^6.8.0",
+    "eslint-config-prettier": "^6.10.0",
+    "eslint-config-standard": "^14.1.0",
+    "eslint-plugin-import": "^2.20.1",
+    "eslint-plugin-node": "^11.0.0",
+    "eslint-plugin-prettier": "^3.1.2",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-react": "^7.18.3",
+    "eslint-plugin-standard": "^4.0.1",
+    "prettier": "^1.19.1"
+  },
+  "author": "",
+  "license": "ISC"
 }
