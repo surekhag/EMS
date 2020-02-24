@@ -17,35 +17,35 @@ import styles from '../../assets/jss/material-dashboard-react/components/headerS
 const useStyles = makeStyles(styles)
 
 export default function Header(props) {
-    const classes = useStyles()
-    const { color } = props
-    const appBarClasses = classNames({
-        [' ' + classes[color]]: color
-    })
-    return (
-        <AppBar className={classes.appBar + appBarClasses}>
-            <Toolbar className={classes.container}>
-                <div className={classes.flex}></div>
-                <Hidden smDown implementation="css">
-                    <AdminNavbarLinks />
-                </Hidden>
-                <Hidden mdUp implementation="css">
-                    <IconButton
-                        color="inherit"
-                        aria-label="open drawer"
-                        onClick={props.handleDrawerToggle}
-                    >
-                        <Menu />
-                    </IconButton>
-                </Hidden>
-            </Toolbar>
-        </AppBar>
-    )
+  const classes = useStyles()
+  const { color } = props
+  const appBarClasses = classNames({
+    [' ' + classes[color]]: color
+  })
+  return (
+    <AppBar className={classes.appBar + appBarClasses}>
+      <Toolbar className={classes.container}>
+        <div className={classes.flex}></div>
+        <Hidden smDown implementation="css">
+          <AdminNavbarLinks />
+        </Hidden>
+        <Hidden mdUp implementation="css">
+          <IconButton
+            color="inherit"
+            aria-label="open drawer"
+            onClick={props.handleDrawerToggle}
+          >
+            <Menu />
+          </IconButton>
+        </Hidden>
+      </Toolbar>
+    </AppBar>
+  )
 }
 
 Header.propTypes = {
-    color: PropTypes.oneOf(['primary', 'info', 'success', 'warning', 'danger']),
-    rtlActive: PropTypes.bool,
-    handleDrawerToggle: PropTypes.func,
-    routes: PropTypes.arrayOf(PropTypes.object)
+  color: PropTypes.oneOf(['primary', 'info', 'success', 'warning', 'danger']),
+  rtlActive: PropTypes.bool,
+  handleDrawerToggle: PropTypes.func,
+  routes: PropTypes.arrayOf(PropTypes.object)
 }

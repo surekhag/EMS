@@ -1,29 +1,28 @@
-import { put, takeLatest, call } from 'redux-saga/effects';
+import { put, takeLatest, call } from 'redux-saga/effects'
 import { LOGIN_TO_SITE, USER_ATHENTICATION } from '../../actions/actionTypes.js'
-import { loginToSiteSuccess,loginToSiteError } from '../../actions/loginAction'
-import { logInToSiteApi, userSessionApi} from '../../api/loginApi'
-import { setToken, removeToken} from '../../helpers/auth';
-function* workerLoginSaga(userinfo) {    
-    const { username, password } = userinfo.payload
-    try {
-        //todo - send object instead separate param
-        const loginStatus = yield call(logInToSiteApi, username, password);  
-        
-        if(loginStatus.data.status === 'error'){
-            yield put(loginToSiteError(loginStatus.data.message));
-        }
-        if(loginStatus.data.status === 'success'){
-            
-            yield put(loginToSiteSuccess(loginStatus));
-                setToken(loginStatus.data.data.token); 
-        }        
-    } catch (e) {
-        yield put(loginToSiteError(e));
+import { loginToSiteSuccess, loginToSiteError } from '../../actions/loginAction'
+import { logInToSiteApi, userSessionApi } from '../../api/loginApi'
+import { setToken, removeToken } from '../../helpers/auth'
+function* workerLoginSaga(userinfo) {
+  const { username, password } = userinfo.payload
+  try {
+    // todo - send object instead separate param
+    const loginStatus = yield call(logInToSiteApi, username, password)
+
+    if (loginStatus.data.status === 'error') {
+      yield put(loginToSiteError(loginStatus.data.message))
     }
+    if (loginStatus.data.status === 'success') {
+      yield put(loginToSiteSuccess(loginStatus))
+      setToken(loginStatus.data.data.token)
+    }
+  } catch (e) {
+    yield put(loginToSiteError(e))
+  }
 }
 
 export default function* watchLoginSaga() {
-    yield takeLatest(LOGIN_TO_SITE, workerLoginSaga)
+  yield takeLatest(LOGIN_TO_SITE, workerLoginSaga)
 }
 
 function* workerAuthenticateSaga() {   
@@ -41,9 +40,8 @@ function* workerAuthenticateSaga() {
             }
         }        
     }
-}
+  }
 
-
-export function* watchAuthenticateSaga(){
-    yield takeLatest(USER_ATHENTICATION, workerAuthenticateSaga);
+export function* watchAuthenticateSaga() {
+  yield takeLatest(USER_ATHENTICATION, workerAuthenticateSaga)
 }

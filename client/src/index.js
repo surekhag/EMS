@@ -9,33 +9,32 @@ import store from '../src/store/index.js'
 import { Router, Route, Switch, Redirect } from 'react-router-dom'
 import interceptors from './helpers/interceptors'
 import User from './layouts/User/User'
-import Login from './components/Login/Login';
+import Login from './components/Login/Login'
 import UserContexProvider from './context-provider/user-context'
 
 const hist = createBrowserHistory()
 
 const Index = props => {
+  useEffect(() => {
+    interceptors()
+    // relogin to site if token is available
+  }, [])
 
-    useEffect(() => {
-        interceptors()
-        //relogin to site if token is available
-    }, [])
-
-    return (
-        <Provider store={store}>
-            <UserContexProvider>
-                <Router history={hist}>
-                    <ToastProvider>
-                        <Switch>
-                            <Route exact path="/login" component={Login} />
-                            <Route path="/admin" component={User} />
-                            <Redirect from="/" to="/login" />
-                        </Switch>
-                    </ToastProvider>
-                </Router>
-            </UserContexProvider>
-        </Provider>
-    )
+  return (
+    <Provider store={store}>
+      <UserContexProvider>
+        <Router history={hist}>
+          <ToastProvider>
+            <Switch>
+              <Route exact path="/login" component={Login} />
+              <Route path="/admin" component={User} />
+              <Redirect from="/" to="/login" />
+            </Switch>
+          </ToastProvider>
+        </Router>
+      </UserContexProvider>
+    </Provider>
+  )
 }
 ReactDOM.render(<Index />, document.getElementById('root'))
 

@@ -1,16 +1,16 @@
 import { SET_ALL_PROJECTS } from '../actions/actionTypes.js'
 
 const initialState = {
-    projects: null
+  projects: null
 }
 export default function projectReducer(state = initialState, action) {
-    switch (action.type) {
-        case SET_ALL_PROJECTS:
-            return {
-                ...state,
-                projects: action.payload.data.data.data
-            }
-        default:
-            return state
-    }
+  switch (action.type) {
+    case SET_ALL_PROJECTS:
+      return {
+        ...state,
+        projects: action.payload.data.data.data
+      }
+    default:
+      return state
+  }
 }

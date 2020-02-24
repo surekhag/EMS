@@ -3,9 +3,9 @@ import { LOGOUT_FROM_SITE } from '../../actions/actionTypes.js'
 import { removeToken } from '../../helpers/clearStorage.js'
 
 function* workerLogoutSaga() {
-    yield call(removeToken)
+  yield call(removeToken)
 }
 
 export default function* watchLogoutSaga() {
-    yield takeLatest(LOGOUT_FROM_SITE, workerLogoutSaga)
+  yield takeLatest(LOGOUT_FROM_SITE, workerLogoutSaga)
 }

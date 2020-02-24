@@ -4,14 +4,14 @@ import { loadAllPeerReviews } from '../../api/peerReviewApi'
 import { SetAllPeerReviews } from '../../actions/peerReviewAction'
 
 function* workerLoadAllPeerReviewSaga() {
-    try {
-        const peerReviews = yield call(loadAllPeerReviews)
-        yield put(SetAllPeerReviews(peerReviews))
-    } catch (e) {
-        console.log(e)
-    }
+  try {
+    const peerReviews = yield call(loadAllPeerReviews)
+    yield put(SetAllPeerReviews(peerReviews))
+  } catch (e) {
+    console.log(e)
+  }
 }
 
 export default function* watchPeerReviewSaga() {
-    yield takeLatest(LOAD_ALL_PEER_SAGA, workerLoadAllPeerReviewSaga)
+  yield takeLatest(LOAD_ALL_PEER_SAGA, workerLoadAllPeerReviewSaga)
 }
