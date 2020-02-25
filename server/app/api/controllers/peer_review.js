@@ -65,5 +65,23 @@ module.exports = {
             }
           });
         },
+        delete: function(req, res, next) {
+          Peer_Review_Model.findOneAndUpdate({ _id: req.params.id }, 
+            {
+               status : "Inactive"
+            },      
+            function(err, userInfo) {      
+            if (err) {
+              console.log("in err");
+              next(err);
+            }      
+            else {
+                    res.json({
+                      status: "success",
+                      message: "Project deleted successfully!!!",                
+                    });
+                  }
+              });
+        }
 
 };
