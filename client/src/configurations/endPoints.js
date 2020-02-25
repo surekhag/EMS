@@ -5,11 +5,14 @@ const USER_AUTHENTICATION_URL = 'http://localhost:3001/authorization'
 const FETCH_ALL_PROJECTS = 'http://localhost:3001/projects'
 const FETCH_PEER_REVIEW = 'http://localhost:3001/peersReview/'
 const CREATE_PEER_REVIEW = 'http://localhost:3001/peersReview/add'
+const ADD_NEW_USER_URL = 'http://localhost:3001/users/add'
+
 export {
   FETCH_EMPLOYEE_URL,
   LOGIN_URL,
   FETCH_PEER_REVIEW,
   FETCH_ALL_PROJECTS,
   USER_AUTHENTICATION_URL,
-  CREATE_PEER_REVIEW
+  CREATE_PEER_REVIEW,
+  ADD_NEW_USER_URL
 }

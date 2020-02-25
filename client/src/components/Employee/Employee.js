@@ -12,12 +12,15 @@ import Select from '@material-ui/core/Select'
 import 'date-fns'
 import DateFnsUtils from '@date-io/date-fns'
 import InputLabel from '@material-ui/core/InputLabel'
+import { withToastManager, useToasts } from 'react-toast-notifications'
 import Grid from '@material-ui/core/Grid'
 import checkboxAdnRadioStyle from '../../assets/jss/material-dashboard-react/checkboxAdnRadioStyle.js'
 import MenuItem from '@material-ui/core/MenuItem'
 import FormControl from '@material-ui/core/FormControl'
 import { Formik, Form, ErrorMessage } from 'formik';
-import { useSelector , useDispatch} from 'react-redux'
+import { useSelector , useDispatch} from 'react-redux';
+import { addNewUser } from '../../actions/userActions'
+import withAuth from '../../HOC/withAuth'
 import * as Yup from 'yup';
 
 import {
@@ -48,24 +51,46 @@ const styles = {
     },
     formControl: {
         margin: 11,
-        minWidth: 120
+        minWidth: 120,
+        wrap: 'nowrap',
+        fullWidth :'true',
+        display:'flex',
+
     },
     selectEmpty: {
         marginTop: 10
     },
     error :{
         color: 'red'
-    }
+    },   
 }
+
 const useStyles = makeStyles(styles)
 const Employee = () => {
-    const classes = useStyles()
-   
+    const classes = useStyles();
+    const { addToast } = useToasts()
+    const dispatch = useDispatch();
 
-    let employeeData = useSelector(state => state.EmployeeInfo.employeeData)
+    let employeeData = useSelector(state => state.EmployeeInfo.employeeData);
+    let error = useSelector(state => state.userReducer.error);
+    let addNewUserStatus = useSelector(state => state.userReducer.addNewUserStatus);
+
+  
+
+    // useEffect(()=>{
+    //     console.log(employeeData);
+    // },[employeeData]);
+
     useEffect(()=>{
-        console.log(employeeData);
-    },[employeeData]);
+        if(addNewUserStatus){
+            addToast(addNewUserStatus, { appearance: 'success', autoDismiss: true })
+        }
+    }, [addNewUserStatus]);
+
+    useEffect(() => {        
+        if(error)
+        addToast(error, { appearance: 'error', autoDismiss: true })
+      }, [error,addToast]);
 
     //todo add constant array in different file
     const gender =['Male', 'Female'];
@@ -104,65 +129,62 @@ const Employee = () => {
     ]
 
     const submitFormValues = (values) => {
-        console.log("in submit", employeeData);
-        // dispatch(createPeerReview(values));
+        dispatch(addNewUser(values));
     }
 
     const userDataValidation = Yup.object().shape({
             employee_id : Yup.string()
-            .required('Required'),
-            employee_id : Yup.string()
-           .required('Required'),
-            email : Yup.string()
-           .required('Required'),
+            .required('Employee Id is required'),
+             email : Yup.string()
+           .required('Email is required'),
             userName : Yup.string()
-           .required('Required'),
+           .required('UserName is required'),
             password : Yup.string()
-           .required('Required'),
+           .required('Password is required'),
             firstname  : Yup.string()
-           .required('Required'),
+           .required('Firstname is required'),
             lastname : Yup.string()
-           .required('Required'),
+           .required('Lastname is required'),
             middlename : Yup.string()
-           .required('Required'),
+           .required('Middlename is required'),
             address1 : Yup.string()
-           .required('Required'),            
+           .required('Address1 is required'),            
             city : Yup.string()
-           .required('Required'),
+           .required('City is required'),
             zip : Yup.string()
-           .required('Required'),
+           .required('Zip is required'),
             state : Yup.string()
-           .required('Required'),
+           .required('State is required'),
             country : Yup.string()
-           .required('Required'),
+           .required('Country is required'),
             gender: Yup.string()
-           .required('Required'),
+           .required('Gender is required'),
             dateofbirth : Yup.string()
-           .required('Required'),
+           .required('Date Of Birth is required'),
             dateofjoining : Yup.string()
-           .required('Required'),
+           .required('Date Of Joining is required'),
             status: Yup.string()
-           .required('Required'),
+           .required('Status is required'),
             experience_at_joining : Yup.string()
-           .required('Required'),
+           .required('Experience At Joining is required'),
             work_location : Yup.string()
-            .required('Required'),
+            .required('Work Location is required'),
             timezone : Yup.string()
-           .required('Required'),
+           .required('Timezone is required'),
             shift_timing : Yup.string()
-           .required('Required'),
+           .required('Shift Timing is required'),
             designation : Yup.string()
-           .required('Required'),
+           .required('Designation is required'),
             employment_status : Yup.string()
-           .required('Required'),
+           .required('Employment Status is required'),
             userRole  : Yup.string()
-           .required('Required'),
+           .required('User Role is required'),
             reporting_manager : Yup.string()
-           .required('Required'),
+           .required('Reporting Manager is required'),
             functional_manager  : Yup.string()
-           .required('Required'),
+           .required('Functional Manager is required'),
             skills : Yup.string()
-           .required('Required'),
+           .required('Skills are required'),
             
     });
 
@@ -232,7 +254,6 @@ const Employee = () => {
                         value: values.employee_id,
                         name: 'employee_id',
                         onChange: handleChange,
-                        //required : true
                     }}
                  />
                    <div className = {classes.error}>               
@@ -249,7 +270,6 @@ const Employee = () => {
                         value: values.email,
                         name :  'email',
                         onChange: handleChange,
-                        //required : true
                     }}
                  />
                     <div className = {classes.error}>
@@ -266,7 +286,6 @@ const Employee = () => {
                         value: values.userName,
                         name: 'userName',
                         onChange: handleChange,
-                        //required : true
                     }}
                  />
                    <div className = {classes.error}>
@@ -283,7 +302,6 @@ const Employee = () => {
                         value: values.password,
                         name: 'password',
                         onChange: handleChange,
-                        //required : true
                     }}
                  />
                    <div className = {classes.error}>
@@ -300,7 +318,6 @@ const Employee = () => {
                         value: values.firstname,
                         name: 'firstname',
                         onChange: handleChange,
-                        //required : true
                     }}
                  />
                <div className = {classes.error}>
@@ -317,7 +334,6 @@ const Employee = () => {
                         value: values.middlename,
                         name: 'middlename',
                         onChange: handleChange,
-                        //required : true
                     }}
                  />
                    <div className = {classes.error}>
@@ -334,7 +350,6 @@ const Employee = () => {
                         value: values.lastname,
                         name: 'lastname',
                         onChange: handleChange,
-                        //required : true
                     }}
                  />
                    <div className = {classes.error}>
@@ -351,7 +366,6 @@ const Employee = () => {
                         value: values.address1,
                         name: 'address1',
                         onChange: handleChange,
-                        //required : true
                     }}
                  />
                    <div className = {classes.error}>
@@ -479,45 +493,13 @@ const Employee = () => {
                         value: values.zip,
                         name: 'zip',
                         onChange: handleChange,
-                        //required : true
                     }}
                  />
                    <div className = {classes.error}>
                  <ErrorMessage name='zip'/> 
                  </div>
              </GridItem>
-             <GridItem xs={12} sm={12} md={6}>
-                 <FormControl
-                     className={classes.formControl}
-                 >
-                     <InputLabel htmlFor="gender">
-                         {' '}
-                         Gender
-                     </InputLabel>
-                     <Select
-                         value={values.gender}
-                         onChange={handleChange}
-                         inputProps={{
-                             name: 'gender',
-                             id: 'gender'
-                         }}
-                     >
-                         <MenuItem value="">
-                             <em>None</em>
-                         </MenuItem>
-                         {gender.map(item => {
-                             return (
-                                 <MenuItem value={item}>                                     
-                                     {item}
-                                 </MenuItem>
-                             )
-                         })}
-                     </Select>
-                 </FormControl>
-                   <div className = {classes.error}>
-                 <ErrorMessage name='gender'/> 
-                 </div>
-             </GridItem>
+           
              <GridItem xs={12} sm={12} md={6}>
                  <MuiPickersUtilsProvider
                      utils={DateFnsUtils}
@@ -581,7 +563,38 @@ const Employee = () => {
                  <ErrorMessage name='dateofjoining'/> 
                  </div>
              </GridItem>
-
+             <GridItem xs={12} sm={12} md={6}>
+                 <FormControl
+                     className={classes.formControl}
+                 >
+                     <InputLabel htmlFor="gender">
+                         {' '}
+                         Gender
+                     </InputLabel>
+                     <Select
+                         value={values.gender}
+                         onChange={handleChange}
+                         inputProps={{
+                             name: 'gender',
+                             id: 'gender'
+                         }}
+                     >
+                         <MenuItem value="">
+                             <em>None</em>
+                         </MenuItem>
+                         {gender.map(item => {
+                             return (
+                                 <MenuItem value={item}>                                     
+                                     {item}
+                                 </MenuItem>
+                             )
+                         })}
+                     </Select>
+                 </FormControl>
+                   <div className = {classes.error}>
+                 <ErrorMessage name='gender'/> 
+                 </div>
+             </GridItem>
              <GridItem xs={12} sm={12} md={6}>
                  <FormControl
                      className={classes.formControl}
@@ -614,24 +627,7 @@ const Employee = () => {
                  <ErrorMessage name='status'/> 
                  </div>
              </GridItem>
-             <GridItem xs={12} sm={12} md={6}>
-                 <CustomInput
-                     labelText="Experience At Joining"
-                     name="experience_at_joining"
-                     formControlProps={{
-                         fullWidth: true
-                     }}
-                     inputProps={{
-                        value: values.experience_at_joining,
-                        name: 'experience_at_joining',
-                        onChange: handleChange,
-                        //required : true
-                    }}
-                 />
-                <div className = {classes.error}>
-                 <ErrorMessage name='experience_at_joining'/> 
-                 </div>
-             </GridItem>
+            
              <GridItem xs={12} sm={12} md={6}>                                    
                  <FormControl
                      className={classes.formControl}
@@ -889,6 +885,23 @@ const Employee = () => {
              </GridItem>
              <GridItem xs={12} sm={12} md={6}>
                  <CustomInput
+                     labelText="Experience At Joining"
+                     name="experience_at_joining"
+                     formControlProps={{
+                         fullWidth: true
+                     }}
+                     inputProps={{
+                        value: values.experience_at_joining,
+                        name: 'experience_at_joining',
+                        onChange: handleChange,
+                    }}
+                 />
+                <div className = {classes.error}>
+                 <ErrorMessage name='experience_at_joining'/> 
+                 </div>
+             </GridItem>
+             <GridItem xs={12} sm={12} md={6}>
+                 <CustomInput
                      labelText="Skills"
                      formControlProps={{
                          fullWidth: true
@@ -897,7 +910,6 @@ const Employee = () => {
                         value: values.skills,
                         name: 'skills',
                         onChange: handleChange,
-                        //required : true
                     }}
                  />
                     <div className={classes.error}>
@@ -948,4 +960,4 @@ const Employee = () => {
        
     )
 }
-export default Employee
+export default withAuth(withToastManager(Employee));
