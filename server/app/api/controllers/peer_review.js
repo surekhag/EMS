@@ -70,7 +70,7 @@ module.exports = {
             {
                status : "Inactive"
             },      
-            function(err, userInfo) {      
+            function(err, info) {      
             if (err) {
               console.log("in err");
               next(err);
@@ -78,7 +78,7 @@ module.exports = {
             else {
                     res.json({
                       status: "success",
-                      message: "Project deleted successfully!!!",                
+                      message: "Peer Review deleted successfully!!!",                
                     });
                   }
               });
