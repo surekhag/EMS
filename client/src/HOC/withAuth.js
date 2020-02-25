@@ -10,9 +10,9 @@ import Loader from 'react-loader-spinner'
 const withAuth = WrappedComponent => props => {
   const { currentUser } = useContext(UserContext)
   const dispatch = useDispatch()
-  //check if user is logged in
+  // check if user is logged in
   // if user is not logged in, redirect to login page
-  let isLoading = useSelector(state => state.loginReducer.isLoading)
+  const isLoading = useSelector(state => state.loginReducer.isLoading)
 
   useEffect(() => {
     interceptors()

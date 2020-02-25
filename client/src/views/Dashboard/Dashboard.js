@@ -35,7 +35,7 @@ const Dashboard = props => {
     dispatch(loadAllProjects())
   }, [dispatch])
 
-  let tempArr = []
+  const tempArr = []
   if (employeeData) {
     const filteredEmployee = employeeData.data.data.filter(
       cls =>

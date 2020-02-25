@@ -48,7 +48,7 @@ const Login = props => {
   const [password, setPassword] = useState('')
   const [redirect, setRedirect] = useState(false)
 
-  let userInfo = useSelector(state => state.loginReducer.currentUser)
+  const userInfo = useSelector(state => state.loginReducer.currentUser)
   const error = useSelector(state => state.loginReducer.error)
 
   const handleFormSubmit = e => {
@@ -64,8 +64,9 @@ const Login = props => {
   }, [userInfo])
 
   useEffect(() => {
-    if (error && error === 'Invalid Username/Password!!!')
+    if (error && error === 'Invalid Username/Password!!!') {
       addToast(error, { appearance: 'error', autoDismiss: true })
+    }
   }, [error, addToast])
 
   const classes = useStyles()

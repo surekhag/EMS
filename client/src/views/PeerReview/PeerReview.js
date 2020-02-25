@@ -75,9 +75,9 @@ const PeerReview = props => {
     dispatch(LoadAllPeerReviews())
   }, [dispatch])
 
-  let tempArr = []
+  const tempArr = []
   if (peerReviewData) {
-    let filteredEmployee = peerReviewData.data.data.filter(
+    const filteredEmployee = peerReviewData.data.data.filter(
       cls =>
         cls.employee_under_review
           .toLowerCase()

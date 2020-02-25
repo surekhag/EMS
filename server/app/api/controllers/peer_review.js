@@ -14,8 +14,8 @@ module.exports = {
                 status :"Active" ,
                 created_date :new Date() ,
                 updated_date :new Date(),
-                created_by : "Admin" ,
-                last_updated_by : "Admin" ,
+                created_by : req.user.userName ,
+                last_updated_by : req.user.userName ,
             },
             function(err, result) {
               if (err) next(err);
