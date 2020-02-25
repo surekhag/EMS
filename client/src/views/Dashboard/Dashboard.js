@@ -21,6 +21,7 @@ import CardBody from '../../components/Card/CardBody.js'
 import styles from '../../assets/jss/material-dashboard-react/views/dashboardStyle'
 import withAuth from '../../HOC/withAuth'
 import { UserContext } from '../../context-provider/user-context'
+import Employee from '../../components/Employee/Employee';
 
 const useStyles = makeStyles(styles)
 const Dashboard = props => {

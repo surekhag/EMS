@@ -25,19 +25,22 @@ export default function* watchLoginSaga() {
   yield takeLatest(LOGIN_TO_SITE, workerLoginSaga)
 }
 
-function* workerAuthenticateSaga() {
-  try {
-    const userSessionData = yield call(userSessionApi)
-    yield put(loginToSiteSuccess(userSessionData))
-  } catch (e) {
-    if (e.response.data && e.response.data.message) {
-      yield put(loginToSiteError(e.response.data.message))
-      if (e.response.data.message === 'Invalid Token') {
-        removeToken()
-      }
+function* workerAuthenticateSaga() {   
+    try {        
+        const userSessionData = yield call(userSessionApi);
+        yield put(loginToSiteSuccess(userSessionData));        
+    } catch (e) { 
+        if(e.response.data && e.response.data.message){           
+            if(e.response.data.message === 'Invalid Token'){
+                removeToken();                
+                window.location.href= '/login'
+            }
+            else{
+                yield put(loginToSiteError(e.response.data.message));
+            }
+        }        
     }
   }
-}
 
 export function* watchAuthenticateSaga() {
   yield takeLatest(USER_ATHENTICATION, workerAuthenticateSaga)

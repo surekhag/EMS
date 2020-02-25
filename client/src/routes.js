@@ -5,7 +5,7 @@ import UserProfile from './views/UserProfile/UserProfile.js'
 import GroupIcon from '@material-ui/icons/Group'
 import AssignmentIcon from '@material-ui/icons/Assignment'
 import Projects from './views/Project/Project'
-import Employee from './views/Employee/Employee'
+import Employee from './components/Employee/Employee';
 import PeerReview from './views/PeerReview/PeerReview'
 import CreatePeer from './components/CreatePeerForm/CreatePeerForm'
 

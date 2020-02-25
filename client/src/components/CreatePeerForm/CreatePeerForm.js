@@ -142,7 +142,7 @@ const CreatePeerForm = () => {
         })
       }
     }
-  }, [peerReviewStatusMessage, addToast])
+  }, [peerReviewStatusMessage, addToast, dispatch])
   return (
     <Grid>
       {isRedirect ? <Redirect to="/admin/peerReview" /> : false}
