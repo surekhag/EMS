@@ -131,12 +131,14 @@ const Employee = () => {
     const submitFormValues = (values) => {
         dispatch(addNewUser(values));
     }
-
+      
     const userDataValidation = Yup.object().shape({
-            employee_id : Yup.string()
-            .required('Employee Id is required'),
+            employee_id : Yup
+            .number()            
+            .required('Employee Id is required'),           
              email : Yup.string()
-           .required('Email is required'),
+           .required('Email is required')
+           .email(),
             userName : Yup.string()
            .required('UserName is required'),
             password : Yup.string()
