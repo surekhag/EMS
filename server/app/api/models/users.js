@@ -108,7 +108,7 @@ const UserSchema = new Schema({
     required: true
   },
   shift_timing : {
-    type: Date,
+    type: String,
     trim: true,
     required: false
   },

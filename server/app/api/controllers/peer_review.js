@@ -11,11 +11,11 @@ module.exports = {
                 due_from :req.body.due_from ,
                 due_to :req.body. due_to ,
                 review_form_link :req.body.review_form_link ,
-                status :"Active" ,
+                status : "Active" ,
                 created_date :new Date() ,
                 updated_date :new Date(),
-                created_by : "Admin" ,
-                last_updated_by : "Admin" ,
+                created_by : req.user.userName ,
+                last_updated_by : req.user.userName ,
             },
             function(err, result) {
               if (err) next(err);
@@ -27,6 +27,31 @@ module.exports = {
             }
           );
         },
+
+        update: function(req, res, next) {          
+          delete req.body.created_date;
+          delete req.body.created_by;
+          Peer_Review_Model.findOneAndUpdate({ _id: req.params.id }, 
+            {
+                $set: req.body,
+                updated_date : new Date(),
+                last_updated_by : req.user.userName,
+            },      
+            function(err, peerInfo) {              
+            if (err) {
+              console.log("in err");
+              next(err);
+            }      
+            else {
+                    res.json({
+                      status: "success",
+                      message: "Project updated successfully!!!",                
+                    });
+                  }
+              });
+        },
+
+
         getAll: function(req, res, next) {
           Peer_Review_Model.find({}, function(err, users) {
             if (err) {
