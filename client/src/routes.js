@@ -5,9 +5,10 @@ import UserProfile from './views/UserProfile/UserProfile.js'
 import GroupIcon from '@material-ui/icons/Group'
 import AssignmentIcon from '@material-ui/icons/Assignment'
 import Projects from './views/Project/Project'
-import Employee from './components/Employee/Employee';
+import Employee from './components/Employee/Employee'
 import PeerReview from './views/PeerReview/PeerReview'
 import CreatePeer from './components/CreatePeerForm/CreatePeerForm'
+import PeerReviewDetails from './components/PeerReviewDetails/PeerReviewDetails'
 
 const dashboardRoutes = [
   {
@@ -16,7 +17,8 @@ const dashboardRoutes = [
     rtlName: 'لوحة القيادة',
     icon: Dashboard,
     component: DashboardPage,
-    layout: '/admin'
+    layout: '/admin',
+    showLink: true
   },
   {
     path: '/user',
@@ -24,7 +26,8 @@ const dashboardRoutes = [
     rtlName: 'ملف تعريفي للمستخدم',
     icon: Person,
     component: UserProfile,
-    layout: '/admin'
+    layout: '/admin',
+    showLink: true
   },
   {
     path: '/employee',
@@ -32,7 +35,8 @@ const dashboardRoutes = [
     rtlName: 'ملف تعريفي للمستخدم',
     icon: GroupIcon,
     component: Employee,
-    layout: '/admin'
+    layout: '/admin',
+    showLink: true
   },
   {
     path: '/projects',
@@ -40,7 +44,8 @@ const dashboardRoutes = [
     rtlName: 'قائمة الجدول',
     icon: AssignmentIcon,
     component: Projects,
-    layout: '/admin'
+    layout: '/admin',
+    showLink: true
   },
   {
     path: '/peerReview',
@@ -48,7 +53,8 @@ const dashboardRoutes = [
     rtlName: 'ملف تعريفي للمستخدم',
     icon: GroupIcon,
     component: PeerReview,
-    layout: '/admin'
+    layout: '/admin',
+    showLink: true
   },
   {
     path: '/createPeer',
@@ -56,7 +62,17 @@ const dashboardRoutes = [
     rtlName: 'ملف تعريفي للمستخدم',
     icon: GroupIcon,
     component: CreatePeer,
-    layout: '/admin'
+    layout: '/admin',
+    showLink: false
+  },
+  {
+    path: '/getDetails',
+    name: 'Peer Review Details',
+    rtlName: 'ملف تعريفي للمستخدم',
+    icon: GroupIcon,
+    component: PeerReviewDetails,
+    layout: '/admin',
+    showLink: false
   }
 ]
 

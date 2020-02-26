@@ -205,9 +205,11 @@ const CreatePeerForm = () => {
                           : null}
                       </Select>
                     </FormControl>
-                    <div className={classes.colorRed}>
-                      <ErrorMessage name="employee_under_review" />
-                    </div>
+                    <ErrorMessage
+                      className={classes.colorRed}
+                      name="employee_under_review"
+                      component="div"
+                    />
                   </Grid>
                   <Grid xs={6} sm={6} md={3} className={classes.grid} item>
                     Employee Reviewing
@@ -243,9 +245,11 @@ const CreatePeerForm = () => {
                           : null}
                       </Select>
                     </FormControl>
-                    <div className={classes.colorRed}>
-                      <ErrorMessage name="employee_reviewing" />
-                    </div>
+                    <ErrorMessage
+                      className={classes.colorRed}
+                      name="employee_reviewing"
+                      component="div"
+                    />
                   </Grid>
                 </Grid>
                 <Grid className={classes.container} container>
@@ -283,9 +287,11 @@ const CreatePeerForm = () => {
                           : null}
                       </Select>
                     </FormControl>
-                    <div className={classes.colorRed}>
-                      <ErrorMessage name="project" />
-                    </div>
+                    <ErrorMessage
+                      className={classes.colorRed}
+                      name="project"
+                      component="div"
+                    />
                   </Grid>
                 </Grid>
                 <Grid className={classes.container} container>
@@ -307,9 +313,11 @@ const CreatePeerForm = () => {
                           'aria-label': 'change date'
                         }}
                       />
-                      <div className={classes.colorRed}>
-                        <ErrorMessage name="from_date" />
-                      </div>
+                      <ErrorMessage
+                        className={classes.colorRed}
+                        name="from_date"
+                        component="div"
+                      />
                     </Grid>
                   </MuiPickersUtilsProvider>
                   <Grid xs={6} sm={6} md={3} className={classes.grid} item>
@@ -330,9 +338,11 @@ const CreatePeerForm = () => {
                           'aria-label': 'change date'
                         }}
                       />
-                      <div className={classes.colorRed}>
-                        <ErrorMessage name="to_date" />
-                      </div>
+                      <ErrorMessage
+                        className={classes.colorRed}
+                        name="to_date"
+                        component="div"
+                      />
                     </Grid>
                   </MuiPickersUtilsProvider>
                 </Grid>
@@ -355,9 +365,11 @@ const CreatePeerForm = () => {
                           'aria-label': 'change date'
                         }}
                       />
-                      <div className={classes.colorRed}>
-                        <ErrorMessage name="due_from" />
-                      </div>
+                      <ErrorMessage
+                        className={classes.colorRed}
+                        name="due_from"
+                        component="div"
+                      />
                     </Grid>
                   </MuiPickersUtilsProvider>
                   <Grid xs={6} sm={6} md={3} className={classes.grid} item>
@@ -378,9 +390,11 @@ const CreatePeerForm = () => {
                           'aria-label': 'change date'
                         }}
                       />
-                      <div className={classes.colorRed}>
-                        <ErrorMessage name="due_to" />
-                      </div>
+                      <ErrorMessage
+                        className={classes.colorRed}
+                        name="due_to"
+                        component="div"
+                      />
                     </Grid>
                   </MuiPickersUtilsProvider>
                 </Grid>
@@ -403,9 +417,11 @@ const CreatePeerForm = () => {
                         // required: true
                       }}
                     ></CustomInput>
-                    <div className={classes.colorRed}>
-                      <ErrorMessage name="review_form_link"></ErrorMessage>
-                    </div>
+                    <ErrorMessage
+                      className={classes.colorRed}
+                      name="review_form_link"
+                      component="div"
+                    />
                   </Grid>
                 </Grid>
               </CardBody>

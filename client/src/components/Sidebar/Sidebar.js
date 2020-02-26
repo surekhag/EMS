@@ -50,7 +50,7 @@ export default function Sidebar(props) {
             activeClassName="active"
             key={key}
           >
-            {prop.name !== 'Create Peer' ? (
+            {prop.showLink ? (
               <ListItem button className={classes.itemLink + listItemClasses}>
                 {typeof prop.icon === 'string' ? (
                   <Icon
