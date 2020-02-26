@@ -51,7 +51,6 @@ module.exports = {
       }
     );
   },
-
   getAll: function(req, res, next) {
     Peer_Review_Model.find({}, function(err, users) {
       if (err) {

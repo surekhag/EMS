@@ -6,6 +6,8 @@ const FETCH_ALL_PROJECTS = 'http://localhost:3001/projects'
 const FETCH_PEER_REVIEW = 'http://localhost:3001/peersReview/'
 const FETCH_USER_PEER = 'http://localhost:3001/peersReview/user'
 const CREATE_PEER_REVIEW = 'http://localhost:3001/peersReview/add'
+const ADD_NEW_USER_URL = 'http://localhost:3001/users/add'
+
 export {
   FETCH_EMPLOYEE_URL,
   LOGIN_URL,
@@ -13,5 +15,6 @@ export {
   FETCH_ALL_PROJECTS,
   USER_AUTHENTICATION_URL,
   CREATE_PEER_REVIEW,
-  FETCH_USER_PEER
+  FETCH_USER_PEER,
+  ADD_NEW_USER_URL
 }

@@ -58,7 +58,7 @@ const UserSchema = new Schema({
     required: true
   },
   zip : {
-    type: Number,
+    type: String,
     trim: true,
     required: true
   },

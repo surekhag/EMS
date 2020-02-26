@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Link } from 'react-router-dom'
 // @material-ui/core components
 import { makeStyles } from '@material-ui/core/styles'
 import Table from '@material-ui/core/Table'
@@ -16,14 +15,12 @@ const useStyles = makeStyles(styles)
 
 export default function CustomTable(props) {
   const classes = useStyles()
-  let r = '1'
   const {
     tableHead,
     tableData,
     tableHeaderColor,
     showLink,
     buttonText,
-    path,
     onClickHandler
   } = props
   return (
