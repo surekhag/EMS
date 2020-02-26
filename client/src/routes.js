@@ -20,15 +20,15 @@ const dashboardRoutes = [
     layout: '/admin',
     showLink: true
   },
-  {
-    path: '/user',
-    name: 'User Profile',
-    rtlName: 'ملف تعريفي للمستخدم',
-    icon: Person,
-    component: UserProfile,
-    layout: '/admin',
-    showLink: true
-  },
+  // {
+  //   path: '/user',
+  //   name: 'User Profile',
+  //   rtlName: 'ملف تعريفي للمستخدم',
+  //   icon: Person,
+  //   component: UserProfile,
+  //   layout: '/admin',
+  //   showLink: true
+  // },
   {
     path: '/employee',
     name: 'Employees',
@@ -64,16 +64,16 @@ const dashboardRoutes = [
     component: CreatePeer,
     layout: '/admin',
     showLink: false
-  },
-  {
-    path: '/getDetails',
-    name: 'Peer Review Details',
-    rtlName: 'ملف تعريفي للمستخدم',
-    icon: GroupIcon,
-    component: PeerReviewDetails,
-    layout: '/admin',
-    showLink: false
   }
+  // {
+  //   path: '/getDetails',
+  //   name: 'Peer Review Details',
+  //   rtlName: 'ملف تعريفي للمستخدم',
+  //   icon: GroupIcon,
+  //   component: PeerReviewDetails,
+  //   layout: '/admin',
+  //   showLink: false
+  // }
 ]
 
 export default dashboardRoutes

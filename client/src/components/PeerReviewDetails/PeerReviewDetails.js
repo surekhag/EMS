@@ -168,6 +168,16 @@ const PeerReviewDetails = props => {
           </Button>
         </CardFooter>
       </Card>
+      <iframe
+        src="https://docs.google.com/forms/d/e/1FAIpQLSd25d8-i2vYp4ctcdHKUTgxlA9-5JbltCtV6fRnb863AC_fVw/viewform?vc=0&c=0&w=1"
+        width="100%"
+        height="800"
+        frameborder="0"
+        marginheight="0"
+        marginwidth="0"
+      >
+        Loading...
+      </iframe>
     </Grid>
   )
 }
