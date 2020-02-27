@@ -58,8 +58,9 @@ const styles = {
   grid: {
     display: 'flex',
     flexDirection: 'column',
-    justifyContent: 'center',
-    textAlign: 'center',
+    justifyContent: 'center', 
+    textAlign: 'right',
+    paddingRight:'10px',
     textTransform: 'uppercase'
   },
   formControl: {
