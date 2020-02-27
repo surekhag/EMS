@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from 'react'
+import React, { useState,useEffect, useRef } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import GridContainer from '../../components/Grid/GridContainer.js'
 import GridItem from '../../components/Grid/GridItem.js'
@@ -27,6 +27,7 @@ import {
     MuiPickersUtilsProvider,
     KeyboardDatePicker
 } from '@material-ui/pickers'
+import { startOfDay } from 'date-fns'
 const styles = {
     ...checkboxAdnRadioStyle,
     cardCategoryWhite: {
@@ -62,7 +63,11 @@ const styles = {
     },
     error :{
         color: 'red'
-    },   
+    },
+    dateStyle : {
+        paddingLeft: 11,
+        paddingRight: 11,
+    }    
 }
 
 const useStyles = makeStyles(styles)
@@ -74,18 +79,19 @@ const Employee = () => {
     let employeeData = useSelector(state => state.EmployeeInfo.employeeData);
     let error = useSelector(state => state.userReducer.error);
     let addNewUserStatus = useSelector(state => state.userReducer.addNewUserStatus);
-
+    const myForm = useRef(null)
   
 
-    // useEffect(()=>{
-    //     console.log(employeeData);
-    // },[employeeData]);
+    useEffect(()=>{
+        console.log(employeeData);
+    },[employeeData]);
 
     useEffect(()=>{
         if(addNewUserStatus){
-            addToast(addNewUserStatus, { appearance: 'success', autoDismiss: true })
+            addToast(addNewUserStatus, { appearance: 'success', autoDismiss: true });
+            myForm.current.reset();         
         }
-    }, [addNewUserStatus]);
+    }, [addNewUserStatus, addToast]);
 
     useEffect(() => {        
         if(error)
@@ -118,7 +124,7 @@ const Employee = () => {
     ];
 
     const employment_status =['Part Time', 'Full time', 'Contractor'];
-    const userRole =['Admin', 'Manager', 'Human Resource'];
+    const userRole =['Admin', 'Manager', 'Human Resource', 'Employee'];
 
     // todo
 
@@ -131,29 +137,70 @@ const Employee = () => {
     const submitFormValues = (values) => {
         dispatch(addNewUser(values));
     }
-      
+    //todo update user initial val set here
+    const initialValues = {
+        employee_id : '',
+        email : '',
+        userName : '',
+        password : '',
+        firstname  : '',
+        lastname : '',
+        middlename : '',
+        address1 : '',
+        address2 : '',
+        city : '',
+        zip : '',
+        state : '',
+        country : '',
+        gender: '',
+        dateofbirth : new Date(),
+        dateofjoining : new Date(),
+        status: '',
+        experience_at_joining : '',
+        work_location :'',
+        timezone : '',
+        shift_timing : '',
+        designation : '',
+        employment_status : '',
+        userRole  : '',
+        reporting_manager : '',
+        functional_manager  : '',
+        skills :'',
+        certifications:'',
+        achievements:'',
+    };
+
     const userDataValidation = Yup.object().shape({
             employee_id : Yup
             .number()            
+            .typeError('Employee Id must be a number')
             .required('Employee Id is required'),           
              email : Yup.string()
-           .required('Email is required')
-           .email(),
+            .required('Email is required')
+            .email('Invalid email'),
             userName : Yup.string()
-           .required('UserName is required'),
+            .min(8, 'UserName must be at least 8 characters long!')
+            .required('UserName is required'),
             password : Yup.string()
-           .required('Password is required'),
+            .min(8, 'Password must be at least 8 characters long!')
+            .required('Password is required'),
             firstname  : Yup.string()
-           .required('Firstname is required'),
+            .required('Firstname is required')
+            .min(2, 'Too Short!')
+            .max(50, 'Too Long!'),
             lastname : Yup.string()
+            .min(2, 'Too Short!')
+            .max(50, 'Too Long!')
            .required('Lastname is required'),
             middlename : Yup.string()
            .required('Middlename is required'),
             address1 : Yup.string()
+            .min(2, 'Too Short!')
            .required('Address1 is required'),            
             city : Yup.string()
            .required('City is required'),
             zip : Yup.string()
+            .min(6, 'Invalid Zip Code')
            .required('Zip is required'),
             state : Yup.string()
            .required('State is required'),
@@ -193,37 +240,7 @@ const Employee = () => {
     return (
         <GridContainer>
         <Formik
-        initialValues={{
-            employee_id : '',
-            email : '',
-            userName : '',
-            password : '',
-            firstname  : '',
-            lastname : '',
-            middlename : '',
-            address1 : '',
-            address2 : '',
-            city : '',
-            zip : '',
-            state : '',
-            country : '',
-            gender: '',
-            dateofbirth : new Date(),
-            dateofjoining : new Date(),
-            status: '',
-            experience_at_joining : '',
-            work_location :'',
-            timezone : '',
-            shift_timing : '',
-            designation : '',
-            employment_status : '',
-            userRole  : '',
-            reporting_manager : '',
-            functional_manager  : '',
-            skills :'',
-            certifications:'',
-            achievements:'',
-        }}
+        initialValues={initialValues}
         onSubmit={(values, { setSubmitting }) => {      
             console.log("onSubmit")      ;
             submitFormValues(values);
@@ -236,7 +253,7 @@ const Employee = () => {
  
 
  <Card id="add_new_employee">
-     <Form>
+     <Form ref={myForm}>
      <CardHeader color="primary">
          <h4 className={classes.cardTitleWhite}>
              {' '}
@@ -388,7 +405,7 @@ const Employee = () => {
                     }}
                  />
              </GridItem>
-             <GridItem xs={12} sm={12} md={3}>
+             <GridItem xs={12} sm={12} md={4}>
                  <FormControl
                      className={classes.formControl}
                  >
@@ -421,7 +438,7 @@ const Employee = () => {
                  </div>
              </GridItem>
 
-             <GridItem xs={12} sm={12} md={3}>
+             <GridItem xs={12} sm={12} md={4}>
                  <FormControl
                      className={classes.formControl}
                  >
@@ -452,7 +469,7 @@ const Employee = () => {
                  <ErrorMessage name='state'/> 
                  </div>
              </GridItem>
-             <GridItem xs={12} sm={12} md={3}>
+             <GridItem xs={12} sm={12} md={4}>
                  <FormControl
                      className={classes.formControl}
                  >
@@ -484,7 +501,7 @@ const Employee = () => {
                  <ErrorMessage name='country'/>
                  </div> 
              </GridItem>
-             <GridItem xs={12} sm={12} md={3}>
+             <GridItem xs={12} sm={12} md={4}>
                  <CustomInput
                      labelText="Zip"
                      name="zip"
@@ -502,11 +519,11 @@ const Employee = () => {
                  </div>
              </GridItem>
            
-             <GridItem xs={12} sm={12} md={6}>
+             <GridItem xs={12} sm={12} md={4}>
                  <MuiPickersUtilsProvider
                      utils={DateFnsUtils}
                  >
-                     <Grid container justify="space-around">
+                     <Grid container justify="flex-start" style = {{ paddingLeft: 11, paddingRight: 11,}}>
                          <KeyboardDatePicker
                              disableToolbar
                              variant="inline"
@@ -526,6 +543,7 @@ const Employee = () => {
                              KeyboardButtonProps={{
                                  'aria-label': 'change date'
                              }}
+                             fullWidth
                          />
                      </Grid>
                  </MuiPickersUtilsProvider>
@@ -534,11 +552,11 @@ const Employee = () => {
                  </div> 
              </GridItem>
 
-             <GridItem xs={12} sm={12} md={6}>
+             <GridItem xs={12} sm={12} md={4}>
                  <MuiPickersUtilsProvider
                      utils={DateFnsUtils}
                  >
-                     <Grid container justify="space-around">
+                     <Grid container justify="flex-start" style = {{ paddingLeft: 11, paddingRight: 11,}}>
                          <KeyboardDatePicker
                              disableToolbar
                              variant="inline"
@@ -558,6 +576,7 @@ const Employee = () => {
                              KeyboardButtonProps={{
                                  'aria-label': 'change date'
                              }}
+                             fullWidth
                          />
                      </Grid>
                  </MuiPickersUtilsProvider>
