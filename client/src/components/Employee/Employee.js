@@ -151,7 +151,7 @@ const Employee = () => {
     const country1 =(value)=>{
         console.log("called", value)
         if(value ==null)
-        return null;
+        return [];
         
         let temp = countryData.filter((item)=>{            
             if(item.country == value)
@@ -507,32 +507,38 @@ const Employee = () => {
                          <MenuItem value="">
                              <em>None</em>
                          </MenuItem>
-                       
-
-
-                            {countryData.map(item => {
+                         {countryData.map(item => {
                                 if(values.country && item.country == values.country){
                                 
                                 return (
-                                    country1(values.country).map(item=>{
-                                      return  <MenuItem value={item.code}>
-                                        {item.name} 
-                                        {/* {item} */}
-                                        {/* {values.country} */}
-                                    </MenuItem>  
-                                    })
+
+                                    
+                                    country1(values.country).map(item =>{
+                                if(item){
+                                    return  <MenuItem value={item && item.code}>
+                                    {item && item.name}                                       
+                                </MenuItem>  
+                                }
+                                else {
+                                    return <MenuItem value={"test"}>
+                                    {"test"}                                       
+                                </MenuItem>  
+                                }
+                                     
+
+                                    }
+                                    
+                                    
+                                    )
+
+
+
+
                                 )
                             }
                         }
                             )
-
-
-                            }
-
-
-
-
-                             
+                            }                             
                          })}
                      </Select>
                  </FormControl>
