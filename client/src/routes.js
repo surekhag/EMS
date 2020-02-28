@@ -20,15 +20,15 @@ const dashboardRoutes = [
     layout: '/admin',
     showLink: true
   },
-  // {
-  //   path: '/user',
-  //   name: 'User Profile',
-  //   rtlName: 'ملف تعريفي للمستخدم',
-  //   icon: Person,
-  //   component: UserProfile,
-  //   layout: '/admin',
-  //   showLink: true
-  // },
+  {
+    path: '/user',
+    name: 'User Profile',
+    rtlName: 'ملف تعريفي للمستخدم',
+    icon: Person,
+    component: UserProfile,
+    layout: '/admin',
+    showLink: true
+  },
   {
     path: '/employee',
     name: 'Employees',

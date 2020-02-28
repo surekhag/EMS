@@ -4,7 +4,6 @@ import { LOAD_ALL_EMPLOYEE_SAGA, SET_ALL_EMPLOYEES } from './actionTypes'
 export function loadAllEmployeeData() {
   return {
     type: LOAD_ALL_EMPLOYEE_SAGA,
-    payload: {}
   }
 }
 export function setAllEmployeeData(data) {
