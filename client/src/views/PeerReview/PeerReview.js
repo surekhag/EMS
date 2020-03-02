@@ -20,7 +20,7 @@ import Select from '@material-ui/core/Select'
 
 import withAuth from '../../HOC/withAuth'
 import { loadAllEmployeeData } from '../../actions/employeeAction'
-import { LoadAllPeerReviews } from '../../actions/peerReviewAction'
+import { loadAllPeerReviews } from '../../actions/peerReviewAction'
 import styles from '../../assets/jss/material-dashboard-react/views/dashboardStyle'
 import { Redirect } from 'react-router-dom'
 
@@ -72,7 +72,7 @@ const PeerReview = props => {
   )
   useEffect(() => {
     dispatch(loadAllEmployeeData())
-    dispatch(LoadAllPeerReviews())
+    dispatch(loadAllPeerReviews())
   }, [dispatch])
 
   const tempArr = []

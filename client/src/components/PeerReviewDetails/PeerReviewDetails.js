@@ -16,7 +16,7 @@ import CardFooter from '../../components/Card/CardFooter.js'
 
 import {
   UpdatePeerReview,
-  SetUpdateReviewStatus
+  setUpdateReviewStatus
 } from '../../actions/peerReviewAction'
 import { LoadAllPeerForUser } from '../../actions/peerReviewAction'
 import { useDispatch, useSelector } from 'react-redux'
@@ -105,7 +105,7 @@ const PeerReviewDetails = props => {
           autoDismiss: true
         })
       }
-      dispatch(SetUpdateReviewStatus(''))
+      dispatch(setUpdateReviewStatus(''))
     }
   }, [peerReviewUpdateStatus, addToast, dispatch])
   const updateHandler = () => {
