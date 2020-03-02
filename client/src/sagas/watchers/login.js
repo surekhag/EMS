@@ -5,8 +5,7 @@ import { logInToSiteApi, userSessionApi } from '../../api/loginApi'
 import { setToken, removeToken } from '../../helpers/auth'
 function* workerLoginSaga(userinfo) {
   const { username, password } = userinfo.payload
-  try {
-    // todo - send object instead separate param
+  try {    
     const loginStatus = yield call(logInToSiteApi, username, password)
 
     if (loginStatus.data.status === 'error') {
