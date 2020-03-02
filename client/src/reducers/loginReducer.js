@@ -1,6 +1,7 @@
 import {
   LOGIN_TO_SITE_SUCCESS,
-  LOGIN_TO_SITE_ERROR
+  LOGIN_TO_SITE_ERROR,
+  SESSION_EXPIRED
 } from '../actions/actionTypes.js'
 
 const initialState = {
@@ -25,6 +26,13 @@ const loginReducer = (state = initialState, action) => {
         isLoading: false,
         error: action.message
       }
+      case SESSION_EXPIRED:        
+        return {
+          ...state,
+          isLoading: false,
+          currentUser: null,
+          error: "Session has been expired! Please try again. ",
+        }
     default:
       return state
   }
