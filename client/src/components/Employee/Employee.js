@@ -77,7 +77,7 @@ const Employee = () => {
     const classes = useStyles();
     const { addToast } = useToasts()
     const dispatch = useDispatch();
-    
+    const [states, setStates] = useState();
     let employeeData = useSelector(state => state.EmployeeInfo.employeeData);
     let error = useSelector(state => state.userReducer.error);
     let addNewUserStatus = useSelector(state => state.userReducer.addNewUserStatus);
@@ -149,8 +149,8 @@ const Employee = () => {
 
 
     const country1 =(value)=>{
-        console.log("called", value)
-        if(value ==null)
+        console.log("called", value);
+        if(value === null)
         return [];
         
         let temp = countryData.filter((item)=>{            
@@ -159,9 +159,11 @@ const Employee = () => {
               return item            
             }
         })
-        console.log( temp[0].states)
-        return temp[0].states;        
-    }      
+        console.log( temp)
+        return temp.length > 0 ? temp[0].states: [];        
+    }     
+    
+    
 
     // todo remove 
 
@@ -508,38 +510,26 @@ const Employee = () => {
                              <em>None</em>
                          </MenuItem>
                          {countryData.map(item => {
-                                if(values.country && item.country == values.country){
                                 
-                                return (
-
-                                    
-                                    country1(values.country).map(item =>{
+                                if(values.country && item.country == values.country){                                    
+                                return (                                    
+                                    country1(values.country).map(item =>{                                        
                                 if(item){
-                                    return  <MenuItem value={item && item.code}>
-                                    {item && item.name}                                       
+                                    // console.log(item)
+                                    return  <MenuItem value={item.code}>
+                                    {item.name}                                       
                                 </MenuItem>  
-                                }
-                                else {
-                                    return <MenuItem value={"test"}>
-                                    {"test"}                                       
-                                </MenuItem>  
-                                }
-                                     
+                                }                               
+                            }      
+                           )
+                           )
+                            }                         
 
-                                    }
-                                    
-                                    
-                                    )
-
-
-
-
-                                )
-                            }
                         }
                             )
-                            }                             
-                         })}
+                       
+                         
+                         }
                      </Select>
                  </FormControl>
                    <div className = {classes.error}>
