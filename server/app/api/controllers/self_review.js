@@ -18,7 +18,6 @@ module.exports = {
         last_updated_by: req.user.userName
       },
       function(err, result) {
-          console.log(result);
         if (err) next(err);
         else
           res.json({
@@ -30,39 +29,58 @@ module.exports = {
   },
 
 
-  update: function(req, res, next) {
-    //todo allow to update only if review edited between due dates    
+  update: function(req, res, next) {    
     delete req.body.created_date;
     delete req.body.created_by;
-    Self_Review_Model.findOneAndUpdate(
-      { _id: req.params.id },
-      {
-        $set: req.body,
-        updated_date: new Date(),
-        last_updated_by: req.user.userName
-      },
-      function(err, info) {
+      
+    const today =new Date();
+
+      Self_Review_Model.findOne({ _id: req.params.id }, function(err, userInfo) {        
         if (err) {
-          console.log("in err");
           next(err);
-        } else {
-          res.json({
-            status: "success",
-            message: "Review updated successfully!!!"
-          });
-        }
+        } else {          
+          if(userInfo.due_from <=today && userInfo.due_to >= today && userInfo.status == 'Active')
+      {        
+        Self_Review_Model.findOneAndUpdate(
+          { _id: req.params.id },
+          {
+            $set: req.body,
+            updated_date: new Date(),
+            last_updated_by: req.user.userName
+          },
+          function(err, info) {
+            if (err) {
+              console.log("in err", err);
+              next(err);
+            } else {
+              res.json({
+                status: "success",
+                message: "Review updated successfully!!!"
+              });
+            }
+          }
+        );
       }
-    );
+      else
+      {
+        res.json({
+          status: "error",
+          message: "Review can be updated withing due dates only, for Active users!" 
+        });
+      }
+        }
+      });
   },
+
   getAll: function(req, res, next) {
-    Self_Review_Model.find({}, function(err, users) {
+    Self_Review_Model.find({}, function(err, reviews) {
       if (err) {
         next(err);
       } else {
         res.json({
           status: "success",
           message: "Review list found!!!",
-          data: users
+          data: reviews
         });
       }
     });
