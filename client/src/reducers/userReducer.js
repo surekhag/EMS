@@ -1,5 +1,5 @@
 import {
-    ADD_NEW_USER, SET_NEW_USER,SET_NEW_USER_ERROR
+    ADD_NEW_USER, SET_NEW_USER,SET_NEW_USER_ERROR, CLEAR_USER_STATUS_MESSAGE
   } from '../actions/actionTypes.js'
   
   const initialState = {
@@ -21,6 +21,12 @@ import {
           error : action.data
         
         }
+        case CLEAR_USER_STATUS_MESSAGE :
+          console.log("CLEAR_ERROR_MESSAGE");
+          return {
+            ...state,
+            addNewUserStatus : null
+          }
       default:
         return state
     }

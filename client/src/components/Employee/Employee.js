@@ -19,7 +19,7 @@ import MenuItem from '@material-ui/core/MenuItem'
 import FormControl from '@material-ui/core/FormControl'
 import { Formik, Form, ErrorMessage } from 'formik';
 import { useSelector , useDispatch} from 'react-redux';
-import { addNewUser } from '../../actions/userActions'
+import { addNewUser, clearUserStatus } from '../../actions/userActions'
 import withAuth from '../../HOC/withAuth'
 import {loadAllEmployeeData} from '../../actions/employeeAction'
 import * as Yup from 'yup';
@@ -77,17 +77,17 @@ const Employee = () => {
     const classes = useStyles();
     const { addToast } = useToasts()
     const dispatch = useDispatch();
-    const [states, setStates] = useState();
     let employeeData = useSelector(state => state.EmployeeInfo.employeeData);
     let error = useSelector(state => state.userReducer.error);
     let addNewUserStatus = useSelector(state => state.userReducer.addNewUserStatus);
-    const userForm = useRef(null)
+    const userForm = useRef(null);
    
   
     //Load all emp info
     useEffect(()=>{
         dispatch(loadAllEmployeeData());        
     },[]);
+
     useEffect(()=>{        
         if(employeeData){
             let emp =employeeData.data.data;
@@ -98,11 +98,13 @@ const Employee = () => {
             setManagers(managers);
         }
     },[employeeData]);
+    
 
     useEffect(()=>{
         if(addNewUserStatus){
             addToast(addNewUserStatus, { appearance: 'success', autoDismiss: true });
-            userForm.current.reset();         
+            userForm.current.reset();
+            dispatch(clearUserStatus());
         }
     }, [addNewUserStatus, addToast]);
 
@@ -121,10 +123,6 @@ const Employee = () => {
     ];
     const shift_timing = ['9 to 6', '8 to 5', '11 to 8'];
     const status = ['Active','InActive'];
-    // const country = [
-    //     {id : 'IN', name : 'India'},
-    //     {id: 'US', name :'United States'},        
-    // ];
     const designation= [
         'Junior Developer',
         'Developer',
@@ -148,31 +146,21 @@ const Employee = () => {
     {"country":"US","name" : "United States","states":[{"code":"DE","name":"Delaware"},{"code":"HI","name":"Hawaii"},{"code":"PR","name":"Puerto Rico"},{"code":"TX","name":"Texas"},{"code":"PW","name":"Palau"},{"code":"MA","name":"Massachusetts"},{"code":"MD","name":"Maryland"},{"code":"IA","name":"Iowa"},{"code":"ME","name":"Maine"},{"code":"MH","name":"Marshall Islands"},{"code":"ID","name":"Idaho"},{"code":"MI","name":"Michigan"},{"code":"UT","name":"Utah"},{"code":"MN","name":"Minnesota"},{"code":"MO","name":"Missouri"},{"code":"MP","name":"Northern Mariana Islands"},{"code":"IL","name":"Illinois"},{"code":"IN","name":"Indiana"},{"code":"MS","name":"Mississippi"},{"code":"MT","name":"Montana"},{"code":"AK","name":"Alaska"},{"code":"AL","name":"Alabama"},{"code":"VA","name":"Virginia"},{"code":"AR","name":"Arkansas"},{"code":"AS","name":"American Samoa"},{"code":"VI","name":"Virgin Islands"},{"code":"NC","name":"North Carolina"},{"code":"ND","name":"North Dakota"},{"code":"NE","name":"Nebraska"},{"code":"RI","name":"Rhode Island"},{"code":"AZ","name":"Arizona"},{"code":"NH","name":"New Hampshire"},{"code":"NJ","name":"New Jersey"},{"code":"VT","name":"Vermont"},{"code":"NM","name":"New Mexico"},{"code":"FL","name":"Florida"},{"code":"FM","name":"Federated States Of Micronesia"},{"code":"NV","name":"Nevada"},{"code":"WA","name":"Washington"},{"code":"NY","name":"New York"},{"code":"SC","name":"South Carolina"},{"code":"SD","name":"South Dakota"},{"code":"WI","name":"Wisconsin"},{"code":"OH","name":"Ohio"},{"code":"GA","name":"Georgia"},{"code":"OK","name":"Oklahoma"},{"code":"CA","name":"California"},{"code":"WV","name":"West Virginia"},{"code":"WY","name":"Wyoming"},{"code":"OR","name":"Oregon"},{"code":"KS","name":"Kansas"},{"code":"CO","name":"Colorado"},{"code":"GU","name":"Guam"},{"code":"KY","name":"Kentucky"},{"code":"CT","name":"Connecticut"},{"code":"PA","name":"Pennsylvania"},{"code":"LA","name":"Louisiana"},{"code":"TN","name":"Tennessee"},{"code":"DC","name":"District Of Columbia"}]}];
 
 
-    const country1 =(value)=>{
-        console.log("called", value);
+    const getStates =(value)=>{        
         if(value === null)
         return [];
         
-        let temp = countryData.filter((item)=>{            
+        let states = countryData.filter((item)=>{            
             if(item.country == value)
             {
               return item            
             }
         })
-        console.log( temp)
-        return temp.length > 0 ? temp[0].states: [];        
+        return states.length > 0 ? states[0].states: [];        
     }     
-    
-    
-
-    // todo remove 
-
-    
     const submitFormValues = (values) => {
         dispatch(addNewUser(values));
     }
-
-
 
     //todo update user initial val set here
     const initialValues = {
@@ -469,6 +457,10 @@ const Employee = () => {
                      <Select
                          value={values.country}
                          onChange={handleChange}
+                         onBlur= {e=>{                            
+                            setFieldValue('state', '')
+                        }
+                    }
                          inputProps={{
                              name: 'country',
                              id: 'country'
@@ -513,12 +505,11 @@ const Employee = () => {
                                 
                                 if(values.country && item.country == values.country){                                    
                                 return (                                    
-                                    country1(values.country).map(item =>{                                        
+                                    getStates(values.country).map(item =>{                                        
                                 if(item){
-                                    // console.log(item)
                                     return  <MenuItem value={item.code}>
-                                    {item.name}                                       
-                                </MenuItem>  
+                                                {item.name}                                       
+                                            </MenuItem>
                                 }                               
                             }      
                            )
@@ -527,8 +518,6 @@ const Employee = () => {
 
                         }
                             )
-                       
-                         
                          }
                      </Select>
                  </FormControl>
