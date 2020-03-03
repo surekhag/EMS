@@ -1,4 +1,4 @@
-import { ADD_NEW_USER, SET_NEW_USER, SET_NEW_USER_ERROR, CLEAR_USER_STATUS_MESSAGE } from './actionTypes'
+import { ADD_NEW_USER, SET_NEW_USER_SUCCESS, SET_NEW_USER_ERROR, CLEAR_USER_STATUS_MESSAGE } from './actionTypes'
 
 export function addNewUser(userInfo) {  
   return {
@@ -9,7 +9,7 @@ export function addNewUser(userInfo) {
 
 export function setNewUserSuccess(data) {
   return {
-    type: SET_NEW_USER,
+    type: SET_NEW_USER_SUCCESS,
     data
   }
 }

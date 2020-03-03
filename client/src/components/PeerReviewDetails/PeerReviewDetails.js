@@ -16,7 +16,7 @@ import CardFooter from '../../components/Card/CardFooter.js'
 
 import {
   UpdatePeerReview,
-  SetUpdateReviewStatus
+  setUpdateReviewStatus
 } from '../../actions/peerReviewAction'
 import { LoadAllPeerForUser } from '../../actions/peerReviewAction'
 import { useDispatch, useSelector } from 'react-redux'
@@ -105,7 +105,7 @@ const PeerReviewDetails = props => {
           autoDismiss: true
         })
       }
-      dispatch(SetUpdateReviewStatus(''))
+      dispatch(setUpdateReviewStatus(''))
     }
   }, [peerReviewUpdateStatus, addToast, dispatch])
   const updateHandler = () => {
@@ -169,7 +169,7 @@ const PeerReviewDetails = props => {
         </CardFooter>
       </Card>
       <iframe
-        src="https://docs.google.com/forms/d/e/1FAIpQLSd25d8-i2vYp4ctcdHKUTgxlA9-5JbltCtV6fRnb863AC_fVw/viewform?vc=0&c=0&w=1"
+        src={reviewData.review_form_link}
         width="100%"
         height="800"
         frameborder="0"

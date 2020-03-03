@@ -12,12 +12,8 @@ export function loadAllUserPeerReviews() {
   return axios.get(FETCH_USER_PEER)
 }
 export function createPeerReview(body) {
-  return axios.post(CREATE_PEER_REVIEW, body, {
-    headers: { 'Content-Type': 'application/json' }
-  })
+  return axios.post(CREATE_PEER_REVIEW, body)
 }
 export function updatePeerReview(id, body) {
-  return axios.put(FETCH_PEER_REVIEW + id, body, {
-    headers: { 'Content-Type': 'application/json' }
-  })
+  return axios.put(FETCH_PEER_REVIEW + id, body)
 }

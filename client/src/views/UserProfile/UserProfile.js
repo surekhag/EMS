@@ -24,8 +24,6 @@ import CardFooter from '../../components/Card/CardFooter.js'
 
 import avatar from '../../assets/img/faces/marc.jpg'
 
-import { Hobbies } from '../../variables/general.js'
-
 const styles = {
   ...checkboxAdnRadioStyle,
   cardCategoryWhite: {
@@ -158,29 +156,7 @@ export default function UserProfile() {
                 </GridItem>
               </GridContainer>
               <GridContainer>
-                <GridItem xs={12} sm={12} md={6}>
-                  <InputLabel style={{ color: '#AAAAAA' }}>Hobbies</InputLabel>
-                  {Hobbies.map(value => (
-                    <div>
-                      <FormControlLabel
-                        control={
-                          <Checkbox
-                            value={value}
-                            checkedIcon={
-                              <Check className={classes.checkedIcon} />
-                            }
-                            icon={<Check className={classes.uncheckedIcon} />}
-                            classes={{
-                              checked: classes.checked,
-                              root: classes.root
-                            }}
-                          />
-                        }
-                        label={value}
-                      />
-                    </div>
-                  ))}
-                </GridItem>
+               
                 <GridItem xs={12} sm={12} md={6}>
                   <InputLabel style={{ color: '#AAAAAA' }}>Gender</InputLabel>
                   <RadioGroup aria-label="gender" name="gender1">

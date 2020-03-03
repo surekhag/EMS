@@ -9,6 +9,7 @@ function* workerLoadAllProjects() {
     yield put(setAllProjectsData(projects))
   } catch (e) {
     console.log(e)
+    // yield put(setAllProjectsDataError(e)); //todo
   }
 }
 
