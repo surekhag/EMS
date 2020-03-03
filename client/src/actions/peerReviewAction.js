@@ -55,7 +55,7 @@ export function setPeerReviewError(data) {
 }
 
 
-export function LoadAllPeerForUser() {
+export function loadAllPeerForUser() {
   return {
     type: LOAD_ALL_USER_PEER_SAGA,
     payload: {}
@@ -76,7 +76,7 @@ export function setAllPeerForUserError(data) {
 }
 
 
-export function UpdatePeerReview(id, body) {
+export function updatePeerReview(id, body) {
   return {
     type: UPDATE_PEER_REVIEW,
     payload: { id, body }

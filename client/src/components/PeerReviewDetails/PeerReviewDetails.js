@@ -15,10 +15,10 @@ import CardBody from '../../components/Card/CardBody.js'
 import CardFooter from '../../components/Card/CardFooter.js'
 
 import {
-  UpdatePeerReview,
+  updatePeerReview,
   setUpdateReviewStatus
 } from '../../actions/peerReviewAction'
-import { LoadAllPeerForUser } from '../../actions/peerReviewAction'
+import { loadAllPeerForUser } from '../../actions/peerReviewAction'
 import { useDispatch, useSelector } from 'react-redux'
 import { useToasts, withToastManager } from 'react-toast-notifications'
 
@@ -110,11 +110,11 @@ const PeerReviewDetails = props => {
   }, [peerReviewUpdateStatus, addToast, dispatch])
   const updateHandler = () => {
     if (selectedStatus === '') {
-      dispatch(UpdatePeerReview(reviewData._id, { status: reviewData.status }))
+      dispatch(updatePeerReview(reviewData._id, { status: reviewData.status }))
     } else {
-      dispatch(UpdatePeerReview(reviewData._id, { status: selectedStatus }))
+      dispatch(updatePeerReview(reviewData._id, { status: selectedStatus }))
     }
-    dispatch(LoadAllPeerForUser())
+    dispatch(loadAllPeerForUser())
   }
   return (
     <Grid>
