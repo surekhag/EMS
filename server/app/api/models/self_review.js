@@ -75,7 +75,7 @@ const SelfReviewSchema = new Schema({
 // SelfReviewSchema.index({
 //     employee_id: 1,
 //     // updated_date:1,
-//     // updated_date: { $gte:SelfReviewSchema.from_date, $lt:SelfReviewSchema.to_date}}, {
+//     // updated_date: { $gte:SelfReviewSchema.from_date, $lte:SelfReviewSchema.to_date}}, {
 //     unique: true,
 //   });
 
