@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from 'react'
+import React, { useState,useEffect, useRef } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import GridContainer from '../../components/Grid/GridContainer.js'
 import GridItem from '../../components/Grid/GridItem.js'
@@ -19,14 +19,16 @@ import MenuItem from '@material-ui/core/MenuItem'
 import FormControl from '@material-ui/core/FormControl'
 import { Formik, Form, ErrorMessage } from 'formik';
 import { useSelector , useDispatch} from 'react-redux';
-import { addNewUser } from '../../actions/userActions'
+import { addNewUser, clearUserStatus } from '../../actions/userActions'
 import withAuth from '../../HOC/withAuth'
+import {loadAllEmployeeData} from '../../actions/employeeAction'
 import * as Yup from 'yup';
 
 import {
     MuiPickersUtilsProvider,
     KeyboardDatePicker
 } from '@material-ui/pickers'
+import { startOfDay } from 'date-fns'
 const styles = {
     ...checkboxAdnRadioStyle,
     cardCategoryWhite: {
@@ -62,30 +64,49 @@ const styles = {
     },
     error :{
         color: 'red'
-    },   
+    },
+    dateStyle : {
+        paddingLeft: 11,
+        paddingRight: 11,
+    }    
 }
 
 const useStyles = makeStyles(styles)
 const Employee = () => {
+    const [managers, setManagers] = useState();
     const classes = useStyles();
     const { addToast } = useToasts()
     const dispatch = useDispatch();
-
     let employeeData = useSelector(state => state.EmployeeInfo.employeeData);
     let error = useSelector(state => state.userReducer.error);
     let addNewUserStatus = useSelector(state => state.userReducer.addNewUserStatus);
-
+    const userForm = useRef(null);
+   
   
+    //Load all emp info
+    useEffect(()=>{
+        dispatch(loadAllEmployeeData());        
+    },[]);
 
-    // useEffect(()=>{
-    //     console.log(employeeData);
-    // },[employeeData]);
+    useEffect(()=>{        
+        if(employeeData){
+            let emp =employeeData.data.data;
+           let managers = emp.filter((item)=>{
+                if (item.userRole == 'Manager')
+                return item;                
+            });
+            setManagers(managers);
+        }
+    },[employeeData]);
+    
 
     useEffect(()=>{
         if(addNewUserStatus){
-            addToast(addNewUserStatus, { appearance: 'success', autoDismiss: true })
+            addToast(addNewUserStatus, { appearance: 'success', autoDismiss: true });
+            userForm.current.reset();
+            dispatch(clearUserStatus());
         }
-    }, [addNewUserStatus]);
+    }, [addNewUserStatus, addToast]);
 
     useEffect(() => {        
         if(error)
@@ -118,42 +139,93 @@ const Employee = () => {
     ];
 
     const employment_status =['Part Time', 'Full time', 'Contractor'];
-    const userRole =['Admin', 'Manager', 'Human Resource'];
+    const userRole =['Admin', 'Manager', 'Human Resource', 'Employee'];
 
-    // todo
 
-    const datatoloop = [
-        { id: 100, subject: 'math' },
-        { id: 101, subject: 'physics' },
-        { id: 'chemistry', subject: 'chemistry' }
-    ]
+    const countryData = [{"country":"IN", "name" : "India","states":[{"code":"DD","name":"Daman and Diu"},{"code":"JK","name":"Jammu and Kashmir"},{"code":"DL","name":"Delhi"},{"code":"HP","name":"Himachal Pradesh"},{"code":"PY","name":"Pondicherry"},{"code":"DN","name":"Dadra and Nagar Haveli"},{"code":"HR","name":"Haryana"},{"code":"WB","name":"West Bengal"},{"code":"BR","name":"Bihar"},{"code":"KA","name":"Karnataka"},{"code":"UK","name":"Uttarakhand"},{"code":"SK","name":"Sikkim"},{"code":"GA","name":"Goa"},{"code":"MH","name":"Maharashtra"},{"code":"UP","name":"Uttar Pradesh"},{"code":"ML","name":"Meghalaya"},{"code":"KL","name":"Kerala"},{"code":"MN","name":"Manipur"},{"code":"GJ","name":"Gujarat"},{"code":"MP","name":"Madhya Pradesh"},{"code":"OR","name":"Orissa"},{"code":"CG","name":"Chhattisgarh"},{"code":"Chandigarh","name":"Chandigarh"},{"code":"MZ","name":"Mizoram"},{"code":"AP","name":"Andhra Pradesh"},{"code":"AR","name":"Arunachal Pradesh"},{"code":"AS","name":"Assam"},{"code":"PB","name":"Punjab"},{"code":"RJ","name":"Rajasthan"},{"code":"TN","name":"Tamil Nadu"},{"code":"JH","name":"Jharkhand"},{"code":"NL","name":"Nagaland"},{"code":"TR","name":"Tripura"}]},
+    {"country":"US","name" : "United States","states":[{"code":"DE","name":"Delaware"},{"code":"HI","name":"Hawaii"},{"code":"PR","name":"Puerto Rico"},{"code":"TX","name":"Texas"},{"code":"PW","name":"Palau"},{"code":"MA","name":"Massachusetts"},{"code":"MD","name":"Maryland"},{"code":"IA","name":"Iowa"},{"code":"ME","name":"Maine"},{"code":"MH","name":"Marshall Islands"},{"code":"ID","name":"Idaho"},{"code":"MI","name":"Michigan"},{"code":"UT","name":"Utah"},{"code":"MN","name":"Minnesota"},{"code":"MO","name":"Missouri"},{"code":"MP","name":"Northern Mariana Islands"},{"code":"IL","name":"Illinois"},{"code":"IN","name":"Indiana"},{"code":"MS","name":"Mississippi"},{"code":"MT","name":"Montana"},{"code":"AK","name":"Alaska"},{"code":"AL","name":"Alabama"},{"code":"VA","name":"Virginia"},{"code":"AR","name":"Arkansas"},{"code":"AS","name":"American Samoa"},{"code":"VI","name":"Virgin Islands"},{"code":"NC","name":"North Carolina"},{"code":"ND","name":"North Dakota"},{"code":"NE","name":"Nebraska"},{"code":"RI","name":"Rhode Island"},{"code":"AZ","name":"Arizona"},{"code":"NH","name":"New Hampshire"},{"code":"NJ","name":"New Jersey"},{"code":"VT","name":"Vermont"},{"code":"NM","name":"New Mexico"},{"code":"FL","name":"Florida"},{"code":"FM","name":"Federated States Of Micronesia"},{"code":"NV","name":"Nevada"},{"code":"WA","name":"Washington"},{"code":"NY","name":"New York"},{"code":"SC","name":"South Carolina"},{"code":"SD","name":"South Dakota"},{"code":"WI","name":"Wisconsin"},{"code":"OH","name":"Ohio"},{"code":"GA","name":"Georgia"},{"code":"OK","name":"Oklahoma"},{"code":"CA","name":"California"},{"code":"WV","name":"West Virginia"},{"code":"WY","name":"Wyoming"},{"code":"OR","name":"Oregon"},{"code":"KS","name":"Kansas"},{"code":"CO","name":"Colorado"},{"code":"GU","name":"Guam"},{"code":"KY","name":"Kentucky"},{"code":"CT","name":"Connecticut"},{"code":"PA","name":"Pennsylvania"},{"code":"LA","name":"Louisiana"},{"code":"TN","name":"Tennessee"},{"code":"DC","name":"District Of Columbia"}]}];
 
+
+    const getStates =(value)=>{        
+        if(value === null)
+        return [];
+        
+        let states = countryData.filter((item)=>{            
+            if(item.country == value)
+            {
+              return item            
+            }
+        })
+        return states.length > 0 ? states[0].states: [];        
+    }     
     const submitFormValues = (values) => {
         dispatch(addNewUser(values));
     }
-      
+
+    //todo update user initial val set here
+    const initialValues = {
+        employee_id : '',
+        email : '',
+        userName : '',
+        password : '',
+        firstname  : '',
+        lastname : '',
+        middlename : '',
+        address1 : '',
+        address2 : '',
+        city : '',
+        zip : '',
+        state : '',
+        country : '',
+        gender: '',
+        dateofbirth : new Date(),
+        dateofjoining : new Date(),
+        status: 'ACTIVE',
+        experience_at_joining : '',
+        work_location :'',
+        timezone : '',
+        shift_timing : '',
+        designation : '',
+        employment_status : '',
+        userRole  : '',
+        reporting_manager : '',
+        functional_manager  : '',
+        skills :'',
+        certifications:'',
+        achievements:'',
+    };
+
     const userDataValidation = Yup.object().shape({
             employee_id : Yup
             .number()            
+            .typeError('Employee Id must be a number')
             .required('Employee Id is required'),           
              email : Yup.string()
-           .required('Email is required')
-           .email(),
+            .required('Email is required')
+            .email('Invalid email'),
             userName : Yup.string()
-           .required('UserName is required'),
+            .min(8, 'UserName must be at least 8 characters long!')
+            .required('UserName is required'),
             password : Yup.string()
-           .required('Password is required'),
+            .min(8, 'Password must be at least 8 characters long!')
+            .required('Password is required'),
             firstname  : Yup.string()
-           .required('Firstname is required'),
+            .required('Firstname is required')
+            .min(2, 'Too Short!')
+            .max(50, 'Too Long!'),
             lastname : Yup.string()
+            .min(2, 'Too Short!')
+            .max(50, 'Too Long!')
            .required('Lastname is required'),
             middlename : Yup.string()
            .required('Middlename is required'),
             address1 : Yup.string()
+            .min(2, 'Too Short!')
            .required('Address1 is required'),            
             city : Yup.string()
            .required('City is required'),
             zip : Yup.string()
+            .min(6, 'Invalid Zip Code')
            .required('Zip is required'),
             state : Yup.string()
            .required('State is required'),
@@ -161,13 +233,31 @@ const Employee = () => {
            .required('Country is required'),
             gender: Yup.string()
            .required('Gender is required'),
-            dateofbirth : Yup.string()
-           .required('Date Of Birth is required'),
-            dateofjoining : Yup.string()
+            dateofbirth : Yup.date('Invalid date')
+           .required('Date Of Birth is required')
+           .typeError('')
+           .test('', 'Enter valid date', function(value) {                    
+            const date = new Date();       
+            return  value < date
+            })
+           .test('', 'Age must be greater than 18', function(value) {            
+               const dt1=value;
+            const date = new Date();    
+            const result =  Math.floor((Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()) - Date.UTC(value.getFullYear(), value.getMonth(), value.getDate()) ) /(1000 * 60 * 60 * 24));
+            return Math.floor((result/30)/12) > 17
+            }),
+            dateofjoining : Yup.date('Invalid date')
+            .typeError('')
+            .test('', 'Enter valid date', function(value) {                    
+                const date = new Date();                
+                return (value.getFullYear()- date.getFullYear()) < 2
+                })
            .required('Date Of Joining is required'),
             status: Yup.string()
            .required('Status is required'),
-            experience_at_joining : Yup.string()
+            experience_at_joining : Yup
+            .number()
+            .typeError('Experience must be in numbers')
            .required('Experience At Joining is required'),
             work_location : Yup.string()
             .required('Work Location is required'),
@@ -187,43 +277,12 @@ const Employee = () => {
            .required('Functional Manager is required'),
             skills : Yup.string()
            .required('Skills are required'),
-            
     });
 
     return (
         <GridContainer>
         <Formik
-        initialValues={{
-            employee_id : '',
-            email : '',
-            userName : '',
-            password : '',
-            firstname  : '',
-            lastname : '',
-            middlename : '',
-            address1 : '',
-            address2 : '',
-            city : '',
-            zip : '',
-            state : '',
-            country : '',
-            gender: '',
-            dateofbirth : new Date(),
-            dateofjoining : new Date(),
-            status: '',
-            experience_at_joining : '',
-            work_location :'',
-            timezone : '',
-            shift_timing : '',
-            designation : '',
-            employment_status : '',
-            userRole  : '',
-            reporting_manager : '',
-            functional_manager  : '',
-            skills :'',
-            certifications:'',
-            achievements:'',
-        }}
+        initialValues={initialValues}
         onSubmit={(values, { setSubmitting }) => {            
             submitFormValues(values);
             setSubmitting(false)
@@ -235,7 +294,7 @@ const Employee = () => {
  
 
  <Card id="add_new_employee">
-     <Form>
+     <Form ref={userForm}>
      <CardHeader color="primary">
          <h4 className={classes.cardTitleWhite}>
              {' '}
@@ -387,40 +446,44 @@ const Employee = () => {
                     }}
                  />
              </GridItem>
-             <GridItem xs={12} sm={12} md={3}>
+             <GridItem xs={12} sm={12} md={4}>
                  <FormControl
                      className={classes.formControl}
                  >
-                     <InputLabel htmlFor="city">
+                     <InputLabel htmlFor="country">
                          {' '}
-                         City
+                         Country
                      </InputLabel>
                      <Select
-                         value={values.city}
+                         value={values.country}
                          onChange={handleChange}
+                         onBlur= {e=>{                            
+                            setFieldValue('state', '')
+                        }
+                    }
                          inputProps={{
-                             name: 'city',
-                             id: 'city'
+                             name: 'country',
+                             id: 'country'
                          }}
                      >
                          <MenuItem value="">
                              <em>None</em>
                          </MenuItem>
-                         {datatoloop.map(item => {
+                         {countryData.map(item => {
                              return (
-                                 <MenuItem value={item.subject}>
-                                     {item.subject}
+                                 <MenuItem value={item.country}>
+                                     {item.name}
                                  </MenuItem>
                              )
                          })}
                      </Select>
                  </FormControl>
                    <div className = {classes.error}>
-                 <ErrorMessage name='city'/> 
-                 </div>
-             </GridItem>
+                 <ErrorMessage name='country'/>
+                 </div> 
+             </GridItem>           
 
-             <GridItem xs={12} sm={12} md={3}>
+             <GridItem xs={12} sm={12} md={4}>
                  <FormControl
                      className={classes.formControl}
                  >
@@ -438,52 +501,50 @@ const Employee = () => {
                          <MenuItem value="">
                              <em>None</em>
                          </MenuItem>
-                         {datatoloop.map(item => {
-                             return (
-                                 <MenuItem value={item.subject}>
-                                     {item.subject}
-                                 </MenuItem>
-                             )
-                         })}
+                         {countryData.map(item => {
+                                
+                                if(values.country && item.country == values.country){                                    
+                                return (                                    
+                                    getStates(values.country).map(item =>{                                        
+                                if(item){
+                                    return  <MenuItem value={item.code}>
+                                                {item.name}                                       
+                                            </MenuItem>
+                                }                               
+                            }      
+                           )
+                           )
+                            }                         
+
+                        }
+                            )
+                         }
                      </Select>
                  </FormControl>
                    <div className = {classes.error}>
                  <ErrorMessage name='state'/> 
                  </div>
              </GridItem>
-             <GridItem xs={12} sm={12} md={3}>
-                 <FormControl
-                     className={classes.formControl}
-                 >
-                     <InputLabel htmlFor="country">
-                         {' '}
-                         Country
-                     </InputLabel>
-                     <Select
-                         value={values.country}
-                         onChange={handleChange}
-                         inputProps={{
-                             name: 'country',
-                             id: 'country'
-                         }}
-                     >
-                         <MenuItem value="">
-                             <em>None</em>
-                         </MenuItem>
-                         {datatoloop.map(item => {
-                             return (
-                                 <MenuItem value={item.subject}>
-                                     {item.subject}
-                                 </MenuItem>
-                             )
-                         })}
-                     </Select>
-                 </FormControl>
+            
+             <GridItem xs={12} sm={12} md={4}>                
+                  <CustomInput
+                     labelText="City"
+                     name="city"
+                     formControlProps={{
+                         fullWidth: true
+                     }}
+                     inputProps={{
+                        value: values.city,
+                        name: 'city',
+                        onChange: handleChange,
+                    }}
+                 />
                    <div className = {classes.error}>
-                 <ErrorMessage name='country'/>
-                 </div> 
+                 <ErrorMessage name='city'/> 
+                 </div>
              </GridItem>
-             <GridItem xs={12} sm={12} md={3}>
+
+             <GridItem xs={12} sm={12} md={4}>
                  <CustomInput
                      labelText="Zip"
                      name="zip"
@@ -501,11 +562,11 @@ const Employee = () => {
                  </div>
              </GridItem>
            
-             <GridItem xs={12} sm={12} md={6}>
+             <GridItem xs={12} sm={12} md={4}>
                  <MuiPickersUtilsProvider
                      utils={DateFnsUtils}
                  >
-                     <Grid container justify="space-around">
+                     <Grid container justify="flex-start" style = {{ paddingLeft: 11, paddingRight: 11,}}>
                          <KeyboardDatePicker
                              disableToolbar
                              variant="inline"
@@ -513,8 +574,6 @@ const Employee = () => {
                              margin="normal"
                              name="dateofbirth"                                                
                              label="Date Of Birth"
-                            //  value={selectedDate}
-                            //  onChange={handleDateChange}
                             value={values.dateofbirth}
                             onChange={date =>
                                 setFieldValue(
@@ -525,6 +584,7 @@ const Employee = () => {
                              KeyboardButtonProps={{
                                  'aria-label': 'change date'
                              }}
+                             fullWidth
                          />
                      </Grid>
                  </MuiPickersUtilsProvider>
@@ -533,11 +593,11 @@ const Employee = () => {
                  </div> 
              </GridItem>
 
-             <GridItem xs={12} sm={12} md={6}>
+             <GridItem xs={12} sm={12} md={4}>
                  <MuiPickersUtilsProvider
                      utils={DateFnsUtils}
                  >
-                     <Grid container justify="space-around">
+                     <Grid container justify="flex-start" style = {{ paddingLeft: 11, paddingRight: 11,}}>
                          <KeyboardDatePicker
                              disableToolbar
                              variant="inline"
@@ -545,8 +605,6 @@ const Employee = () => {
                              margin="normal"
                              name="dateofjoining"
                              label="Date Of Joining"
-                            //  value={selectedDate}
-                            //  onChange={handleDateChange}
                             value={values.dateofjoining}
                             onChange={date =>
                                 setFieldValue(
@@ -557,6 +615,7 @@ const Employee = () => {
                              KeyboardButtonProps={{
                                  'aria-label': 'change date'
                              }}
+                             fullWidth
                          />
                      </Grid>
                  </MuiPickersUtilsProvider>
@@ -596,38 +655,7 @@ const Employee = () => {
                  <ErrorMessage name='gender'/> 
                  </div>
              </GridItem>
-             <GridItem xs={12} sm={12} md={6}>
-                 <FormControl
-                     className={classes.formControl}
-                 >
-                     <InputLabel htmlFor="status">
-                         {' '}
-                         Status
-                     </InputLabel>
-                     <Select
-                         value={values.status}
-                         onChange={handleChange}
-                         inputProps={{
-                             name: 'status',
-                             id: 'status'
-                         }}
-                     >
-                         <MenuItem value="">
-                             <em>None</em>
-                         </MenuItem>
-                         {status.map(item => {
-                             return (
-                                 <MenuItem value={item}>
-                                     {item}
-                                 </MenuItem>
-                             )
-                         })}
-                     </Select>
-                 </FormControl>
-                 <div className = {classes.error}>
-                 <ErrorMessage name='status'/> 
-                 </div>
-             </GridItem>
+            
             
              <GridItem xs={12} sm={12} md={6}>                                    
                  <FormControl
@@ -839,13 +867,13 @@ const Employee = () => {
                          <MenuItem value="">
                              <em>None</em>
                          </MenuItem>
-                         {datatoloop.map(item => {
+                         {managers ?  managers.map(item => {
                              return (
-                                 <MenuItem value={item.subject}>
-                                     {item.subject}
+                                 <MenuItem value={item.employee_id}>
+                                     {item.firstname + " " + item.lastname}
                                  </MenuItem>
                              )
-                         })}
+                         }) : null}
                      </Select>
                  </FormControl>
                    <div className = {classes.error}>
@@ -871,10 +899,10 @@ const Employee = () => {
                          <MenuItem value="">
                              <em>None</em>
                          </MenuItem>
-                         {datatoloop.map(item => {
+                         {managers && managers.map(item => {
                              return (
-                                 <MenuItem value={item.subject}>
-                                     {item.subject}
+                                 <MenuItem value={item.employee_id}>
+                                     {item.firstname + " " + item.lastname}
                                  </MenuItem>
                              )
                          })}
@@ -945,6 +973,40 @@ const Employee = () => {
                     }}
                  />
              </GridItem>
+
+             {/* Display for update user only */}
+             {/* <GridItem xs={12} sm={12} md={6}>
+                 <FormControl
+                     className={classes.formControl}
+                 >
+                     <InputLabel htmlFor="status">
+                         {' '}
+                         Status
+                     </InputLabel>
+                     <Select
+                         value={values.status}
+                         onChange={handleChange}
+                         inputProps={{
+                             name: 'status',
+                             id: 'status'
+                         }}
+                     >
+                         <MenuItem value="">
+                             <em>None</em>
+                         </MenuItem>
+                         {status.map(item => {
+                             return (
+                                 <MenuItem value={item}>
+                                     {item}
+                                 </MenuItem>
+                             )
+                         })}
+                     </Select>
+                 </FormControl>
+                 <div className = {classes.error}>
+                 <ErrorMessage name='status'/> 
+                 </div>
+             </GridItem> */}
          </GridContainer>
      </CardBody>
 

@@ -16,7 +16,7 @@ function* workerUserSaga(userinfo) {
                 yield put(setNewUserError("User Already Exist!")); 
           }
           else {
-              // todo not sure about this possibility- code reachability
+            //To do add code for all api calls .. invalid token case falls here              
             yield put(setNewUserError(e.response.data.message));
           }   
       }
