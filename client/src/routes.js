@@ -5,7 +5,9 @@ import UserProfile from './views/UserProfile/UserProfile.js'
 import GroupIcon from '@material-ui/icons/Group'
 import AssignmentIcon from '@material-ui/icons/Assignment'
 import Projects from './views/Project/Project'
-import Employee from './components/Employee/Employee'
+// import Employee from './components/Employee/EmployeeSearch'
+import Employee from './views/Employee/Employee'
+
 import PeerReview from './views/PeerReview/PeerReview'
 import CreatePeer from './components/CreatePeerForm/CreatePeerForm'
 import PeerReviewDetails from './components/PeerReviewDetails/PeerReviewDetails'
@@ -20,15 +22,15 @@ const dashboardRoutes = [
     layout: '/admin',
     showLink: true
   },
-  // {
-  //   path: '/user',
-  //   name: 'User Profile',
-  //   rtlName: 'ملف تعريفي للمستخدم',
-  //   icon: Person,
-  //   component: UserProfile,
-  //   layout: '/admin',
-  //   showLink: true
-  // },
+  {
+    path: '/user',
+    name: 'User Profile',
+    rtlName: 'ملف تعريفي للمستخدم',
+    icon: Person,
+    component: UserProfile,
+    layout: '/admin',
+    showLink: true
+  },
   {
     path: '/employee',
     name: 'Employees',
@@ -40,7 +42,7 @@ const dashboardRoutes = [
   },
   {
     path: '/projects',
-    name: 'Projects',
+    name: 'Project History',
     rtlName: 'قائمة الجدول',
     icon: AssignmentIcon,
     component: Projects,

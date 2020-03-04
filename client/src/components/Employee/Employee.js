@@ -224,8 +224,7 @@ const Employee = () => {
             certifications:'',
             achievements:'',
         }}
-        onSubmit={(values, { setSubmitting }) => {      
-            console.log("onSubmit")      ;
+        onSubmit={(values, { setSubmitting }) => {            
             submitFormValues(values);
             setSubmitting(false)
         }}
