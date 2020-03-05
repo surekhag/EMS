@@ -72,8 +72,9 @@ const styles = {
 }
 
 const useStyles = makeStyles(styles)
-const Employee = () => {
+const Employee = (props) => {
     const [managers, setManagers] = useState();
+    const {setPageView} = props;
     const classes = useStyles();
     const { addToast } = useToasts()
     const dispatch = useDispatch();
@@ -105,6 +106,7 @@ const Employee = () => {
             addToast(addNewUserStatus, { appearance: 'success', autoDismiss: true });
             userForm.current.reset();
             dispatch(clearUserStatus());
+            setPageView("employeeListing");
         }
     }, [addNewUserStatus, addToast]);
 

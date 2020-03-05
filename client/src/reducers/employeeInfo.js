@@ -10,6 +10,7 @@ export default function employeeInfoReducer(state = initialState, action) {
         ...state,
         employeeData: action.payload.data
       }
+      // case DELETE_USER_URL
     default:
       return state
   }
