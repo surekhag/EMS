@@ -527,6 +527,42 @@ const Employee = (props) => {
                  <ErrorMessage name='state'/> 
                  </div>
              </GridItem>
+
+             {/* Display for update user only */}
+             <GridItem xs={12} sm={12} md={4}>
+                 <FormControl
+                     className={classes.formControl}
+                 >
+                     <InputLabel htmlFor="status">
+                         {' '}
+                         Status
+                     </InputLabel>
+                     <Select
+                         value={values.status}
+                         onChange={handleChange}
+                         inputProps={{
+                             name: 'status',
+                             id: 'status'
+                         }}
+                     >
+                         <MenuItem value="">
+                             <em>None</em>
+                         </MenuItem>
+                         {status.map(item => {
+                             return (
+                                 <MenuItem value={item}>
+                                     {item}
+                                 </MenuItem>
+                             )
+                         })}
+                     </Select>
+                 </FormControl>
+                 <div className = {classes.error}>
+                 <ErrorMessage name='status'/> 
+                 </div>
+             </GridItem>
+
+
             
              <GridItem xs={12} sm={12} md={4}>                
                   <CustomInput
@@ -561,6 +597,23 @@ const Employee = (props) => {
                  />
                    <div className = {classes.error}>
                  <ErrorMessage name='zip'/> 
+                 </div>
+             </GridItem>
+             <GridItem xs={12} sm={12} md={4}>
+                 <CustomInput
+                     labelText="Experience At Joining"
+                     name="experience_at_joining"
+                     formControlProps={{
+                         fullWidth: true
+                     }}
+                     inputProps={{
+                        value: values.experience_at_joining,
+                        name: 'experience_at_joining',
+                        onChange: handleChange,
+                    }}
+                 />
+                <div className = {classes.error}>
+                 <ErrorMessage name='experience_at_joining'/> 
                  </div>
              </GridItem>
            
@@ -625,7 +678,7 @@ const Employee = (props) => {
                  <ErrorMessage name='dateofjoining'/> 
                  </div>
              </GridItem>
-             <GridItem xs={12} sm={12} md={6}>
+             <GridItem xs={12} sm={12} md={4}>
                  <FormControl
                      className={classes.formControl}
                  >
@@ -914,23 +967,7 @@ const Employee = (props) => {
                  <ErrorMessage name='functional_manager'/> 
                  </div>
              </GridItem>
-             <GridItem xs={12} sm={12} md={6}>
-                 <CustomInput
-                     labelText="Experience At Joining"
-                     name="experience_at_joining"
-                     formControlProps={{
-                         fullWidth: true
-                     }}
-                     inputProps={{
-                        value: values.experience_at_joining,
-                        name: 'experience_at_joining',
-                        onChange: handleChange,
-                    }}
-                 />
-                <div className = {classes.error}>
-                 <ErrorMessage name='experience_at_joining'/> 
-                 </div>
-             </GridItem>
+           
              <GridItem xs={12} sm={12} md={6}>
                  <CustomInput
                      labelText="Skills"
@@ -961,7 +998,7 @@ const Employee = (props) => {
                     }}
                  />                 
              </GridItem>
-             <GridItem xs={12} sm={12} md={6}>
+             <GridItem xs={12} sm={12} md={12}>
                  <CustomInput
                      labelText="Achievements"
                      formControlProps={{
@@ -975,40 +1012,7 @@ const Employee = (props) => {
                     }}
                  />
              </GridItem>
-
-             {/* Display for update user only */}
-             {/* <GridItem xs={12} sm={12} md={6}>
-                 <FormControl
-                     className={classes.formControl}
-                 >
-                     <InputLabel htmlFor="status">
-                         {' '}
-                         Status
-                     </InputLabel>
-                     <Select
-                         value={values.status}
-                         onChange={handleChange}
-                         inputProps={{
-                             name: 'status',
-                             id: 'status'
-                         }}
-                     >
-                         <MenuItem value="">
-                             <em>None</em>
-                         </MenuItem>
-                         {status.map(item => {
-                             return (
-                                 <MenuItem value={item}>
-                                     {item}
-                                 </MenuItem>
-                             )
-                         })}
-                     </Select>
-                 </FormControl>
-                 <div className = {classes.error}>
-                 <ErrorMessage name='status'/> 
-                 </div>
-             </GridItem> */}
+             
          </GridContainer>
      </CardBody>
 
