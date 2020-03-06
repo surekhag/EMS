@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import Card from '../../components/Card/Card.js'
 import CardHeader from '../../components/Card/CardHeader.js'
 import CardBody from '../../components/Card/CardBody.js'
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 // import GridItem from '../../components/Grid/GridItem.js'
 import { makeStyles } from '@material-ui/core/styles'
 import InputLabel from '@material-ui/core/InputLabel'
@@ -14,29 +14,56 @@ import styles from '../../assets/jss/material-dashboard-react/views/dashboardSty
 import GridItem from '../../components/Grid/GridItem.js'
 // import DialogActions from '@material-ui/core/DialogActions';
 import { Dialog, DialogActions , DialogTitle} from "@material-ui/core";
-import {deleteEmployee} from '../../actions/employeeAction'
+import {deleteEmployee, clearDeleteEmployeeMsg} from '../../actions/employeeAction'
+import { withToastManager, useToasts } from 'react-toast-notifications'
 
 const useStyles = makeStyles(styles)
  const EmployeeListing = (props )=>{
      const {employeeData,}  =props;
+     const { addToast } = useToasts()
      const classes = useStyles()
      const [searchText, setsearchText] = useState('')
      const dispatch = useDispatch()
      const [userToUpdate, setUserToUpdate] = useState();
      const [showDelDialog, setShowDelDialog] = useState(false);
-        const employeeListingHeader = [
-        'Id',
-        'Employee Id',
-        "UserName",
-        'Name',
-        "Designation",
-        'Functional Manager',
-        'Reporting Manager'
-      ]
+     const deleteEmployeeSuccess = useSelector(state => state.EmployeeInfo.deleteEmployeeSuccess);
+     const deleteEmployeeError = useSelector(state => state.EmployeeInfo.deleteEmployeeError);
 
-      const changeHandler = e => {
+
+    const employeeListingHeader = [
+    'Id',
+    'Employee Id',
+    "UserName",
+    'Name',
+    "Designation",
+    'Functional Manager',
+    'Reporting Manager'
+    ]
+
+    const changeHandler = e => {
         setsearchText(e.target.value)        
     }
+
+    useEffect(() => {
+        if (deleteEmployeeSuccess) {            
+            addToast(deleteEmployeeSuccess, {
+              appearance: 'success',
+              autoDismiss: true
+            });
+            dispatch(clearDeleteEmployeeMsg());
+        }
+      }, [deleteEmployeeSuccess, addToast, dispatch])
+
+      useEffect(() => {
+        if (deleteEmployeeError) {            
+            addToast(deleteEmployeeError, {
+              appearance: 'error',
+              autoDismiss: true
+            })
+            dispatch(clearDeleteEmployeeMsg());
+        }
+      }, [deleteEmployeeError, addToast, dispatch])
+
 
      let employeeDetails = []
      if (employeeData) {
@@ -77,12 +104,13 @@ const useStyles = makeStyles(styles)
     }
     const handleYesDelete =()=>{          
         dispatch(deleteEmployee(userToUpdate[0]._id));
+        setShowDelDialog(false);
     }
 
     const handleNoDelete = ()=>{
         setShowDelDialog(false);
     }
-    
+
     return(
             <>
             <GridItem xs={12} sm={12} md={12}>

@@ -1025,4 +1025,4 @@ const Employee = (props) => {
        
     )
 }
-export default withAuth(withToastManager(Employee));
+export default (Employee);

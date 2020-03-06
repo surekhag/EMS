@@ -6,8 +6,6 @@ export function loadAllEmployeeData() {
 }
 
 export function deleteEmployeeApi(id) {
-  console.log(id)
-  return axios.delete(DELETE_USER_URL, {
-    params: { id: id }
-   })
+  return axios.delete(DELETE_USER_URL+id 
+   )
 }
