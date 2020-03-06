@@ -51,7 +51,7 @@ const Employees = props => {
             </GridItem>
            
           {pageView == "employeeListing" ?  ( <EmployeeListing          
-          employeeData = {employeeData} 
+          employeeData = {employeeData } setPageView = {setPageView}
           /> ) : (<Employee setPageView = {setPageView}/>)}
         </GridContainer>
     )

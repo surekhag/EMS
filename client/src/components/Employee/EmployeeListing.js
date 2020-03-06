@@ -16,15 +16,17 @@ import GridItem from '../../components/Grid/GridItem.js'
 import { Dialog, DialogActions , DialogTitle} from "@material-ui/core";
 import {deleteEmployee, clearDeleteEmployeeMsg} from '../../actions/employeeAction'
 import { withToastManager, useToasts } from 'react-toast-notifications'
+import Employee from './Employee'
 
 const useStyles = makeStyles(styles)
  const EmployeeListing = (props )=>{
-     const {employeeData,}  =props;
+     const {employeeData,setPageView}  =props;
      const { addToast } = useToasts()
      const classes = useStyles()
      const [searchText, setsearchText] = useState('')
      const dispatch = useDispatch()
      const [userToUpdate, setUserToUpdate] = useState();
+     const [updateAction, setUpdateAction] = useState();
      const [showDelDialog, setShowDelDialog] = useState(false);
      const deleteEmployeeSuccess = useSelector(state => state.EmployeeInfo.deleteEmployeeSuccess);
      const deleteEmployeeError = useSelector(state => state.EmployeeInfo.deleteEmployeeError);
@@ -43,6 +45,13 @@ const useStyles = makeStyles(styles)
     const changeHandler = e => {
         setsearchText(e.target.value)        
     }
+
+    //Clear Search text on Update Cancel/Success
+    useEffect(() => {        
+        if(!updateAction){
+            setsearchText();
+        }
+    }, [updateAction])
 
     useEffect(() => {
         if (deleteEmployeeSuccess) {            
@@ -66,7 +75,7 @@ const useStyles = makeStyles(styles)
 
 
      let employeeDetails = []
-     if (employeeData) {
+     if (employeeData && searchText) {
          let filteredEmployee = employeeData.data.data.filter(
              cls =>
                  cls.userName
@@ -93,15 +102,18 @@ const useStyles = makeStyles(styles)
     }
 
      const updateUser= (val)=>{
-        const user = getUserToUpdate(employeeData.data.data, val[0]);
-        setUserToUpdate(user);
+         setUpdateAction('update');
+        const user = getUserToUpdate(employeeData.data.data, val[0]);        
+        setUserToUpdate(user);        
      }
 
      const deleteUser= (val)=>{
-        const user = getUserToUpdate(employeeData.data.data, val[0]);
+        const user = getUserToUpdate(employeeData.data.data, val[0]);        
+        setUpdateAction('delete');
         setUserToUpdate(user);
         setShowDelDialog(true);
     }
+    
     const handleYesDelete =()=>{          
         dispatch(deleteEmployee(userToUpdate[0]._id));
         setShowDelDialog(false);
@@ -112,23 +124,11 @@ const useStyles = makeStyles(styles)
     }
 
     return(
-            <>
-            <GridItem xs={12} sm={12} md={12}>
-            <Dialog
-                title="Delete Employee"    
-                modal={true}
-                open={showDelDialog}>
-                <DialogActions>
-                
-                <GridItem xs={12} sm={12} md={12}>
-                <p> Are you sure you need to delete an Employee ? </p>
-                <Button onClick={handleYesDelete}> Yes</Button> <Button onClick= {handleNoDelete}> No</Button>
-                </GridItem>
-
-                </DialogActions> 
-            </Dialog>
-
-      
+            <>            
+            {updateAction=='update' ? 
+            <Employee setUpdateAction ={setUpdateAction} userToUpdate = {userToUpdate} setPageView= {setPageView} /> : 
+            <> 
+             <GridItem xs={12} sm={12} md={12}>
                 <CustomInput
                     formControlProps={{
                         className: classes.margin + ' ' + classes.search
@@ -170,6 +170,21 @@ const useStyles = makeStyles(styles)
             </CardBody>
         </Card>
     </GridItem>
+            <Dialog
+                title="Delete Employee"    
+                modal={true}
+                open={showDelDialog}>
+                <DialogActions>
+                
+                <GridItem xs={12} sm={12} md={12}>
+                <p> Are you sure you want to delete this Employee ? </p>
+                <Button onClick={handleYesDelete}> Yes</Button> <Button onClick= {handleNoDelete}> No</Button>
+                </GridItem>
+
+                </DialogActions> 
+            </Dialog>
+            </>}
+       
     </>
     )
 }

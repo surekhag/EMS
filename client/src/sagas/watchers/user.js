@@ -1,13 +1,15 @@
 import { put, takeLatest, call } from 'redux-saga/effects'
-import { ADD_NEW_USER} from '../../actions/actionTypes.js'
+import { ADD_NEW_USER, UPDATE_USER} from '../../actions/actionTypes.js'
 import { setNewUserSuccess, setNewUserError } from '../../actions/userActions'
-import { addNewUserApi } from '../../api/userApi'
+import {loadAllEmployeeData} from '../../actions/employeeAction'
+import { addNewUserApi, updateUserApi } from '../../api/userApi'
 
 
 function* workerUserSaga(userinfo) {    
   try {
     const addUserResponse =yield call(addNewUserApi, userinfo)    
     yield put(setNewUserSuccess(addUserResponse.data.message));
+    yield put(loadAllEmployeeData())
 
   } catch (e) {      
       if(e.response.data && e.response.data.message){
@@ -26,6 +28,32 @@ function* workerUserSaga(userinfo) {
   }
 }
 
-export default function* watchUserSaga() {
+export function* watchUserSaga() {
   yield takeLatest(ADD_NEW_USER, workerUserSaga)
+}
+
+
+
+function* workerUpadateUserSaga({payload}) {   
+  const {userInfo, id} = payload;
+
+  try {
+    const updateUserResponse =yield call(updateUserApi, payload)    
+    console.log(updateUserResponse);
+    // yield put(setNewUserSuccess(addUserResponse.data.message));
+    // yield put(loadAllEmployeeData())
+
+  } catch (e) {      
+      if(e.response.data && e.response.data.message){         
+            //To do add code for all api calls .. invalid token case falls here              
+            yield put(setNewUserError(e.response.data.message));         
+      }
+      else {
+        yield put(setNewUserError(e));
+      }      
+  }
+}
+
+export function* watchUpadateUserSaga() {
+  yield takeLatest(UPDATE_USER, workerUpadateUserSaga)
 }

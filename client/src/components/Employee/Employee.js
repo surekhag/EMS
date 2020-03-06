@@ -19,7 +19,7 @@ import MenuItem from '@material-ui/core/MenuItem'
 import FormControl from '@material-ui/core/FormControl'
 import { Formik, Form, ErrorMessage } from 'formik';
 import { useSelector , useDispatch} from 'react-redux';
-import { addNewUser, clearUserStatus } from '../../actions/userActions'
+import { addNewUser, clearUserStatus, updateUser} from '../../actions/userActions'
 import withAuth from '../../HOC/withAuth'
 import {loadAllEmployeeData} from '../../actions/employeeAction'
 import * as Yup from 'yup';
@@ -74,7 +74,7 @@ const styles = {
 const useStyles = makeStyles(styles)
 const Employee = (props) => {
     const [managers, setManagers] = useState();
-    const {setPageView} = props;
+    const {setPageView, userToUpdate} = props;
     const classes = useStyles();
     const { addToast } = useToasts()
     const dispatch = useDispatch();
@@ -86,6 +86,7 @@ const Employee = (props) => {
   
     //Load all emp info
     useEffect(()=>{
+        console.log(props)
         dispatch(loadAllEmployeeData());        
     },[]);
 
@@ -124,7 +125,7 @@ const Employee = (props) => {
         {id :'BR', location : 'Brazil'},
     ];
     const shift_timing = ['9 to 6', '8 to 5', '11 to 8'];
-    const status = ['Active','InActive'];
+    const status = ["Active","InActive"];
     const designation= [
         'Junior Developer',
         'Developer',
@@ -143,7 +144,6 @@ const Employee = (props) => {
     const employment_status =['Part Time', 'Full time', 'Contractor'];
     const userRole =['Admin', 'Manager', 'Human Resource', 'Employee'];
 
-
     const countryData = [{"country":"IN", "name" : "India","states":[{"code":"DD","name":"Daman and Diu"},{"code":"JK","name":"Jammu and Kashmir"},{"code":"DL","name":"Delhi"},{"code":"HP","name":"Himachal Pradesh"},{"code":"PY","name":"Pondicherry"},{"code":"DN","name":"Dadra and Nagar Haveli"},{"code":"HR","name":"Haryana"},{"code":"WB","name":"West Bengal"},{"code":"BR","name":"Bihar"},{"code":"KA","name":"Karnataka"},{"code":"UK","name":"Uttarakhand"},{"code":"SK","name":"Sikkim"},{"code":"GA","name":"Goa"},{"code":"MH","name":"Maharashtra"},{"code":"UP","name":"Uttar Pradesh"},{"code":"ML","name":"Meghalaya"},{"code":"KL","name":"Kerala"},{"code":"MN","name":"Manipur"},{"code":"GJ","name":"Gujarat"},{"code":"MP","name":"Madhya Pradesh"},{"code":"OR","name":"Orissa"},{"code":"CG","name":"Chhattisgarh"},{"code":"Chandigarh","name":"Chandigarh"},{"code":"MZ","name":"Mizoram"},{"code":"AP","name":"Andhra Pradesh"},{"code":"AR","name":"Arunachal Pradesh"},{"code":"AS","name":"Assam"},{"code":"PB","name":"Punjab"},{"code":"RJ","name":"Rajasthan"},{"code":"TN","name":"Tamil Nadu"},{"code":"JH","name":"Jharkhand"},{"code":"NL","name":"Nagaland"},{"code":"TR","name":"Tripura"}]},
     {"country":"US","name" : "United States","states":[{"code":"DE","name":"Delaware"},{"code":"HI","name":"Hawaii"},{"code":"PR","name":"Puerto Rico"},{"code":"TX","name":"Texas"},{"code":"PW","name":"Palau"},{"code":"MA","name":"Massachusetts"},{"code":"MD","name":"Maryland"},{"code":"IA","name":"Iowa"},{"code":"ME","name":"Maine"},{"code":"MH","name":"Marshall Islands"},{"code":"ID","name":"Idaho"},{"code":"MI","name":"Michigan"},{"code":"UT","name":"Utah"},{"code":"MN","name":"Minnesota"},{"code":"MO","name":"Missouri"},{"code":"MP","name":"Northern Mariana Islands"},{"code":"IL","name":"Illinois"},{"code":"IN","name":"Indiana"},{"code":"MS","name":"Mississippi"},{"code":"MT","name":"Montana"},{"code":"AK","name":"Alaska"},{"code":"AL","name":"Alabama"},{"code":"VA","name":"Virginia"},{"code":"AR","name":"Arkansas"},{"code":"AS","name":"American Samoa"},{"code":"VI","name":"Virgin Islands"},{"code":"NC","name":"North Carolina"},{"code":"ND","name":"North Dakota"},{"code":"NE","name":"Nebraska"},{"code":"RI","name":"Rhode Island"},{"code":"AZ","name":"Arizona"},{"code":"NH","name":"New Hampshire"},{"code":"NJ","name":"New Jersey"},{"code":"VT","name":"Vermont"},{"code":"NM","name":"New Mexico"},{"code":"FL","name":"Florida"},{"code":"FM","name":"Federated States Of Micronesia"},{"code":"NV","name":"Nevada"},{"code":"WA","name":"Washington"},{"code":"NY","name":"New York"},{"code":"SC","name":"South Carolina"},{"code":"SD","name":"South Dakota"},{"code":"WI","name":"Wisconsin"},{"code":"OH","name":"Ohio"},{"code":"GA","name":"Georgia"},{"code":"OK","name":"Oklahoma"},{"code":"CA","name":"California"},{"code":"WV","name":"West Virginia"},{"code":"WY","name":"Wyoming"},{"code":"OR","name":"Oregon"},{"code":"KS","name":"Kansas"},{"code":"CO","name":"Colorado"},{"code":"GU","name":"Guam"},{"code":"KY","name":"Kentucky"},{"code":"CT","name":"Connecticut"},{"code":"PA","name":"Pennsylvania"},{"code":"LA","name":"Louisiana"},{"code":"TN","name":"Tennessee"},{"code":"DC","name":"District Of Columbia"}]}];
 
@@ -160,43 +160,54 @@ const Employee = (props) => {
         })
         return states.length > 0 ? states[0].states: [];        
     }     
-    const submitFormValues = (values) => {
-        dispatch(addNewUser(values));
+    const submitFormValues = (values) => {        
+        if(userToUpdate){
+            const id= userToUpdate[0]._id;
+            dispatch(updateUser(values, id));
+        }
+        else{
+            dispatch(addNewUser(values));
+        }        
     }
 
     //todo update user initial val set here
-    const initialValues = {
-        employee_id : '',
-        email : '',
-        userName : '',
+
+       const initialValues = {
+        employee_id : userToUpdate? userToUpdate[0].employee_id:'',
+        email : userToUpdate? userToUpdate[0].email:'',
+        userName : userToUpdate? userToUpdate[0].userName:'',
         password : '',
-        firstname  : '',
-        lastname : '',
-        middlename : '',
-        address1 : '',
-        address2 : '',
-        city : '',
-        zip : '',
-        state : '',
-        country : '',
-        gender: '',
-        dateofbirth : new Date(),
-        dateofjoining : new Date(),
-        status: 'ACTIVE',
-        experience_at_joining : '',
-        work_location :'',
-        timezone : '',
-        shift_timing : '',
-        designation : '',
-        employment_status : '',
-        userRole  : '',
-        reporting_manager : '',
-        functional_manager  : '',
-        skills :'',
-        certifications:'',
-        achievements:'',
+        firstname  : userToUpdate? userToUpdate[0].firstname:'',
+        lastname : userToUpdate? userToUpdate[0].lastname:'',
+        middlename : userToUpdate? userToUpdate[0].middlename:'',
+        address1 : userToUpdate? userToUpdate[0].address1:'',
+        address2 : userToUpdate? userToUpdate[0].address2:'',
+        city : userToUpdate? userToUpdate[0].city:'',
+        zip : userToUpdate? userToUpdate[0].zip:'',
+        state : userToUpdate? userToUpdate[0].state:'',
+        country : userToUpdate? userToUpdate[0].country:'',
+        gender: userToUpdate? userToUpdate[0].gender:'',
+        dateofbirth : userToUpdate? userToUpdate[0].dateofbirth: new Date(),
+        dateofjoining : userToUpdate? userToUpdate[0].dateofjoining:new Date(),
+        status: userToUpdate? userToUpdate[0].status:'Active',
+        experience_at_joining : userToUpdate? userToUpdate[0].experience_at_joining:'',
+        work_location :userToUpdate? userToUpdate[0].work_location:'',
+        timezone : userToUpdate? userToUpdate[0].timezone:'',
+        shift_timing : userToUpdate? userToUpdate[0].shift_timing:'',
+        designation : userToUpdate? userToUpdate[0].designation:'',
+        employment_status : userToUpdate? userToUpdate[0].employment_status:'',
+        userRole  : userToUpdate? userToUpdate[0].userRole:'',
+        reporting_manager : userToUpdate? userToUpdate[0].reporting_manager:'',
+        functional_manager  : userToUpdate? userToUpdate[0].functional_manager:'',
+        skills :userToUpdate? userToUpdate[0].skills:'',
+        certifications:userToUpdate? userToUpdate[0].certifications:'',
+        achievements:userToUpdate? userToUpdate[0]. achievements:'',
     };
 
+    const handleSeachView =()=>{        
+        // const {setUpdateAction} = props;        
+        props.setUpdateAction();        
+    }
     const userDataValidation = Yup.object().shape({
             employee_id : Yup
             .number()            
@@ -210,7 +221,12 @@ const Employee = (props) => {
             .required('UserName is required'),
             password : Yup.string()
             .min(8, 'Password must be at least 8 characters long!')
-            .required('Password is required'),
+            .when("userToUpdate",{
+                is: (userToUpdate) => userToUpdate ,
+                then :  Yup.string().required('Password is required'),
+                otherwise : Yup.string().optional("Password is optional")
+            }),
+            // .required('Password is required'),
             firstname  : Yup.string()
             .required('Firstname is required')
             .min(2, 'Too Short!')
@@ -300,7 +316,8 @@ const Employee = (props) => {
      <CardHeader color="primary">
          <h4 className={classes.cardTitleWhite}>
              {' '}
-             ADD EMPLOYEE{' '}
+        {userToUpdate ? 'UPDATE EMPLOYEE' : 'ADD EMPLOYEE '}
+             {' '}
          </h4>
      </CardHeader>
 
@@ -355,7 +372,9 @@ const Employee = (props) => {
                  </div>
              </GridItem>
              <GridItem xs={12} sm={12} md={6}>
-                 <CustomInput
+                 {userToUpdate ? <div className = {classes.error}>
+                 <ErrorMessage name='password'/> 
+                 </div> :  <><CustomInput
                      labelText="Password"
                      formControlProps={{
                          fullWidth: true
@@ -369,6 +388,9 @@ const Employee = (props) => {
                    <div className = {classes.error}>
                  <ErrorMessage name='password'/> 
                  </div>
+                 </>
+                 }
+                
              </GridItem>
              <GridItem xs={12} sm={12} md={4}>
                  <CustomInput
@@ -530,7 +552,8 @@ const Employee = (props) => {
 
              {/* Display for update user only */}
              <GridItem xs={12} sm={12} md={4}>
-                 <FormControl
+                 {userToUpdate ? 
+                 <><FormControl
                      className={classes.formControl}
                  >
                      <InputLabel htmlFor="status">
@@ -560,6 +583,8 @@ const Employee = (props) => {
                  <div className = {classes.error}>
                  <ErrorMessage name='status'/> 
                  </div>
+                 </> : null}
+                 
              </GridItem>
 
 
@@ -1017,8 +1042,17 @@ const Employee = (props) => {
      </CardBody>
 
      <CardFooter>
-         <Button type="submit" color="primary" disabled={isSubmitting}>ADD EMPLOYEE</Button>
-     </CardFooter>
+         {userToUpdate ? <>
+            <GridItem xs={12} sm={12} md={6}>
+         <Button id='update' type="submit" color="primary" disabled={isSubmitting}>UPDATE EMPLOYEE</Button>
+         <Button  color="primary" disabled={isSubmitting} onClick={handleSeachView}>cancel</Button>
+         </GridItem>
+         </>        
+         :
+         <Button id='add' type="submit" color="primary" disabled={isSubmitting}>ADD EMPLOYEE</Button>
+          }
+         
+     </CardFooter>     
      </Form>
  </Card>
 </GridItem>
