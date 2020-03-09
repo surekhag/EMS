@@ -22,6 +22,7 @@ import { useSelector , useDispatch} from 'react-redux';
 import { addNewUser, clearUserStatus, updateUser} from '../../actions/userActions'
 import withAuth from '../../HOC/withAuth'
 import {loadAllEmployeeData} from '../../actions/employeeAction'
+import {gender, work_location, shift_timing,designation, employment_status, userRole, countryData} from '../../constants';
 import * as Yup from 'yup';
 
 import {
@@ -81,12 +82,13 @@ const Employee = (props) => {
     let employeeData = useSelector(state => state.EmployeeInfo.employeeData);
     let error = useSelector(state => state.userReducer.error);
     let addNewUserStatus = useSelector(state => state.userReducer.addNewUserStatus);
+    let updateUserStatus = useSelector(state => state.userReducer.updateUserStatus);
+    let updateUserError = useSelector(state => state.userReducer.updateUserError);
     const userForm = useRef(null);
    
   
     //Load all emp info
     useEffect(()=>{
-        console.log(props)
         dispatch(loadAllEmployeeData());        
     },[]);
 
@@ -109,44 +111,28 @@ const Employee = (props) => {
             dispatch(clearUserStatus());
             setPageView("employeeListing");
         }
-    }, [addNewUserStatus, addToast]);
+        if(updateUserStatus){            
+            addToast(updateUserStatus, { appearance: 'success', autoDismiss: true });
+            userForm.current.reset();
+            dispatch(clearUserStatus());            
+            if(props)
+                props.setUpdateAction(); 
+        }
+    }, [addNewUserStatus,updateUserStatus,  addToast]);
 
     useEffect(() => {        
         if(error)
-        addToast(error, { appearance: 'error', autoDismiss: true })
-      }, [error,addToast]);
+        {
+            addToast(error, { appearance: 'error', autoDismiss: true })
+            dispatch(clearUserStatus());            
+        }
 
-    //todo add constant array in different file
-    const gender =['Male', 'Female'];
-
-    const work_location =[
-        {id : 'IN', location : 'India'},
-        {id: 'US', location :'United States'},
-        {id :'BR', location : 'Brazil'},
-    ];
-    const shift_timing = ['9 to 6', '8 to 5', '11 to 8'];
-    const status = ["Active","InActive"];
-    const designation= [
-        'Junior Developer',
-        'Developer',
-        'Senior Developer',
-        'Junior Quality Analyst',
-        'Quality Analyst',
-        'Senior Quality Analyst',
-        'Architect',
-        'Human Resource',
-        'Admin',
-        'Scrum Master',
-        'Technology Lead',
-        'Senior Architect',    
-    ];
-
-    const employment_status =['Part Time', 'Full time', 'Contractor'];
-    const userRole =['Admin', 'Manager', 'Human Resource', 'Employee'];
-
-    const countryData = [{"country":"IN", "name" : "India","states":[{"code":"DD","name":"Daman and Diu"},{"code":"JK","name":"Jammu and Kashmir"},{"code":"DL","name":"Delhi"},{"code":"HP","name":"Himachal Pradesh"},{"code":"PY","name":"Pondicherry"},{"code":"DN","name":"Dadra and Nagar Haveli"},{"code":"HR","name":"Haryana"},{"code":"WB","name":"West Bengal"},{"code":"BR","name":"Bihar"},{"code":"KA","name":"Karnataka"},{"code":"UK","name":"Uttarakhand"},{"code":"SK","name":"Sikkim"},{"code":"GA","name":"Goa"},{"code":"MH","name":"Maharashtra"},{"code":"UP","name":"Uttar Pradesh"},{"code":"ML","name":"Meghalaya"},{"code":"KL","name":"Kerala"},{"code":"MN","name":"Manipur"},{"code":"GJ","name":"Gujarat"},{"code":"MP","name":"Madhya Pradesh"},{"code":"OR","name":"Orissa"},{"code":"CG","name":"Chhattisgarh"},{"code":"Chandigarh","name":"Chandigarh"},{"code":"MZ","name":"Mizoram"},{"code":"AP","name":"Andhra Pradesh"},{"code":"AR","name":"Arunachal Pradesh"},{"code":"AS","name":"Assam"},{"code":"PB","name":"Punjab"},{"code":"RJ","name":"Rajasthan"},{"code":"TN","name":"Tamil Nadu"},{"code":"JH","name":"Jharkhand"},{"code":"NL","name":"Nagaland"},{"code":"TR","name":"Tripura"}]},
-    {"country":"US","name" : "United States","states":[{"code":"DE","name":"Delaware"},{"code":"HI","name":"Hawaii"},{"code":"PR","name":"Puerto Rico"},{"code":"TX","name":"Texas"},{"code":"PW","name":"Palau"},{"code":"MA","name":"Massachusetts"},{"code":"MD","name":"Maryland"},{"code":"IA","name":"Iowa"},{"code":"ME","name":"Maine"},{"code":"MH","name":"Marshall Islands"},{"code":"ID","name":"Idaho"},{"code":"MI","name":"Michigan"},{"code":"UT","name":"Utah"},{"code":"MN","name":"Minnesota"},{"code":"MO","name":"Missouri"},{"code":"MP","name":"Northern Mariana Islands"},{"code":"IL","name":"Illinois"},{"code":"IN","name":"Indiana"},{"code":"MS","name":"Mississippi"},{"code":"MT","name":"Montana"},{"code":"AK","name":"Alaska"},{"code":"AL","name":"Alabama"},{"code":"VA","name":"Virginia"},{"code":"AR","name":"Arkansas"},{"code":"AS","name":"American Samoa"},{"code":"VI","name":"Virgin Islands"},{"code":"NC","name":"North Carolina"},{"code":"ND","name":"North Dakota"},{"code":"NE","name":"Nebraska"},{"code":"RI","name":"Rhode Island"},{"code":"AZ","name":"Arizona"},{"code":"NH","name":"New Hampshire"},{"code":"NJ","name":"New Jersey"},{"code":"VT","name":"Vermont"},{"code":"NM","name":"New Mexico"},{"code":"FL","name":"Florida"},{"code":"FM","name":"Federated States Of Micronesia"},{"code":"NV","name":"Nevada"},{"code":"WA","name":"Washington"},{"code":"NY","name":"New York"},{"code":"SC","name":"South Carolina"},{"code":"SD","name":"South Dakota"},{"code":"WI","name":"Wisconsin"},{"code":"OH","name":"Ohio"},{"code":"GA","name":"Georgia"},{"code":"OK","name":"Oklahoma"},{"code":"CA","name":"California"},{"code":"WV","name":"West Virginia"},{"code":"WY","name":"Wyoming"},{"code":"OR","name":"Oregon"},{"code":"KS","name":"Kansas"},{"code":"CO","name":"Colorado"},{"code":"GU","name":"Guam"},{"code":"KY","name":"Kentucky"},{"code":"CT","name":"Connecticut"},{"code":"PA","name":"Pennsylvania"},{"code":"LA","name":"Louisiana"},{"code":"TN","name":"Tennessee"},{"code":"DC","name":"District Of Columbia"}]}];
-
+        if(updateUserError){
+            addToast(updateUserError, { appearance: 'error', autoDismiss: true })
+            dispatch(clearUserStatus());            
+        }        
+      }, [error,updateUserError,addToast]);
+   
 
     const getStates =(value)=>{        
         if(value === null)
@@ -169,133 +155,171 @@ const Employee = (props) => {
             dispatch(addNewUser(values));
         }        
     }
+   
 
-    //todo update user initial val set here
-
-       const initialValues = {
-        employee_id : userToUpdate? userToUpdate[0].employee_id:'',
-        email : userToUpdate? userToUpdate[0].email:'',
-        userName : userToUpdate? userToUpdate[0].userName:'',
-        password : '',
-        firstname  : userToUpdate? userToUpdate[0].firstname:'',
-        lastname : userToUpdate? userToUpdate[0].lastname:'',
-        middlename : userToUpdate? userToUpdate[0].middlename:'',
-        address1 : userToUpdate? userToUpdate[0].address1:'',
-        address2 : userToUpdate? userToUpdate[0].address2:'',
-        city : userToUpdate? userToUpdate[0].city:'',
-        zip : userToUpdate? userToUpdate[0].zip:'',
-        state : userToUpdate? userToUpdate[0].state:'',
-        country : userToUpdate? userToUpdate[0].country:'',
-        gender: userToUpdate? userToUpdate[0].gender:'',
-        dateofbirth : userToUpdate? userToUpdate[0].dateofbirth: new Date(),
-        dateofjoining : userToUpdate? userToUpdate[0].dateofjoining:new Date(),
-        status: userToUpdate? userToUpdate[0].status:'Active',
-        experience_at_joining : userToUpdate? userToUpdate[0].experience_at_joining:'',
-        work_location :userToUpdate? userToUpdate[0].work_location:'',
-        timezone : userToUpdate? userToUpdate[0].timezone:'',
-        shift_timing : userToUpdate? userToUpdate[0].shift_timing:'',
-        designation : userToUpdate? userToUpdate[0].designation:'',
-        employment_status : userToUpdate? userToUpdate[0].employment_status:'',
-        userRole  : userToUpdate? userToUpdate[0].userRole:'',
-        reporting_manager : userToUpdate? userToUpdate[0].reporting_manager:'',
-        functional_manager  : userToUpdate? userToUpdate[0].functional_manager:'',
-        skills :userToUpdate? userToUpdate[0].skills:'',
-        certifications:userToUpdate? userToUpdate[0].certifications:'',
-        achievements:userToUpdate? userToUpdate[0]. achievements:'',
-    };
+       let initialValues;
+       if(userToUpdate){
+        initialValues = {
+        firstname  : userToUpdate[0].firstname,
+        lastname : userToUpdate[0].lastname,
+        middlename : userToUpdate[0].middlename,
+        address1 : userToUpdate[0].address1,
+        address2 : userToUpdate[0].address2,
+        city :  userToUpdate[0].city,
+        zip : userToUpdate[0].zip,
+        state : userToUpdate[0].state,
+        country : userToUpdate[0].country,
+        gender: userToUpdate[0].gender,
+        dateofbirth : userToUpdate[0].dateofbirth,
+        dateofjoining : userToUpdate[0].dateofjoining,
+        status: userToUpdate[0].status,
+        experience_at_joining : userToUpdate[0].experience_at_joining,
+        work_location :userToUpdate[0].work_location,
+        timezone : userToUpdate[0].timezone,
+        shift_timing : userToUpdate[0].shift_timing,
+        designation : userToUpdate[0].designation,
+        employment_status : userToUpdate[0].employment_status,
+        userRole  : userToUpdate[0].userRole,
+        reporting_manager : userToUpdate[0].reporting_manager,
+        functional_manager  : userToUpdate[0].functional_manager,
+        skills :userToUpdate[0].skills,
+        certifications: userToUpdate[0].certifications,
+        achievements: userToUpdate[0].achievements,
+        }
+       }
+       else {
+        initialValues ={
+            employee_id : '',
+            email : '',
+            userName : '',
+            password : '',
+            firstname : '',
+            lastname : '',
+            middlename : '',
+            address1 : '',
+            address2 : '',
+            city : '',
+            zip : '',
+            state : '',
+            country : '',
+            gender: '',
+            dateofbirth : new Date(),
+            dateofjoining : new Date(),
+            status: 'Active',
+            experience_at_joining : '',
+            work_location : '',
+            timezone : '',
+            shift_timing : '',
+            designation : '',
+            employment_status : '',
+            userRole  : '',
+            reporting_manager : '',
+            functional_manager  : '',
+            skills : '',
+            certifications: '',
+            achievements:'',
+        };
+       }
 
     const handleSeachView =()=>{        
-        // const {setUpdateAction} = props;        
         props.setUpdateAction();        
     }
-    const userDataValidation = Yup.object().shape({
-            employee_id : Yup
-            .number()            
-            .typeError('Employee Id must be a number')
-            .required('Employee Id is required'),           
-             email : Yup.string()
-            .required('Email is required')
-            .email('Invalid email'),
-            userName : Yup.string()
-            .min(8, 'UserName must be at least 8 characters long!')
-            .required('UserName is required'),
-            password : Yup.string()
-            .min(8, 'Password must be at least 8 characters long!')
-            .when("userToUpdate",{
-                is: (userToUpdate) => userToUpdate ,
-                then :  Yup.string().required('Password is required'),
-                otherwise : Yup.string().optional("Password is optional")
-            }),
-            // .required('Password is required'),
-            firstname  : Yup.string()
-            .required('Firstname is required')
-            .min(2, 'Too Short!')
-            .max(50, 'Too Long!'),
-            lastname : Yup.string()
-            .min(2, 'Too Short!')
-            .max(50, 'Too Long!')
-           .required('Lastname is required'),
-            middlename : Yup.string()
-           .required('Middlename is required'),
-            address1 : Yup.string()
-            .min(2, 'Too Short!')
-           .required('Address1 is required'),            
-            city : Yup.string()
-           .required('City is required'),
-            zip : Yup.string()
-            .min(6, 'Invalid Zip Code')
-           .required('Zip is required'),
-            state : Yup.string()
-           .required('State is required'),
-            country : Yup.string()
-           .required('Country is required'),
-            gender: Yup.string()
-           .required('Gender is required'),
-            dateofbirth : Yup.date('Invalid date')
-           .required('Date Of Birth is required')
-           .typeError('')
-           .test('', 'Enter valid date', function(value) {                    
-            const date = new Date();       
-            return  value < date
+
+    let userDataValidation;
+    let addNewUserValidations = Yup.object().shape({
+        employee_id : Yup
+        .number()            
+        .typeError('Employee Id must be a number')
+        .required('Employee Id is required'),           
+         email : Yup.string()
+        .required('Email is required')
+        .email('Invalid email'),
+        userName : Yup.string()
+        .min(8, 'UserName must be at least 8 characters long!')
+        .required('UserName is required'),
+        password : Yup.string()
+        .min(8, 'Password must be at least 8 characters long!')            
+        .required('Password is required')
+    });        
+        
+    let updateValidations = Yup.object().shape({
+        firstname  : Yup.string()
+        .required('Firstname is required')
+        .min(2, 'Too Short!')
+        .max(50, 'Too Long!'),
+        lastname : Yup.string()
+        .min(2, 'Too Short!')
+        .max(50, 'Too Long!')
+       .required('Lastname is required'),
+        middlename : Yup.string()
+       .required('Middlename is required'),
+        address1 : Yup.string()
+        .min(2, 'Too Short!')
+       .required('Address1 is required'),            
+        city : Yup.string()
+       .required('City is required'),
+        zip : Yup.string()
+        .min(6, 'Invalid Zip Code')
+       .required('Zip is required'),
+        state : Yup.string()
+       .required('State is required'),
+        country : Yup.string()
+       .required('Country is required'),
+        gender: Yup.string()
+       .required('Gender is required'),
+        dateofbirth : Yup.date('Invalid date')
+       .required('Date Of Birth is required')
+       .typeError('')
+       .test('', 'Enter valid date', function(value) {                    
+        const date = new Date();       
+        return  value < date
+        })
+       .test('', 'Age must be greater than 18', function(value) {            
+           const dt1=value;
+        const date = new Date();    
+        const result =  Math.floor((Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()) - Date.UTC(value.getFullYear(), value.getMonth(), value.getDate()) ) /(1000 * 60 * 60 * 24));
+        return Math.floor((result/30)/12) > 17
+        }),
+        dateofjoining : Yup.date('Invalid date')
+        .typeError('')
+        .test('', 'Enter valid date', function(value) {                    
+            const date = new Date();                
+            return (value.getFullYear()- date.getFullYear()) < 2
             })
-           .test('', 'Age must be greater than 18', function(value) {            
-               const dt1=value;
-            const date = new Date();    
-            const result =  Math.floor((Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()) - Date.UTC(value.getFullYear(), value.getMonth(), value.getDate()) ) /(1000 * 60 * 60 * 24));
-            return Math.floor((result/30)/12) > 17
-            }),
-            dateofjoining : Yup.date('Invalid date')
-            .typeError('')
-            .test('', 'Enter valid date', function(value) {                    
-                const date = new Date();                
-                return (value.getFullYear()- date.getFullYear()) < 2
-                })
-           .required('Date Of Joining is required'),
-            status: Yup.string()
-           .required('Status is required'),
-            experience_at_joining : Yup
-            .number()
-            .typeError('Experience must be in numbers')
-           .required('Experience At Joining is required'),
-            work_location : Yup.string()
-            .required('Work Location is required'),
-            timezone : Yup.string()
-           .required('Timezone is required'),
-            shift_timing : Yup.string()
-           .required('Shift Timing is required'),
-            designation : Yup.string()
-           .required('Designation is required'),
-            employment_status : Yup.string()
-           .required('Employment Status is required'),
-            userRole  : Yup.string()
-           .required('User Role is required'),
-            reporting_manager : Yup.string()
-           .required('Reporting Manager is required'),
-            functional_manager  : Yup.string()
-           .required('Functional Manager is required'),
-            skills : Yup.string()
-           .required('Skills are required'),
-    });
+       .required('Date Of Joining is required'),
+        status: Yup.string()
+       .required('Status is required'),
+        experience_at_joining : Yup
+        .number()
+        .typeError('Experience must be in numbers')
+       .required('Experience At Joining is required'),
+        work_location : Yup.string()
+        .required('Work Location is required'),
+        timezone : Yup.string()
+       .required('Timezone is required'),
+        shift_timing : Yup.string()
+       .required('Shift Timing is required'),
+        designation : Yup.string()
+       .required('Designation is required'),
+        employment_status : Yup.string()
+       .required('Employment Status is required'),
+        userRole  : Yup.string()
+       .required('User Role is required'),
+        reporting_manager : Yup.string()
+       .required('Reporting Manager is required'),
+        functional_manager  : Yup.string()
+       .required('Functional Manager is required'),
+        skills : Yup.string()
+       .required('Skills are required'),
+});
+
+
+    if(userToUpdate){
+        userDataValidation = updateValidations;
+    }
+    else {
+        userDataValidation = updateValidations.concat(addNewUserValidations)
+    }      
 
     return (
         <GridContainer>
@@ -323,6 +347,7 @@ const Employee = (props) => {
 
      <CardBody>
          <GridContainer>
+{userToUpdate ? null : <>
              <GridItem xs={12} sm={12} md={6}>
                  <CustomInput
                      labelText="Employee Id"                                   
@@ -371,10 +396,8 @@ const Employee = (props) => {
                  <ErrorMessage name='userName'/> 
                  </div>
              </GridItem>
-             <GridItem xs={12} sm={12} md={6}>
-                 {userToUpdate ? <div className = {classes.error}>
-                 <ErrorMessage name='password'/> 
-                 </div> :  <><CustomInput
+             <GridItem xs={12} sm={12} md={6}>                
+                 <CustomInput
                      labelText="Password"
                      formControlProps={{
                          fullWidth: true
@@ -388,10 +411,10 @@ const Employee = (props) => {
                    <div className = {classes.error}>
                  <ErrorMessage name='password'/> 
                  </div>
-                 </>
-                 }
-                
              </GridItem>
+                 </>
+             }
+             
              <GridItem xs={12} sm={12} md={4}>
                  <CustomInput
                      labelText="Firstname"
@@ -552,7 +575,7 @@ const Employee = (props) => {
 
              {/* Display for update user only */}
              <GridItem xs={12} sm={12} md={4}>
-                 {userToUpdate ? 
+                 {/* {userToUpdate ? 
                  <><FormControl
                      className={classes.formControl}
                  >
@@ -583,7 +606,7 @@ const Employee = (props) => {
                  <div className = {classes.error}>
                  <ErrorMessage name='status'/> 
                  </div>
-                 </> : null}
+                 </> : null} */}
                  
              </GridItem>
 

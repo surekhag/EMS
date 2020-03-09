@@ -1,4 +1,4 @@
-import { ADD_NEW_USER, SET_NEW_USER_SUCCESS, SET_NEW_USER_ERROR, CLEAR_USER_STATUS_MESSAGE, UPDATE_USER } from './actionTypes'
+import { ADD_NEW_USER, SET_NEW_USER_SUCCESS, SET_NEW_USER_ERROR, CLEAR_USER_STATUS_MESSAGE, UPDATE_USER, SET_UPDATE_USER_SUCCESS, SET_UPDATE_USER_ERROR } from './actionTypes'
 
 export function addNewUser(userInfo) {  
   return {
@@ -30,5 +30,17 @@ export function setNewUserError(data) {
 export function clearUserStatus() {  
   return {
     type: CLEAR_USER_STATUS_MESSAGE,   
+  }
+}
+export function setUpdateUserSuccess(data){
+  return {
+    type :SET_UPDATE_USER_SUCCESS,
+    data
+  }
+}
+export function setUpdateUserError(data){
+  return {
+    type : SET_UPDATE_USER_ERROR,
+    data
   }
 }

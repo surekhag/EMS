@@ -1,10 +1,12 @@
 import {
-    SET_NEW_USER_SUCCESS,SET_NEW_USER_ERROR, CLEAR_USER_STATUS_MESSAGE
+    SET_NEW_USER_SUCCESS,SET_NEW_USER_ERROR, CLEAR_USER_STATUS_MESSAGE, SET_UPDATE_USER_SUCCESS, SET_UPDATE_USER_ERROR
   } from '../actions/actionTypes.js'
   
   const initialState = {
     addNewUserStatus: null,
-    error: null,    
+    error: null,
+    updateUserStatus : null, 
+    updateUserError : null, 
   }
   
   const userReducer = (state = initialState, action) => {      
@@ -21,10 +23,23 @@ import {
           error : action.data
         
         }
+        case SET_UPDATE_USER_SUCCESS:
+        return {
+          ...state,
+          updateUserStatus : action.data          
+        }
+        case SET_UPDATE_USER_ERROR:
+        return {
+          ...state,
+          updateUserError : action.data          
+        }
         case CLEAR_USER_STATUS_MESSAGE :          
           return {
             ...state,
-            addNewUserStatus : null
+            addNewUserStatus : null,
+            updateUserStatus : null,
+            error: null,
+            updateUserError: null
           }
       default:
         return state
