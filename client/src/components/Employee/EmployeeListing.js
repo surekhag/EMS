@@ -17,7 +17,6 @@ import { Dialog, DialogActions , DialogTitle} from "@material-ui/core";
 import {deleteEmployee, clearDeleteEmployeeMsg} from '../../actions/employeeAction'
 import { withToastManager, useToasts } from 'react-toast-notifications'
 import Employee from './Employee'
-
 const useStyles = makeStyles(styles)
  const EmployeeListing = (props )=>{
      const {employeeData,setPageView}  =props;
@@ -33,12 +32,11 @@ const useStyles = makeStyles(styles)
 
 
     const employeeListingHeader = [
-    'Id',
     'Employee Id',
-    "UserName",
     'Name',
     "Designation",
-    'Functional Manager',
+    "Contact No.",
+    'Email Address',
     'Reporting Manager'
     ]
 
@@ -84,9 +82,16 @@ const useStyles = makeStyles(styles)
                  cls.status !== 'Inactive'
          )
          filteredEmployee.map((key, value) => {         
-           const {_id, userName, employee_id, firstname, lastname, functional_manager, reporting_manager, designation} =key
+           const {employee_id, firstname, lastname,contact_no, email, reporting_manager, designation} =key
+
+           let manager = filteredEmployee.filter((item)=>{
+            if (item.userRole == 'Manager' && item.employee_id == reporting_manager)                
+            return item;                
+        });        
+        let managerName = manager[0] ?  manager[0].firstname +  manager[0].lastname : 'NA';
+
            const name =firstname+ " "+ lastname;
-           const data ={_id, employee_id, userName,name , designation, functional_manager, reporting_manager}        
+           const data ={ employee_id, name , designation,contact_no, email, managerName}           
              employeeDetails.push(Object.values(data))
              return 1
          })      
@@ -94,9 +99,9 @@ const useStyles = makeStyles(styles)
 
      const links= ["Update", "Delete"];
 
-     const getUserToUpdate=(employeeData, id)=>{
+     const getUserToUpdate=(employeeData, employee_id)=>{
         return employeeData.filter(item=>{            
-            if(item._id == id)
+            if(item.employee_id == employee_id)
              return item;
      })
     }

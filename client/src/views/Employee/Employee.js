@@ -18,15 +18,12 @@ import { UserContext } from '../../context-provider/user-context'
 const useStyles = makeStyles(styles)
 
 const Employees = props => {
-    // const classes = useStyles()    
-    // const { currentUser } = useContext(UserContext)
     const dispatch = useDispatch()
     const [pageView, setPageView] = useState("employeeListing");
     const employeeData = useSelector(state => state.EmployeeInfo.employeeData)
 
     useEffect(() => {
         dispatch(loadAllEmployeeData());
-        // dispatch(loadAllProjects());   remove not needed todo
     }, [dispatch])
 
     const handleAddUser = ()=>{
@@ -39,11 +36,6 @@ const Employees = props => {
 
     return (
         <GridContainer>
-          {/* <GridItem xs={6} sm={6} md={6}>
-                <InputLabel className={classes.cardTitle}>
-                    Welcome {currentUser ? currentUser.userName : null}
-                </InputLabel>
-            </GridItem> */}
             <GridItem style={{ textAlign: 'end' }} xs={12} sm={12} md={12}> 
             {pageView == "employeeListing" ?<Button type="submit" color="primary" onClick = {handleAddUser} > ADD EMPLOYEE </Button>           
             :  <Button type="submit" color="primary" onClick = {handlesearchUser} >  SEARCH EMPLOYEE   </Button>

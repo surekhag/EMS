@@ -15,8 +15,8 @@ module.exports = {
           type : req.body.type,
           created_date : new Date(),
           created_by : req.user.userName,
-          updated_date : req.body.updated_date,
-          last_updated_by : req.body.last_updated_by,
+          updated_date : new Date(),
+          last_updated_by : req.user.userName,
       },
       function(err, result) {
         if (err) next(err);

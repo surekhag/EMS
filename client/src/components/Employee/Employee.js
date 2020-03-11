@@ -96,7 +96,7 @@ const Employee = (props) => {
         if(employeeData){
             let emp =employeeData.data.data;
            let managers = emp.filter((item)=>{
-                if (item.userRole == 'Manager')
+                if (item.userRole == 'Manager' && item.status =='Active')
                 return item;                
             });
             setManagers(managers);
@@ -181,10 +181,10 @@ const Employee = (props) => {
         employment_status : userToUpdate[0].employment_status,
         userRole  : userToUpdate[0].userRole,
         reporting_manager : userToUpdate[0].reporting_manager,
-        functional_manager  : userToUpdate[0].functional_manager,
         skills :userToUpdate[0].skills,
         certifications: userToUpdate[0].certifications,
         achievements: userToUpdate[0].achievements,
+        contact_no :  userToUpdate[0].contact_no
         }
        }
        else {
@@ -198,6 +198,7 @@ const Employee = (props) => {
             middlename : '',
             address1 : '',
             address2 : '',
+            contact_no: '',
             city : '',
             zip : '',
             state : '',
@@ -214,7 +215,6 @@ const Employee = (props) => {
             employment_status : '',
             userRole  : '',
             reporting_manager : '',
-            functional_manager  : '',
             skills : '',
             certifications: '',
             achievements:'',
@@ -253,6 +253,12 @@ const Employee = (props) => {
        .required('Lastname is required'),
         middlename : Yup.string()
        .required('Middlename is required'),
+       contact_no: Yup
+       .number()            
+       .typeError('Contact Number must be a number')
+       .required('Contact Number is required')
+       .min(10, 'Enter min valid Contact number!'),
+    //    .max(12, 'Enter max valid Contact number!'),
         address1 : Yup.string()
         .min(2, 'Too Short!')
        .required('Address1 is required'),            
@@ -307,8 +313,6 @@ const Employee = (props) => {
        .required('User Role is required'),
         reporting_manager : Yup.string()
        .required('Reporting Manager is required'),
-        functional_manager  : Yup.string()
-       .required('Functional Manager is required'),
         skills : Yup.string()
        .required('Skills are required'),
 });
@@ -649,6 +653,24 @@ const Employee = (props) => {
              </GridItem>
              <GridItem xs={12} sm={12} md={4}>
                  <CustomInput
+                     labelText="Conatct Number"
+                     name="contact_no"
+                     formControlProps={{
+                         fullWidth: true
+                     }}
+                     inputProps={{
+                        value: values.contact_no,
+                        name: 'contact_no',
+                        onChange: handleChange,
+                    }}
+                 />
+                <div className = {classes.error}>
+                 <ErrorMessage name='contact_no'/> 
+                 </div>
+             </GridItem>
+           
+             <GridItem xs={12} sm={12} md={4}>
+                 <CustomInput
                      labelText="Experience At Joining"
                      name="experience_at_joining"
                      formControlProps={{
@@ -726,7 +748,7 @@ const Employee = (props) => {
                  <ErrorMessage name='dateofjoining'/> 
                  </div>
              </GridItem>
-             <GridItem xs={12} sm={12} md={4}>
+             <GridItem xs={12} sm={12} md={6}>
                  <FormControl
                      className={classes.formControl}
                  >
@@ -983,39 +1005,7 @@ const Employee = (props) => {
                  <ErrorMessage name='reporting_manager'/> 
                  </div>
              </GridItem>
-             <GridItem xs={12} sm={12} md={6}>
-                 <FormControl
-                     className={classes.formControl}
-                 >
-                     <InputLabel htmlFor="functional_manager">
-                         {' '}
-                         Functional Manager
-                     </InputLabel>
-                     <Select
-                         value={values.functional_manager}
-                         onChange={handleChange}
-                         inputProps={{
-                             name: 'functional_manager',
-                             id: 'functional_manager'
-                         }}
-                     >
-                         <MenuItem value="">
-                             <em>None</em>
-                         </MenuItem>
-                         {managers && managers.map(item => {
-                             return (
-                                 <MenuItem value={item.employee_id}>
-                                     {item.firstname + " " + item.lastname}
-                                 </MenuItem>
-                             )
-                         })}
-                     </Select>
-                 </FormControl>
-                   <div className = {classes.error}>
-                 <ErrorMessage name='functional_manager'/> 
-                 </div>
-             </GridItem>
-           
+             
              <GridItem xs={12} sm={12} md={6}>
                  <CustomInput
                      labelText="Skills"
