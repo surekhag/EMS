@@ -31,7 +31,7 @@ module.exports = {
           employment_status : req.body.employment_status ,
           userRole: req.body.userRole ,
           reporting_manager : req.body.reporting_manager ,
-          functional_manager: req.body.functional_manager ,
+          contact_no: req.body.contact_no,
           skills : req.body.skills,
           certifications : req.body.certifications,
           achievements : req.body.achievements

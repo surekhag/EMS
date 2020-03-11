@@ -2,7 +2,8 @@ import {
   LOGIN_TO_SITE,
   LOGIN_TO_SITE_SUCCESS,
   USER_ATHENTICATION,
-  LOGIN_TO_SITE_ERROR
+  LOGIN_TO_SITE_ERROR,
+  SESSION_EXPIRED
 } from './actionTypes'
 
 export const loginToSite = (username, password) => {
@@ -35,5 +36,12 @@ export const loginToSiteError = message => {
 export const authenticateUserSession = () => {
   return {
     type: USER_ATHENTICATION
+  }
+}
+
+
+export const sessionExpired = () => {
+  return {
+    type: SESSION_EXPIRED
   }
 }

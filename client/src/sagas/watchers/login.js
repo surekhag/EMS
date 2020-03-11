@@ -1,12 +1,11 @@
 import { put, takeLatest, call } from 'redux-saga/effects'
 import { LOGIN_TO_SITE, USER_ATHENTICATION } from '../../actions/actionTypes.js'
-import { loginToSiteSuccess, loginToSiteError } from '../../actions/loginAction'
+import { loginToSiteSuccess, loginToSiteError, sessionExpired } from '../../actions/loginAction'
 import { logInToSiteApi, userSessionApi } from '../../api/loginApi'
 import { setToken, removeToken } from '../../helpers/auth'
 function* workerLoginSaga(userinfo) {
   const { username, password } = userinfo.payload
-  try {
-    // todo - send object instead separate param
+  try {    
     const loginStatus = yield call(logInToSiteApi, username, password)
 
     if (loginStatus.data.status === 'error') {
@@ -32,8 +31,9 @@ function* workerAuthenticateSaga() {
     } catch (e) { 
         if(e.response.data && e.response.data.message){           
             if(e.response.data.message === 'Invalid Token'){
-                removeToken();                
-                window.location.href= '/login'
+                removeToken();
+                yield put(sessionExpired());
+                
             }
             else{
                 yield put(loginToSiteError(e.response.data.message));

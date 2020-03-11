@@ -21,7 +21,10 @@ export default function CustomTable(props) {
     tableHeaderColor,
     showLink,
     buttonText,
-    onClickHandler
+    onClickHandler,
+    addLinks,
+    updateUser,
+    deleteUser
   } = props
   return (
     <div className={classes.tableResponsive}>
@@ -57,6 +60,16 @@ export default function CustomTable(props) {
                       </TableCell>
                     )
                   })}
+
+                {addLinks? (<p className={classes.tableCell}>
+                {addLinks.map(item=>{
+                  if(item=='Update')
+                    return <span className= {classes.links} onClick={e =>updateUser(prop, e)}>{item}</span>
+                    else if (item=='Delete')
+                    return <span className= {classes.links} onClick={e =>deleteUser(prop, e)}>{item}</span>                  
+                })}
+                </p>): null} 
+
                   {showLink ? (
                     <TableCell className={classes.tableCell} key={k + 'cell'}>
                       <Button
@@ -71,6 +84,8 @@ export default function CustomTable(props) {
                       </Button>
                     </TableCell>
                   ) : null}
+               
+    
                 </TableRow>
               )
             })}

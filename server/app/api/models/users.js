@@ -132,8 +132,8 @@ const UserSchema = new Schema({
     trim: true,
     required: true
   },
-  functional_manager: {
-    type: String,
+  contact_no : {
+    type: Number,
     trim: true,
     required: true
   },

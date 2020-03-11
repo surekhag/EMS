@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from 'react'
+import React, { useState,useEffect, useRef } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import GridContainer from '../../components/Grid/GridContainer.js'
 import GridItem from '../../components/Grid/GridItem.js'
@@ -19,14 +19,17 @@ import MenuItem from '@material-ui/core/MenuItem'
 import FormControl from '@material-ui/core/FormControl'
 import { Formik, Form, ErrorMessage } from 'formik';
 import { useSelector , useDispatch} from 'react-redux';
-import { addNewUser } from '../../actions/userActions'
+import { addNewUser, clearUserStatus, updateUser} from '../../actions/userActions'
 import withAuth from '../../HOC/withAuth'
+import {loadAllEmployeeData} from '../../actions/employeeAction'
+import {gender, work_location, shift_timing,designation, employment_status, userRole, countryData} from '../../constants';
 import * as Yup from 'yup';
 
 import {
     MuiPickersUtilsProvider,
     KeyboardDatePicker
 } from '@material-ui/pickers'
+import { startOfDay } from 'date-fns'
 const styles = {
     ...checkboxAdnRadioStyle,
     cardCategoryWhite: {
@@ -62,147 +65,140 @@ const styles = {
     },
     error :{
         color: 'red'
-    },   
+    },
+    dateStyle : {
+        paddingLeft: 11,
+        paddingRight: 11,
+    }    
 }
 
 const useStyles = makeStyles(styles)
-const Employee = () => {
+const Employee = (props) => {
+    const [managers, setManagers] = useState();
+    const {setPageView, userToUpdate} = props;
     const classes = useStyles();
     const { addToast } = useToasts()
     const dispatch = useDispatch();
-
     let employeeData = useSelector(state => state.EmployeeInfo.employeeData);
     let error = useSelector(state => state.userReducer.error);
     let addNewUserStatus = useSelector(state => state.userReducer.addNewUserStatus);
-
+    let updateUserStatus = useSelector(state => state.userReducer.updateUserStatus);
+    let updateUserError = useSelector(state => state.userReducer.updateUserError);
+    const userForm = useRef(null);
+   
   
+    //Load all emp info
+    useEffect(()=>{
+        dispatch(loadAllEmployeeData());        
+    },[]);
 
-    // useEffect(()=>{
-    //     console.log(employeeData);
-    // },[employeeData]);
+    useEffect(()=>{        
+        if(employeeData){
+            let emp =employeeData.data.data;
+           let managers = emp.filter((item)=>{
+                if (item.userRole == 'Manager' && item.status =='Active')
+                return item;                
+            });
+            setManagers(managers);
+        }
+    },[employeeData]);
+    
 
     useEffect(()=>{
         if(addNewUserStatus){
-            addToast(addNewUserStatus, { appearance: 'success', autoDismiss: true })
+            addToast(addNewUserStatus, { appearance: 'success', autoDismiss: true });
+            userForm.current.reset();
+            dispatch(clearUserStatus());
+            setPageView("employeeListing");
         }
-    }, [addNewUserStatus]);
+        if(updateUserStatus){            
+            addToast(updateUserStatus, { appearance: 'success', autoDismiss: true });
+            userForm.current.reset();
+            dispatch(clearUserStatus());            
+            if(props)
+                props.setUpdateAction(); 
+        }
+    }, [addNewUserStatus,updateUserStatus,  addToast]);
 
     useEffect(() => {        
         if(error)
-        addToast(error, { appearance: 'error', autoDismiss: true })
-      }, [error,addToast]);
+        {
+            addToast(error, { appearance: 'error', autoDismiss: true })
+            dispatch(clearUserStatus());            
+        }
 
-    //todo add constant array in different file
-    const gender =['Male', 'Female'];
+        if(updateUserError){
+            addToast(updateUserError, { appearance: 'error', autoDismiss: true })
+            dispatch(clearUserStatus());            
+        }        
+      }, [error,updateUserError,addToast]);
+   
 
-    const work_location =[
-        {id : 'IN', location : 'India'},
-        {id: 'US', location :'United States'},
-        {id :'BR', location : 'Brazil'},
-    ];
-    const shift_timing = ['9 to 6', '8 to 5', '11 to 8'];
-    const status = ['Active','InActive'];
-    const designation= [
-        'Junior Developer',
-        'Developer',
-        'Senior Developer',
-        'Junior Quality Analyst',
-        'Quality Analyst',
-        'Senior Quality Analyst',
-        'Architect',
-        'Human Resource',
-        'Admin',
-        'Scrum Master',
-        'Technology Lead',
-        'Senior Architect',    
-    ];
-
-    const employment_status =['Part Time', 'Full time', 'Contractor'];
-    const userRole =['Admin', 'Manager', 'Human Resource'];
-
-    // todo
-
-    const datatoloop = [
-        { id: 100, subject: 'math' },
-        { id: 101, subject: 'physics' },
-        { id: 'chemistry', subject: 'chemistry' }
-    ]
-
-    const submitFormValues = (values) => {
-        dispatch(addNewUser(values));
+    const getStates =(value)=>{        
+        if(value === null)
+        return [];
+        
+        let states = countryData.filter((item)=>{            
+            if(item.country == value)
+            {
+              return item            
+            }
+        })
+        return states.length > 0 ? states[0].states: [];        
+    }     
+    const submitFormValues = (values) => {        
+        if(userToUpdate){
+            const id= userToUpdate[0]._id;
+            dispatch(updateUser(values, id));
+        }
+        else{
+            dispatch(addNewUser(values));
+        }        
     }
-      
-    const userDataValidation = Yup.object().shape({
-            employee_id : Yup
-            .number()            
-            .required('Employee Id is required'),           
-             email : Yup.string()
-           .required('Email is required')
-           .email(),
-            userName : Yup.string()
-           .required('UserName is required'),
-            password : Yup.string()
-           .required('Password is required'),
-            firstname  : Yup.string()
-           .required('Firstname is required'),
-            lastname : Yup.string()
-           .required('Lastname is required'),
-            middlename : Yup.string()
-           .required('Middlename is required'),
-            address1 : Yup.string()
-           .required('Address1 is required'),            
-            city : Yup.string()
-           .required('City is required'),
-            zip : Yup.string()
-           .required('Zip is required'),
-            state : Yup.string()
-           .required('State is required'),
-            country : Yup.string()
-           .required('Country is required'),
-            gender: Yup.string()
-           .required('Gender is required'),
-            dateofbirth : Yup.string()
-           .required('Date Of Birth is required'),
-            dateofjoining : Yup.string()
-           .required('Date Of Joining is required'),
-            status: Yup.string()
-           .required('Status is required'),
-            experience_at_joining : Yup.string()
-           .required('Experience At Joining is required'),
-            work_location : Yup.string()
-            .required('Work Location is required'),
-            timezone : Yup.string()
-           .required('Timezone is required'),
-            shift_timing : Yup.string()
-           .required('Shift Timing is required'),
-            designation : Yup.string()
-           .required('Designation is required'),
-            employment_status : Yup.string()
-           .required('Employment Status is required'),
-            userRole  : Yup.string()
-           .required('User Role is required'),
-            reporting_manager : Yup.string()
-           .required('Reporting Manager is required'),
-            functional_manager  : Yup.string()
-           .required('Functional Manager is required'),
-            skills : Yup.string()
-           .required('Skills are required'),
-            
-    });
+   
 
-    return (
-        <GridContainer>
-        <Formik
-        initialValues={{
+       let initialValues;
+       if(userToUpdate){
+        initialValues = {
+        firstname  : userToUpdate[0].firstname,
+        lastname : userToUpdate[0].lastname,
+        middlename : userToUpdate[0].middlename,
+        address1 : userToUpdate[0].address1,
+        address2 : userToUpdate[0].address2,
+        city :  userToUpdate[0].city,
+        zip : userToUpdate[0].zip,
+        state : userToUpdate[0].state,
+        country : userToUpdate[0].country,
+        gender: userToUpdate[0].gender,
+        dateofbirth : userToUpdate[0].dateofbirth,
+        dateofjoining : userToUpdate[0].dateofjoining,
+        status: userToUpdate[0].status,
+        experience_at_joining : userToUpdate[0].experience_at_joining,
+        work_location :userToUpdate[0].work_location,
+        timezone : userToUpdate[0].timezone,
+        shift_timing : userToUpdate[0].shift_timing,
+        designation : userToUpdate[0].designation,
+        employment_status : userToUpdate[0].employment_status,
+        userRole  : userToUpdate[0].userRole,
+        reporting_manager : userToUpdate[0].reporting_manager,
+        skills :userToUpdate[0].skills,
+        certifications: userToUpdate[0].certifications,
+        achievements: userToUpdate[0].achievements,
+        contact_no :  userToUpdate[0].contact_no
+        }
+       }
+       else {
+        initialValues ={
             employee_id : '',
             email : '',
             userName : '',
             password : '',
-            firstname  : '',
+            firstname : '',
             lastname : '',
             middlename : '',
             address1 : '',
             address2 : '',
+            contact_no: '',
             city : '',
             zip : '',
             state : '',
@@ -210,22 +206,130 @@ const Employee = () => {
             gender: '',
             dateofbirth : new Date(),
             dateofjoining : new Date(),
-            status: '',
+            status: 'Active',
             experience_at_joining : '',
-            work_location :'',
+            work_location : '',
             timezone : '',
             shift_timing : '',
             designation : '',
             employment_status : '',
             userRole  : '',
             reporting_manager : '',
-            functional_manager  : '',
-            skills :'',
-            certifications:'',
+            skills : '',
+            certifications: '',
             achievements:'',
-        }}
-        onSubmit={(values, { setSubmitting }) => {      
-            console.log("onSubmit")      ;
+        };
+       }
+
+    const handleSeachView =()=>{        
+        props.setUpdateAction();        
+    }
+
+    let userDataValidation;
+    let addNewUserValidations = Yup.object().shape({
+        employee_id : Yup
+        .number()            
+        .typeError('Employee Id must be a number')
+        .required('Employee Id is required'),           
+         email : Yup.string()
+        .required('Email is required')
+        .email('Invalid email'),
+        userName : Yup.string()
+        .min(8, 'UserName must be at least 8 characters long!')
+        .required('UserName is required'),
+        password : Yup.string()
+        .min(8, 'Password must be at least 8 characters long!')            
+        .required('Password is required')
+    });        
+        
+    let updateValidations = Yup.object().shape({
+        firstname  : Yup.string()
+        .required('Firstname is required')
+        .min(2, 'Too Short!')
+        .max(50, 'Too Long!'),
+        lastname : Yup.string()
+        .min(2, 'Too Short!')
+        .max(50, 'Too Long!')
+       .required('Lastname is required'),
+        middlename : Yup.string()
+       .required('Middlename is required'),
+       contact_no: Yup
+       .number()            
+       .typeError('Contact Number must be a number')
+       .required('Contact Number is required')
+       .min(10, 'Enter min valid Contact number!'),
+    //    .max(12, 'Enter max valid Contact number!'),
+        address1 : Yup.string()
+        .min(2, 'Too Short!')
+       .required('Address1 is required'),            
+        city : Yup.string()
+       .required('City is required'),
+        zip : Yup.string()
+        .min(6, 'Invalid Zip Code')
+       .required('Zip is required'),
+        state : Yup.string()
+       .required('State is required'),
+        country : Yup.string()
+       .required('Country is required'),
+        gender: Yup.string()
+       .required('Gender is required'),
+        dateofbirth : Yup.date('Invalid date')
+       .required('Date Of Birth is required')
+       .typeError('')
+       .test('', 'Enter valid date', function(value) {                    
+        const date = new Date();       
+        return  value < date
+        })
+       .test('', 'Age must be greater than 18', function(value) {            
+           const dt1=value;
+        const date = new Date();    
+        const result =  Math.floor((Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()) - Date.UTC(value.getFullYear(), value.getMonth(), value.getDate()) ) /(1000 * 60 * 60 * 24));
+        return Math.floor((result/30)/12) > 17
+        }),
+        dateofjoining : Yup.date('Invalid date')
+        .typeError('')
+        .test('', 'Enter valid date', function(value) {                    
+            const date = new Date();                
+            return (value.getFullYear()- date.getFullYear()) < 2
+            })
+       .required('Date Of Joining is required'),
+        status: Yup.string()
+       .required('Status is required'),
+        experience_at_joining : Yup
+        .number()
+        .typeError('Experience must be in numbers')
+       .required('Experience At Joining is required'),
+        work_location : Yup.string()
+        .required('Work Location is required'),
+        timezone : Yup.string()
+       .required('Timezone is required'),
+        shift_timing : Yup.string()
+       .required('Shift Timing is required'),
+        designation : Yup.string()
+       .required('Designation is required'),
+        employment_status : Yup.string()
+       .required('Employment Status is required'),
+        userRole  : Yup.string()
+       .required('User Role is required'),
+        reporting_manager : Yup.string()
+       .required('Reporting Manager is required'),
+        skills : Yup.string()
+       .required('Skills are required'),
+});
+
+
+    if(userToUpdate){
+        userDataValidation = updateValidations;
+    }
+    else {
+        userDataValidation = updateValidations.concat(addNewUserValidations)
+    }      
+
+    return (
+        <GridContainer>
+        <Formik
+        initialValues={initialValues}
+        onSubmit={(values, { setSubmitting }) => {            
             submitFormValues(values);
             setSubmitting(false)
         }}
@@ -236,16 +340,18 @@ const Employee = () => {
  
 
  <Card id="add_new_employee">
-     <Form>
+     <Form ref={userForm}>
      <CardHeader color="primary">
          <h4 className={classes.cardTitleWhite}>
              {' '}
-             ADD EMPLOYEE{' '}
+        {userToUpdate ? 'UPDATE EMPLOYEE' : 'ADD EMPLOYEE '}
+             {' '}
          </h4>
      </CardHeader>
 
      <CardBody>
          <GridContainer>
+{userToUpdate ? null : <>
              <GridItem xs={12} sm={12} md={6}>
                  <CustomInput
                      labelText="Employee Id"                                   
@@ -294,7 +400,7 @@ const Employee = () => {
                  <ErrorMessage name='userName'/> 
                  </div>
              </GridItem>
-             <GridItem xs={12} sm={12} md={6}>
+             <GridItem xs={12} sm={12} md={6}>                
                  <CustomInput
                      labelText="Password"
                      formControlProps={{
@@ -310,6 +416,9 @@ const Employee = () => {
                  <ErrorMessage name='password'/> 
                  </div>
              </GridItem>
+                 </>
+             }
+             
              <GridItem xs={12} sm={12} md={4}>
                  <CustomInput
                      labelText="Firstname"
@@ -388,40 +497,44 @@ const Employee = () => {
                     }}
                  />
              </GridItem>
-             <GridItem xs={12} sm={12} md={3}>
+             <GridItem xs={12} sm={12} md={4}>
                  <FormControl
                      className={classes.formControl}
                  >
-                     <InputLabel htmlFor="city">
+                     <InputLabel htmlFor="country">
                          {' '}
-                         City
+                         Country
                      </InputLabel>
                      <Select
-                         value={values.city}
+                         value={values.country}
                          onChange={handleChange}
+                         onBlur= {e=>{                            
+                            setFieldValue('state', '')
+                        }
+                    }
                          inputProps={{
-                             name: 'city',
-                             id: 'city'
+                             name: 'country',
+                             id: 'country'
                          }}
                      >
                          <MenuItem value="">
                              <em>None</em>
                          </MenuItem>
-                         {datatoloop.map(item => {
+                         {countryData.map(item => {
                              return (
-                                 <MenuItem value={item.subject}>
-                                     {item.subject}
+                                 <MenuItem value={item.country}>
+                                     {item.name}
                                  </MenuItem>
                              )
                          })}
                      </Select>
                  </FormControl>
                    <div className = {classes.error}>
-                 <ErrorMessage name='city'/> 
-                 </div>
-             </GridItem>
+                 <ErrorMessage name='country'/>
+                 </div> 
+             </GridItem>           
 
-             <GridItem xs={12} sm={12} md={3}>
+             <GridItem xs={12} sm={12} md={4}>
                  <FormControl
                      className={classes.formControl}
                  >
@@ -439,52 +552,89 @@ const Employee = () => {
                          <MenuItem value="">
                              <em>None</em>
                          </MenuItem>
-                         {datatoloop.map(item => {
-                             return (
-                                 <MenuItem value={item.subject}>
-                                     {item.subject}
-                                 </MenuItem>
-                             )
-                         })}
+                         {countryData.map(item => {
+                                
+                                if(values.country && item.country == values.country){                                    
+                                return (                                    
+                                    getStates(values.country).map(item =>{                                        
+                                if(item){
+                                    return  <MenuItem value={item.code}>
+                                                {item.name}                                       
+                                            </MenuItem>
+                                }                               
+                            }      
+                           )
+                           )
+                            }                         
+
+                        }
+                            )
+                         }
                      </Select>
                  </FormControl>
                    <div className = {classes.error}>
                  <ErrorMessage name='state'/> 
                  </div>
              </GridItem>
-             <GridItem xs={12} sm={12} md={3}>
-                 <FormControl
+
+             {/* Display for update user only */}
+             <GridItem xs={12} sm={12} md={4}>
+                 {/* {userToUpdate ? 
+                 <><FormControl
                      className={classes.formControl}
                  >
-                     <InputLabel htmlFor="country">
+                     <InputLabel htmlFor="status">
                          {' '}
-                         Country
+                         Status
                      </InputLabel>
                      <Select
-                         value={values.country}
+                         value={values.status}
                          onChange={handleChange}
                          inputProps={{
-                             name: 'country',
-                             id: 'country'
+                             name: 'status',
+                             id: 'status'
                          }}
                      >
                          <MenuItem value="">
                              <em>None</em>
                          </MenuItem>
-                         {datatoloop.map(item => {
+                         {status.map(item => {
                              return (
-                                 <MenuItem value={item.subject}>
-                                     {item.subject}
+                                 <MenuItem value={item}>
+                                     {item}
                                  </MenuItem>
                              )
                          })}
                      </Select>
                  </FormControl>
-                   <div className = {classes.error}>
-                 <ErrorMessage name='country'/>
-                 </div> 
+                 <div className = {classes.error}>
+                 <ErrorMessage name='status'/> 
+                 </div>
+                 </> : null} */}
+                 
              </GridItem>
-             <GridItem xs={12} sm={12} md={3}>
+
+
+            
+             <GridItem xs={12} sm={12} md={4}>                
+                  <CustomInput
+                     labelText="City"
+                     name="city"
+                     formControlProps={{
+                         fullWidth: true
+                     }}
+                     inputProps={{
+                        value: values.city,
+                        name: 'city',
+                        onChange: handleChange,
+                    }}
+                 />
+                   <div className = {classes.error}>
+                 <ErrorMessage name='city'/> 
+                 </div>
+             </GridItem>
+
+             <GridItem xs={12} sm={12} md={4}>
                  <CustomInput
                      labelText="Zip"
                      name="zip"
@@ -501,12 +651,47 @@ const Employee = () => {
                  <ErrorMessage name='zip'/> 
                  </div>
              </GridItem>
+             <GridItem xs={12} sm={12} md={4}>
+                 <CustomInput
+                     labelText="Conatct Number"
+                     name="contact_no"
+                     formControlProps={{
+                         fullWidth: true
+                     }}
+                     inputProps={{
+                        value: values.contact_no,
+                        name: 'contact_no',
+                        onChange: handleChange,
+                    }}
+                 />
+                <div className = {classes.error}>
+                 <ErrorMessage name='contact_no'/> 
+                 </div>
+             </GridItem>
            
-             <GridItem xs={12} sm={12} md={6}>
+             <GridItem xs={12} sm={12} md={4}>
+                 <CustomInput
+                     labelText="Experience At Joining"
+                     name="experience_at_joining"
+                     formControlProps={{
+                         fullWidth: true
+                     }}
+                     inputProps={{
+                        value: values.experience_at_joining,
+                        name: 'experience_at_joining',
+                        onChange: handleChange,
+                    }}
+                 />
+                <div className = {classes.error}>
+                 <ErrorMessage name='experience_at_joining'/> 
+                 </div>
+             </GridItem>
+           
+             <GridItem xs={12} sm={12} md={4}>
                  <MuiPickersUtilsProvider
                      utils={DateFnsUtils}
                  >
-                     <Grid container justify="space-around">
+                     <Grid container justify="flex-start" style = {{ paddingLeft: 11, paddingRight: 11,}}>
                          <KeyboardDatePicker
                              disableToolbar
                              variant="inline"
@@ -514,8 +699,6 @@ const Employee = () => {
                              margin="normal"
                              name="dateofbirth"                                                
                              label="Date Of Birth"
-                            //  value={selectedDate}
-                            //  onChange={handleDateChange}
                             value={values.dateofbirth}
                             onChange={date =>
                                 setFieldValue(
@@ -526,6 +709,7 @@ const Employee = () => {
                              KeyboardButtonProps={{
                                  'aria-label': 'change date'
                              }}
+                             fullWidth
                          />
                      </Grid>
                  </MuiPickersUtilsProvider>
@@ -534,11 +718,11 @@ const Employee = () => {
                  </div> 
              </GridItem>
 
-             <GridItem xs={12} sm={12} md={6}>
+             <GridItem xs={12} sm={12} md={4}>
                  <MuiPickersUtilsProvider
                      utils={DateFnsUtils}
                  >
-                     <Grid container justify="space-around">
+                     <Grid container justify="flex-start" style = {{ paddingLeft: 11, paddingRight: 11,}}>
                          <KeyboardDatePicker
                              disableToolbar
                              variant="inline"
@@ -546,8 +730,6 @@ const Employee = () => {
                              margin="normal"
                              name="dateofjoining"
                              label="Date Of Joining"
-                            //  value={selectedDate}
-                            //  onChange={handleDateChange}
                             value={values.dateofjoining}
                             onChange={date =>
                                 setFieldValue(
@@ -558,6 +740,7 @@ const Employee = () => {
                              KeyboardButtonProps={{
                                  'aria-label': 'change date'
                              }}
+                             fullWidth
                          />
                      </Grid>
                  </MuiPickersUtilsProvider>
@@ -597,38 +780,7 @@ const Employee = () => {
                  <ErrorMessage name='gender'/> 
                  </div>
              </GridItem>
-             <GridItem xs={12} sm={12} md={6}>
-                 <FormControl
-                     className={classes.formControl}
-                 >
-                     <InputLabel htmlFor="status">
-                         {' '}
-                         Status
-                     </InputLabel>
-                     <Select
-                         value={values.status}
-                         onChange={handleChange}
-                         inputProps={{
-                             name: 'status',
-                             id: 'status'
-                         }}
-                     >
-                         <MenuItem value="">
-                             <em>None</em>
-                         </MenuItem>
-                         {status.map(item => {
-                             return (
-                                 <MenuItem value={item}>
-                                     {item}
-                                 </MenuItem>
-                             )
-                         })}
-                     </Select>
-                 </FormControl>
-                 <div className = {classes.error}>
-                 <ErrorMessage name='status'/> 
-                 </div>
-             </GridItem>
+            
             
              <GridItem xs={12} sm={12} md={6}>                                    
                  <FormControl
@@ -840,68 +992,20 @@ const Employee = () => {
                          <MenuItem value="">
                              <em>None</em>
                          </MenuItem>
-                         {datatoloop.map(item => {
+                         {managers ?  managers.map(item => {
                              return (
-                                 <MenuItem value={item.subject}>
-                                     {item.subject}
+                                 <MenuItem value={item.employee_id}>
+                                     {item.firstname + " " + item.lastname}
                                  </MenuItem>
                              )
-                         })}
+                         }) : null}
                      </Select>
                  </FormControl>
                    <div className = {classes.error}>
                  <ErrorMessage name='reporting_manager'/> 
                  </div>
              </GridItem>
-             <GridItem xs={12} sm={12} md={6}>
-                 <FormControl
-                     className={classes.formControl}
-                 >
-                     <InputLabel htmlFor="functional_manager">
-                         {' '}
-                         Functional Manager
-                     </InputLabel>
-                     <Select
-                         value={values.functional_manager}
-                         onChange={handleChange}
-                         inputProps={{
-                             name: 'functional_manager',
-                             id: 'functional_manager'
-                         }}
-                     >
-                         <MenuItem value="">
-                             <em>None</em>
-                         </MenuItem>
-                         {datatoloop.map(item => {
-                             return (
-                                 <MenuItem value={item.subject}>
-                                     {item.subject}
-                                 </MenuItem>
-                             )
-                         })}
-                     </Select>
-                 </FormControl>
-                   <div className = {classes.error}>
-                 <ErrorMessage name='functional_manager'/> 
-                 </div>
-             </GridItem>
-             <GridItem xs={12} sm={12} md={6}>
-                 <CustomInput
-                     labelText="Experience At Joining"
-                     name="experience_at_joining"
-                     formControlProps={{
-                         fullWidth: true
-                     }}
-                     inputProps={{
-                        value: values.experience_at_joining,
-                        name: 'experience_at_joining',
-                        onChange: handleChange,
-                    }}
-                 />
-                <div className = {classes.error}>
-                 <ErrorMessage name='experience_at_joining'/> 
-                 </div>
-             </GridItem>
+             
              <GridItem xs={12} sm={12} md={6}>
                  <CustomInput
                      labelText="Skills"
@@ -932,7 +1036,7 @@ const Employee = () => {
                     }}
                  />                 
              </GridItem>
-             <GridItem xs={12} sm={12} md={6}>
+             <GridItem xs={12} sm={12} md={12}>
                  <CustomInput
                      labelText="Achievements"
                      formControlProps={{
@@ -946,12 +1050,22 @@ const Employee = () => {
                     }}
                  />
              </GridItem>
+             
          </GridContainer>
      </CardBody>
 
      <CardFooter>
-         <Button type="submit" color="primary" disabled={isSubmitting}>ADD EMPLOYEE</Button>
-     </CardFooter>
+         {userToUpdate ? <>
+            <GridItem xs={12} sm={12} md={6}>
+         <Button id='update' type="submit" color="primary" disabled={isSubmitting}>UPDATE EMPLOYEE</Button>
+         <Button  color="primary" disabled={isSubmitting} onClick={handleSeachView}>cancel</Button>
+         </GridItem>
+         </>        
+         :
+         <Button id='add' type="submit" color="primary" disabled={isSubmitting}>ADD EMPLOYEE</Button>
+          }
+         
+     </CardFooter>     
      </Form>
  </Card>
 </GridItem>
@@ -962,4 +1076,4 @@ const Employee = () => {
        
     )
 }
-export default withAuth(withToastManager(Employee));
+export default (Employee);
