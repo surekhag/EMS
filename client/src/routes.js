@@ -32,6 +32,33 @@ const dashboardRoutes = [
     showLink: true
   },
   {
+    path: '/projectDetails',
+    name: 'Project History',
+    rtlName: 'قائمة الجدول',
+    icon: AssignmentIcon,
+    component: Projects,
+    layout: '/admin',
+    showLink: true
+  },
+  {
+    path: '/peerReviewDetails',
+    name: 'Peer Review History',
+    rtlName: 'ملف تعريفي للمستخدم',
+    icon: GroupIcon,
+    component: CreatePeer,
+    layout: '/admin',
+    showLink: true
+  },
+  {
+    path: '/selfReviewDetails',
+    name: 'Self Review History',
+    rtlName: 'ملف تعريفي للمستخدم',
+    icon: Person,
+    component: PeerReview,
+    layout: '/admin',
+    showLink: true
+  },
+  {
     path: '/employee',
     name: 'Employees',
     rtlName: 'ملف تعريفي للمستخدم',
@@ -40,9 +67,10 @@ const dashboardRoutes = [
     layout: '/admin',
     showLink: true
   },
+
   {
     path: '/projects',
-    name: 'Project History',
+    name: 'Project',
     rtlName: 'قائمة الجدول',
     icon: AssignmentIcon,
     component: Projects,
@@ -66,7 +94,16 @@ const dashboardRoutes = [
     component: CreatePeer,
     layout: '/admin',
     showLink: false
-  }
+  },
+  {
+    path: '/selfReview',
+    name: 'Self Review',
+    rtlName: 'ملف تعريفي للمستخدم',
+    icon: Person,
+    component: PeerReview,
+    layout: '/admin',
+    showLink: true
+  },
   // {
   //   path: '/getDetails',
   //   name: 'Peer Review Details',
