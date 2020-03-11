@@ -32,6 +32,7 @@ const tableStyle = theme => ({
     color: grayColor[0]
   },
   table: {
+    tableLayout: 'fixed',
     marginBottom: '0',
     width: '100%',
     maxWidth: '100%',
@@ -73,14 +74,15 @@ const tableStyle = theme => ({
     outline: 'none',
     verticalAlign: 'middle'
   },
-  links :{
-    paddingRight : 5, 
+  links: {
+    paddingRight: 5,
     color: 'blue',
     cursor: 'pointer',
-    fontSize : 15,
+    fontSize: 15,
     '&:hover': {
-      textDecoration: 'underline',
-  }},  
+      textDecoration: 'underline'
+    }
+  }
 })
 
 export default tableStyle

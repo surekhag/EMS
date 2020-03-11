@@ -58,9 +58,9 @@ const styles = {
   grid: {
     display: 'flex',
     flexDirection: 'column',
-    justifyContent: 'center', 
+    justifyContent: 'center',
     textAlign: 'right',
-    paddingRight:'10px',
+    paddingRight: '10px',
     textTransform: 'uppercase'
   },
   formControl: {
@@ -92,6 +92,7 @@ const CreatePeerForm = () => {
   const classes = useStyles()
   const { addToast } = useToasts()
   const [isRedirect, setIsRedirect] = useState(false)
+  const [managers, setManagers] = useState()
   const employeeData = useSelector(state => state.EmployeeInfo.employeeData)
   const projects = useSelector(state => state.projectReducer.projects)
   const peerReviewStatusMessage = useSelector(
@@ -121,8 +122,18 @@ const CreatePeerForm = () => {
         return value > due_from
       })
       .required('required'),
-    project: Yup.string().required('Required')
+    project: Yup.string().required('Required'),
+    functional_manager: Yup.string().required('Required')
   }
+  useEffect(() => {
+    if (employeeData) {
+      let emp = employeeData.data.data
+      let managers = emp.filter(item => {
+        if (item.userRole == 'Manager' && item.status == 'Active') return item
+      })
+      setManagers(managers)
+    }
+  }, [employeeData])
   useEffect(() => {
     dispatch(loadAllProjects())
     dispatch(loadAllEmployeeData())
@@ -152,6 +163,7 @@ const CreatePeerForm = () => {
           employee_under_review: '',
           employee_reviewing: '',
           project: '',
+          functional_manager: '',
           from_date: new Date(),
           to_date: new Date(),
           due_from: new Date(),
@@ -294,6 +306,44 @@ const CreatePeerForm = () => {
                       component="div"
                     />
                   </Grid>
+                  <Grid xs={6} sm={6} md={3} className={classes.grid} item>
+                    Functional Manager
+                  </Grid>
+                  <Grid xs={6} sm={6} md={3} item>
+                    <FormControl className={classes.formControl}>
+                      <Select
+                        name="functional_manager"
+                        onChange={handleChange}
+                        value={values.functional_manager}
+                        displayEmpty
+                      >
+                        <MenuItem
+                          className={classes.hoverEffect}
+                          value=""
+                          key={-1}
+                          disabled
+                        >
+                          Select Manager
+                        </MenuItem>
+                        {managers
+                          ? managers.map(item => {
+                              return (
+                                <MenuItem
+                                  value={item.firstname + ' ' + item.lastname}
+                                >
+                                  {item.firstname + ' ' + item.lastname}
+                                </MenuItem>
+                              )
+                            })
+                          : null}
+                      </Select>
+                    </FormControl>
+                    <ErrorMessage
+                      className={classes.colorRed}
+                      name="functional_manager"
+                      component="div"
+                    />
+                  </Grid>
                 </Grid>
                 <Grid className={classes.container} container>
                   <Grid xs={6} sm={6} md={3} className={classes.grid} item>
@@ -307,7 +357,6 @@ const CreatePeerForm = () => {
                         format="MM/dd/yyyy"
                         name="from_date"
                         margin="normal"
-                        label="Date picker inline"
                         value={values.from_date}
                         onChange={date => setFieldValue('from_date', date)}
                         KeyboardButtonProps={{
@@ -332,7 +381,6 @@ const CreatePeerForm = () => {
                         name="to_date"
                         format="MM/dd/yyyy"
                         margin="normal"
-                        label="Date picker inline"
                         value={values.to_date}
                         onChange={date => setFieldValue('to_date', date)}
                         KeyboardButtonProps={{
@@ -359,7 +407,6 @@ const CreatePeerForm = () => {
                         name="due_from"
                         format="MM/dd/yyyy"
                         margin="normal"
-                        label="Date picker inline"
                         value={values.due_from}
                         onChange={date => setFieldValue('due_from', date)}
                         KeyboardButtonProps={{
@@ -384,7 +431,6 @@ const CreatePeerForm = () => {
                         name="due_to"
                         format="MM/dd/yyyy"
                         margin="normal"
-                        label="Date picker inline"
                         value={values.due_to}
                         onChange={date => setFieldValue('due_to', date)}
                         KeyboardButtonProps={{

@@ -2,11 +2,15 @@ import React, { useEffect, useState } from 'react'
 // @material-ui/core components
 import { makeStyles } from '@material-ui/core/styles'
 import InputLabel from '@material-ui/core/InputLabel'
+import Check from '@material-ui/icons/Check'
+import Checkbox from '@material-ui/core/Checkbox'
+import FormControlLabel from '@material-ui/core/FormControlLabel'
 // core components
 import Grid from '@material-ui/core/Grid'
 import Button from '../../components/CustomButtons/Button.js'
 import Card from '../../components/Card/Card.js'
 import CardHeader from '../../components/Card/CardHeader.js'
+import checkboxAdnRadioStyle from '../../assets/jss/material-dashboard-react/checkboxAdnRadioStyle'
 import MenuItem from '@material-ui/core/MenuItem'
 import FormControl from '@material-ui/core/FormControl'
 import Select from '@material-ui/core/Select'
@@ -23,6 +27,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useToasts, withToastManager } from 'react-toast-notifications'
 
 const styles = {
+  ...checkboxAdnRadioStyle,
   cardTitleWhite: {
     color: '#FFFFFF',
     marginTop: '0px',
@@ -71,26 +76,47 @@ const PeerReviewDetails = props => {
     state => state.peerReviewReducer.peerReviewUpdateStatus
   )
   const tempArray = []
-  const peerReviewDetailHeader = ['Feilds', 'Data']
-  const [selectedStatus, setSelectedStatus] = useState('')
+  const peerReviewDetailHeader = ['Feilds', 'Data', 'Feilds', 'Data']
+  const [selectedStatus, setSelectedStatus] = useState('Active')
 
   if (reviewData) {
     tempArray.push(
-      ['Employee Under Review', reviewData.employee_under_review],
-      ['Employee Reviewing', reviewData.employee_reviewing],
-      ['Project', reviewData.project],
-      ['From Date', reviewData.from_date.slice(0, 10)],
-      ['To Date', reviewData.to_date.slice(0, 10)],
-      ['Due From Date', reviewData.due_from.slice(0, 10)],
-      ['Due To Date', reviewData.due_to.slice(0, 10)],
-      ['Form Link', reviewData.review_form_link],
-      ['Status', reviewData.status],
-      ['Created Date', reviewData.created_date.slice(0, 10)],
-      ['Created By', reviewData.created_by]
+      [
+        'Employee Under Review',
+        reviewData.employee_under_review,
+        'Employee Reviewing',
+        reviewData.employee_reviewing
+      ],
+      [
+        'Project',
+        reviewData.project,
+        'Functional Manager',
+        reviewData.functional_manager
+      ],
+      [
+        'From Date',
+        reviewData.from_date.slice(0, 10),
+        'To Date',
+        reviewData.to_date.slice(0, 10)
+      ],
+      [
+        'Due From Date',
+        reviewData.due_from.slice(0, 10),
+        'Due To Date',
+        reviewData.due_to.slice(0, 10)
+      ],
+      ['Form Link', reviewData.review_form_link, 'Status', reviewData.status],
+      [
+        'Created Date',
+        reviewData.created_date.slice(0, 10),
+        'Created By',
+        reviewData.created_by
+      ]
     )
   }
   const changeHandler = e => {
-    setSelectedStatus(e.target.value)
+    if (e.target.checked === true) setSelectedStatus('Done')
+    else setSelectedStatus('Active')
   }
   useEffect(() => {
     if (peerReviewUpdateStatus) {
@@ -109,16 +135,8 @@ const PeerReviewDetails = props => {
     }
   }, [peerReviewUpdateStatus, addToast, dispatch])
   const updateHandler = () => {
-    if (selectedStatus === '') {
-      dispatch(updatePeerReview(reviewData._id, { status: reviewData.status }))
-    } else {
-      dispatch(updatePeerReview(reviewData._id, { status: selectedStatus }))
-    }
+    dispatch(updatePeerReview(reviewData._id, { status: selectedStatus }))
     dispatch(loadAllPeerForUser())
-  }
-
-  const handleFunction=()=>{
-    console.log("submitted");
   }
   return (
     <Grid>
@@ -128,16 +146,15 @@ const PeerReviewDetails = props => {
         </CardHeader>
         <CardBody>
           <Grid container>
-            <Grid xs={0} sm={0} md={2} item></Grid>
-            <Grid xs={12} sm={12} md={8} item>
+            <Grid xs={12} sm={12} md={12} item>
               <Table
                 tableHeaderColor="gray"
                 tableHead={peerReviewDetailHeader}
                 tableData={tempArray || null}
                 showLink={false}
               />
-              <Grid xs={6} sm={6} md={6} className={classes.grid} item>
-                <FormControl className={classes.formControl}>
+              <Grid xs={6} sm={6} md={6} item>
+                {/* <FormControl className={classes.formControl}>
                   <InputLabel htmlFor="SelectStatus">Change Status</InputLabel>
                   <Select
                     value={selectedStatus}
@@ -157,10 +174,26 @@ const PeerReviewDetails = props => {
                       In Progress
                     </MenuItem>
                   </Select>
-                </FormControl>
+                </FormControl> */}
+
+                <div>
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        onChange={changeHandler}
+                        checkedIcon={<Check className={classes.checkedIcon} />}
+                        icon={<Check className={classes.uncheckedIcon} />}
+                        classes={{
+                          checked: classes.checked,
+                          root: classes.root
+                        }}
+                      />
+                    }
+                    label={' I have submitted Form'}
+                  />
+                </div>
               </Grid>
             </Grid>
-            <Grid xs={0} sm={0} md={2} item></Grid>
           </Grid>
         </CardBody>
         <CardFooter className={classes.footer}>
@@ -172,12 +205,7 @@ const PeerReviewDetails = props => {
           </Button>
         </CardFooter>
       </Card>
-      <iframe
-        src={reviewData.review_form_link}
-        width="100%"
-        height="800"
-        onSubmit={handleFunction}
-      >
+      <iframe src={reviewData.review_form_link} width="100%" height="800">
         Loading...
       </iframe>
     </Grid>
