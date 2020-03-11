@@ -4,7 +4,7 @@ import {watchEmployeeInfoSaga, watchDeleteEmployeeSaga} from './watchers/employe
 import watchLoginSaga, { watchAuthenticateSaga } from './watchers/login'
 
 import watchPeerReviewSaga from './watchers/peerReview'
-import watchLoadAllProjects from './watchers/project'
+import {watchLoadAllProjects, watchDeleteProjectSaga} from './watchers/project'
 import watchCreatePeerReviewSaga from './watchers/createPeerReview'
 import watchLoadUserPeerReviewSaga from './watchers/peerReviewsForUser'
 import watchUpdatePeerReviewSaga from './watchers/updatePeerReview'
@@ -24,5 +24,6 @@ export default function* root() {
     fork(watchUserSaga),
     fork(watchDeleteEmployeeSaga),
     fork(watchUpadateUserSaga),
+    fork(watchDeleteProjectSaga),
   ])
 }

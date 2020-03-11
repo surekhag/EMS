@@ -8,10 +8,10 @@ module.exports = {
                 start_date : req.body. start_date,
                 end_date : req.body.end_date,
                 manager_employee_id : req.body.manager_employee_id,
-                created_date : req.body.created_date,
-                updated_date : req.body.updated_date,
-                created_by : req.body.created_by,
-                last_updated_by : req.body.last_updated_by,               
+                created_date : new Date(),
+                updated_date : new Date(),
+                created_by : req.user.userName,
+                last_updated_by : req.user.userName,               
             },
             function(err, result) {
               if (err) next(err);

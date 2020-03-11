@@ -4,7 +4,7 @@ import DashboardPage from './views/Dashboard/Dashboard.js'
 import UserProfile from './views/UserProfile/UserProfile.js'
 import GroupIcon from '@material-ui/icons/Group'
 import AssignmentIcon from '@material-ui/icons/Assignment'
-import Projects from './views/Project/Project'
+import Projects from './views/Project/Projects'
 // import Employee from './components/Employee/EmployeeSearch'
 import Employee from './views/Employee/Employee'
 
@@ -70,7 +70,7 @@ const dashboardRoutes = [
 
   {
     path: '/projects',
-    name: 'Project',
+    name: 'Projects',
     rtlName: 'قائمة الجدول',
     icon: AssignmentIcon,
     component: Projects,
