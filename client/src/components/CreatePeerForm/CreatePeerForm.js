@@ -191,7 +191,7 @@ const CreatePeerForm = () => {
                           Select Employee
                         </MenuItem>
                         {employeeData
-                          ? employeeData.data.data.map((prop, key) => {
+                          ? employeeData.map((prop, key) => {
                               return prop.status !== 'Inactive' ? (
                                 <MenuItem
                                   className={classes.hoverEffect}
@@ -231,7 +231,7 @@ const CreatePeerForm = () => {
                           Select Employee
                         </MenuItem>
                         {employeeData
-                          ? employeeData.data.data.map((prop, key) => {
+                          ? employeeData.map((prop, key) => {
                               return prop.status !== 'Inactive' ? (
                                 <MenuItem
                                   className={classes.hoverEffect}

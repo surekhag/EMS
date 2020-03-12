@@ -73,7 +73,7 @@ const styles = {
 }
 
 const useStyles = makeStyles(styles)
-const Project = (props) => {    
+const ProjectAllocation = (props) => {    
     const {setPageView, projectToUpdate} = props;
     const classes = useStyles();
     const { addToast } = useToasts()
@@ -222,6 +222,10 @@ const Project = (props) => {
          <GridContainer>
       
              <GridItem xs={12} sm={12} md={6}>
+
+
+
+                 project allocation
                  <CustomInput
                      labelText="Project Title"                                   
                      formControlProps={{
@@ -413,4 +417,4 @@ const Project = (props) => {
        
     )
 }
-export default Project;
+export default ProjectAllocation;

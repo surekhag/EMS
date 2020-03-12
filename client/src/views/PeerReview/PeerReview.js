@@ -128,7 +128,7 @@ const PeerReview = props => {
                   <em>None</em>
                 </MenuItem>
                 {employeeData
-                  ? employeeData.data.data.map((prop, key) => {
+                  ? employeeData.map((prop, key) => {
                       return prop.status !== 'Inactive' ? (
                         <MenuItem
                           className={classes.hoverEffect}
