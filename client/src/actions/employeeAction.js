@@ -6,10 +6,11 @@ export function loadAllEmployeeData() {
     type: LOAD_ALL_EMPLOYEE_SAGA,
   }
 }
-export function setAllEmployeeData(data) {
+export function setAllEmployeeData(info) {
+  let data = info.data.data;
   return {
     type: SET_ALL_EMPLOYEES,
-    payload: { data }
+    payload: {data}
   }
 }
 

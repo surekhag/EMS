@@ -94,7 +94,7 @@ const Employee = (props) => {
 
     useEffect(()=>{        
         if(employeeData){
-            let emp =employeeData.data.data;
+            let emp =employeeData;
            let managers = emp.filter((item)=>{
                 if (item.userRole == 'Manager' && item.status =='Active')
                 return item;                

@@ -73,8 +73,7 @@ const styles = {
 }
 
 const useStyles = makeStyles(styles)
-const Project = (props) => {
-    // const [managers, setManagers] = useState();
+const Project = (props) => {    
     const {setPageView, projectToUpdate} = props;
     const classes = useStyles();
     const { addToast } = useToasts()
@@ -127,8 +126,7 @@ const Project = (props) => {
    
 
        let initialValues;
-       if(projectToUpdate){
-           console.log(projectToUpdate);
+       if(projectToUpdate){           
         initialValues = {
             title: projectToUpdate[0].title,
             description: projectToUpdate[0].description,
@@ -140,6 +138,7 @@ const Project = (props) => {
             technology: projectToUpdate[0].technology,
             type : projectToUpdate[0].type,
         }
+        console.log(initialValues);
        }
        else {
         initialValues ={
@@ -194,18 +193,12 @@ const Project = (props) => {
           })
 });
 
-// if(projectToUpdate){
-    //     projectDataValidation = updateValidations;
-    // }
-    // else {
-    //     projectDataValidation = updateValidations.concat(addNewProjectValidations)
-    // }      
-
     return (
         <GridContainer>
         <Formik
         initialValues={initialValues}
-        onSubmit={(values, { setSubmitting }) => {            
+        onSubmit={(values, { setSubmitting }) => {   
+            console.log(values)         ;
             submitFormValues(values);
             setSubmitting(false)
         }}

@@ -38,18 +38,8 @@ const useStyles = makeStyles(styles)
     'Client Location',
     'Start Date',
     'End Date'        
-    ]
+    ];
 
-    // const changeHandler = e => {
-    //     setsearchText(e.target.value)        
-    // }
-
-    //Clear Search text on Update Cancel/Success
-    // useEffect(() => {        
-    //     if(!updateAction){
-    //         setsearchText();
-    //     }
-    // }, [updateAction])
 
     useEffect(() => {
         if (deleteProjectSuccess) {            
@@ -73,8 +63,9 @@ const useStyles = makeStyles(styles)
 
 
      let projectDetails = [];
+     let filteredProject;
      if (projectData) {
-         let filteredProject = projectData.filter(
+          filteredProject = projectData.filter(
              cls =>
                  cls.status !== 'Inactive'
          )
@@ -101,6 +92,8 @@ const useStyles = makeStyles(styles)
              projectDetails.push(Object.values(data))
              return 1
          }); 
+         //Get/Delete data from Active projects
+        //  projectData = filteredProject;
      }
 
      const links= ["Update", "Delete"];
@@ -114,12 +107,12 @@ const useStyles = makeStyles(styles)
 
      const updateUser= (val)=>{
          setUpdateAction('update');
-        const user = getprojectToUpdate(projectData, val[0]);        
+        const user = getprojectToUpdate(filteredProject, val[0]);        
         setProjectToUpdate(user);        
      }
 
      const deleteUser= (val)=>{
-        const user = getprojectToUpdate(projectData, val[0]);
+        const user = getprojectToUpdate(filteredProject, val[0]);
         setUpdateAction('delete');
         setProjectToUpdate(user);
         setShowDelDialog(true);

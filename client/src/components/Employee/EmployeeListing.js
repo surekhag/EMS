@@ -72,9 +72,10 @@ const useStyles = makeStyles(styles)
       }, [deleteEmployeeError, addToast, dispatch])
 
 
-     let employeeDetails = []
+     let employeeDetails = [];
+     let filteredEmployee;
      if (employeeData && searchText) {
-         let filteredEmployee = employeeData.data.data.filter(
+          filteredEmployee = employeeData.filter(
              cls =>
                  cls.userName
                      .toLowerCase()
@@ -94,7 +95,7 @@ const useStyles = makeStyles(styles)
            const data ={ employee_id, name , designation,contact_no, email, managerName}           
              employeeDetails.push(Object.values(data))
              return 1
-         })      
+         })   
      }
 
      const links= ["Update", "Delete"];
@@ -108,12 +109,12 @@ const useStyles = makeStyles(styles)
 
      const updateUser= (val)=>{
          setUpdateAction('update');
-        const user = getUserToUpdate(employeeData.data.data, val[0]);        
+        const user = getUserToUpdate(filteredEmployee, val[0]);        
         setUserToUpdate(user);        
      }
 
      const deleteUser= (val)=>{
-        const user = getUserToUpdate(employeeData.data.data, val[0]);        
+        const user = getUserToUpdate(filteredEmployee, val[0]);        
         setUpdateAction('delete');
         setUserToUpdate(user);
         setShowDelDialog(true);
