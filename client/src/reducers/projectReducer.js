@@ -50,14 +50,11 @@ export default function projectReducer(state = initialState, action) {
             deleteProjectError : null
           }
           case DELETE_PROJECT_SUCCESS:
-
-            console.log(action) 
           return {
             ...state,
             deleteProjectSuccess: action.payload.data
           }
-          case DELETE_PROJECT_ERROR:   
-          console.log(action)   
+          case DELETE_PROJECT_ERROR:  
           return {
             ...state,
             deleteProjectError: action.payload.data

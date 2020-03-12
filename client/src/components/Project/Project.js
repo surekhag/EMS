@@ -19,7 +19,7 @@ import MenuItem from '@material-ui/core/MenuItem'
 import FormControl from '@material-ui/core/FormControl'
 import { Formik, Form, ErrorMessage } from 'formik';
 import { useSelector , useDispatch} from 'react-redux';
-import { addNewUser, clearUserStatus, updateUser} from '../../actions/userActions'
+import { addNewProject, clearProjectMsg, updateProject} from '../../actions/projectAction'
 import withAuth from '../../HOC/withAuth'
 import {loadAllEmployeeData} from '../../actions/employeeAction'
 import {gender, work_location, shift_timing,designation, employment_status, userRole, countryData} from '../../constants';
@@ -74,256 +74,132 @@ const styles = {
 
 const useStyles = makeStyles(styles)
 const Project = (props) => {
-    const [managers, setManagers] = useState();
-    const {setPageView, userToUpdate} = props;
+    // const [managers, setManagers] = useState();
+    const {setPageView, projectToUpdate} = props;
     const classes = useStyles();
     const { addToast } = useToasts()
     const dispatch = useDispatch();
-    let employeeData = useSelector(state => state.EmployeeInfo.employeeData);
-    let error = useSelector(state => state.userReducer.error);
-    let addNewUserStatus = useSelector(state => state.userReducer.addNewUserStatus);
-    let updateUserStatus = useSelector(state => state.userReducer.updateUserStatus);
-    let updateUserError = useSelector(state => state.userReducer.updateUserError);
-    const userForm = useRef(null);
-   
-  
-    //Load all emp info
-    useEffect(()=>{
-        dispatch(loadAllEmployeeData());        
-    },[]);
-
-    useEffect(()=>{        
-        if(employeeData){
-            let emp =employeeData.data.data;
-           let managers = emp.filter((item)=>{
-                if (item.userRole == 'Manager' && item.status =='Active')
-                return item;                
-            });
-            setManagers(managers);
-        }
-    },[employeeData]);
     
-
-    useEffect(()=>{
-        if(addNewUserStatus){
-            addToast(addNewUserStatus, { appearance: 'success', autoDismiss: true });
-            userForm.current.reset();
-            dispatch(clearUserStatus());
+    let error = useSelector(state => state.projectReducer.error);
+    let addNewProjectStatus = useSelector(state => state.projectReducer.addNewProjectStatus);
+    let updateProjectStatus = useSelector(state => state.projectReducer.updateProjectStatus);
+    let updateProjectError = useSelector(state => state.projectReducer.updateProjectError);
+    const projectForm = useRef(null);
+   
+      useEffect(()=>{
+        if(addNewProjectStatus){
+            addToast(addNewProjectStatus, { appearance: 'success', autoDismiss: true });
+            projectForm.current.reset();
+            dispatch(clearProjectMsg());
             setPageView("employeeListing");
         }
-        if(updateUserStatus){            
-            addToast(updateUserStatus, { appearance: 'success', autoDismiss: true });
-            userForm.current.reset();
-            dispatch(clearUserStatus());            
+        if(updateProjectStatus){            
+            addToast(updateProjectStatus, { appearance: 'success', autoDismiss: true });
+            projectForm.current.reset();
+            dispatch(clearProjectMsg());            
             if(props)
                 props.setUpdateAction(); 
         }
-    }, [addNewUserStatus,updateUserStatus,  addToast]);
+    }, [addNewProjectStatus,updateProjectStatus,  addToast]);
 
     useEffect(() => {        
         if(error)
         {
             addToast(error, { appearance: 'error', autoDismiss: true })
-            dispatch(clearUserStatus());            
+            dispatch(clearProjectMsg());            
         }
 
-        if(updateUserError){
-            addToast(updateUserError, { appearance: 'error', autoDismiss: true })
-            dispatch(clearUserStatus());            
+        if(updateProjectError){
+            addToast(updateProjectError, { appearance: 'error', autoDismiss: true })
+            dispatch(clearProjectMsg());            
         }        
-      }, [error,updateUserError,addToast]);
+      }, [error,updateProjectError,addToast]);
    
-
-    const getStates =(value)=>{        
-        if(value === null)
-        return [];
-        
-        let states = countryData.filter((item)=>{            
-            if(item.country == value)
-            {
-              return item            
-            }
-        })
-        return states.length > 0 ? states[0].states: [];        
-    }     
     const submitFormValues = (values) => {        
-        if(userToUpdate){
-            const id= userToUpdate[0]._id;
-            dispatch(updateUser(values, id));
+        if(projectToUpdate){
+            const id= projectToUpdate[0]._id;
+            dispatch(updateProject(values, id));
         }
         else{
-            dispatch(addNewUser(values));
+            dispatch(addNewProject(values));
         }        
     }
    
 
        let initialValues;
-       if(userToUpdate){
+       if(projectToUpdate){
+           console.log(projectToUpdate);
         initialValues = {
-        firstname  : userToUpdate[0].firstname,
-        lastname : userToUpdate[0].lastname,
-        middlename : userToUpdate[0].middlename,
-        address1 : userToUpdate[0].address1,
-        address2 : userToUpdate[0].address2,
-        city :  userToUpdate[0].city,
-        zip : userToUpdate[0].zip,
-        state : userToUpdate[0].state,
-        country : userToUpdate[0].country,
-        gender: userToUpdate[0].gender,
-        dateofbirth : userToUpdate[0].dateofbirth,
-        dateofjoining : userToUpdate[0].dateofjoining,
-        status: userToUpdate[0].status,
-        experience_at_joining : userToUpdate[0].experience_at_joining,
-        work_location :userToUpdate[0].work_location,
-        timezone : userToUpdate[0].timezone,
-        shift_timing : userToUpdate[0].shift_timing,
-        designation : userToUpdate[0].designation,
-        employment_status : userToUpdate[0].employment_status,
-        userRole  : userToUpdate[0].userRole,
-        reporting_manager : userToUpdate[0].reporting_manager,
-        skills :userToUpdate[0].skills,
-        certifications: userToUpdate[0].certifications,
-        achievements: userToUpdate[0].achievements,
-        contact_no :  userToUpdate[0].contact_no
+            title: projectToUpdate[0].title,
+            description: projectToUpdate[0].description,
+            client: projectToUpdate[0].client,
+            client_location: projectToUpdate[0].client_location,           
+            startdate : projectToUpdate[0].startdate,
+            enddate :projectToUpdate[0].enddate,
+            status: projectToUpdate[0].status,            
+            technology: projectToUpdate[0].technology,
+            type : projectToUpdate[0].type,
         }
        }
        else {
         initialValues ={
-            employee_id : '',
-            email : '',
-            userName : '',
-            password : '',
-            firstname : '',
-            lastname : '',
-            middlename : '',
-            address1 : '',
-            address2 : '',
-            contact_no: '',
-            city : '',
-            zip : '',
-            state : '',
-            country : '',
-            gender: '',
-            dateofbirth : new Date(),
-            dateofjoining : new Date(),
-            status: 'Active',
-            experience_at_joining : '',
-            work_location : '',
-            timezone : '',
-            shift_timing : '',
-            designation : '',
-            employment_status : '',
-            userRole  : '',
-            reporting_manager : '',
-            skills : '',
-            certifications: '',
-            achievements:'',
+           title: '',
+           description: '',
+           client:'',
+           client_location:'',           
+           startdate : new Date(),
+           enddate : new Date(),
+           status: 'Active',            
+           technology:'',
+           type : '',
         };
        }
 
-    const handleSeachView =()=>{        
+    const handleProjectListView =()=>{        
         props.setUpdateAction();        
     }
 
-    let userDataValidation;
-    let addNewUserValidations = Yup.object().shape({
-        employee_id : Yup
-        .number()            
-        .typeError('Employee Id must be a number')
-        .required('Employee Id is required'),           
-         email : Yup.string()
-        .required('Email is required')
-        .email('Invalid email'),
-        userName : Yup.string()
-        .min(8, 'UserName must be at least 8 characters long!')
-        .required('UserName is required'),
-        password : Yup.string()
-        .min(8, 'Password must be at least 8 characters long!')            
-        .required('Password is required')
-    });        
-        
-    let updateValidations = Yup.object().shape({
-        firstname  : Yup.string()
-        .required('Firstname is required')
+    let projectDataValidation = Yup.object().shape({
+        title  : Yup.string()
+        .required('Project Title is required')
         .min(2, 'Too Short!')
         .max(50, 'Too Long!'),
-        lastname : Yup.string()
+        description : Yup.string()
         .min(2, 'Too Short!')
-        .max(50, 'Too Long!')
-       .required('Lastname is required'),
-        middlename : Yup.string()
-       .required('Middlename is required'),
-       contact_no: Yup
-       .number()            
-       .typeError('Contact Number must be a number')
-       .required('Contact Number is required')
-       .min(10, 'Enter min valid Contact number!'),
-    //    .max(12, 'Enter max valid Contact number!'),
-        address1 : Yup.string()
+        .max(150, 'Too Long!')
+        .required('Description is required'),
+        client  : Yup.string()
+        .required('Client is required')
         .min(2, 'Too Short!')
-       .required('Address1 is required'),            
-        city : Yup.string()
-       .required('City is required'),
-        zip : Yup.string()
-        .min(6, 'Invalid Zip Code')
-       .required('Zip is required'),
-        state : Yup.string()
-       .required('State is required'),
-        country : Yup.string()
-       .required('Country is required'),
-        gender: Yup.string()
-       .required('Gender is required'),
-        dateofbirth : Yup.date('Invalid date')
-       .required('Date Of Birth is required')
-       .typeError('')
-       .test('', 'Enter valid date', function(value) {                    
-        const date = new Date();       
-        return  value < date
-        })
-       .test('', 'Age must be greater than 18', function(value) {            
-           const dt1=value;
-        const date = new Date();    
-        const result =  Math.floor((Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()) - Date.UTC(value.getFullYear(), value.getMonth(), value.getDate()) ) /(1000 * 60 * 60 * 24));
-        return Math.floor((result/30)/12) > 17
-        }),
-        dateofjoining : Yup.date('Invalid date')
+        .max(50, 'Too Long!'),             
+        client_location  : Yup.string()
+        .required('Client Location is required'), 
+        type  : Yup.string()
+        .required('Project Type is required')
+        .min(2, 'Too Short!')
+        .max(50, 'Too Long!'),     
+        technology  : Yup.string()
+        .required('Technology is required')
+        .min(2, 'Too Short!')
+        .max(50, 'Too Long!'),          
+        startdate : Yup.date('Invalid date')
+        .required('Start Date is required')
+        .typeError(''),      
+        enddate : Yup.date('Invalid date')
+        .required('Start Date is required')
         .typeError('')
-        .test('', 'Enter valid date', function(value) {                    
-            const date = new Date();                
-            return (value.getFullYear()- date.getFullYear()) < 2
-            })
-       .required('Date Of Joining is required'),
-        status: Yup.string()
-       .required('Status is required'),
-        experience_at_joining : Yup
-        .number()
-        .typeError('Experience must be in numbers')
-       .required('Experience At Joining is required'),
-        work_location : Yup.string()
-        .required('Work Location is required'),
-        timezone : Yup.string()
-       .required('Timezone is required'),
-        shift_timing : Yup.string()
-       .required('Shift Timing is required'),
-        designation : Yup.string()
-       .required('Designation is required'),
-        employment_status : Yup.string()
-       .required('Employment Status is required'),
-        userRole  : Yup.string()
-       .required('User Role is required'),
-        reporting_manager : Yup.string()
-       .required('Reporting Manager is required'),
-        skills : Yup.string()
-       .required('Skills are required'),
+        .test('', 'Must be greater than Start Date', function(value) {
+            const startdate = this.parent.startdate
+            return value >= startdate
+          })
 });
 
-
-    if(userToUpdate){
-        userDataValidation = updateValidations;
-    }
-    else {
-        userDataValidation = updateValidations.concat(addNewUserValidations)
-    }      
+// if(projectToUpdate){
+    //     projectDataValidation = updateValidations;
+    // }
+    // else {
+    //     projectDataValidation = updateValidations.concat(addNewProjectValidations)
+    // }      
 
     return (
         <GridContainer>
@@ -333,361 +209,130 @@ const Project = (props) => {
             submitFormValues(values);
             setSubmitting(false)
         }}
-        validationSchema={userDataValidation}
+        validationSchema={projectDataValidation}
     >
         {({ isSubmitting, values, setFieldValue, handleChange }) => (
             <GridItem xs={12} sm={12} md={12}>
  
 
- <Card id="add_new_employee">
-     <Form ref={userForm}>
+ <Card>
+     <Form ref={projectForm}>
      <CardHeader color="primary">
          <h4 className={classes.cardTitleWhite}>
              {' '}
-        {userToUpdate ? 'UPDATE PROJECT' : 'ADD PROJECT'}
+        {projectToUpdate ? 'UPDATE PROJECT' : 'ADD PROJECT'}
              {' '}
          </h4>
      </CardHeader>
 
      <CardBody>
          <GridContainer>
-{userToUpdate ? null : <>
+      
              <GridItem xs={12} sm={12} md={6}>
                  <CustomInput
-                     labelText="Employee Id"                                   
+                     labelText="Project Title"                                   
                      formControlProps={{
                          fullWidth: true
                      }}
                      inputProps={{
-                        value: values.employee_id,
-                        name: 'employee_id',
+                        value: values.title,
+                        name: 'title',
                         onChange: handleChange,
                     }}
                  />
                    <div className = {classes.error}>               
-                 <ErrorMessage name='employee_id'/>
+                 <ErrorMessage name='title'/>
                  </div>
              </GridItem>
+           
              <GridItem xs={12} sm={12} md={6}>
                  <CustomInput
-                     labelText="Email Address"
+                     labelText="Description"
                      formControlProps={{
                          fullWidth: true
                      }}
                      inputProps={{
-                        value: values.email,
-                        name :  'email',
-                        onChange: handleChange,
-                    }}
-                 />
-                    <div className = {classes.error}>
-                 <ErrorMessage name='email'/>                 
-                 </div>
-             </GridItem>
-             <GridItem xs={12} sm={12} md={6}>
-                 <CustomInput
-                     labelText="UserName"
-                     formControlProps={{
-                         fullWidth: true
-                     }}
-                     inputProps={{
-                        value: values.userName,
-                        name: 'userName',
+                        value: values.description,
+                        name: 'description',
                         onChange: handleChange,
                     }}
                  />
                    <div className = {classes.error}>
-                 <ErrorMessage name='userName'/> 
+                 <ErrorMessage name='description'/> 
                  </div>
              </GridItem>
-             <GridItem xs={12} sm={12} md={6}>                
-                 <CustomInput
-                     labelText="Password"
-                     formControlProps={{
-                         fullWidth: true
-                     }}
-                     inputProps={{
-                        value: values.password,
-                        name: 'password',
-                        onChange: handleChange,
-                    }}
-                 />
-                   <div className = {classes.error}>
-                 <ErrorMessage name='password'/> 
-                 </div>
-             </GridItem>
-                 </>
-             }
              
-             <GridItem xs={12} sm={12} md={4}>
+             <GridItem xs={12} sm={12} md={6}>
                  <CustomInput
-                     labelText="Firstname"
+                     labelText="Client"
                      formControlProps={{
                          fullWidth: true
                      }}
                      inputProps={{
-                        value: values.firstname,
-                        name: 'firstname',
+                        value: values.client,
+                        name: 'client',
                         onChange: handleChange,
                     }}
                  />
                <div className = {classes.error}>
-                 <ErrorMessage name='firstname'/> 
-                 </div>
-             </GridItem>
-             <GridItem xs={12} sm={12} md={4}>
-                 <CustomInput
-                     labelText="Middlename"
-                     formControlProps={{
-                         fullWidth: true
-                     }}
-                     inputProps={{
-                        value: values.middlename,
-                        name: 'middlename',
-                        onChange: handleChange,
-                    }}
-                 />
-                   <div className = {classes.error}>
-                 <ErrorMessage name='middlename'/> 
-                 </div>
-             </GridItem>
-             <GridItem xs={12} sm={12} md={4}>
-                 <CustomInput
-                     labelText="Lastname"
-                     formControlProps={{
-                         fullWidth: true
-                     }}
-                     inputProps={{
-                        value: values.lastname,
-                        name: 'lastname',
-                        onChange: handleChange,
-                    }}
-                 />
-                   <div className = {classes.error}>
-                 <ErrorMessage name='lastname'/> 
+                 <ErrorMessage name='client'/> 
                  </div>
              </GridItem>
              <GridItem xs={12} sm={12} md={6}>
                  <CustomInput
-                     labelText="Address 1"
+                     labelText="Client Location"
                      formControlProps={{
                          fullWidth: true
                      }}
                      inputProps={{
-                        value: values.address1,
-                        name: 'address1',
+                        value: values.client_location,
+                        name: 'client_location',
                         onChange: handleChange,
                     }}
                  />
                    <div className = {classes.error}>
-                 <ErrorMessage name='address1'/> 
+                 <ErrorMessage name='client_location'/> 
                  </div>
              </GridItem>
+           
              <GridItem xs={12} sm={12} md={6}>
                  <CustomInput
-                     labelText="Address 2"
+                     labelText="Technology"
                      formControlProps={{
                          fullWidth: true
                      }}
                      inputProps={{
-                        value: values.address2,
-                        name: 'address2',
+                        value: values.technology,
+                        name: 'technology',
                         onChange: handleChange,
                         required : false
                     }}
                  />
-             </GridItem>
-             <GridItem xs={12} sm={12} md={4}>
-                 <FormControl
-                     className={classes.formControl}
-                 >
-                     <InputLabel htmlFor="country">
-                         {' '}
-                         Country
-                     </InputLabel>
-                     <Select
-                         value={values.country}
-                         onChange={handleChange}
-                         onBlur= {e=>{                            
-                            setFieldValue('state', '')
-                        }
-                    }
-                         inputProps={{
-                             name: 'country',
-                             id: 'country'
-                         }}
-                     >
-                         <MenuItem value="">
-                             <em>None</em>
-                         </MenuItem>
-                         {countryData.map(item => {
-                             return (
-                                 <MenuItem value={item.country}>
-                                     {item.name}
-                                 </MenuItem>
-                             )
-                         })}
-                     </Select>
-                 </FormControl>
-                   <div className = {classes.error}>
-                 <ErrorMessage name='country'/>
+                  <div className = {classes.error}>
+                 <ErrorMessage name='technology'/>
                  </div> 
-             </GridItem>           
-
-             <GridItem xs={12} sm={12} md={4}>
-                 <FormControl
-                     className={classes.formControl}
-                 >
-                     <InputLabel htmlFor="state">
-                         State
-                     </InputLabel>
-                     <Select
-                         value={values.state}
-                         onChange={handleChange}
-                         inputProps={{
-                             name: 'state',
-                             id: 'state'
-                         }}
-                     >
-                         <MenuItem value="">
-                             <em>None</em>
-                         </MenuItem>
-                         {countryData.map(item => {
-                                
-                                if(values.country && item.country == values.country){                                    
-                                return (                                    
-                                    getStates(values.country).map(item =>{                                        
-                                if(item){
-                                    return  <MenuItem value={item.code}>
-                                                {item.name}                                       
-                                            </MenuItem>
-                                }                               
-                            }      
-                           )
-                           )
-                            }                         
-
-                        }
-                            )
-                         }
-                     </Select>
-                 </FormControl>
-                   <div className = {classes.error}>
-                 <ErrorMessage name='state'/> 
-                 </div>
              </GridItem>
-
-             {/* Display for update user only */}
-             <GridItem xs={12} sm={12} md={4}>
-                 {/* {userToUpdate ? 
-                 <><FormControl
-                     className={classes.formControl}
-                 >
-                     <InputLabel htmlFor="status">
-                         {' '}
-                         Status
-                     </InputLabel>
-                     <Select
-                         value={values.status}
-                         onChange={handleChange}
-                         inputProps={{
-                             name: 'status',
-                             id: 'status'
-                         }}
-                     >
-                         <MenuItem value="">
-                             <em>None</em>
-                         </MenuItem>
-                         {status.map(item => {
-                             return (
-                                 <MenuItem value={item}>
-                                     {item}
-                                 </MenuItem>
-                             )
-                         })}
-                     </Select>
-                 </FormControl>
-                 <div className = {classes.error}>
-                 <ErrorMessage name='status'/> 
-                 </div>
-                 </> : null} */}
-                 
-             </GridItem>
-
-
-            
-             <GridItem xs={12} sm={12} md={4}>                
-                  <CustomInput
-                     labelText="City"
-                     name="city"
-                     formControlProps={{
-                         fullWidth: true
-                     }}
-                     inputProps={{
-                        value: values.city,
-                        name: 'city',
-                        onChange: handleChange,
-                    }}
-                 />
-                   <div className = {classes.error}>
-                 <ErrorMessage name='city'/> 
-                 </div>
-             </GridItem>
-
-             <GridItem xs={12} sm={12} md={4}>
+             
+             <GridItem xs={12} sm={12} md={6}>
                  <CustomInput
-                     labelText="Zip"
-                     name="zip"
+                     labelText="Project Type"
                      formControlProps={{
                          fullWidth: true
                      }}
                      inputProps={{
-                        value: values.zip,
-                        name: 'zip',
+                        value: values.type,
+                        name: 'type',
                         onChange: handleChange,
+                        required : false
                     }}
                  />
-                   <div className = {classes.error}>
-                 <ErrorMessage name='zip'/> 
-                 </div>
+                  <div className = {classes.error}>
+                 <ErrorMessage name='type'/>
+                 </div> 
              </GridItem>
-             <GridItem xs={12} sm={12} md={4}>
-                 <CustomInput
-                     labelText="Conatct Number"
-                     name="contact_no"
-                     formControlProps={{
-                         fullWidth: true
-                     }}
-                     inputProps={{
-                        value: values.contact_no,
-                        name: 'contact_no',
-                        onChange: handleChange,
-                    }}
-                 />
-                <div className = {classes.error}>
-                 <ErrorMessage name='contact_no'/> 
-                 </div>
-             </GridItem>
-           
-             <GridItem xs={12} sm={12} md={4}>
-                 <CustomInput
-                     labelText="Experience At Joining"
-                     name="experience_at_joining"
-                     formControlProps={{
-                         fullWidth: true
-                     }}
-                     inputProps={{
-                        value: values.experience_at_joining,
-                        name: 'experience_at_joining',
-                        onChange: handleChange,
-                    }}
-                 />
-                <div className = {classes.error}>
-                 <ErrorMessage name='experience_at_joining'/> 
-                 </div>
-             </GridItem>
-           
-             <GridItem xs={12} sm={12} md={4}>
+
+
+             <GridItem xs={12} sm={12} md={6}>
                  <MuiPickersUtilsProvider
                      utils={DateFnsUtils}
                  >
@@ -697,12 +342,12 @@ const Project = (props) => {
                              variant="inline"
                              format="MM/dd/yyyy"
                              margin="normal"
-                             name="dateofbirth"                                                
-                             label="Date Of Birth"
-                            value={values.dateofbirth}
+                             name="startdate"                                                
+                             label="Start Date"
+                            value={values.startdate}
                             onChange={date =>
                                 setFieldValue(
-                                    'dateofbirth',
+                                    'startdate',
                                     date
                                 )
                             }
@@ -714,11 +359,11 @@ const Project = (props) => {
                      </Grid>
                  </MuiPickersUtilsProvider>
                    <div className = {classes.error}>
-                 <ErrorMessage name='dateofbirth'/>
+                 <ErrorMessage name='startdate'/>
                  </div> 
              </GridItem>
 
-             <GridItem xs={12} sm={12} md={4}>
+             <GridItem xs={12} sm={12} md={6}>
                  <MuiPickersUtilsProvider
                      utils={DateFnsUtils}
                  >
@@ -728,12 +373,12 @@ const Project = (props) => {
                              variant="inline"
                              format="MM/dd/yyyy"
                              margin="normal"
-                             name="dateofjoining"
-                             label="Date Of Joining"
-                            value={values.dateofjoining}
+                             name="enddate"                                                
+                             label="End Date"
+                            value={values.enddate}
                             onChange={date =>
                                 setFieldValue(
-                                    'dateofjoining',
+                                    'enddate',
                                     date
                                 )
                             }
@@ -745,320 +390,19 @@ const Project = (props) => {
                      </Grid>
                  </MuiPickersUtilsProvider>
                    <div className = {classes.error}>
-                 <ErrorMessage name='dateofjoining'/> 
-                 </div>
-             </GridItem>
-             <GridItem xs={12} sm={12} md={6}>
-                 <FormControl
-                     className={classes.formControl}
-                 >
-                     <InputLabel htmlFor="gender">
-                         {' '}
-                         Gender
-                     </InputLabel>
-                     <Select
-                         value={values.gender}
-                         onChange={handleChange}
-                         inputProps={{
-                             name: 'gender',
-                             id: 'gender'
-                         }}
-                     >
-                         <MenuItem value="">
-                             <em>None</em>
-                         </MenuItem>
-                         {gender.map(item => {
-                             return (
-                                 <MenuItem value={item}>                                     
-                                     {item}
-                                 </MenuItem>
-                             )
-                         })}
-                     </Select>
-                 </FormControl>
-                   <div className = {classes.error}>
-                 <ErrorMessage name='gender'/> 
-                 </div>
-             </GridItem>
-            
-            
-             <GridItem xs={12} sm={12} md={6}>                                    
-                 <FormControl
-                     className={classes.formControl}
-                 >
-                     <InputLabel htmlFor="work_location">
-                         {' '}
-                         Work Location
-                     </InputLabel>
-                     <Select
-                         value={values.work_location}
-                         onChange={handleChange}
-                         inputProps={{
-                             name: 'work_location',
-                             id: 'work_location'
-                         }}
-                     >
-                         <MenuItem value="">
-                             <em>None</em>
-                         </MenuItem>
-                         {work_location.map(item => {
-                             return (
-                                 <MenuItem value={item.id}>
-                                     {item.location}
-                                 </MenuItem>
-                             )
-                         })}
-                     </Select>
-                 </FormControl>
-                   <div className = {classes.error}>
-                 <ErrorMessage name='work_location'/> 
-                 </div>
-             </GridItem>
-             <GridItem xs={12} sm={12} md={6}>
-                 <FormControl
-                     className={classes.formControl}
-                 >
-                     <InputLabel htmlFor="timezone">
-                         {' '}
-                         Timezone
-                     </InputLabel>
-                     <Select
-                         value={values.timezone}
-                         onChange={handleChange}
-                         inputProps={{
-                             name: 'timezone',
-                             id: 'timezone'
-                         }}
-                     >
-                         <MenuItem value="">
-                             <em>None</em>
-                         </MenuItem>
-                         {work_location.map(item => {
-                             return (
-                                 <MenuItem value={item.location}>
-                                     {item.location}
-                                 </MenuItem>
-                             )
-                         })}
-                     </Select>
-                 </FormControl>
-                   <div className = {classes.error}>
-                 <ErrorMessage name='timezone'/> 
-                 </div>
-             </GridItem>
-           
-             <GridItem xs={12} sm={12} md={6}>
-                 <FormControl
-                     className={classes.formControl}
-                 >
-                     <InputLabel htmlFor="shift_timing">
-                     Shift Timing{' '}
-                     </InputLabel>
-                     <Select
-                         value={values.shift_timing}
-                         onChange={handleChange}
-                         inputProps={{
-                             name: 'shift_timing',
-                             id: 'shift_timing'
-                         }}
-                     >
-                         <MenuItem value="">
-                             <em>None</em>
-                         </MenuItem>
-                         {shift_timing.map(item => {
-                             return (
-                                 <MenuItem value={item}>
-                                     {item}
-                                 </MenuItem>
-                             )
-                         })}
-                     </Select>
-                 </FormControl>
-                   <div className = {classes.error}>
-                 <ErrorMessage name='shift_timing'/> 
-                 </div>
+                 <ErrorMessage name='enddate'/>
+                 </div> 
              </GridItem>
 
-             <GridItem xs={12} sm={12} md={6}>
-                 <FormControl
-                     className={classes.formControl}
-                 >
-                     <InputLabel htmlFor="designation">
-                         Designation{' '}
-                     </InputLabel>
-                     <Select
-                         value={values.designation}
-                         onChange={handleChange}
-                         inputProps={{
-                             name: 'designation',
-                             id: 'designation'
-                         }}
-                     >
-                         <MenuItem value="">
-                             <em>None</em>
-                         </MenuItem>
-                         {designation.map(item => {
-                             return (
-                                 <MenuItem value={item}>
-                                     {item}
-                                 </MenuItem>
-                             )
-                         })}
-                     </Select>
-                 </FormControl>
-                   <div className = {classes.error}>
-                 <ErrorMessage name='designation'/> 
-                 </div>
-             </GridItem>
-             <GridItem xs={12} sm={12} md={6}>
-                 <FormControl
-                     className={classes.formControl}
-                 >
-                     <InputLabel htmlFor="employment_status">
-                         {' '}
-                         Employment Status
-                     </InputLabel>
-                     <Select
-                         value={values.employment_status}
-                         onChange={handleChange}
-                         inputProps={{
-                             name: 'employment_status',
-                             id: 'employment_status'
-                         }}
-                     >
-                         <MenuItem value="">
-                             <em>None</em>
-                         </MenuItem>
-                         {employment_status.map(item => {
-                             return (
-                                 <MenuItem value={item}>
-                                     {item}
-                                 </MenuItem>
-                             )
-                         })}
-                     </Select>
-                 </FormControl>
-                   <div className = {classes.error}>
-                 <ErrorMessage name='employment_status'/> 
-                 </div>
-             </GridItem>
-             <GridItem xs={12} sm={12} md={6}>
-                 <FormControl
-                     className={classes.formControl}
-                 >
-                     <InputLabel htmlFor="userRole">
-                         {' '}
-                         User Role
-                     </InputLabel>
-                     <Select
-                         value={values.userRole}
-                         onChange={handleChange}
-                         inputProps={{
-                             name: 'userRole',
-                             id: 'userRole'
-                         }}
-                     >
-                         <MenuItem value="">
-                             <em>None</em>
-                         </MenuItem>
-                         {userRole.map(item => {
-                             return (
-                                 <MenuItem value={item}>
-                                     {item}
-                                 </MenuItem>
-                             )
-                         })}
-                     </Select>
-                 </FormControl>
-                   <div className = {classes.error}>
-                 <ErrorMessage name='userRole'/> 
-                 </div>
-             </GridItem>
-             <GridItem xs={12} sm={12} md={6}>
-                 <FormControl
-                     className={classes.formControl}
-                 >
-                     <InputLabel htmlFor="reporting_manager">
-                         Reporting Manager
-                     </InputLabel>
-                     <Select
-                         value={values.reporting_manager}
-                         onChange={handleChange}
-                         inputProps={{
-                             name: 'reporting_manager',
-                             id: 'reporting_manager'
-                         }}
-                     >
-                         <MenuItem value="">
-                             <em>None</em>
-                         </MenuItem>
-                         {managers ?  managers.map(item => {
-                             return (
-                                 <MenuItem value={item.employee_id}>
-                                     {item.firstname + " " + item.lastname}
-                                 </MenuItem>
-                             )
-                         }) : null}
-                     </Select>
-                 </FormControl>
-                   <div className = {classes.error}>
-                 <ErrorMessage name='reporting_manager'/> 
-                 </div>
-             </GridItem>
-             
-             <GridItem xs={12} sm={12} md={6}>
-                 <CustomInput
-                     labelText="Skills"
-                     formControlProps={{
-                         fullWidth: true
-                     }}
-                     inputProps={{
-                        value: values.skills,
-                        name: 'skills',
-                        onChange: handleChange,
-                    }}
-                 />
-                    <div className={classes.error}>
-                 <ErrorMessage name='skills'/> 
-                 </div>
-             </GridItem>
-             <GridItem xs={12} sm={12} md={6}>
-                 <CustomInput
-                     labelText="Certifications"
-                     formControlProps={{
-                         fullWidth: true
-                     }}
-                     inputProps={{
-                        value: values.certifications,
-                        name: 'certifications',
-                        onChange: handleChange,
-                        required : false
-                    }}
-                 />                 
-             </GridItem>
-             <GridItem xs={12} sm={12} md={12}>
-                 <CustomInput
-                     labelText="Achievements"
-                     formControlProps={{
-                         fullWidth: true
-                     }}
-                     inputProps={{
-                        value: values.achievements,
-                        name: 'achievements',
-                        onChange: handleChange,
-                        required : false
-                    }}
-                 />
-             </GridItem>
-             
+            
          </GridContainer>
      </CardBody>
 
      <CardFooter>
-         {userToUpdate ? <>
+         {projectToUpdate ? <>
             <GridItem xs={12} sm={12} md={6}>
          <Button id='update' type="submit" color="primary" disabled={isSubmitting}>UPDATE PROJECT</Button>
-         <Button  color="primary" disabled={isSubmitting} onClick={handleSeachView}>cancel</Button>
+         <Button  color="primary" disabled={isSubmitting} onClick={handleProjectListView}>cancel</Button>
          </GridItem>
          </>        
          :

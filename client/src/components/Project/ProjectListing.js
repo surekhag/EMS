@@ -82,13 +82,25 @@ const useStyles = makeStyles(styles)
            let {title, technology , client,client_location, startdate, enddate} =key;
 
         let start = new Date(startdate);
-        let end  = new Date(enddate);     
-         startdate = start.getDate()+'/'+start.getMonth()+'/'+ start.getFullYear();
-         enddate  = enddate ? end.getDate()+'/'+end.getMonth()+'/'+ end.getFullYear():'-';
+        let end  = new Date(enddate); 
+        let  mnth = ("0" + (start.getMonth() + 1)).slice(-2);
+        let day = ("0" + start.getDate()).slice(-2);       
+        startdate= [day,mnth,start.getFullYear()].join("/");
+         
+         let  formattedEnddate;
+            if(enddate)
+            {
+                let  mnth = ("0" + (end.getMonth() + 1)).slice(-2);
+                let day = ("0" + end.getDate()).slice(-2);    
+               formattedEnddate= [day,mnth,end.getFullYear()].join("/")  
+
+            }
+         enddate  = enddate ? formattedEnddate:'-';
+
            const data ={ title, technology , client,client_location, startdate, enddate}           
              projectDetails.push(Object.values(data))
              return 1
-         })      
+         }); 
      }
 
      const links= ["Update", "Delete"];
@@ -102,14 +114,12 @@ const useStyles = makeStyles(styles)
 
      const updateUser= (val)=>{
          setUpdateAction('update');
-        const user = getprojectToUpdate(projectData.data.data, val[0]);        
+        const user = getprojectToUpdate(projectData, val[0]);        
         setProjectToUpdate(user);        
      }
 
      const deleteUser= (val)=>{
-         console.log(val);
-        const user = getprojectToUpdate(projectData, val[0]);  
-        console.log(user)      ;
+        const user = getprojectToUpdate(projectData, val[0]);
         setUpdateAction('delete');
         setProjectToUpdate(user);
         setShowDelDialog(true);
