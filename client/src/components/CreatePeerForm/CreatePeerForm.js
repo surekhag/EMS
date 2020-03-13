@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 // @material-ui/core components
 import { makeStyles } from '@material-ui/core/styles'
 import { compose } from 'redux'
-import { Redirect } from 'react-router-dom'
 import { withToastManager, useToasts } from 'react-toast-notifications'
 
 import DateFnsUtils from '@date-io/date-fns'
@@ -60,15 +59,21 @@ const styles = {
     flexDirection: 'column',
     justifyContent: 'center',
     textAlign: 'right',
-    paddingRight: '10px',
+    paddingRight: '30px',
     textTransform: 'uppercase'
   },
+  footerDisplay: {
+    justifyContent: 'space-evenly'
+  },
   formControl: {
-    margin: 11,
-    minWidth: 200
+    margin: '11px 0',
+    minWidth: '100%'
   },
   marginTop: {
     margin: '0px'
+  },
+  widthSetting: {
+    width: '100%'
   },
   colorRed: {
     color: 'red'
@@ -88,13 +93,39 @@ const styles = {
 
 const useStyles = makeStyles(styles)
 
-const CreatePeerForm = () => {
+const CreatePeerForm = ({ updateInfo, ClickHandler }) => {
   const classes = useStyles()
   const { addToast } = useToasts()
-  const [isRedirect, setIsRedirect] = useState(false)
   const [managers, setManagers] = useState()
   const employeeData = useSelector(state => state.EmployeeInfo.employeeData)
   const projects = useSelector(state => state.projectReducer.projects)
+  let initialValues
+  if (updateInfo) {
+    initialValues = {
+      employee_under_review: updateInfo.employee_under_review,
+      employee_reviewing: updateInfo.employee_reviewing,
+      project: updateInfo.project,
+      functional_manager: updateInfo.functional_manager,
+      from_date: updateInfo.from_date,
+      to_date: new Date(),
+      due_from: new Date(),
+      due_to: new Date(),
+      review_form_link: updateInfo.review_form_link
+    }
+  } else {
+    initialValues = {
+      employee_under_review: '',
+      employee_reviewing: '',
+      project: '',
+      functional_manager: '',
+      from_date: new Date(),
+      to_date: new Date(),
+      due_from: new Date(),
+      due_to: new Date(),
+      review_form_link: ''
+    }
+  }
+
   const peerReviewStatusMessage = useSelector(
     state => state.peerReviewReducer.peerReviewMessage
   )
@@ -145,8 +176,8 @@ const CreatePeerForm = () => {
           appearance: 'success',
           autoDismiss: true
         })
-        dispatch(setPeerReviewSuccess('')) // To avoid repeated redirect
-        setIsRedirect(true)
+        dispatch(setPeerReviewSuccess(''))
+        ClickHandler() // To avoid repeated redirect
       } else {
         addToast('Error while saving form', {
           appearance: 'error',
@@ -157,19 +188,8 @@ const CreatePeerForm = () => {
   }, [peerReviewStatusMessage, addToast, dispatch])
   return (
     <Grid>
-      {isRedirect ? <Redirect to="/admin/peerReview" /> : false}
       <Formik
-        initialValues={{
-          employee_under_review: '',
-          employee_reviewing: '',
-          project: '',
-          functional_manager: '',
-          from_date: new Date(),
-          to_date: new Date(),
-          due_from: new Date(),
-          due_to: new Date(),
-          review_form_link: ''
-        }}
+        initialValues={initialValues}
         onSubmit={(values, { setSubmitting }) => {
           dispatch(createPeerReview(values))
           setSubmitting(false)
@@ -330,6 +350,7 @@ const CreatePeerForm = () => {
                               return (
                                 <MenuItem
                                   value={item.firstname + ' ' + item.lastname}
+                                  className={classes.hoverEffect}
                                 >
                                   {item.firstname + ' ' + item.lastname}
                                 </MenuItem>
@@ -357,6 +378,7 @@ const CreatePeerForm = () => {
                         format="MM/dd/yyyy"
                         name="from_date"
                         margin="normal"
+                        className={classes.widthSetting}
                         value={values.from_date}
                         onChange={date => setFieldValue('from_date', date)}
                         KeyboardButtonProps={{
@@ -380,6 +402,7 @@ const CreatePeerForm = () => {
                         variant="inline"
                         name="to_date"
                         format="MM/dd/yyyy"
+                        className={classes.widthSetting}
                         margin="normal"
                         value={values.to_date}
                         onChange={date => setFieldValue('to_date', date)}
@@ -407,6 +430,7 @@ const CreatePeerForm = () => {
                         name="due_from"
                         format="MM/dd/yyyy"
                         margin="normal"
+                        className={classes.widthSetting}
                         value={values.due_from}
                         onChange={date => setFieldValue('due_from', date)}
                         KeyboardButtonProps={{
@@ -431,6 +455,7 @@ const CreatePeerForm = () => {
                         name="due_to"
                         format="MM/dd/yyyy"
                         margin="normal"
+                        className={classes.widthSetting}
                         value={values.due_to}
                         onChange={date => setFieldValue('due_to', date)}
                         KeyboardButtonProps={{
@@ -472,9 +497,18 @@ const CreatePeerForm = () => {
                   </Grid>
                 </Grid>
               </CardBody>
-              <CardFooter>
-                <Button type="submit" color="primary" disabled={isSubmitting}>
-                  CREATE PEER
+              <CardFooter className={classes.footerDisplay}>
+                {updateInfo ? (
+                  <Button type="submit" color="primary" disabled={isSubmitting}>
+                    UPDATE PEER
+                  </Button>
+                ) : (
+                  <Button type="submit" color="primary" disabled={isSubmitting}>
+                    CREATE PEER
+                  </Button>
+                )}
+                <Button type="submit" color="primary" onClick={ClickHandler}>
+                  Close
                 </Button>
               </CardFooter>
             </Form>

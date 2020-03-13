@@ -137,6 +137,7 @@ const PeerReviewDetails = props => {
   const updateHandler = () => {
     dispatch(updatePeerReview(reviewData._id, { status: selectedStatus }))
     dispatch(loadAllPeerForUser())
+    window.location.reload()
   }
   return (
     <Grid>
@@ -154,28 +155,6 @@ const PeerReviewDetails = props => {
                 showLink={false}
               />
               <Grid xs={6} sm={6} md={6} item>
-                {/* <FormControl className={classes.formControl}>
-                  <InputLabel htmlFor="SelectStatus">Change Status</InputLabel>
-                  <Select
-                    value={selectedStatus}
-                    onChange={changeHandler}
-                    inputProps={{
-                      name: 'SelectStatus',
-                      id: 'SelectStatus'
-                    }}
-                  >
-                    <MenuItem className={classes.hoverEffect} value="Done">
-                      Done
-                    </MenuItem>
-                    <MenuItem
-                      className={classes.hoverEffect}
-                      value="InProgress"
-                    >
-                      In Progress
-                    </MenuItem>
-                  </Select>
-                </FormControl> */}
-
                 <div>
                   <FormControlLabel
                     control={

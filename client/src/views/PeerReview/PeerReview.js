@@ -14,6 +14,7 @@ import Card from '../../components/Card/Card'
 import Button from '../../components/CustomButtons/Button'
 import CardHeader from '../../components/Card/CardHeader'
 import CardBody from '../../components/Card/CardBody'
+import CreatePeerForm from '../../components/CreatePeerForm/CreatePeerForm'
 import MenuItem from '@material-ui/core/MenuItem'
 import FormControl from '@material-ui/core/FormControl'
 import Select from '@material-ui/core/Select'
@@ -58,6 +59,7 @@ const PeerReview = props => {
   const classes = useStyles()
   const [selectedEmployee, setselectedEmployee] = useState('')
   const [isRedirectForm, setIsRedirectForm] = useState(false)
+  const [updateInfo, setUpdateInfo] = useState(false)
   const peerReviewListingHeader = [
     'Employee Under Review',
     'Employee Reviewing',
@@ -66,6 +68,7 @@ const PeerReview = props => {
     'Status'
   ]
   const dispatch = useDispatch()
+  const links = ['Update', 'Delete']
   const employeeData = useSelector(state => state.EmployeeInfo.employeeData)
   const peerReviewData = useSelector(
     state => state.peerReviewReducer.peerReviewData
@@ -76,15 +79,14 @@ const PeerReview = props => {
   }, [dispatch])
 
   const tempArr = []
+  let filteredEmployee
   if (peerReviewData) {
-    const filteredEmployee = peerReviewData.data.data.filter(
+    filteredEmployee = peerReviewData.data.data.filter(
       cls =>
         cls.employee_under_review
           .toLowerCase()
-          .includes(selectedEmployee.toLowerCase().trim()) ||
-        cls.employee_reviewing
-          .toLowerCase()
-          .includes(selectedEmployee.toLowerCase().trim())
+          .includes(selectedEmployee.toLowerCase().trim()) &&
+        cls.status !== 'Inactive'
     )
     filteredEmployee.map((review, key) => {
       tempArr.push([
@@ -102,12 +104,34 @@ const PeerReview = props => {
     setselectedEmployee(e.target.value)
   }
   const createPeerHandler = () => {
+    setUpdateInfo('')
     setIsRedirectForm(true)
+  }
+  const detailsSwitchHandler = () => {
+    setIsRedirectForm(false)
+  }
+  const updateUser = (val, k) => {
+    setUpdateInfo(filteredEmployee[k])
+    setIsRedirectForm(true)
+    //   setUpdateAction('update');
+    //  const user = getUserToUpdate(employeeData.data.data, val[0]);
+    //  setUserToUpdate(user);
+  }
+
+  const deleteUser = (val, k) => {
+    console.log('delete', val, k, filteredEmployee[k])
+    //  const user = getUserToUpdate(employeeData.data.data, val[0]);
+    //  setUpdateAction('delete');
+    //  setUserToUpdate(user);
+    //  setShowDelDialog(true);
   }
   return (
     <div>
       {isRedirectForm ? (
-        <Redirect to="/admin/createPeer"></Redirect>
+        <CreatePeerForm
+          updateInfo={updateInfo}
+          ClickHandler={detailsSwitchHandler}
+        ></CreatePeerForm>
       ) : (
         <GridContainer>
           <Grid xs={1} sm={1} md={1} className={classes.grid} item>
@@ -158,6 +182,9 @@ const PeerReview = props => {
                   tableHeaderColor="gray"
                   tableHead={peerReviewListingHeader}
                   tableData={tempArr || null}
+                  addLinks={links}
+                  updateUser={updateUser}
+                  deleteUser={deleteUser}
                   showLink={false}
                 />
               </CardBody>

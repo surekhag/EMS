@@ -6,6 +6,7 @@ module.exports = {
         employee_under_review: req.body.employee_under_review,
         employee_reviewing: req.body.employee_reviewing,
         project: req.body.project,
+        functional_manager: req.body.functional_manager,
         from_date: req.body.from_date,
         to_date: req.body.to_date,
         due_from: req.body.due_from,
