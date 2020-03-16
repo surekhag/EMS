@@ -1,4 +1,8 @@
-import { FETCH_ALL_PROJECTS_SAGA, SET_ALL_PROJECTS, SET_ALL_PROJECTS_ERROR } from './actionTypes'
+import {
+  FETCH_ALL_PROJECTS_SAGA,
+  SET_ALL_PROJECTS,
+  SET_ALL_PROJECTS_ERROR
+} from './actionTypes'
 
 export function loadAllProjects() {
   return {
@@ -12,7 +16,6 @@ export function setAllProjectsData(data) {
     payload: { data }
   }
 }
-
 
 export function setAllProjectsDataError(data) {
   return {

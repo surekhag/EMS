@@ -10,7 +10,10 @@ import {
   SET_PEER_REVIEW_UPDATE_ERROR,
   SET_ALL_PEER_ERROR,
   SET_ALL_USER_PEER_ERROR,
-  SET_PEER_ERROR
+  SET_PEER_ERROR,
+  DELETE_PEER_REVIEW,
+  DELETE_PEER_REVIEW_SUCCESS,
+  DELETE_PEER_REVIEW_ERROR
 } from './actionTypes'
 
 export function loadAllPeerReviews() {
@@ -33,7 +36,6 @@ export function setAllPeerReviewsError(data) {
   }
 }
 
-
 export function createPeerReview(body) {
   return {
     type: CREATE_PEER_SAGA,
@@ -53,7 +55,6 @@ export function setPeerReviewError(data) {
     payload: { data }
   }
 }
-
 
 export function loadAllPeerForUser() {
   return {
@@ -75,7 +76,6 @@ export function setAllPeerForUserError(data) {
   }
 }
 
-
 export function updatePeerReview(id, body) {
   return {
     type: UPDATE_PEER_REVIEW,
@@ -88,11 +88,27 @@ export function setUpdateReviewStatus(data) {
     payload: { data }
   }
 }
-
-
 export function setUpdateReviewError(data) {
   return {
     type: SET_PEER_REVIEW_UPDATE_ERROR,
+    payload: { data }
+  }
+}
+export function deletePeerReview(id) {
+  return {
+    type: DELETE_PEER_REVIEW,
+    payload: { id }
+  }
+}
+export function peerReviewDeleteSuccess(data) {
+  return {
+    type: DELETE_PEER_REVIEW_SUCCESS,
+    payload: { data }
+  }
+}
+export function peerReviewDeleteFailue(data) {
+  return {
+    type: DELETE_PEER_REVIEW_ERROR,
     payload: { data }
   }
 }

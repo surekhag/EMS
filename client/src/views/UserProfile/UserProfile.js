@@ -156,7 +156,6 @@ export default function UserProfile() {
                 </GridItem>
               </GridContainer>
               <GridContainer>
-               
                 <GridItem xs={12} sm={12} md={6}>
                   <InputLabel style={{ color: '#AAAAAA' }}>Gender</InputLabel>
                   <RadioGroup aria-label="gender" name="gender1">

@@ -15,7 +15,8 @@ import {
 import withAuth from '../../HOC/withAuth'
 import {
   createPeerReview,
-  setPeerReviewSuccess
+  setPeerReviewSuccess,
+  updatePeerReview
 } from '../../actions/peerReviewAction'
 import { loadAllEmployeeData } from '../../actions/employeeAction'
 
@@ -100,6 +101,7 @@ const CreatePeerForm = ({ updateInfo, ClickHandler }) => {
   const employeeData = useSelector(state => state.EmployeeInfo.employeeData)
   const projects = useSelector(state => state.projectReducer.projects)
   let initialValues
+  console.log('update', updateInfo)
   if (updateInfo) {
     initialValues = {
       employee_under_review: updateInfo.employee_under_review,
@@ -107,9 +109,9 @@ const CreatePeerForm = ({ updateInfo, ClickHandler }) => {
       project: updateInfo.project,
       functional_manager: updateInfo.functional_manager,
       from_date: updateInfo.from_date,
-      to_date: new Date(),
-      due_from: new Date(),
-      due_to: new Date(),
+      to_date: updateInfo.to_date,
+      due_from: updateInfo.due_from,
+      due_to: updateInfo.due_to,
       review_form_link: updateInfo.review_form_link
     }
   } else {
@@ -128,6 +130,12 @@ const CreatePeerForm = ({ updateInfo, ClickHandler }) => {
 
   const peerReviewStatusMessage = useSelector(
     state => state.peerReviewReducer.peerReviewMessage
+  )
+  const peerReviewUpdateStatus = useSelector(
+    state => state.peerReviewReducer.peerReviewUpdateStatus
+  )
+  const peerReviewUpdateError = useSelector(
+    state => state.peerReviewReducer.peerReviewUpdateError
   )
   const dispatch = useDispatch()
   const validationSchema = {
@@ -158,8 +166,8 @@ const CreatePeerForm = ({ updateInfo, ClickHandler }) => {
   }
   useEffect(() => {
     if (employeeData) {
-      let emp = employeeData.data.data
-      let managers = emp.filter(item => {
+      const emp = employeeData.data.data
+      const managers = emp.filter(item => {
         if (item.userRole == 'Manager' && item.status == 'Active') return item
       })
       setManagers(managers)
@@ -176,22 +184,50 @@ const CreatePeerForm = ({ updateInfo, ClickHandler }) => {
           appearance: 'success',
           autoDismiss: true
         })
-        dispatch(setPeerReviewSuccess(''))
-        ClickHandler() // To avoid repeated redirect
       } else {
         addToast('Error while saving form', {
           appearance: 'error',
           autoDismiss: true
         })
       }
+    } else if (peerReviewUpdateStatus) {
+      if (peerReviewUpdateStatus.status === 200) {
+        addToast('Peer Review successfully updated', {
+          appearance: 'success',
+          autoDismiss: true
+        })
+      } else {
+        addToast('Error while saving form', {
+          appearance: 'error',
+          autoDismiss: true
+        })
+      }
+    } else if (peerReviewUpdateError) {
+      addToast('Error while saving form', {
+        appearance: 'error',
+        autoDismiss: true
+      })
     }
-  }, [peerReviewStatusMessage, addToast, dispatch])
+  }, [
+    peerReviewStatusMessage,
+    peerReviewUpdateStatus,
+    peerReviewUpdateError,
+    addToast,
+    dispatch
+  ])
+  const submitReview = values => {
+    if (updateInfo) {
+      dispatch(updatePeerReview(updateInfo._id, values))
+    } else {
+      dispatch(createPeerReview(values))
+    }
+  }
   return (
     <Grid>
       <Formik
         initialValues={initialValues}
         onSubmit={(values, { setSubmitting }) => {
-          dispatch(createPeerReview(values))
+          submitReview(values)
           setSubmitting(false)
         }}
         validationSchema={Yup.object(validationSchema)}

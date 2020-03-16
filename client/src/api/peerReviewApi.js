@@ -17,3 +17,6 @@ export function createPeerReview(body) {
 export function updatePeerReview(id, body) {
   return axios.put(FETCH_PEER_REVIEW + id, body)
 }
+export function deletePeerReview(id) {
+  return axios.delete(FETCH_PEER_REVIEW + id)
+}
