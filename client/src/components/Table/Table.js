@@ -45,7 +45,7 @@ export default function CustomTable(props) {
                     </TableCell>
                   )
                 })}
-                {showLink ? <TableCell /> : null}
+                {showLink || addLinks ? <TableCell /> : null}
               </TableRow>
             </TableHead>
           ) : null}
@@ -62,28 +62,34 @@ export default function CustomTable(props) {
                   })}
 
                   {addLinks ? (
-                    <p className={classes.tableCell}>
+                    <TableCell
+                      className={classes.tableCell}
+                      key={k + 'updateDelete'}
+                    >
                       {addLinks.map(item => {
-                        if (item == 'Update')
-                          return (
-                            <span
-                              className={classes.links}
-                              onClick={e => updateUser(prop, e)}
-                            >
-                              {item}
-                            </span>
-                          )
-                        else if (item == 'Delete')
-                          return (
-                            <span
-                              className={classes.links}
-                              onClick={e => deleteUser(prop, e)}
-                            >
-                              {item}
-                            </span>
-                          )
+                        if (item == 'Update') 
+                        { return (
+                          <Button
+                            color="success"
+                            size="sm"
+                            className={classes.links}
+                            onClick={e => updateUser(prop, k)}
+                          >
+                            {item}
+                          </Button>
+                        ) } else if (item == 'Delete') { return (
+                          <Button
+                            color="danger"
+                            size="sm"
+                            className={classes.links}
+                            onClick={e => deleteUser(prop, k)}
+                          >
+                            {item}
+                          </Button>
+                        )
+                        }
                       })}
-                    </p>
+                    </TableCell>
                   ) : null}
 
                   {showLink ? (

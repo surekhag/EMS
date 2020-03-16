@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 // @material-ui/core components
 import { makeStyles } from '@material-ui/core/styles'
 import { compose } from 'redux'
-import { Redirect } from 'react-router-dom'
 import { withToastManager, useToasts } from 'react-toast-notifications'
 
 import DateFnsUtils from '@date-io/date-fns'
@@ -16,7 +15,8 @@ import {
 import withAuth from '../../HOC/withAuth'
 import {
   createPeerReview,
-  setPeerReviewSuccess
+  setPeerReviewSuccess,
+  updatePeerReview
 } from '../../actions/peerReviewAction'
 import { loadAllEmployeeData } from '../../actions/employeeAction'
 
@@ -59,15 +59,22 @@ const styles = {
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
-    textAlign: 'center',
+    textAlign: 'right',
+    paddingRight: '30px',
     textTransform: 'uppercase'
   },
+  footerDisplay: {
+    justifyContent: 'space-evenly'
+  },
   formControl: {
-    margin: 11,
-    minWidth: 200
+    margin: '11px 0',
+    minWidth: '100%'
   },
   marginTop: {
     margin: '0px'
+  },
+  widthSetting: {
+    width: '100%'
   },
   colorRed: {
     color: 'red'
@@ -87,14 +94,48 @@ const styles = {
 
 const useStyles = makeStyles(styles)
 
-const CreatePeerForm = () => {
+const CreatePeerForm = ({ updateInfo, ClickHandler }) => {
   const classes = useStyles()
   const { addToast } = useToasts()
-  const [isRedirect, setIsRedirect] = useState(false)
+  const [managers, setManagers] = useState()
   const employeeData = useSelector(state => state.EmployeeInfo.employeeData)
   const projects = useSelector(state => state.projectReducer.projects)
+  let initialValues
+  console.log('update', updateInfo)
+  if (updateInfo) {
+    initialValues = {
+      employee_under_review: updateInfo.employee_under_review,
+      employee_reviewing: updateInfo.employee_reviewing,
+      project: updateInfo.project,
+      functional_manager: updateInfo.functional_manager,
+      from_date: updateInfo.from_date,
+      to_date: updateInfo.to_date,
+      due_from: updateInfo.due_from,
+      due_to: updateInfo.due_to,
+      review_form_link: updateInfo.review_form_link
+    }
+  } else {
+    initialValues = {
+      employee_under_review: '',
+      employee_reviewing: '',
+      project: '',
+      functional_manager: '',
+      from_date: new Date(),
+      to_date: new Date(),
+      due_from: new Date(),
+      due_to: new Date(),
+      review_form_link: ''
+    }
+  }
+
   const peerReviewStatusMessage = useSelector(
     state => state.peerReviewReducer.peerReviewMessage
+  )
+  const peerReviewUpdateStatus = useSelector(
+    state => state.peerReviewReducer.peerReviewUpdateStatus
+  )
+  const peerReviewUpdateError = useSelector(
+    state => state.peerReviewReducer.peerReviewUpdateError
   )
   const dispatch = useDispatch()
   const validationSchema = {
@@ -120,8 +161,18 @@ const CreatePeerForm = () => {
         return value > due_from
       })
       .required('required'),
-    project: Yup.string().required('Required')
+    project: Yup.string().required('Required'),
+    functional_manager: Yup.string().required('Required')
   }
+  useEffect(() => {
+    if (employeeData) {
+      const emp = employeeData
+      const managers = emp.filter(item => {
+        if (item.userRole == 'Manager' && item.status == 'Active') return item
+      })
+      setManagers(managers)
+    }
+  }, [employeeData])
   useEffect(() => {
     dispatch(loadAllProjects())
     dispatch(loadAllEmployeeData())
@@ -133,32 +184,50 @@ const CreatePeerForm = () => {
           appearance: 'success',
           autoDismiss: true
         })
-        dispatch(setPeerReviewSuccess('')) // To avoid repeated redirect
-        setIsRedirect(true)
       } else {
         addToast('Error while saving form', {
           appearance: 'error',
           autoDismiss: true
         })
       }
+    } else if (peerReviewUpdateStatus) {
+      if (peerReviewUpdateStatus.status === 200) {
+        addToast('Peer Review successfully updated', {
+          appearance: 'success',
+          autoDismiss: true
+        })
+      } else {
+        addToast('Error while saving form', {
+          appearance: 'error',
+          autoDismiss: true
+        })
+      }
+    } else if (peerReviewUpdateError) {
+      addToast('Error while saving form', {
+        appearance: 'error',
+        autoDismiss: true
+      })
     }
-  }, [peerReviewStatusMessage, addToast, dispatch])
+  }, [
+    peerReviewStatusMessage,
+    peerReviewUpdateStatus,
+    peerReviewUpdateError,
+    addToast,
+    dispatch
+  ])
+  const submitReview = values => {
+    if (updateInfo) {
+      dispatch(updatePeerReview(updateInfo._id, values))
+    } else {
+      dispatch(createPeerReview(values))
+    }
+  }
   return (
     <Grid>
-      {isRedirect ? <Redirect to="/admin/peerReview" /> : false}
       <Formik
-        initialValues={{
-          employee_under_review: '',
-          employee_reviewing: '',
-          project: '',
-          from_date: new Date(),
-          to_date: new Date(),
-          due_from: new Date(),
-          due_to: new Date(),
-          review_form_link: ''
-        }}
+        initialValues={initialValues}
         onSubmit={(values, { setSubmitting }) => {
-          dispatch(createPeerReview(values))
+          submitReview(values)
           setSubmitting(false)
         }}
         validationSchema={Yup.object(validationSchema)}
@@ -293,6 +362,45 @@ const CreatePeerForm = () => {
                       component="div"
                     />
                   </Grid>
+                  <Grid xs={6} sm={6} md={3} className={classes.grid} item>
+                    Functional Manager
+                  </Grid>
+                  <Grid xs={6} sm={6} md={3} item>
+                    <FormControl className={classes.formControl}>
+                      <Select
+                        name="functional_manager"
+                        onChange={handleChange}
+                        value={values.functional_manager}
+                        displayEmpty
+                      >
+                        <MenuItem
+                          className={classes.hoverEffect}
+                          value=""
+                          key={-1}
+                          disabled
+                        >
+                          Select Manager
+                        </MenuItem>
+                        {managers
+                          ? managers.map(item => {
+                              return (
+                                <MenuItem
+                                  value={item.firstname + ' ' + item.lastname}
+                                  className={classes.hoverEffect}
+                                >
+                                  {item.firstname + ' ' + item.lastname}
+                                </MenuItem>
+                              )
+                            })
+                          : null}
+                      </Select>
+                    </FormControl>
+                    <ErrorMessage
+                      className={classes.colorRed}
+                      name="functional_manager"
+                      component="div"
+                    />
+                  </Grid>
                 </Grid>
                 <Grid className={classes.container} container>
                   <Grid xs={6} sm={6} md={3} className={classes.grid} item>
@@ -306,7 +414,7 @@ const CreatePeerForm = () => {
                         format="MM/dd/yyyy"
                         name="from_date"
                         margin="normal"
-                        label="Date picker inline"
+                        className={classes.widthSetting}
                         value={values.from_date}
                         onChange={date => setFieldValue('from_date', date)}
                         KeyboardButtonProps={{
@@ -330,8 +438,8 @@ const CreatePeerForm = () => {
                         variant="inline"
                         name="to_date"
                         format="MM/dd/yyyy"
+                        className={classes.widthSetting}
                         margin="normal"
-                        label="Date picker inline"
                         value={values.to_date}
                         onChange={date => setFieldValue('to_date', date)}
                         KeyboardButtonProps={{
@@ -358,7 +466,7 @@ const CreatePeerForm = () => {
                         name="due_from"
                         format="MM/dd/yyyy"
                         margin="normal"
-                        label="Date picker inline"
+                        className={classes.widthSetting}
                         value={values.due_from}
                         onChange={date => setFieldValue('due_from', date)}
                         KeyboardButtonProps={{
@@ -383,7 +491,7 @@ const CreatePeerForm = () => {
                         name="due_to"
                         format="MM/dd/yyyy"
                         margin="normal"
-                        label="Date picker inline"
+                        className={classes.widthSetting}
                         value={values.due_to}
                         onChange={date => setFieldValue('due_to', date)}
                         KeyboardButtonProps={{
@@ -425,9 +533,18 @@ const CreatePeerForm = () => {
                   </Grid>
                 </Grid>
               </CardBody>
-              <CardFooter>
-                <Button type="submit" color="primary" disabled={isSubmitting}>
-                  CREATE PEER
+              <CardFooter className={classes.footerDisplay}>
+                {updateInfo ? (
+                  <Button type="submit" color="primary" disabled={isSubmitting}>
+                    UPDATE PEER
+                  </Button>
+                ) : (
+                  <Button type="submit" color="primary" disabled={isSubmitting}>
+                    CREATE PEER
+                  </Button>
+                )}
+                <Button type="submit" color="primary" onClick={ClickHandler}>
+                  Close
                 </Button>
               </CardFooter>
             </Form>

@@ -32,6 +32,7 @@ const tableStyle = theme => ({
     color: grayColor[0]
   },
   table: {
+    tableLayout: 'fixed',
     marginBottom: '0',
     width: '100%',
     maxWidth: '100%',
@@ -50,7 +51,7 @@ const tableStyle = theme => ({
     ...defaultFont,
     lineHeight: '1.42857143',
     padding: '12px 8px',
-    textAlign: 'center',
+    textAlign: 'left',
     verticalAlign: 'middle',
     fontSize: '0.8125rem'
   },
@@ -72,16 +73,16 @@ const tableStyle = theme => ({
     display: 'table-row',
     outline: 'none',
     verticalAlign: 'middle'
-  },
-  links: {
-    paddingRight: 5,
-    color: 'blue',
-    cursor: 'pointer',
-    fontSize: 15,
-    '&:hover': {
-      textDecoration: 'underline'
-    }
   }
+  // links: {
+  //   paddingRight: 5,
+  //   color: 'blue',
+  //   cursor: 'pointer',
+  //   fontSize: 15,
+  //   '&:hover': {
+  //     textDecoration: 'underline'
+  //   }
+  // }
 })
 
 export default tableStyle

@@ -9,7 +9,6 @@ import CardFooter from '../../components/Card/CardFooter.js'
 import Button from '../../components/CustomButtons/Button.js'
 import CustomInput from '../../components/CustomInput/CustomInput.js'
 import Select from '@material-ui/core/Select'
-import 'date-fns'
 import DateFnsUtils from '@date-io/date-fns'
 import InputLabel from '@material-ui/core/InputLabel'
 import { withToastManager, useToasts } from 'react-toast-notifications'
@@ -24,7 +23,6 @@ import {
   clearUserStatus,
   updateUser
 } from '../../actions/userActions'
-import withAuth from '../../HOC/withAuth'
 import { loadAllEmployeeData } from '../../actions/employeeAction'
 import {
   gender,
@@ -41,7 +39,7 @@ import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker
 } from '@material-ui/pickers'
-import { startOfDay } from 'date-fns'
+
 const styles = {
   ...checkboxAdnRadioStyle,
   cardCategoryWhite: {
@@ -319,8 +317,8 @@ const Employee = props => {
       <Formik
         initialValues={initialValues}
         onSubmit={(values, { setSubmitting }) => {
-          submitFormValues(values)
-          setSubmitting(false)
+          submitFormValues(values)         
+            setSubmitting(false)
         }}
         validationSchema={userDataValidation}
       >
@@ -584,7 +582,7 @@ const Employee = props => {
                      </Select>
                  </FormControl>
                  <div className = {classes.error}>
-                 <ErrorMessage name='status'/> 
+                 <ErrorMessage name='status'/>
                  </div>
                  </> : null} */}
                     </GridItem>

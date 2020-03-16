@@ -15,7 +15,10 @@ import {
 } from './watchers/project'
 import watchCreatePeerReviewSaga from './watchers/createPeerReview'
 import watchLoadUserPeerReviewSaga from './watchers/peerReviewsForUser'
-import watchUpdatePeerReviewSaga from './watchers/updatePeerReview'
+import {
+  watchUpdatePeerReviewSaga,
+  watchDeletePeerReviewSaga
+} from './watchers/updatePeerReview'
 import { watchUserSaga, watchUpadateUserSaga } from './watchers/user'
 
 export default function * root() {
@@ -29,6 +32,7 @@ export default function * root() {
     fork(watchCreatePeerReviewSaga),
     fork(watchLoadUserPeerReviewSaga),
     fork(watchUpdatePeerReviewSaga),
+    fork(watchDeletePeerReviewSaga),
     fork(watchUserSaga),
     fork(watchDeleteEmployeeSaga),
     fork(watchUpadateUserSaga),
