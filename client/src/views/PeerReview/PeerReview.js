@@ -157,7 +157,7 @@ const PeerReview = props => {
   }
   const detailsSwitchHandler = () => {
     setIsRedirectForm(false)
-    window.location.reload()
+    // window.location.reload()
   }
   const updateUser = (val, k) => {
     setUpdateInfo(filteredEmployee[k])
