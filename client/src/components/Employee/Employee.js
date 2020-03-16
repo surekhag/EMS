@@ -407,6 +407,7 @@ const Employee = (props) => {
                          fullWidth: true
                      }}
                      inputProps={{
+                        type : "password",
                         value: values.password,
                         name: 'password',
                         onChange: handleChange,
