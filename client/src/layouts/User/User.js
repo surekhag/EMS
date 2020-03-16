@@ -35,7 +35,7 @@ const userSwitchRoutes = (
 
 const adminSwitchRoutes = (  
   <Switch>
-    {adminRoutes.map((prop, key) => {
+    {userRoutes.concat(adminRoutes).map((prop, key) => {
       if (prop.layout === '/admin') {
         return (
           <Route
@@ -77,7 +77,7 @@ export default function User({ ...rest }) {
   }
   React.useEffect(()=>{
     if(currentUser && (currentUser.userRole == 'Admin' || currentUser.userRole == 'admin')){   
-      setRoutes(adminRoutes);
+      setRoutes(userRoutes.concat(adminRoutes));
       setSwitchRoutes(adminSwitchRoutes);     
     }
     else {

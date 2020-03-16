@@ -14,24 +14,6 @@ import PeerReviewDetails from './components/PeerReviewDetails/PeerReviewDetails'
 
 export const dashboardRoutesAdmin = [
   {
-    path: '/dashboard',
-    name: 'Dashboard',
-    rtlName: 'لوحة القيادة',
-    icon: Dashboard,
-    component: DashboardPage,
-    layout: '/admin',
-    showLink: true
-  },
-  {
-    path: '/user',
-    name: 'User Profile',
-    rtlName: 'ملف تعريفي للمستخدم',
-    icon: Person,
-    component: UserProfile,
-    layout: '/admin',
-    showLink: true
-  },
-  {
     path: '/employee',
     name: 'Employees',
     rtlName: 'ملف تعريفي للمستخدم',

@@ -138,7 +138,6 @@ const Project = (props) => {
             technology: projectToUpdate[0].technology,
             type : projectToUpdate[0].type,
         }
-        console.log(initialValues);
        }
        else {
         initialValues ={
@@ -198,7 +197,6 @@ const Project = (props) => {
         <Formik
         initialValues={initialValues}
         onSubmit={(values, { setSubmitting }) => {   
-            console.log(values)         ;
             submitFormValues(values);
             setSubmitting(false)
         }}

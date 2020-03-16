@@ -63,8 +63,7 @@ export function* watchAddProjectSaga() {
 
 
 
-function* workerUpadateProjectSaga({payload}) {   
-  console.log("in update proj saga", payload);
+function* workerUpadateProjectSaga({payload}) {  
    try {
     const updateUserResponse =yield call(updateProjectApi, payload)    
     yield put(setUpdateProjectSuccess(updateUserResponse.data.message));
