@@ -58,8 +58,7 @@ export const dashboardRoutesAdmin = [
     component: PeerReview,
     layout: '/admin',
     showLink: true
-  },
-
+  }
 ]
 export const dashboardRoutes = [
   {
@@ -106,8 +105,8 @@ export const dashboardRoutes = [
     component: PeerReview,
     layout: '/admin',
     showLink: true
-  },
- 
+  }
+
   // {
   //   path: '/getDetails',
   //   name: 'Peer Review Details',
@@ -118,4 +117,3 @@ export const dashboardRoutes = [
   //   showLink: false
   // }
 ]
-

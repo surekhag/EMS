@@ -61,14 +61,30 @@ export default function CustomTable(props) {
                     )
                   })}
 
-                {addLinks? (<p className={classes.tableCell}>
-                {addLinks.map(item=>{
-                  if(item=='Update')
-                    return <span className= {classes.links} onClick={e =>updateUser(prop, e)}>{item}</span>
-                    else if (item=='Delete')
-                    return <span className= {classes.links} onClick={e =>deleteUser(prop, e)}>{item}</span>                  
-                })}
-                </p>): null} 
+                  {addLinks ? (
+                    <p className={classes.tableCell}>
+                      {addLinks.map(item => {
+                        if (item == 'Update')
+                          return (
+                            <span
+                              className={classes.links}
+                              onClick={e => updateUser(prop, e)}
+                            >
+                              {item}
+                            </span>
+                          )
+                        else if (item == 'Delete')
+                          return (
+                            <span
+                              className={classes.links}
+                              onClick={e => deleteUser(prop, e)}
+                            >
+                              {item}
+                            </span>
+                          )
+                      })}
+                    </p>
+                  ) : null}
 
                   {showLink ? (
                     <TableCell className={classes.tableCell} key={k + 'cell'}>
@@ -84,8 +100,6 @@ export default function CustomTable(props) {
                       </Button>
                     </TableCell>
                   ) : null}
-               
-    
                 </TableRow>
               )
             })}

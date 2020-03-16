@@ -33,7 +33,6 @@ export function setAllPeerReviewsError(data) {
   }
 }
 
-
 export function createPeerReview(body) {
   return {
     type: CREATE_PEER_SAGA,
@@ -53,7 +52,6 @@ export function setPeerReviewError(data) {
     payload: { data }
   }
 }
-
 
 export function loadAllPeerForUser() {
   return {
@@ -75,7 +73,6 @@ export function setAllPeerForUserError(data) {
   }
 }
 
-
 export function updatePeerReview(id, body) {
   return {
     type: UPDATE_PEER_REVIEW,
@@ -88,7 +85,6 @@ export function setUpdateReviewStatus(data) {
     payload: { data }
   }
 }
-
 
 export function setUpdateReviewError(data) {
   return {

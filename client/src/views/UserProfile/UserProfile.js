@@ -3,12 +3,9 @@ import React from 'react'
 // @material-ui/core components
 import { makeStyles } from '@material-ui/core/styles'
 import InputLabel from '@material-ui/core/InputLabel'
-import Checkbox from '@material-ui/core/Checkbox'
 import { Radio, RadioGroup } from '@material-ui/core'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 
-// @material-ui/icons
-import Check from '@material-ui/icons/Check'
 import Brightness1Icon from '@material-ui/icons/Brightness1'
 // core components
 import checkboxAdnRadioStyle from '../../assets/jss/material-dashboard-react/checkboxAdnRadioStyle.js'
@@ -46,7 +43,7 @@ const styles = {
 
 const useStyles = makeStyles(styles)
 
-export default function UserProfile() {
+export default function UserProfile () {
   const classes = useStyles()
   return (
     <div>
@@ -156,7 +153,6 @@ export default function UserProfile() {
                 </GridItem>
               </GridContainer>
               <GridContainer>
-               
                 <GridItem xs={12} sm={12} md={6}>
                   <InputLabel style={{ color: '#AAAAAA' }}>Gender</InputLabel>
                   <RadioGroup aria-label="gender" name="gender1">

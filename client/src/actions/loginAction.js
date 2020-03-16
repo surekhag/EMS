@@ -39,7 +39,6 @@ export const authenticateUserSession = () => {
   }
 }
 
-
 export const sessionExpired = () => {
   return {
     type: SESSION_EXPIRED

@@ -1,9 +1,12 @@
 import { takeLatest, call, put } from 'redux-saga/effects'
 import { UPDATE_PEER_REVIEW } from '../../actions/actionTypes.js'
 import { updatePeerReview } from '../../api/peerReviewApi'
-import { setUpdateReviewStatus, setUpdateReviewError } from '../../actions/peerReviewAction'
+import {
+  setUpdateReviewStatus,
+  setUpdateReviewError
+} from '../../actions/peerReviewAction'
 
-function* workerUpdatePeerReviewSaga(data) {
+function * workerUpdatePeerReviewSaga(data) {
   try {
     const status = yield call(
       updatePeerReview,
@@ -15,10 +18,9 @@ function* workerUpdatePeerReviewSaga(data) {
   } catch (e) {
     console.log(e)
     //yield put(setUpdateReviewError(e)); //todo
-
   }
 }
 
-export default function* watchUpdatePeerReviewSaga() {
+export default function * watchUpdatePeerReviewSaga() {
   yield takeLatest(UPDATE_PEER_REVIEW, workerUpdatePeerReviewSaga)
 }
