@@ -1,6 +1,4 @@
 import React from 'react'
-import classNames from 'classnames'
-import PropTypes from 'prop-types'
 // @material-ui/core
 import { makeStyles } from '@material-ui/core/styles'
 // @material-ui/icons
@@ -17,24 +15,24 @@ import styles from '../../assets/jss/material-dashboard-react/components/accordi
 const useStyles = makeStyles(styles)
 
 export default function Accordion(props) {
-    //es6
-    const classes = useStyles()
-    const { panelHeading, panelData, panelFooter } = props
-    return (
-        <div className={classes.root}>
-            <ExpansionPanel>
-                <ExpansionPanelSummary
-                    expandIcon={<ExpandMoreIcon style={{ color: '#ffffff' }} />}
-                    aria-controls="panel1a-content"
-                    className={classes.heading}
-                >
-                    <h4 className={classes.cardTitleWhite}>{panelHeading}</h4>
-                </ExpansionPanelSummary>
-                <ExpansionPanelDetails>
-                    <CardBody>{panelData}</CardBody>
-                </ExpansionPanelDetails>
-                <CardFooter>{panelFooter}</CardFooter>
-            </ExpansionPanel>
-        </div>
-    )
+  // es6
+  const classes = useStyles()
+  const { panelHeading, panelData, panelFooter } = props
+  return (
+    <div className={classes.root}>
+      <ExpansionPanel>
+        <ExpansionPanelSummary
+          expandIcon={<ExpandMoreIcon style={{ color: '#ffffff' }} />}
+          aria-controls="panel1a-content"
+          className={classes.heading}
+        >
+          <h4 className={classes.cardTitleWhite}>{panelHeading}</h4>
+        </ExpansionPanelSummary>
+        <ExpansionPanelDetails>
+          <CardBody>{panelData}</CardBody>
+        </ExpansionPanelDetails>
+        <CardFooter>{panelFooter}</CardFooter>
+      </ExpansionPanel>
+    </div>
+  )
 }

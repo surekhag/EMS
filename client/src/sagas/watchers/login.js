@@ -1,24 +1,47 @@
 import { put, takeLatest, call } from 'redux-saga/effects'
-
-import { LOGIN_TO_SITE } from '../../constants'
-import { loginToSiteSuccess } from '../../actions/loginAction'
-import { logInToSiteApi } from '../../api/loginApi'
-
-function* workerLoginSaga (userinfo) {
-  const username = userinfo.payload.username
-  const password = userinfo.payload.password
-
-  try {
-    //todo - send object instead separate param
+import { LOGIN_TO_SITE, USER_ATHENTICATION } from '../../actions/actionTypes.js'
+import { loginToSiteSuccess, loginToSiteError, sessionExpired } from '../../actions/loginAction'
+import { logInToSiteApi, userSessionApi } from '../../api/loginApi'
+import { setToken, removeToken } from '../../helpers/auth'
+function* workerLoginSaga(userinfo) {
+  const { username, password } = userinfo.payload
+  try {    
     const loginStatus = yield call(logInToSiteApi, username, password)
-    yield put(loginToSiteSuccess(loginStatus))
-    } 
-    catch (e) {
-     console.log(e)
-     // yield put(LOGIN_TO_SITE_ERROR(INVALID_CREDENTIAL));
+
+    if (loginStatus.data.status === 'error') {
+      yield put(loginToSiteError(loginStatus.data.message))
     }
+    if (loginStatus.data.status === 'success') {
+      yield put(loginToSiteSuccess(loginStatus))
+      setToken(loginStatus.data.data.token)
+    }
+  } catch (e) {
+    yield put(loginToSiteError(e))
+  }
 }
 
-export default function* watchLoginSaga () {
+export default function* watchLoginSaga() {
   yield takeLatest(LOGIN_TO_SITE, workerLoginSaga)
+}
+
+function* workerAuthenticateSaga() {   
+    try {        
+        const userSessionData = yield call(userSessionApi);
+        yield put(loginToSiteSuccess(userSessionData));        
+    } catch (e) { 
+        if(e.response.data && e.response.data.message){           
+            if(e.response.data.message === 'Invalid Token'){
+                removeToken();
+                yield put(sessionExpired());
+                
+            }
+            else{
+                yield put(loginToSiteError(e.response.data.message));
+            }
+        }        
+    }
+  }
+
+export function* watchAuthenticateSaga() {
+  yield takeLatest(USER_ATHENTICATION, workerAuthenticateSaga)
 }

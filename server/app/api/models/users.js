@@ -58,7 +58,7 @@ const UserSchema = new Schema({
     required: true
   },
   zip : {
-    type: Number,
+    type: String,
     trim: true,
     required: true
   },
@@ -108,7 +108,7 @@ const UserSchema = new Schema({
     required: true
   },
   shift_timing : {
-    type: Date,
+    type: String,
     trim: true,
     required: false
   },

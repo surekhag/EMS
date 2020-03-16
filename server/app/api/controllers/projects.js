@@ -1,4 +1,5 @@
 const projectModel = require("../models/projects");
+
 module.exports = {
   create: function(req, res, next) {
     projectModel.create(
@@ -10,10 +11,10 @@ module.exports = {
           technology : req.body.technology,
           client : req.body.client,
           client_location : req.body.client_location ,
-          status : req.body.status,
+          status : "Active",
           type : req.body.type,
-          created_date : req.body.created_date ,
-          created_by : req.body.created_by,
+          created_date : new Date(),
+          created_by : req.user.userName,
           updated_date : req.body.updated_date,
           last_updated_by : req.body.last_updated_by,
       },
@@ -55,10 +56,12 @@ module.exports = {
       }
     });
   },
-  update: function(req, res, next) {    
+  update: function(req, res, next) { 
     projectModel.findOneAndUpdate({ _id: req.params.id }, 
       {
-          $set: req.body 
+          $set: req.body,
+          updated_date : new Date(),
+          last_updated_by : req.user.userName,
       },      
       function(err, userInfo) {      
       if (err) {

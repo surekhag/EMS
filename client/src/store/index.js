@@ -12,19 +12,19 @@ export const history = createBrowserHistory()
 const enhancers = []
 
 const sagaMiddleware = createSagaMiddleware({
-    onError: err => {
-        if (err.response && err.response.data) {
-            const errorData = err.response.data
-            store.dispatch({ type: 'SET_ERROR_STATE', errorData })
-        }
+  onError: err => {
+    if (err.response && err.response.data) {
+      const errorData = err.response.data
+      store.dispatch({ type: 'SET_ERROR_STATE', errorData })
     }
+  }
 })
 
 const middleware = [routerMiddleware(history), sagaMiddleware]
 
 const composedEnhancers = composeWithDevTools(
-    applyMiddleware(...middleware),
-    ...enhancers
+  applyMiddleware(...middleware),
+  ...enhancers
 )
 
 const store = createStore(rootReducer, composedEnhancers)

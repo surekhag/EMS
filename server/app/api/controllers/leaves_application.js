@@ -26,4 +26,17 @@ module.exports = {
             }
           );
         },
+        getAll: function(req, res, next) {
+          Leaves_Application_Model.find({}, function(err, users) {
+            if (err) {
+              next(err);
+            } else {
+              res.json({
+                status: "success",
+                message: "Users list found!!!",
+                data: users
+              });
+            }
+          });
+        }
 };

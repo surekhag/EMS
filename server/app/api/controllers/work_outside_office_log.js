@@ -26,4 +26,17 @@ module.exports = {
             }
           );
         },
+        getAll: function(req, res, next) {
+          Work_Outside_Office_Log_Model.find({ _id: req.params.id }, function(err, users) {
+            if (err) {
+              next(err);
+            } else {
+              res.json({
+                status: "success",
+                message: "Users list found!!!",
+                data: users
+              });
+            }
+          });
+        },
 };

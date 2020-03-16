@@ -1,33 +1,49 @@
-import { LOGIN_TO_SITE_SUCCESS } from '../constants'
+import {
+  LOGIN_TO_SITE_SUCCESS,
+  LOGIN_TO_SITE_ERROR,
+  SESSION_EXPIRED,
+  LOGOUT_FROM_SITE
+} from '../actions/actionTypes.js'
 
 const initialState = {
-    loginStatus: {
-        userData: null,
-        status: null,
-        message: null
-    }
+  currentUser: null,
+  error: null,
+  isLoading: true
 }
-export default function setBrowserInfo(state = initialState, action) {
-    switch (action.type) {
-        case LOGIN_TO_SITE_SUCCESS:
-            const userData = action.loginStatus.data
-            let userInfo
-            if (userData.status == 'success') {
-                localStorage.setItem(
-                    'token',
-                    JSON.stringify(userData.data.token)
-                )
-                userInfo = userData.data.user
-            } else userInfo = userData.data
 
-            return {
-                loginStatus: {
-                    currentUser: userInfo,
-                    status: userData.status,
-                    message: userData.message
-                }
-            }
-        default:
-            return state
-    }
+const loginReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case LOGIN_TO_SITE_SUCCESS:
+      return {
+        ...state,
+        currentUser: action.payload.userInfo.user,
+        isLoading: false,
+        error: null
+      }
+
+    case LOGIN_TO_SITE_ERROR:
+      return {
+        ...state,
+        isLoading: false,
+        error: action.message
+      }
+      case SESSION_EXPIRED:        
+        return {
+          ...state,
+          isLoading: false,
+          currentUser: null,
+          error: "Session has been expired! Please try again. ",
+        }
+        case LOGOUT_FROM_SITE:          
+          return{
+            ...state,
+            currentUser: null,
+            error: null,
+            isLoading: false
+          }
+    default:
+      return state
+  }
 }
+
+export default loginReducer

@@ -1,10 +1,14 @@
 import { combineReducers } from 'redux'
-import StateInfo from './StateInfo'
-import EmployeeInfo from './EmployeeInfo'
+import EmployeeInfo from './employeeInfo'
 import loginReducer from './loginReducer'
+import peerReviewReducer from './peerReviewReducer'
+import projectReducer from './projectReducer'
+import userReducer from './userReducer'
 
 export default combineReducers({
-    StateInfo,
-    EmployeeInfo,
-    loginReducer
+  EmployeeInfo,
+  loginReducer,
+  peerReviewReducer,
+  projectReducer,
+  userReducer
 })
