@@ -12,7 +12,7 @@ import PeerReview from './views/PeerReview/PeerReview'
 import CreatePeer from './components/CreatePeerForm/CreatePeerForm'
 import PeerReviewDetails from './components/PeerReviewDetails/PeerReviewDetails'
 
-const dashboardRoutes = [
+export const dashboardRoutesAdmin = [
   {
     path: '/dashboard',
     name: 'Dashboard',
@@ -28,33 +28,6 @@ const dashboardRoutes = [
     rtlName: 'ملف تعريفي للمستخدم',
     icon: Person,
     component: UserProfile,
-    layout: '/admin',
-    showLink: true
-  },
-  {
-    path: '/projectDetails',
-    name: 'Project History',
-    rtlName: 'قائمة الجدول',
-    icon: AssignmentIcon,
-    component: Projects,
-    layout: '/admin',
-    showLink: true
-  },
-  {
-    path: '/peerReviewDetails',
-    name: 'Peer Review History',
-    rtlName: 'ملف تعريفي للمستخدم',
-    icon: GroupIcon,
-    component: CreatePeer,
-    layout: '/admin',
-    showLink: true
-  },
-  {
-    path: '/selfReviewDetails',
-    name: 'Self Review History',
-    rtlName: 'ملف تعريفي للمستخدم',
-    icon: Person,
-    component: PeerReview,
     layout: '/admin',
     showLink: true
   },
@@ -104,6 +77,55 @@ const dashboardRoutes = [
     layout: '/admin',
     showLink: true
   },
+
+]
+export const dashboardRoutes = [
+  {
+    path: '/dashboard',
+    name: 'Dashboard',
+    rtlName: 'لوحة القيادة',
+    icon: Dashboard,
+    component: DashboardPage,
+    layout: '/admin',
+    showLink: true
+  },
+  {
+    path: '/user',
+    name: 'User Profile',
+    rtlName: 'ملف تعريفي للمستخدم',
+    icon: Person,
+    component: UserProfile,
+    layout: '/admin',
+    showLink: true
+  },
+  {
+    path: '/projectDetails',
+    name: 'Project History',
+    rtlName: 'قائمة الجدول',
+    icon: AssignmentIcon,
+    component: Projects,
+    layout: '/admin',
+    showLink: true
+  },
+  {
+    path: '/peerReviewDetails',
+    name: 'Peer Review History',
+    rtlName: 'ملف تعريفي للمستخدم',
+    icon: GroupIcon,
+    component: CreatePeer,
+    layout: '/admin',
+    showLink: true
+  },
+  {
+    path: '/selfReviewDetails',
+    name: 'Self Review History',
+    rtlName: 'ملف تعريفي للمستخدم',
+    icon: Person,
+    component: PeerReview,
+    layout: '/admin',
+    showLink: true
+  },
+ 
   // {
   //   path: '/getDetails',
   //   name: 'Peer Review Details',
@@ -115,4 +137,3 @@ const dashboardRoutes = [
   // }
 ]
 
-export default dashboardRoutes
