@@ -21,6 +21,8 @@ import PeerReviewDetails from '../../components/PeerReviewDetails/PeerReviewDeta
 import styles from '../../assets/jss/material-dashboard-react/views/dashboardStyle'
 import withAuth from '../../HOC/withAuth'
 import { UserContext } from '../../context-provider/user-context'
+import { loadAllProjects } from '../../actions/projectAction'
+import { loadAllEmployeeData } from '../../actions/employeeAction.js'
 
 const useStyles = makeStyles(styles)
 const Dashboard = props => {
@@ -29,7 +31,7 @@ const Dashboard = props => {
   const [showDetail, setShowDetail] = useState(false)
    const [showSelfReviewDetail, setShowSelfreviewDetail] = useState(false)
   const [peerDetails, setPeerDetails] = useState('')
-   const [selfReviewDetails, setSelfReviewDetails] = useState('')
+   const [selfReviewDetails, setSelfReviewDetails] = useState()
   const { currentUser } = useContext(UserContext)
   const dispatch = useDispatch()
   const peerReviewListingHeader = [
@@ -38,16 +40,37 @@ const Dashboard = props => {
     'Due Date',
     'Status'
   ]
+
+   const SelfReviewListingHeader = [
+    'Projects',
+    'From date',
+    'To date',
+    'Due Fom Date',
+    'Status'
+  ]
   const peerReviews = useSelector(
     state => state.peerReviewReducer.userPeerReview
   )
+ const userSelfReviews = useSelector(
+    state => state.selfReviewReducer.userSelfReviewDeatils
+  )
+ const projectData = useSelector(state => state.projectReducer.projects)
+ const employeeData = useSelector(state => state.EmployeeInfo.employeeData)
 
-  useEffect(() => {
-     console.log(currentUser);
+
+ useEffect(() => {
     dispatch(loadAllPeerForUser())  
     dispatch(loadAllSelfReviewsForUser(currentUser.employee_id))  
-   
   }, [dispatch])
+
+  useEffect(() => {    
+   if(userSelfReviews && userSelfReviews.length > 0){
+     dispatch(loadAllEmployeeData());
+      dispatch(loadAllProjects()); 
+   }
+  }, [dispatch, userSelfReviews])
+
+ 
 
   const tempArr = []
   let filteredEmployee
@@ -70,6 +93,33 @@ const Dashboard = props => {
       return 1
     })
   }
+const userReviewDetailsArr= [];
+let projects, projectsArr;
+if(userSelfReviews && userSelfReviews.length > 0 && userReviewDetailsArr.length ==0  && projectData){
+    userSelfReviews.map((review, key)=>{
+      projects = review.project_ids.split(",");
+
+var filtered = projectData.filter(function(item, key) {
+  // console.log(item._id, projects[key], key, projects.indexOf(item._id))
+  if(projects.indexOf(item._id) !== -1){
+    // console.log(item.title);
+  }
+    return projects.indexOf(item._id) !== -1 ;
+});
+console.log( filtered);
+    // console.log(projectData, projects)
+    userReviewDetailsArr.push([
+      projects,
+      review.from_date.slice(0, 10),
+      review.to_date.slice(0, 10),
+      review.due_from.slice(0, 10),
+      review.status
+    ])
+  })
+
+}
+  
+
   const onClickHandler = key => {
     setPeerDetails(filteredEmployee[key])
     setShowDetail(true)
@@ -80,6 +130,7 @@ const Dashboard = props => {
   const detailsSwitchHandler = () => {
     setShowDetail(false)
   }
+
   return (
     <div>
       {showDetail ? (
@@ -132,6 +183,7 @@ const Dashboard = props => {
       )}
 
       {/* self review started */}
+      {setSelfReviewDetails && setSelfReviewDetails.length >0  ? "setSelfReviewDetails[0].employee_id": "nahiye"}
       <GridContainer>
          <GridItem xs={12} sm={12} md={12}>
             <Card plain>
@@ -141,8 +193,8 @@ const Dashboard = props => {
               <CardBody>
                 <Table
                   tableHeaderColor="gray"
-                  tableHead={peerReviewListingHeader}
-                  tableData={tempArr || null}
+                  tableHead={SelfReviewListingHeader}
+                  tableData={ userReviewDetailsArr || null}
                   showLink={true}
                   buttonText="Details"
                   onClickHandler={onClickHandler}

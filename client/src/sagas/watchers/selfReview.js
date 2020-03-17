@@ -10,10 +10,8 @@ function * workerLoadAllUserSelfReviewSaga({payload}) {
   const {id} = payload; 
   try {
     const selfReviews = yield call(loadAllUserSelfReviews, id)
-    console.log("selfReviews",selfReviews.data.data);
     yield put(setAllSelfReviewsForUser(selfReviews.data.data))
   } catch (e) {
-    console.log(e.response, e.response.data.message)
     if (e.response.data && e.response.data.message) {
       //To do add code for all api calls .. invalid token case falls here
       yield put (setAllSelfReviewsForUserError(e.response.data.message));
