@@ -6,16 +6,15 @@ import {
   setAllPeerReviewsError
 } from '../../actions/peerReviewAction'
 
-function * workerLoadAllPeerReviewSaga() {
+function* workerLoadAllPeerReviewSaga() {
   try {
     const peerReviews = yield call(loadAllPeerReviews)
     yield put(setAllPeerReviews(peerReviews))
   } catch (e) {
-    console.log(e)
-    // yield put (setAllPeerReviewsError(e)); //todo
+    yield put(setAllPeerReviewsError(e));
   }
 }
 
-export default function * watchPeerReviewSaga() {
+export default function* watchPeerReviewSaga() {
   yield takeLatest(LOAD_ALL_PEER_SAGA, workerLoadAllPeerReviewSaga)
 }

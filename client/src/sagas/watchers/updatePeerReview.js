@@ -3,15 +3,16 @@ import {
   UPDATE_PEER_REVIEW,
   DELETE_PEER_REVIEW
 } from '../../actions/actionTypes.js'
-import { updatePeerReview, deletePeerReview } from '../../api/peerReviewApi'
+import { updatePeerReview, deletePeerReview, loadAllPeerReviews } from '../../api/peerReviewApi'
 import {
   setUpdateReviewStatus,
   setUpdateReviewError,
   peerReviewDeleteSuccess,
-  peerReviewDeleteFailue
+  peerReviewDeleteFailue,
+  setAllPeerReviews
 } from '../../actions/peerReviewAction'
 
-function * workerUpdatePeerReviewSaga(data) {
+function* workerUpdatePeerReviewSaga(data) {
   try {
     const status = yield call(
       updatePeerReview,
@@ -22,6 +23,8 @@ function * workerUpdatePeerReviewSaga(data) {
   } catch (e) {
     yield put(setUpdateReviewError(e))
   }
+  const reviews = yield call(loadAllPeerReviews)
+  yield put(setAllPeerReviews(reviews))
 }
 
 export function* watchUpdatePeerReviewSaga() {
@@ -29,13 +32,15 @@ export function* watchUpdatePeerReviewSaga() {
 }
 function* workerDaletePeerReviewSaga(data) {
   try {
-    console.log(data, 'datain SAga')
+
     const status = yield call(deletePeerReview, data.payload.id)
-    console.log(status, 'status')
     yield put(peerReviewDeleteSuccess(status))
+
   } catch (e) {
     yield put(peerReviewDeleteFailue(e))
   }
+  const reviews = yield call(loadAllPeerReviews)
+  yield put(setAllPeerReviews(reviews))
 }
 
 export function* watchDeletePeerReviewSaga() {
