@@ -6,22 +6,16 @@ import {
 } from './watchers/employeeInfo.js'
 import watchLoginSaga, { watchAuthenticateSaga } from './watchers/login'
 
-import watchPeerReviewSaga from './watchers/peerReview'
+import { watchPeerReviewSaga, watchCreatePeerReviewSaga, watchLoadUserPeerReviewSaga, watchUpdatePeerReviewSaga, watchDeletePeerReviewSaga } from './watchers/peerReview'
 import {
   watchLoadAllProjects,
   watchDeleteProjectSaga,
   watchAddProjectSaga,
   watchUpadateProjectSaga
 } from './watchers/project'
-import watchCreatePeerReviewSaga from './watchers/createPeerReview'
-import watchLoadUserPeerReviewSaga from './watchers/peerReviewsForUser'
-import {
-  watchUpdatePeerReviewSaga,
-  watchDeletePeerReviewSaga
-} from './watchers/updatePeerReview'
 import { watchUserSaga, watchUpadateUserSaga } from './watchers/user'
 
-export default function * root() {
+export default function* root() {
   yield all([
     fork(watchLogoutSaga),
     fork(watchEmployeeInfoSaga),

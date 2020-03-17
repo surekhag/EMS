@@ -185,7 +185,7 @@ const PeerReviewDetails = props => {
         </CardFooter>
           : null}
       </Card>
-      {ClickHandler ? <iframe src={reviewData.review_form_link} width="100%" height="800">
+      {ClickHandler ? <iframe title="myFrame" src={reviewData.review_form_link} width="100%" height="800">
         Loading...
         </iframe>
         : null}

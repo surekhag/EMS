@@ -15,7 +15,6 @@ import {
 import withAuth from '../../HOC/withAuth'
 import {
   createPeerReview,
-  setPeerReviewSuccess,
   updatePeerReview
 } from '../../actions/peerReviewAction'
 import { loadAllEmployeeData } from '../../actions/employeeAction'
@@ -179,7 +178,7 @@ const CreatePeerForm = ({ updateInfo, ClickHandler }) => {
     if (employeeData) {
       const emp = employeeData
       const managers = emp.filter(item => {
-        if (item.userRole == 'Manager' && item.status == 'Active') return item
+        if (item.userRole === 'Manager' && item.status === 'Active') return item
       })
       setManagers(managers)
     }
