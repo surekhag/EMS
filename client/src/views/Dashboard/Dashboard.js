@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { loadAllPeerForUser } from '../../actions/peerReviewAction'
+import {loadAllSelfReviewsForUser} from '../../actions/selfReviewActions'
 // react plugin for creating charts
 // @material-ui/core
 import { makeStyles } from '@material-ui/core/styles'
@@ -26,7 +27,9 @@ const Dashboard = props => {
   const classes = useStyles()
   const [searchText, setsearchText] = useState('')
   const [showDetail, setShowDetail] = useState(false)
+   const [showSelfReviewDetail, setShowSelfreviewDetail] = useState(false)
   const [peerDetails, setPeerDetails] = useState('')
+   const [selfReviewDetails, setSelfReviewDetails] = useState('')
   const { currentUser } = useContext(UserContext)
   const dispatch = useDispatch()
   const peerReviewListingHeader = [
@@ -40,7 +43,10 @@ const Dashboard = props => {
   )
 
   useEffect(() => {
-    dispatch(loadAllPeerForUser())
+     console.log(currentUser);
+    dispatch(loadAllPeerForUser())  
+    dispatch(loadAllSelfReviewsForUser(currentUser.employee_id))  
+   
   }, [dispatch])
 
   const tempArr = []
@@ -124,6 +130,27 @@ const Dashboard = props => {
           </GridItem>
         </GridContainer>
       )}
+
+      {/* self review started */}
+      <GridContainer>
+         <GridItem xs={12} sm={12} md={12}>
+            <Card plain>
+              <CardHeader plain color="primary">
+                <h4 className={classes.cardTitleWhite}>SELF REVIEW</h4>
+              </CardHeader>
+              <CardBody>
+                <Table
+                  tableHeaderColor="gray"
+                  tableHead={peerReviewListingHeader}
+                  tableData={tempArr || null}
+                  showLink={true}
+                  buttonText="Details"
+                  onClickHandler={onClickHandler}
+                />
+              </CardBody>
+            </Card>
+          </GridItem>
+      </GridContainer>
     </div>
   )
 }

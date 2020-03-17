@@ -20,6 +20,7 @@ import {
   watchDeletePeerReviewSaga
 } from './watchers/updatePeerReview'
 import { watchUserSaga, watchUpadateUserSaga } from './watchers/user'
+import {watchUserSelfReviewSaga} from './watchers/selfReview'
 
 export default function * root() {
   yield all([
@@ -38,6 +39,7 @@ export default function * root() {
     fork(watchUpadateUserSaga),
     fork(watchDeleteProjectSaga),
     fork(watchAddProjectSaga),
-    fork(watchUpadateProjectSaga)
+    fork(watchUpadateProjectSaga),
+    fork(watchUserSelfReviewSaga),
   ])
 }

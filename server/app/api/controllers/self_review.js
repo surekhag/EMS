@@ -85,6 +85,22 @@ module.exports = {
       }
     });
   },
+  getForUser: function(req, res, next) {
+     Self_Review_Model.find({employee_id: req.params.employee_id }, function(
+      err,
+      users
+    ) {
+      if (err) {
+        next(err);
+      } else {
+        res.json({
+          status: "success",
+          message: "Peer Review list found!!!",
+          data: users
+        });
+      }
+    });
+  },
  
   delete: function(req, res, next) {
     Self_Review_Model.findOneAndUpdate(
