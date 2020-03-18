@@ -101,7 +101,7 @@ const Dashboard = props => {
   ) {
     userSelfReviews.map((review, key1) => {
       projects = review.project_ids.split(',')
-      projectData.map((item, key) => {       
+      projectData.map((item, key) => {
         if (projects[key] && item._id == projects[key].trim()) {
           projectsArr.push([item.title])
         }
