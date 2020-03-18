@@ -98,7 +98,7 @@ const ProjectListing = props => {
       projectDetails.push(Object.values(data))
       return 1
     })
-    //Get/Delete data from Active projects
+    // Get/Delete data from Active projects
     //  projectData = filteredProject;
   }
 
@@ -155,7 +155,7 @@ const ProjectListing = props => {
                       ? projectListingHeader
                       : null
                   }
-                  tableData={projectDetails ? projectDetails : null}
+                  tableData={projectDetails || null}
                   addLinks={links}
                   updateUser={updateUser}
                   deleteUser={deleteUser}

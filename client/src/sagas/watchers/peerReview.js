@@ -1,6 +1,18 @@
 import { takeLatest, call, put } from 'redux-saga/effects'
-import { LOAD_ALL_PEER_SAGA, CREATE_PEER_SAGA, LOAD_ALL_USER_PEER_SAGA, UPDATE_PEER_REVIEW, DELETE_PEER_REVIEW } from '../../actions/actionTypes.js'
-import { loadAllPeerReviews, createPeerReview, loadAllUserPeerReviews, updatePeerReview, deletePeerReview } from '../../api/peerReviewApi'
+import {
+  LOAD_ALL_PEER_SAGA,
+  CREATE_PEER_SAGA,
+  LOAD_ALL_USER_PEER_SAGA,
+  UPDATE_PEER_REVIEW,
+  DELETE_PEER_REVIEW
+} from '../../actions/actionTypes.js'
+import {
+  loadAllPeerReviews,
+  createPeerReview,
+  loadAllUserPeerReviews,
+  updatePeerReview,
+  deletePeerReview
+} from '../../api/peerReviewApi'
 import {
   setAllPeerReviews,
   setAllPeerReviewsError,
@@ -19,7 +31,7 @@ function* workerLoadAllPeerReviewSaga() {
     const peerReviews = yield call(loadAllPeerReviews)
     yield put(setAllPeerReviews(peerReviews))
   } catch (e) {
-    yield put(setAllPeerReviewsError(e));
+    yield put(setAllPeerReviewsError(e))
   }
 }
 
@@ -27,7 +39,7 @@ export function* watchPeerReviewSaga() {
   yield takeLatest(LOAD_ALL_PEER_SAGA, workerLoadAllPeerReviewSaga)
 }
 
-//Create Peer Review
+// Create Peer Review
 function* workerCreatePeerReviewSaga({ payload }) {
   const { body } = payload
   try {
@@ -49,8 +61,7 @@ function* workerLoadUserPeerReviewSaga() {
     const peerReviews = yield call(loadAllUserPeerReviews)
     yield put(setAllPeerForUser(peerReviews))
   } catch (e) {
-    console.log(e)
-    yield put(setAllPeerForUserError(e)); //todo
+    yield put(setAllPeerForUserError(e)) // todo
   }
 }
 
@@ -58,7 +69,7 @@ export function* watchLoadUserPeerReviewSaga() {
   yield takeLatest(LOAD_ALL_USER_PEER_SAGA, workerLoadUserPeerReviewSaga)
 }
 
-//Update Peer Review
+// Update Peer Review
 
 function* workerUpdatePeerReviewSaga(data) {
   try {
@@ -79,13 +90,11 @@ export function* watchUpdatePeerReviewSaga() {
   yield takeLatest(UPDATE_PEER_REVIEW, workerUpdatePeerReviewSaga)
 }
 
-//Delete Peer Review
+// Delete Peer Review
 function* workerDaletePeerReviewSaga(data) {
   try {
-
     const status = yield call(deletePeerReview, data.payload.id)
     yield put(peerReviewDeleteSuccess(status))
-
   } catch (e) {
     yield put(peerReviewDeleteFailue(e))
   }
@@ -96,4 +105,3 @@ function* workerDaletePeerReviewSaga(data) {
 export function* watchDeletePeerReviewSaga() {
   yield takeLatest(DELETE_PEER_REVIEW, workerDaletePeerReviewSaga)
 }
-

@@ -9,7 +9,7 @@ import {
 import { loadAllEmployeeData } from '../../actions/employeeAction'
 import { addNewUserApi, updateUserApi } from '../../api/userApi'
 
-function * workerUserSaga (userinfo) {
+function* workerUserSaga(userinfo) {
   try {
     const addUserResponse = yield call(addNewUserApi, userinfo)
     yield put(setNewUserSuccess(addUserResponse.data.message))
@@ -29,18 +29,18 @@ function * workerUserSaga (userinfo) {
   }
 }
 
-export function * watchUserSaga () {
+export function* watchUserSaga() {
   yield takeLatest(ADD_NEW_USER, workerUserSaga)
 }
 
-function * workerUpadateUserSaga ({ payload }) {
+function* workerUpadateUserSaga({ payload }) {
   try {
     const updateUserResponse = yield call(updateUserApi, payload)
     yield put(setUpdateUserSuccess(updateUserResponse.data.message))
     yield put(loadAllEmployeeData())
   } catch (e) {
     if (e.response.data && e.response.data.message) {
-      //To do add code for all api calls .. invalid token case falls here
+      // To do add code for all api calls .. invalid token case falls here
       yield put(setUpdateUserError(e.response.data.message))
     } else {
       yield put(setUpdateUserError(e))
@@ -48,6 +48,6 @@ function * workerUpadateUserSaga ({ payload }) {
   }
 }
 
-export function * watchUpadateUserSaga () {
+export function* watchUpadateUserSaga() {
   yield takeLatest(UPDATE_USER, workerUpadateUserSaga)
 }
