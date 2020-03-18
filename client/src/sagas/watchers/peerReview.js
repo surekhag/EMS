@@ -49,7 +49,6 @@ function* workerLoadUserPeerReviewSaga() {
     const peerReviews = yield call(loadAllUserPeerReviews)
     yield put(setAllPeerForUser(peerReviews))
   } catch (e) {
-    console.log(e)
     yield put(setAllPeerForUserError(e)); //todo
   }
 }

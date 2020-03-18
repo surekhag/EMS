@@ -237,7 +237,6 @@ const CreatePeerForm = ({ updateInfo, ClickHandler }) => {
       <Formik
         initialValues={initialValues}
         onSubmit={(values, { setSubmitting }) => {
-          console.log("submit", values);
           submitReview(values)
           setSubmitting(false)
         }}
@@ -588,11 +587,11 @@ const CreatePeerForm = ({ updateInfo, ClickHandler }) => {
               <CardFooter className={classes.footerDisplay}>
                 {updateInfo ? (
                   <Button type="submit" color="primary" disabled={isSubmitting}>
-                    UPDATE PEER
+                    UPDATE PEER REVIEW
                   </Button>
                 ) : (
                     <Button type="submit" color="primary" disabled={isSubmitting}>
-                      CREATE PEER
+                      CREATE PEER REVIEW
                     </Button>
                   )}
                 <Button type="submit" color="primary" onClick={ClickHandler}>
