@@ -18,7 +18,7 @@ const initialState = {
   deleteProjectSuccess: null,
   deleteProjectError: null
 }
-export default function projectReducer (state = initialState, action) {
+export default function projectReducer(state = initialState, action) {
   switch (action.type) {
     case SET_ALL_PROJECTS:
       return {

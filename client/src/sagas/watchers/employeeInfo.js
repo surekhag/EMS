@@ -14,21 +14,19 @@ import {
   deleteEmployeeApi
 } from '../../api/employeeApi.js'
 
-function * workerEmployeeInfoSaga() {
+function* workerEmployeeInfoSaga() {
   try {
     const employees = yield call(loadAllEmployeeData)
     yield put(setAllEmployeeData(employees))
-  } catch (e) {
-    // yield put(setError(INVALID_CREDENTIAL));
-  }
+  } catch (e) {}
 }
 
-export function * watchEmployeeInfoSaga() {
+export function* watchEmployeeInfoSaga() {
   yield takeLatest(LOAD_ALL_EMPLOYEE_SAGA, workerEmployeeInfoSaga)
 }
 
-//Delete employee and fetch data again
-function * workerDeleteEmployeeSaga({ payload }) {
+// Delete employee and fetch data again
+function* workerDeleteEmployeeSaga({ payload }) {
   const { id } = payload
   try {
     const employee = yield call(deleteEmployeeApi, id)
@@ -44,6 +42,6 @@ function * workerDeleteEmployeeSaga({ payload }) {
   }
 }
 
-export function * watchDeleteEmployeeSaga() {
+export function* watchDeleteEmployeeSaga() {
   yield takeLatest(DELETE_EMPLOYEE, workerDeleteEmployeeSaga)
 }
