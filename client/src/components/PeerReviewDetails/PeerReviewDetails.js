@@ -20,8 +20,9 @@ import CardFooter from '../../components/Card/CardFooter.js'
 
 import {
   updatePeerReview,
-  setUpdateReviewStatus
-, loadAllPeerForUser } from '../../actions/peerReviewAction'
+  setUpdateReviewStatus,
+  loadAllPeerForUser
+} from '../../actions/peerReviewAction'
 
 import { useDispatch, useSelector } from 'react-redux'
 import { useToasts, withToastManager } from 'react-toast-notifications'
@@ -154,7 +155,8 @@ const PeerReviewDetails = props => {
                 tableData={tempArray || null}
                 showLink={false}
               />
-              {ClickHandler ? <Grid xs={6} sm={6} md={6} item>
+              {ClickHandler ? (
+                <Grid xs={6} sm={6} md={6} item>
                   <div>
                     <FormControlLabel
                       control={
@@ -174,11 +176,12 @@ const PeerReviewDetails = props => {
                     />
                   </div>
                 </Grid>
-               : null}
+              ) : null}
             </Grid>
           </Grid>
         </CardBody>
-        {ClickHandler ? <CardFooter className={classes.footer}>
+        {ClickHandler ? (
+          <CardFooter className={classes.footer}>
             <Button type="submit" color="primary" onClick={updateHandler}>
               UPDATE REVIEW
             </Button>
@@ -186,12 +189,13 @@ const PeerReviewDetails = props => {
               Close
             </Button>
           </CardFooter>
-        : null}
+        ) : null}
       </Card>
-      {ClickHandler ?  <iframe src={reviewData.review_form_link} width="100%" height="800">
+      {ClickHandler ? (
+        <iframe src={reviewData.review_form_link} width="100%" height="800">
           Loading...
         </iframe>
-       : null}
+      ) : null}
     </Grid>
   )
 }

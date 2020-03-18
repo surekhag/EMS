@@ -11,6 +11,6 @@ export default combineReducers({
   loginReducer,
   peerReviewReducer,
   projectReducer,
-  userReducer, 
-  selfReviewReducer,
+  userReducer,
+  selfReviewReducer
 })

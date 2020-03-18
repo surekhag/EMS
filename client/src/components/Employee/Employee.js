@@ -317,8 +317,8 @@ const Employee = props => {
       <Formik
         initialValues={initialValues}
         onSubmit={(values, { setSubmitting }) => {
-          submitFormValues(values)         
-            setSubmitting(false)
+          submitFormValues(values)
+          setSubmitting(false)
         }}
         validationSchema={userDataValidation}
       >

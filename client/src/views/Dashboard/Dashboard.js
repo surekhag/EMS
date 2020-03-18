@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { loadAllPeerForUser } from '../../actions/peerReviewAction'
-import {loadAllSelfReviewsForUser} from '../../actions/selfReviewActions'
+import { loadAllSelfReviewsForUser } from '../../actions/selfReviewActions'
 // react plugin for creating charts
 // @material-ui/core
 import { makeStyles } from '@material-ui/core/styles'
@@ -29,9 +29,9 @@ const Dashboard = props => {
   const classes = useStyles()
   const [searchText, setsearchText] = useState('')
   const [showDetail, setShowDetail] = useState(false)
-   const [showSelfReviewDetail, setShowSelfreviewDetail] = useState(false)
+  const [showSelfReviewDetail, setShowSelfreviewDetail] = useState(false)
   const [peerDetails, setPeerDetails] = useState('')
-   const [selfReviewDetails, setSelfReviewDetails] = useState()
+  const [selfReviewDetails, setSelfReviewDetails] = useState()
   const { currentUser } = useContext(UserContext)
   const dispatch = useDispatch()
   const peerReviewListingHeader = [
@@ -41,7 +41,7 @@ const Dashboard = props => {
     'Status'
   ]
 
-   const SelfReviewListingHeader = [
+  const SelfReviewListingHeader = [
     'Projects',
     'From date',
     'To date',
@@ -51,26 +51,23 @@ const Dashboard = props => {
   const peerReviews = useSelector(
     state => state.peerReviewReducer.userPeerReview
   )
- const userSelfReviews = useSelector(
+  const userSelfReviews = useSelector(
     state => state.selfReviewReducer.userSelfReviewDeatils
   )
- const projectData = useSelector(state => state.projectReducer.projects)
- const employeeData = useSelector(state => state.EmployeeInfo.employeeData)
+  const projectData = useSelector(state => state.projectReducer.projects)
+  const employeeData = useSelector(state => state.EmployeeInfo.employeeData)
 
-
- useEffect(() => {
-    dispatch(loadAllPeerForUser())  
-    dispatch(loadAllSelfReviewsForUser(currentUser.employee_id))  
+  useEffect(() => {
+    dispatch(loadAllPeerForUser())
+    dispatch(loadAllSelfReviewsForUser(currentUser.employee_id))
   }, [dispatch])
 
-  useEffect(() => {    
-   if(userSelfReviews && userSelfReviews.length > 0){
-     dispatch(loadAllEmployeeData());
-      dispatch(loadAllProjects()); 
-   }
+  useEffect(() => {
+    if (userSelfReviews && userSelfReviews.length > 0) {
+      dispatch(loadAllEmployeeData())
+      dispatch(loadAllProjects())
+    }
   }, [dispatch, userSelfReviews])
-
- 
 
   const tempArr = []
   let filteredEmployee
@@ -93,32 +90,35 @@ const Dashboard = props => {
       return 1
     })
   }
-const userReviewDetailsArr= [];
-let projects, projectsArr;
-if(userSelfReviews && userSelfReviews.length > 0 && userReviewDetailsArr.length ==0  && projectData){
-    userSelfReviews.map((review, key)=>{
-      projects = review.project_ids.split(",");
+  const userReviewDetailsArr = []
+  let projects, projectsArr
+  if (
+    userSelfReviews &&
+    userSelfReviews.length > 0 &&
+    userReviewDetailsArr.length == 0 &&
+    projectData
+  ) {
+    userSelfReviews.map((review, key) => {
+      projects = review.project_ids.split(',')
 
-var filtered = projectData.filter(function(item, key) {
-  // console.log(item._id, projects[key], key, projects.indexOf(item._id))
-  if(projects.indexOf(item._id) !== -1){
-    // console.log(item.title);
+      var filtered = projectData.filter(function(item, key) {
+        // console.log(item._id, projects[key], key, projects.indexOf(item._id))
+        if (projects.indexOf(item._id) !== -1) {
+          // console.log(item.title);
+        }
+        return projects.indexOf(item._id) !== -1
+      })
+      console.log(filtered)
+      // console.log(projectData, projects)
+      userReviewDetailsArr.push([
+        projects,
+        review.from_date.slice(0, 10),
+        review.to_date.slice(0, 10),
+        review.due_from.slice(0, 10),
+        review.status
+      ])
+    })
   }
-    return projects.indexOf(item._id) !== -1 ;
-});
-console.log( filtered);
-    // console.log(projectData, projects)
-    userReviewDetailsArr.push([
-      projects,
-      review.from_date.slice(0, 10),
-      review.to_date.slice(0, 10),
-      review.due_from.slice(0, 10),
-      review.status
-    ])
-  })
-
-}
-  
 
   const onClickHandler = key => {
     setPeerDetails(filteredEmployee[key])
@@ -183,25 +183,27 @@ console.log( filtered);
       )}
 
       {/* self review started */}
-      {setSelfReviewDetails && setSelfReviewDetails.length >0  ? "setSelfReviewDetails[0].employee_id": "nahiye"}
+      {setSelfReviewDetails && setSelfReviewDetails.length > 0
+        ? 'setSelfReviewDetails[0].employee_id'
+        : 'nahiye'}
       <GridContainer>
-         <GridItem xs={12} sm={12} md={12}>
-            <Card plain>
-              <CardHeader plain color="primary">
-                <h4 className={classes.cardTitleWhite}>SELF REVIEW</h4>
-              </CardHeader>
-              <CardBody>
-                <Table
-                  tableHeaderColor="gray"
-                  tableHead={SelfReviewListingHeader}
-                  tableData={ userReviewDetailsArr || null}
-                  showLink={true}
-                  buttonText="Details"
-                  onClickHandler={onClickHandler}
-                />
-              </CardBody>
-            </Card>
-          </GridItem>
+        <GridItem xs={12} sm={12} md={12}>
+          <Card plain>
+            <CardHeader plain color="primary">
+              <h4 className={classes.cardTitleWhite}>SELF REVIEW</h4>
+            </CardHeader>
+            <CardBody>
+              <Table
+                tableHeaderColor="gray"
+                tableHead={SelfReviewListingHeader}
+                tableData={userReviewDetailsArr || null}
+                showLink={true}
+                buttonText="Details"
+                onClickHandler={onClickHandler}
+              />
+            </CardBody>
+          </Card>
+        </GridItem>
       </GridContainer>
     </div>
   )

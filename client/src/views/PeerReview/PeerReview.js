@@ -200,15 +200,15 @@ const PeerReview = props => {
                 </MenuItem>
                 {employeeData
                   ? employeeData.map((prop, key) => {
-                    return prop.status !== 'Inactive' ? ( 
-                     <MenuItem
-                        className={classes.hoverEffect}
-                        value={prop.userName}
-                        key={key}
-                      >
-                        {prop.userName}
-                      </MenuItem>
-                    ) : null
+                      return prop.status !== 'Inactive' ? (
+                        <MenuItem
+                          className={classes.hoverEffect}
+                          value={prop.userName}
+                          key={key}
+                        >
+                          {prop.userName}
+                        </MenuItem>
+                      ) : null
                     })
                   : null}
               </Select>

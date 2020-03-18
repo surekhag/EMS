@@ -6,7 +6,7 @@ import {
   setPeerReviewError
 } from '../../actions/peerReviewAction'
 
-function * workerCreatePeerReviewSaga({ payload }) {
+function* workerCreatePeerReviewSaga({ payload }) {
   const { body } = payload
   try {
     const message = yield call(createPeerReview, body)
@@ -17,6 +17,6 @@ function * workerCreatePeerReviewSaga({ payload }) {
   }
 }
 
-export default function * watchCreatePeerReviewSaga() {
+export default function* watchCreatePeerReviewSaga() {
   yield takeLatest(CREATE_PEER_SAGA, workerCreatePeerReviewSaga)
 }

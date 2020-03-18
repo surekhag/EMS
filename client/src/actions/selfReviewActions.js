@@ -58,8 +58,8 @@ export function setSelfReviewError(data) {
 
 export function loadAllSelfReviewsForUser(id) {
   return {
-    type: LOAD_ALL_USER_SELF_REVIEWS,  
-    payload : {id} 
+    type: LOAD_ALL_USER_SELF_REVIEWS,
+    payload: { id }
   }
 }
 export function setAllSelfReviewsForUser(data) {

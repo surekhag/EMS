@@ -22,7 +22,7 @@ import {
   setUpdateProjectError
 } from '../../actions/projectAction'
 
-function * workerLoadAllProjects () {
+function* workerLoadAllProjects() {
   try {
     const projects = yield call(loadAllProjectsApi)
     yield put(setAllProjectsData(projects))
@@ -32,12 +32,12 @@ function * workerLoadAllProjects () {
   }
 }
 
-export function * watchLoadAllProjects () {
+export function* watchLoadAllProjects() {
   yield takeLatest(FETCH_ALL_PROJECTS_SAGA, workerLoadAllProjects)
 }
 
 //Delete Project and fetch data again
-function * workerDeleteProjectSaga ({ payload }) {
+function* workerDeleteProjectSaga({ payload }) {
   const { id } = payload
   try {
     const project = yield call(deleteProjectApi, id)
@@ -52,11 +52,11 @@ function * workerDeleteProjectSaga ({ payload }) {
   }
 }
 
-export function * watchDeleteProjectSaga () {
+export function* watchDeleteProjectSaga() {
   yield takeLatest(DELETE_PROJECT, workerDeleteProjectSaga)
 }
 
-function * workerAddProjectSaga (userinfo) {
+function* workerAddProjectSaga(userinfo) {
   try {
     const addProjectResponse = yield call(addNewProjectApi, userinfo)
     yield put(setNewProjectSuccess(addProjectResponse.data.message))
@@ -71,11 +71,11 @@ function * workerAddProjectSaga (userinfo) {
   }
 }
 
-export function * watchAddProjectSaga () {
+export function* watchAddProjectSaga() {
   yield takeLatest(ADD_NEW_PROJECT, workerAddProjectSaga)
 }
 
-function * workerUpadateProjectSaga ({ payload }) {
+function* workerUpadateProjectSaga({ payload }) {
   try {
     const updateUserResponse = yield call(updateProjectApi, payload)
     yield put(setUpdateProjectSuccess(updateUserResponse.data.message))
@@ -91,6 +91,6 @@ function * workerUpadateProjectSaga ({ payload }) {
   }
 }
 
-export function * watchUpadateProjectSaga () {
+export function* watchUpadateProjectSaga() {
   yield takeLatest(UPDATE_PROJECT, workerUpadateProjectSaga)
 }

@@ -1,14 +1,14 @@
 import axios from 'axios'
 import {
   SELF_REVIEWS_URL,
-  CREATE_SELF_REVIEW,
+  CREATE_SELF_REVIEW
 } from '../configurations/endPoints'
 
 export function loadAllSelfReviews() {
   return axios.get(SELF_REVIEWS_URL)
 }
 export function loadAllUserSelfReviews(id) {
-  return axios.get(SELF_REVIEWS_URL+id)
+  return axios.get(SELF_REVIEWS_URL + id)
 }
 export function createSelfReview(body) {
   return axios.post(CREATE_SELF_REVIEW, body)

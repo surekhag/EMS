@@ -11,7 +11,7 @@ import {
   peerReviewDeleteFailue
 } from '../../actions/peerReviewAction'
 
-function * workerUpdatePeerReviewSaga(data) {
+function* workerUpdatePeerReviewSaga(data) {
   try {
     const status = yield call(
       updatePeerReview,
