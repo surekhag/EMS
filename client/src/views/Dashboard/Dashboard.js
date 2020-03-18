@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { loadAllPeerForUser } from '../../actions/peerReviewAction'
+import { loadAllSelfReviewsForUser } from '../../actions/selfReviewActions'
 // react plugin for creating charts
 // @material-ui/core
 import { makeStyles } from '@material-ui/core/styles'
@@ -20,13 +21,17 @@ import PeerReviewDetails from '../../components/PeerReviewDetails/PeerReviewDeta
 import styles from '../../assets/jss/material-dashboard-react/views/dashboardStyle'
 import withAuth from '../../HOC/withAuth'
 import { UserContext } from '../../context-provider/user-context'
+import { loadAllProjects } from '../../actions/projectAction'
+import { loadAllEmployeeData } from '../../actions/employeeAction.js'
 
 const useStyles = makeStyles(styles)
 const Dashboard = props => {
   const classes = useStyles()
   const [searchText, setsearchText] = useState('')
   const [showDetail, setShowDetail] = useState(false)
+  const [showSelfReviewDetail, setShowSelfreviewDetail] = useState(false)
   const [peerDetails, setPeerDetails] = useState('')
+  const [selfReviewDetails, setSelfReviewDetails] = useState()
   const { currentUser } = useContext(UserContext)
   const dispatch = useDispatch()
   const peerReviewListingHeader = [
@@ -35,13 +40,34 @@ const Dashboard = props => {
     'Due Date',
     'Status'
   ]
+
+  const SelfReviewListingHeader = [
+    'Projects',
+    'From date',
+    'To date',
+    'Due Fom Date',
+    'Status'
+  ]
   const peerReviews = useSelector(
     state => state.peerReviewReducer.userPeerReview
   )
+  const userSelfReviews = useSelector(
+    state => state.selfReviewReducer.userSelfReviewDeatils
+  )
+  const projectData = useSelector(state => state.projectReducer.projects)
+  // const employeeData = useSelector(state => state.EmployeeInfo.employeeData)
 
   useEffect(() => {
     dispatch(loadAllPeerForUser())
+    dispatch(loadAllSelfReviewsForUser(currentUser.employee_id))
   }, [dispatch])
+
+  useEffect(() => {
+    if (userSelfReviews && userSelfReviews.length > 0) {
+      // dispatch(loadAllEmployeeData())
+      dispatch(loadAllProjects())
+    }
+  }, [dispatch, userSelfReviews])
 
   const tempArr = []
   let filteredEmployee
@@ -64,6 +90,33 @@ const Dashboard = props => {
       return 1
     })
   }
+  const userReviewDetailsArr = []
+  let projects
+  let projectsArr = []
+  if (
+    userSelfReviews &&
+    userSelfReviews.length > 0 &&
+    userReviewDetailsArr.length == 0 &&
+    projectData
+  ) {
+    userSelfReviews.map((review, key1) => {
+      projects = review.project_ids.split(',')
+      projectData.map((item, key) => {
+        if (projects[key] && item._id == projects[key].trim()) {
+          projectsArr.push([item.title])
+        }
+      })
+      userReviewDetailsArr.push([
+        projectsArr.join('\n'),
+        review.from_date.slice(0, 10),
+        review.to_date.slice(0, 10),
+        review.due_from.slice(0, 10),
+        review.status
+      ])
+      projectsArr = []
+    })
+  }
+
   const onClickHandler = key => {
     setPeerDetails(filteredEmployee[key])
     setShowDetail(true)
@@ -74,6 +127,7 @@ const Dashboard = props => {
   const detailsSwitchHandler = () => {
     setShowDetail(false)
   }
+
   return (
     <div>
       {showDetail ? (
@@ -124,6 +178,27 @@ const Dashboard = props => {
           </GridItem>
         </GridContainer>
       )}
+
+      {/* self review started */}     
+      {/* <GridContainer>
+        <GridItem xs={12} sm={12} md={12}>
+          <Card plain>
+            <CardHeader plain color="primary">
+              <h4 className={classes.cardTitleWhite}>SELF REVIEW</h4>
+            </CardHeader>
+            <CardBody>
+              <Table
+                tableHeaderColor="gray"
+                tableHead={SelfReviewListingHeader}
+                tableData={userReviewDetailsArr || null}
+                showLink={true}
+                buttonText="Details"
+                onClickHandler={onClickHandler}
+              />
+            </CardBody>
+          </Card>
+        </GridItem>
+      </GridContainer> */}
     </div>
   )
 }

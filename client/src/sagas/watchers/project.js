@@ -36,7 +36,7 @@ export function* watchLoadAllProjects() {
   yield takeLatest(FETCH_ALL_PROJECTS_SAGA, workerLoadAllProjects)
 }
 
-// Delete Project and fetch data again
+//Delete Project and fetch data again
 function* workerDeleteProjectSaga({ payload }) {
   const { id } = payload
   try {

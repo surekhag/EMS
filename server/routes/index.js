@@ -3,6 +3,7 @@ const users = require("./users");
 const authorization = require("./authorization");
 const peersReview = require("./peer_review");
 const validateUser = require("../middleware/validate-user");
+const review = require("./self_review");
 module.exports = app => {
   // public route
   app.use("/users", users);
@@ -12,7 +13,7 @@ module.exports = app => {
   app.use("/authorization", authorization);
 
   app.use("/peersReview",peersReview);
-
+app.use("/review", review);
   //app.use(logger('dev'));
   app.get("/", function(req, res) {
     res.json({
