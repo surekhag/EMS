@@ -13,7 +13,7 @@ import styles from '../../assets/jss/material-dashboard-react/components/tableSt
 
 const useStyles = makeStyles(styles)
 
-export default function CustomTable (props) {
+export default function CustomTable(props) {
   const classes = useStyles()
   const {
     tableHead,
@@ -67,10 +67,10 @@ export default function CustomTable (props) {
                       key={k + 'updateDelete'}
                     >
                       {addLinks.map(item => {
-                        if (item == 'Update')
+                        if (item == 'Update') {
                           return (
                             <Button
-                              color="success"
+                              color="gray"
                               size="sm"
                               className={classes.links}
                               onClick={e => updateUser(prop, k)}
@@ -97,7 +97,7 @@ export default function CustomTable (props) {
                   {showLink ? (
                     <TableCell className={classes.tableCell} key={k + 'cell'}>
                       <Button
-                        color="success"
+                        color="gray"
                         size="sm"
                         onClick={() => {
                           onClickHandler(k)
