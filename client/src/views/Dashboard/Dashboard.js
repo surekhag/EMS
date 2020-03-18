@@ -55,7 +55,7 @@ const Dashboard = props => {
     state => state.selfReviewReducer.userSelfReviewDeatils
   )
   const projectData = useSelector(state => state.projectReducer.projects)
-  const employeeData = useSelector(state => state.EmployeeInfo.employeeData)
+  // const employeeData = useSelector(state => state.EmployeeInfo.employeeData)
 
   useEffect(() => {
     dispatch(loadAllPeerForUser())
@@ -64,7 +64,7 @@ const Dashboard = props => {
 
   useEffect(() => {
     if (userSelfReviews && userSelfReviews.length > 0) {
-      dispatch(loadAllEmployeeData())
+      // dispatch(loadAllEmployeeData())
       dispatch(loadAllProjects())
     }
   }, [dispatch, userSelfReviews])
@@ -91,32 +91,29 @@ const Dashboard = props => {
     })
   }
   const userReviewDetailsArr = []
-  let projects, projectsArr
+  let projects
+  let projectsArr = []
   if (
     userSelfReviews &&
     userSelfReviews.length > 0 &&
     userReviewDetailsArr.length == 0 &&
     projectData
   ) {
-    userSelfReviews.map((review, key) => {
+    userSelfReviews.map((review, key1) => {
       projects = review.project_ids.split(',')
-
-      var filtered = projectData.filter(function(item, key) {
-        // console.log(item._id, projects[key], key, projects.indexOf(item._id))
-        if (projects.indexOf(item._id) !== -1) {
-          // console.log(item.title);
+      projectData.map((item, key) => {       
+        if (projects[key] && item._id == projects[key].trim()) {
+          projectsArr.push([item.title])
         }
-        return projects.indexOf(item._id) !== -1
       })
-      console.log(filtered)
-      // console.log(projectData, projects)
       userReviewDetailsArr.push([
-        projects,
+        projectsArr.join('\n'),
         review.from_date.slice(0, 10),
         review.to_date.slice(0, 10),
         review.due_from.slice(0, 10),
         review.status
       ])
+      projectsArr = []
     })
   }
 
@@ -182,11 +179,8 @@ const Dashboard = props => {
         </GridContainer>
       )}
 
-      {/* self review started */}
-      {setSelfReviewDetails && setSelfReviewDetails.length > 0
-        ? 'setSelfReviewDetails[0].employee_id'
-        : 'nahiye'}
-      <GridContainer>
+      {/* self review started */}     
+      {/* <GridContainer>
         <GridItem xs={12} sm={12} md={12}>
           <Card plain>
             <CardHeader plain color="primary">
@@ -204,7 +198,7 @@ const Dashboard = props => {
             </CardBody>
           </Card>
         </GridItem>
-      </GridContainer>
+      </GridContainer> */}
     </div>
   )
 }
