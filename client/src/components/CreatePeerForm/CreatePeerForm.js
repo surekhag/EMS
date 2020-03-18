@@ -27,9 +27,9 @@ import Button from '../../components/CustomButtons/Button.js'
 import Card from '../../components/Card/Card.js'
 import CardHeader from '../../components/Card/CardHeader.js'
 import MenuItem from '@material-ui/core/MenuItem'
-import Chip from '@material-ui/core/Chip';
-import Input from '@material-ui/core/Input';
-import InputLabel from '@material-ui/core/InputLabel';
+import Chip from '@material-ui/core/Chip'
+import Input from '@material-ui/core/Input'
+import InputLabel from '@material-ui/core/InputLabel'
 import FormControl from '@material-ui/core/FormControl'
 import Select from '@material-ui/core/Select'
 import CardBody from '../../components/Card/CardBody.js'
@@ -94,12 +94,12 @@ const styles = {
   },
   chips: {
     display: 'flex',
-    flexWrap: 'wrap',
+    flexWrap: 'wrap'
   },
   chip: {
     margin: 2,
     backgroundColor: '#004de6',
-    color: 'white',
+    color: 'white'
   }
 }
 
@@ -159,14 +159,14 @@ const CreatePeerForm = ({ updateInfo, ClickHandler }) => {
       .required('Required'),
     from_date: Yup.date('Invalid date').required('required'),
     to_date: Yup.date('Invalid date')
-      .test('', 'Must be greater than from date', function (value) {
+      .test('', 'Must be greater than from date', function(value) {
         const from_date = this.parent.from_date
         return value > from_date
       })
       .required('required'),
     due_from: Yup.date('Invalid date').required('required'),
     due_to: Yup.date('Invalid date')
-      .test('', 'Must be greater than due from date', function (value) {
+      .test('', 'Must be greater than due from date', function(value) {
         const due_from = this.parent.due_from
         return value > due_from
       })
@@ -271,16 +271,16 @@ const CreatePeerForm = ({ updateInfo, ClickHandler }) => {
                         </MenuItem>
                         {employeeData
                           ? employeeData.map((prop, key) => {
-                            return prop.status !== 'Inactive' ? (
-                              <MenuItem
-                                className={classes.hoverEffect}
-                                value={prop.userName}
-                                key={key}
-                              >
-                                {prop.userName}
-                              </MenuItem>
-                            ) : null
-                          })
+                              return prop.status !== 'Inactive' ? (
+                                <MenuItem
+                                  className={classes.hoverEffect}
+                                  value={prop.userName}
+                                  key={key}
+                                >
+                                  {prop.userName}
+                                </MenuItem>
+                              ) : null
+                            })
                           : null}
                       </Select>
                     </FormControl>
@@ -295,8 +295,8 @@ const CreatePeerForm = ({ updateInfo, ClickHandler }) => {
                   </Grid>
                   <Grid xs={6} sm={6} md={3} item>
                     <FormControl className={classes.formControl}>
-                      {updateInfo ?
-                        <Select
+                      {updateInfo
+                        ? <Select
                           name="employee_reviewing"
                           onChange={handleChange}
                           value={values.employee_reviewing}
@@ -309,21 +309,22 @@ const CreatePeerForm = ({ updateInfo, ClickHandler }) => {
                             disabled
                           >
                             Select Employee
-                        </MenuItem>
+                          </MenuItem>
                           {employeeData
                             ? employeeData.map((prop, key) => {
-                              return prop.status !== 'Inactive' ? (
-                                <MenuItem
-                                  className={classes.hoverEffect}
-                                  value={prop.userName}
-                                  key={key}
-                                >
-                                  {prop.userName}
-                                </MenuItem>
-                              ) : null
-                            })
+                                return prop.status !== 'Inactive' ? (
+                                  <MenuItem
+                                    className={classes.hoverEffect}
+                                    value={prop.userName}
+                                    key={key}
+                                  >
+                                    {prop.userName}
+                                  </MenuItem>
+                                ) : null
+                              })
                             : null}
-                        </Select> :
+                        </Select>
+                      ) : (
                         <>
                           <InputLabel>Select Employee</InputLabel>
                           <Select
@@ -336,34 +337,39 @@ const CreatePeerForm = ({ updateInfo, ClickHandler }) => {
                             renderValue={selected => (
                               <div className={classes.chips}>
                                 {selected.map(value => (
-                                  <Chip key={value} label={value} className={classes.chip} />
+                                  <Chip
+                                    key={value}
+                                    label={value}
+                                    className={classes.chip}
+                                  />
                                 ))}
                               </div>
                             )}
                           >
                             <MenuItem
                               className={classes.hoverEffect}
-                              value=''
+                              value=""
                               key={-1}
                               disabled
                             >
                               Select Employee
-                        </MenuItem>
+                            </MenuItem>
                             {employeeData
                               ? employeeData.map((prop, key) => {
-                                return prop.status !== 'Inactive' ? (
-                                  <MenuItem
-                                    className={classes.hoverEffect}
-                                    value={prop.userName}
-                                    key={key}
-                                  >
-                                    {prop.userName}
-                                  </MenuItem>
-                                ) : null
-                              })
+                                  return prop.status !== 'Inactive' ? (
+                                    <MenuItem
+                                      className={classes.hoverEffect}
+                                      value={prop.userName}
+                                      key={key}
+                                    >
+                                      {prop.userName}
+                                    </MenuItem>
+                                  ) : null
+                                })
                               : null}
                           </Select>
-                        </>}
+                        </>
+                      )}
                     </FormControl>
                     <ErrorMessage
                       className={classes.colorRed}
@@ -394,16 +400,16 @@ const CreatePeerForm = ({ updateInfo, ClickHandler }) => {
                         </MenuItem>
                         {projects
                           ? projects.map((prop, key) => {
-                            return (
-                              <MenuItem
-                                className={classes.hoverEffect}
-                                value={prop.title}
-                                key={key}
-                              >
-                                {prop.title}
-                              </MenuItem>
-                            )
-                          })
+                              return (
+                                <MenuItem
+                                  className={classes.hoverEffect}
+                                  value={prop.title}
+                                  key={key}
+                                >
+                                  {prop.title}
+                                </MenuItem>
+                              )
+                            })
                           : null}
                       </Select>
                     </FormControl>
@@ -434,15 +440,15 @@ const CreatePeerForm = ({ updateInfo, ClickHandler }) => {
                         </MenuItem>
                         {managers
                           ? managers.map(item => {
-                            return (
-                              <MenuItem
-                                value={item.firstname + ' ' + item.lastname}
-                                className={classes.hoverEffect}
-                              >
-                                {item.firstname + ' ' + item.lastname}
-                              </MenuItem>
-                            )
-                          })
+                              return (
+                                <MenuItem
+                                  value={item.firstname + ' ' + item.lastname}
+                                  className={classes.hoverEffect}
+                                >
+                                  {item.firstname + ' ' + item.lastname}
+                                </MenuItem>
+                              )
+                            })
                           : null}
                       </Select>
                     </FormControl>
@@ -590,10 +596,10 @@ const CreatePeerForm = ({ updateInfo, ClickHandler }) => {
                     UPDATE PEER REVIEW
                   </Button>
                 ) : (
-                    <Button type="submit" color="primary" disabled={isSubmitting}>
-                      CREATE PEER REVIEW
-                    </Button>
-                  )}
+                  <Button type="submit" color="primary" disabled={isSubmitting}>
+                    CREATE PEER REVIEW
+                  </Button>
+                )}
                 <Button type="submit" color="primary" onClick={ClickHandler}>
                   Close
                 </Button>

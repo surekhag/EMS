@@ -18,15 +18,14 @@ function* workerEmployeeInfoSaga() {
   try {
     const employees = yield call(loadAllEmployeeData)
     yield put(setAllEmployeeData(employees))
-  } catch (e) {
-  }
+  } catch (e) {}
 }
 
 export function* watchEmployeeInfoSaga() {
   yield takeLatest(LOAD_ALL_EMPLOYEE_SAGA, workerEmployeeInfoSaga)
 }
 
-//Delete employee and fetch data again
+// Delete employee and fetch data again
 function* workerDeleteEmployeeSaga({ payload }) {
   const { id } = payload
   try {

@@ -6,7 +6,13 @@ import {
 } from './watchers/employeeInfo.js'
 import watchLoginSaga, { watchAuthenticateSaga } from './watchers/login'
 
-import { watchPeerReviewSaga, watchCreatePeerReviewSaga, watchLoadUserPeerReviewSaga, watchUpdatePeerReviewSaga, watchDeletePeerReviewSaga } from './watchers/peerReview'
+import {
+  watchPeerReviewSaga,
+  watchCreatePeerReviewSaga,
+  watchLoadUserPeerReviewSaga,
+  watchUpdatePeerReviewSaga,
+  watchDeletePeerReviewSaga
+} from './watchers/peerReview'
 import {
   watchLoadAllProjects,
   watchDeleteProjectSaga,

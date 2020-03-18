@@ -13,7 +13,7 @@ import styles from '../../assets/jss/material-dashboard-react/components/tableSt
 
 const useStyles = makeStyles(styles)
 
-export default function CustomTable(props) {
+export default function CustomTable (props) {
   const classes = useStyles()
   const {
     tableHead,
@@ -67,26 +67,28 @@ export default function CustomTable(props) {
                       key={k + 'updateDelete'}
                     >
                       {addLinks.map(item => {
-                        if (item == 'Update') 
-                        { return (
-                          <Button
-                            color="success"
-                            size="sm"
-                            className={classes.links}
-                            onClick={e => updateUser(prop, k)}
-                          >
-                            {item}
-                          </Button>
-                        ) } else if (item == 'Delete') { return (
-                          <Button
-                            color="danger"
-                            size="sm"
-                            className={classes.links}
-                            onClick={e => deleteUser(prop, k)}
-                          >
-                            {item}
-                          </Button>
-                        )
+                        if (item == 'Update')
+                          return (
+                            <Button
+                              color="success"
+                              size="sm"
+                              className={classes.links}
+                              onClick={e => updateUser(prop, k)}
+                            >
+                              {item}
+                            </Button>
+                          )
+                        } else if (item == 'Delete') {
+                          return (
+                            <Button
+                              color="danger"
+                              size="sm"
+                              className={classes.links}
+                              onClick={e => deleteUser(prop, k)}
+                            >
+                              {item}
+                            </Button>
+                          )
                         }
                       })}
                     </TableCell>

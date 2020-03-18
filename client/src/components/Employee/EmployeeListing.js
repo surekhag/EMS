@@ -48,7 +48,7 @@ const EmployeeListing = props => {
     setsearchText(e.target.value)
   }
 
-  //Clear Search text on Update Cancel/Success
+  // Clear Search text on Update Cancel/Success
   useEffect(() => {
     if (!updateAction) {
       setsearchText()
@@ -75,7 +75,7 @@ const EmployeeListing = props => {
     }
   }, [deleteEmployeeError, addToast, dispatch])
 
-  let employeeDetails = []
+  const employeeDetails = []
   let filteredEmployee
   if (employeeData && searchText) {
     filteredEmployee = employeeData.filter(
@@ -95,10 +95,13 @@ const EmployeeListing = props => {
       } = key
 
       const manager = filteredEmployee.filter(item => {
-        if (item.userRole == 'Manager' && item.employee_id == reporting_manager)
-          return item
+        if (
+          item.userRole == 'Manager' &&
+          item.employee_id == reporting_manager
+        ) {
+        { return item }
       })
-      let managerName = manager[0]
+      const managerName = manager[0]
         ? manager[0].firstname + manager[0].lastname
         : 'NA'
 
@@ -187,7 +190,7 @@ const EmployeeListing = props => {
                       ? employeeListingHeader
                       : null
                   }
-                  tableData={employeeDetails ? employeeDetails : null}
+                  tableData={employeeDetails || null}
                   addLinks={links}
                   updateUser={updateUser}
                   deleteUser={deleteUser}

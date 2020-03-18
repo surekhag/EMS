@@ -16,8 +16,8 @@ import CardFooter from '../../components/Card/CardFooter.js'
 
 import {
   updatePeerReview,
-  setUpdateReviewStatus
-  , loadAllPeerForUser
+  setUpdateReviewStatus,
+  loadAllPeerForUser
 } from '../../actions/peerReviewAction'
 
 import { useDispatch, useSelector } from 'react-redux'
@@ -151,44 +151,52 @@ const PeerReviewDetails = props => {
                 tableData={tempArray || null}
                 showLink={false}
               />
-              {ClickHandler ? <Grid xs={6} sm={6} md={6} item>
-                <div>
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        onChange={changeHandler}
-                        checkedIcon={
-                          <Check className={classes.checkedIcon} />
-                        }
-                        icon={<Check className={classes.uncheckedIcon} />}
-                        classes={{
-                          checked: classes.checked,
-                          root: classes.root
-                        }}
-                      />
-                    }
-                    label={' I have submitted Form'}
-                  />
-                </div>
-              </Grid>
-                : null}
+              {ClickHandler ? (
+                <Grid xs={6} sm={6} md={6} item>
+                  <div>
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          onChange={changeHandler}
+                          checkedIcon={
+                            <Check className={classes.checkedIcon} />
+                          }
+                          icon={<Check className={classes.uncheckedIcon} />}
+                          classes={{
+                            checked: classes.checked,
+                            root: classes.root
+                          }}
+                        />
+                      }
+                      label={' I have submitted Form'}
+                    />
+                  </div>
+                </Grid>
+              ) : null}
             </Grid>
           </Grid>
         </CardBody>
-        {ClickHandler ? <CardFooter className={classes.footer}>
-          <Button type="submit" color="primary" onClick={updateHandler}>
-            UPDATE REVIEW
+        {ClickHandler ? (
+          <CardFooter className={classes.footer}>
+            <Button type="submit" color="primary" onClick={updateHandler}>
+              UPDATE REVIEW
             </Button>
-          <Button type="submit" color="primary" onClick={ClickHandler}>
-            Close
+            <Button type="submit" color="primary" onClick={ClickHandler}>
+              Close
             </Button>
-        </CardFooter>
-          : null}
+          </CardFooter>
+        ) : null}
       </Card>
-      {ClickHandler ? <iframe title="myFrame" src={reviewData.review_form_link} width="100%" height="800">
-        Loading...
+      {ClickHandler ? (
+        <iframe
+          title="myFrame"
+          src={reviewData.review_form_link}
+          width="100%"
+          height="800"
+        >
+          Loading...
         </iframe>
-        : null}
+      ) : null}
     </Grid>
   )
 }

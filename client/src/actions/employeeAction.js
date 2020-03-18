@@ -8,7 +8,7 @@ import {
 } from './actionTypes'
 
 // Load and Set Employee Data
-export function loadAllEmployeeData () {
+export function loadAllEmployeeData() {
   return {
     type: LOAD_ALL_EMPLOYEE_SAGA
   }
@@ -42,7 +42,7 @@ export function deleteEmployeeError(data) {
   }
 }
 
-export function clearDeleteEmployeeMsg () {
+export function clearDeleteEmployeeMsg() {
   return {
     type: CLEAR_DELETE_EMPLOYEE_MESSAGE
   }
