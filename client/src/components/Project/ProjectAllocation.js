@@ -9,7 +9,7 @@ import CardFooter from '../Card/CardFooter.js'
 import Button from '../CustomButtons/Button.js'
 import CustomInput from '../CustomInput/CustomInput.js'
 import Select from '@material-ui/core/Select'
-import { startOfDay } from 'date-fns'
+import 'date-fns'
 import DateFnsUtils from '@date-io/date-fns'
 import InputLabel from '@material-ui/core/InputLabel'
 import { withToastManager, useToasts } from 'react-toast-notifications'
@@ -41,7 +41,7 @@ import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker
 } from '@material-ui/pickers'
-
+import { startOfDay } from 'date-fns'
 const styles = {
   ...checkboxAdnRadioStyle,
   cardCategoryWhite: {
@@ -90,14 +90,14 @@ const ProjectAllocation = props => {
   const { addToast } = useToasts()
   const dispatch = useDispatch()
 
-  const error = useSelector(state => state.projectReducer.error)
-  const addNewProjectStatus = useSelector(
+  let error = useSelector(state => state.projectReducer.error)
+  let addNewProjectStatus = useSelector(
     state => state.projectReducer.addNewProjectStatus
   )
-  const updateProjectStatus = useSelector(
+  let updateProjectStatus = useSelector(
     state => state.projectReducer.updateProjectStatus
   )
-  const updateProjectError = useSelector(
+  let updateProjectError = useSelector(
     state => state.projectReducer.updateProjectError
   )
   const projectForm = useRef(null)
@@ -176,7 +176,7 @@ const ProjectAllocation = props => {
     props.setUpdateAction()
   }
 
-  const projectDataValidation = Yup.object().shape({
+  let projectDataValidation = Yup.object().shape({
     title: Yup.string()
       .required('Project Title is required')
       .min(2, 'Too Short!')

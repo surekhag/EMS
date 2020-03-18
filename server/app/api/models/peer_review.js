@@ -7,7 +7,7 @@ const PeerReviewSchema = new Schema({
     required: true
   },
   employee_reviewing: {
-    type: Array,
+    type: String,
     trim: true,
     required: true
   },

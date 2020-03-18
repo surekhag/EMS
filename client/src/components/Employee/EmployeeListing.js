@@ -48,7 +48,7 @@ const EmployeeListing = props => {
     setsearchText(e.target.value)
   }
 
-  // Clear Search text on Update Cancel/Success
+  //Clear Search text on Update Cancel/Success
   useEffect(() => {
     if (!updateAction) {
       setsearchText()
@@ -75,7 +75,7 @@ const EmployeeListing = props => {
     }
   }, [deleteEmployeeError, addToast, dispatch])
 
-  const employeeDetails = []
+  let employeeDetails = []
   let filteredEmployee
   if (employeeData && searchText) {
     filteredEmployee = employeeData.filter(
@@ -95,12 +95,10 @@ const EmployeeListing = props => {
       } = key
 
       const manager = filteredEmployee.filter(item => {
-        if (
-          item.userRole == 'Manager' &&
-          item.employee_id == reporting_manager
-        ) { return item }
+        if (item.userRole == 'Manager' && item.employee_id == reporting_manager)
+          return item
       })
-      const managerName = manager[0]
+      let managerName = manager[0]
         ? manager[0].firstname + manager[0].lastname
         : 'NA'
 
@@ -157,58 +155,58 @@ const EmployeeListing = props => {
           setPageView={setPageView}
         />
       ) : (
-          <>
-            <GridItem xs={12} sm={12} md={12}>
-              <CustomInput
-                formControlProps={{
-                  className: classes.margin + ' ' + classes.search
-                }}
-                inputProps={{
-                  onChange: changeHandler,
-                  placeholder: 'Search Employee',
-                  inputProps: {
-                    'aria-label': 'Search'
-                  }
-                }}
-              />
-              <Button color="white" aria-label="edit" justIcon round>
-                <Search />
-              </Button>
-            </GridItem>
+        <>
+          <GridItem xs={12} sm={12} md={12}>
+            <CustomInput
+              formControlProps={{
+                className: classes.margin + ' ' + classes.search
+              }}
+              inputProps={{
+                onChange: changeHandler,
+                placeholder: 'Search Employee',
+                inputProps: {
+                  'aria-label': 'Search'
+                }
+              }}
+            />
+            <Button color="white" aria-label="edit" justIcon round>
+              <Search />
+            </Button>
+          </GridItem>
 
-            <GridItem xs={12} sm={12} md={12}>
-              <Card plain>
-                <CardHeader plain color="primary">
-                  <h4 className={classes.cardTitleWhite}>Employee List</h4>
-                </CardHeader>
-                <CardBody>
-                  <Table
-                    tableHeaderColor="gray"
-                    tableHead={
-                      employeeData && employeeDetails.length > 0 && searchText
-                        ? employeeListingHeader
-                        : null
-                    }
-                    tableData={employeeDetails || null}
-                    addLinks={links}
-                    updateUser={updateUser}
-                    deleteUser={deleteUser}
-                    showLink={false}
-                  />
-                </CardBody>
-              </Card>
-            </GridItem>
-            <Dialog title="Delete Employee" modal={true} open={showDelDialog}>
-              <DialogActions>
-                <GridItem xs={12} sm={12} md={12}>
-                  <p> Are you sure you want to delete this Employee ? </p>
-                  <Button onClick={handleYesDelete}> Yes</Button>{' '}
-                  <Button onClick={handleNoDelete}> No</Button>
-                </GridItem>
-              </DialogActions>
-            </Dialog>
-          </>
-        )}
+          <GridItem xs={12} sm={12} md={12}>
+            <Card plain>
+              <CardHeader plain color="primary">
+                <h4 className={classes.cardTitleWhite}>Employee List</h4>
+              </CardHeader>
+              <CardBody>
+                <Table
+                  tableHeaderColor="gray"
+                  tableHead={
+                    employeeData && employeeDetails.length > 0 && searchText
+                      ? employeeListingHeader
+                      : null
+                  }
+                  tableData={employeeDetails ? employeeDetails : null}
+                  addLinks={links}
+                  updateUser={updateUser}
+                  deleteUser={deleteUser}
+                  showLink={false}
+                />
+              </CardBody>
+            </Card>
+          </GridItem>
+          <Dialog title="Delete Employee" modal={true} open={showDelDialog}>
+            <DialogActions>
+              <GridItem xs={12} sm={12} md={12}>
+                <p> Are you sure you want to delete this Employee ? </p>
+                <Button onClick={handleYesDelete}> Yes</Button>{' '}
+                <Button onClick={handleNoDelete}> No</Button>
+              </GridItem>
+            </DialogActions>
+          </Dialog>
+        </>
+      )}
     </>
   )
 }

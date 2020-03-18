@@ -67,28 +67,26 @@ export default function CustomTable(props) {
                       key={k + 'updateDelete'}
                     >
                       {addLinks.map(item => {
-                        if (item == 'Update') {
-                          return (
-                            <Button
-                              color="gray"
-                              size="sm"
-                              className={classes.links}
-                              onClick={e => updateUser(prop, k)}
-                            >
-                              {item}
-                            </Button>
-                          )
-                        } else if (item == 'Delete') {
-                          return (
-                            <Button
-                              color="danger"
-                              size="sm"
-                              className={classes.links}
-                              onClick={e => deleteUser(prop, k)}
-                            >
-                              {item}
-                            </Button>
-                          )
+                        if (item == 'Update') 
+                        { return (
+                          <Button
+                            color="success"
+                            size="sm"
+                            className={classes.links}
+                            onClick={e => updateUser(prop, k)}
+                          >
+                            {item}
+                          </Button>
+                        ) } else if (item == 'Delete') { return (
+                          <Button
+                            color="danger"
+                            size="sm"
+                            className={classes.links}
+                            onClick={e => deleteUser(prop, k)}
+                          >
+                            {item}
+                          </Button>
+                        )
                         }
                       })}
                     </TableCell>
@@ -97,7 +95,7 @@ export default function CustomTable(props) {
                   {showLink ? (
                     <TableCell className={classes.tableCell} key={k + 'cell'}>
                       <Button
-                        color="gray"
+                        color="success"
                         size="sm"
                         onClick={() => {
                           onClickHandler(k)

@@ -88,28 +88,26 @@ const Employee = props => {
   const classes = useStyles()
   const { addToast } = useToasts()
   const dispatch = useDispatch()
-  const employeeData = useSelector(state => state.EmployeeInfo.employeeData)
-  const error = useSelector(state => state.userReducer.error)
-  const addNewUserStatus = useSelector(
+  let employeeData = useSelector(state => state.EmployeeInfo.employeeData)
+  let error = useSelector(state => state.userReducer.error)
+  let addNewUserStatus = useSelector(
     state => state.userReducer.addNewUserStatus
   )
-  const updateUserStatus = useSelector(
+  let updateUserStatus = useSelector(
     state => state.userReducer.updateUserStatus
   )
-  const updateUserError = useSelector(
-    state => state.userReducer.updateUserError
-  )
+  let updateUserError = useSelector(state => state.userReducer.updateUserError)
   const userForm = useRef(null)
 
-  // Load all emp info
+  //Load all emp info
   useEffect(() => {
     dispatch(loadAllEmployeeData())
   }, [])
 
   useEffect(() => {
     if (employeeData) {
-      const emp = employeeData
-      const managers = emp.filter(item => {
+      let emp = employeeData
+      let managers = emp.filter(item => {
         if (item.userRole == 'Manager' && item.status == 'Active') return item
       })
       setManagers(managers)
@@ -146,7 +144,7 @@ const Employee = props => {
   const getStates = value => {
     if (value === null) return []
 
-    const states = countryData.filter(item => {
+    let states = countryData.filter(item => {
       if (item.country == value) {
         return item
       }
@@ -230,7 +228,7 @@ const Employee = props => {
   }
 
   let userDataValidation
-  const addNewUserValidations = Yup.object().shape({
+  let addNewUserValidations = Yup.object().shape({
     employee_id: Yup.number()
       .typeError('Employee Id must be a number')
       .required('Employee Id is required'),
@@ -245,7 +243,7 @@ const Employee = props => {
       .required('Password is required')
   })
 
-  const updateValidations = Yup.object().shape({
+  let updateValidations = Yup.object().shape({
     firstname: Yup.string()
       .required('Firstname is required')
       .min(2, 'Too Short!')
@@ -319,8 +317,8 @@ const Employee = props => {
       <Formik
         initialValues={initialValues}
         onSubmit={(values, { setSubmitting }) => {
-          submitFormValues(values)
-          setSubmitting(false)
+          submitFormValues(values)         
+            setSubmitting(false)
         }}
         validationSchema={userDataValidation}
       >
@@ -555,7 +553,7 @@ const Employee = props => {
 
                     {/* Display for update user only */}
                     <GridItem xs={12} sm={12} md={4}>
-                      {/* {userToUpdate ?
+                      {/* {userToUpdate ? 
                  <><FormControl
                      className={classes.formControl}
                  >

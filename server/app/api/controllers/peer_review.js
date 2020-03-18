@@ -1,11 +1,10 @@
 const Peer_Review_Model = require("../models/peer_review");
 module.exports = {
   create: function(req, res, next) {
-    req.body.employee_reviewing.map((employee_reviewing)=>{
     Peer_Review_Model.create(
       {
         employee_under_review: req.body.employee_under_review,
-        employee_reviewing: employee_reviewing,
+        employee_reviewing: req.body.employee_reviewing,
         project: req.body.project,
         functional_manager: req.body.functional_manager,
         from_date: req.body.from_date,
@@ -28,7 +27,6 @@ module.exports = {
           });
       }
     );
-  })
   },
 
   update: function(req, res, next) {
