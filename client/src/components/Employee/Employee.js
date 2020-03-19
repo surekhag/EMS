@@ -11,9 +11,9 @@ import CustomInput from '../../components/CustomInput/CustomInput.js'
 import Select from '@material-ui/core/Select'
 import DateFnsUtils from '@date-io/date-fns'
 import InputLabel from '@material-ui/core/InputLabel'
-import { withToastManager, useToasts } from 'react-toast-notifications'
+import { useToasts } from 'react-toast-notifications'
 import Grid from '@material-ui/core/Grid'
-import checkboxAdnRadioStyle from '../../assets/jss/material-dashboard-react/checkboxAdnRadioStyle.js'
+import {employeeStyles} from '../../componentStyles/index'
 import MenuItem from '@material-ui/core/MenuItem'
 import FormControl from '@material-ui/core/FormControl'
 import { Formik, Form, ErrorMessage } from 'formik'
@@ -39,54 +39,13 @@ import {
   userRole,
   countryData
 } from '../../constants'
-import * as Yup from 'yup'
 
 import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker
 } from '@material-ui/pickers'
 
-const styles = {
-  ...checkboxAdnRadioStyle,
-  cardCategoryWhite: {
-    color: 'rgba(255,255,255,.62)',
-    margin: '0',
-    fontSize: '14px',
-    marginTop: '0',
-    marginBottom: '0'
-  },
-  cardTitleWhite: {
-    color: '#FFFFFF',
-    marginTop: '0px',
-    minHeight: 'auto',
-    fontWeight: '300',
-    fontFamily: "'Roboto', 'Helvetica', 'Arial', sans-serif",
-    marginBottom: '3px',
-    textDecoration: 'none'
-  },
-  root: {
-    display: 'flex',
-    flexWrap: 'wrap'
-  },
-  formControl: {
-    margin: 11,
-    minWidth: 120,
-    wrap: 'nowrap',
-    fullWidth: 'true',
-    display: 'flex'
-  },
-  selectEmpty: {
-    marginTop: 10
-  },
-  error: {
-    color: 'red'
-  },
-  dateStyle: {
-    paddingLeft: 11,
-    paddingRight: 11
-  }
-}
-
+const styles = employeeStyles
 const useStyles = makeStyles(styles)
 const Employee = props => {
   const [managers, setManagers] = useState()
