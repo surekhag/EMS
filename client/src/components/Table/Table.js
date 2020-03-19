@@ -70,7 +70,7 @@ export default function CustomTable(props) {
                         if (item == 'Update') {
                           return (
                             <Button
-                              color="success"
+                              color="gray"
                               size="sm"
                               className={classes.links}
                               onClick={e => updateUser(prop, k)}
@@ -97,7 +97,7 @@ export default function CustomTable(props) {
                   {showLink ? (
                     <TableCell className={classes.tableCell} key={k + 'cell'}>
                       <Button
-                        color="success"
+                        color="gray"
                         size="sm"
                         onClick={() => {
                           onClickHandler(k)

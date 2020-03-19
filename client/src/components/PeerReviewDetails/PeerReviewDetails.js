@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 // @material-ui/core components
 import { makeStyles } from '@material-ui/core/styles'
-import InputLabel from '@material-ui/core/InputLabel'
 import Check from '@material-ui/icons/Check'
 import Checkbox from '@material-ui/core/Checkbox'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
@@ -11,9 +10,6 @@ import Button from '../../components/CustomButtons/Button.js'
 import Card from '../../components/Card/Card.js'
 import CardHeader from '../../components/Card/CardHeader.js'
 import checkboxAdnRadioStyle from '../../assets/jss/material-dashboard-react/checkboxAdnRadioStyle'
-import MenuItem from '@material-ui/core/MenuItem'
-import FormControl from '@material-ui/core/FormControl'
-import Select from '@material-ui/core/Select'
 import Table from '../Table/Table'
 import CardBody from '../../components/Card/CardBody.js'
 import CardFooter from '../../components/Card/CardFooter.js'
@@ -95,9 +91,9 @@ const PeerReviewDetails = props => {
         reviewData.functional_manager
       ],
       [
-        'From Date',
+        'Review From Date',
         reviewData.from_date.slice(0, 10),
-        'To Date',
+        'Review To Date',
         reviewData.to_date.slice(0, 10)
       ],
       [
@@ -192,7 +188,12 @@ const PeerReviewDetails = props => {
         ) : null}
       </Card>
       {ClickHandler ? (
-        <iframe src={reviewData.review_form_link} width="100%" height="800">
+        <iframe
+          title="myFrame"
+          src={reviewData.review_form_link}
+          width="100%"
+          height="800"
+        >
           Loading...
         </iframe>
       ) : null}

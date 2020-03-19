@@ -40,7 +40,7 @@ function* workerUpadateUserSaga({ payload }) {
     yield put(loadAllEmployeeData())
   } catch (e) {
     if (e.response.data && e.response.data.message) {
-      //To do add code for all api calls .. invalid token case falls here
+      // To do add code for all api calls .. invalid token case falls here
       yield put(setUpdateUserError(e.response.data.message))
     } else {
       yield put(setUpdateUserError(e))

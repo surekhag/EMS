@@ -115,7 +115,7 @@ const PeerReview = props => {
         autoDismiss: true
       })
     }
-  }, [peerReviewDeleteSuccess, peerReviewDeleteError])
+  }, [peerReviewDeleteSuccess, peerReviewDeleteError, addToast])
 
   const viewDetailHandler = details => {
     setReviewDetails(details)
@@ -133,12 +133,12 @@ const PeerReview = props => {
     )
     filteredEmployee.map((review, key) => {
       tempArr.push([
-        <a
+        <span
           className={classes.showPointer}
           onClick={() => viewDetailHandler(review)}
         >
           {review.employee_under_review}
-        </a>,
+        </span>,
         review.employee_reviewing,
         review.project,
         review.to_date.slice(0, 10),

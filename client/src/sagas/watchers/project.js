@@ -36,7 +36,7 @@ export function* watchLoadAllProjects() {
   yield takeLatest(FETCH_ALL_PROJECTS_SAGA, workerLoadAllProjects)
 }
 
-//Delete Project and fetch data again
+// Delete Project and fetch data again
 function* workerDeleteProjectSaga({ payload }) {
   const { id } = payload
   try {
@@ -63,7 +63,7 @@ function* workerAddProjectSaga(userinfo) {
     yield put(loadAllProjects())
   } catch (e) {
     if (e.response.data && e.response.data.message) {
-      //To do add code for all api calls .. invalid token case falls here
+      // To do add code for all api calls .. invalid token case falls here
       yield put(setNewProjectError(e.response.data.message))
     } else {
       yield put(setNewProjectError(e))
@@ -83,7 +83,7 @@ function* workerUpadateProjectSaga({ payload }) {
     yield put(loadAllProjects())
   } catch (e) {
     if (e.response.data && e.response.data.message) {
-      //To do add code for all api calls .. invalid token case falls here
+      // To do add code for all api calls .. invalid token case falls here
       yield put(setUpdateProjectError(e.response.data.message))
     } else {
       yield put(setUpdateProjectError(e))
