@@ -10,6 +10,7 @@ module.exports = {
         due_from: req.body.due_from,
         due_to: req.body.due_to,
         feedback : req.body.feedback,
+        functional_manager: req.body.functional_manager,
         review_form_link: req.body.review_form_link,
         status: "Active",
         created_date: new Date(),

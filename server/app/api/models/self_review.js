@@ -67,6 +67,11 @@ const SelfReviewSchema = new Schema({
         type: String,
         trim: true,
         required: true,        
+      },
+      functional_manager: {
+      type: String,
+      trim: true,
+       required: true
       },   
 });
 
