@@ -75,14 +75,14 @@ const Project = props => {
   const { addToast } = useToasts()
   const dispatch = useDispatch()
 
-  let error = useSelector(state => state.projectReducer.error)
-  let addNewProjectStatus = useSelector(
+  const error = useSelector(state => state.projectReducer.error)
+  const addNewProjectStatus = useSelector(
     state => state.projectReducer.addNewProjectStatus
   )
-  let updateProjectStatus = useSelector(
+  const updateProjectStatus = useSelector(
     state => state.projectReducer.updateProjectStatus
   )
-  let updateProjectError = useSelector(
+  const updateProjectError = useSelector(
     state => state.projectReducer.updateProjectError
   )
   const projectForm = useRef(null)
@@ -160,7 +160,7 @@ const Project = props => {
     props.setUpdateAction()
   }
 
-  let projectDataValidation = Yup.object().shape({
+  const projectDataValidation = Yup.object().shape({
     title: Yup.string()
       .required('Project Title is required')
       .min(2, 'Too Short!')
