@@ -64,9 +64,9 @@ export const formikUpdateValidations = Yup.object().shape({
     .required('Lastname is required'),
   middlename: Yup.string().required('Middlename is required'),
   contact_no: Yup.number()
-    .typeError('Contact Number must be a number')
+    .typeError("Doesn't seems valid Contact Number")
     .required('Contact Number is required')
-    .positive("A phone number can't start with a minus")
+    .positive()
     .integer("A phone number can't include a decimal point")
     .min(10, 'Enter valid valid Contact number of min 10 digits!'),
   //  .max(12, 'Enter max valid Contact number!'),

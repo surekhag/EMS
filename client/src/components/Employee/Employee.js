@@ -13,7 +13,7 @@ import DateFnsUtils from '@date-io/date-fns'
 import InputLabel from '@material-ui/core/InputLabel'
 import { useToasts } from 'react-toast-notifications'
 import Grid from '@material-ui/core/Grid'
-import {employeeStyles} from '../../componentStyles/index'
+import { employeeStyles } from '../../componentStyles/index'
 import MenuItem from '@material-ui/core/MenuItem'
 import FormControl from '@material-ui/core/FormControl'
 import { Formik, Form, ErrorMessage } from 'formik'
@@ -44,6 +44,13 @@ import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker
 } from '@material-ui/pickers'
+import {
+  employeeDataSelector,
+  addNewUserSuccess,
+  updateUserStatusSuccess,
+  updateUserErrorMsg,
+  addNewUserError
+} from '../../selectors/index'
 
 const styles = employeeStyles
 const useStyles = makeStyles(styles)
@@ -53,17 +60,11 @@ const Employee = props => {
   const classes = useStyles()
   const { addToast } = useToasts()
   const dispatch = useDispatch()
-  const employeeData = useSelector(state => state.EmployeeInfo.employeeData)
-  const error = useSelector(state => state.userReducer.error)
-  const addNewUserStatus = useSelector(
-    state => state.userReducer.addNewUserStatus
-  )
-  const updateUserStatus = useSelector(
-    state => state.userReducer.updateUserStatus
-  )
-  const updateUserError = useSelector(
-    state => state.userReducer.updateUserError
-  )
+  const employeeData = useSelector(state => employeeDataSelector(state))
+  const error = useSelector(state => addNewUserError(state))
+  const addNewUserStatus = useSelector(state => addNewUserSuccess(state))
+  const updateUserStatus = useSelector(state => updateUserStatusSuccess(state))
+  const updateUserError = useSelector(state => updateUserErrorMsg(state))
   const userForm = useRef(null)
 
   // Load all emp info
@@ -82,28 +83,27 @@ const Employee = props => {
   }, [employeeData])
 
   useEffect(() => {
-    if (addNewUserStatus) {
-      addToast(addNewUserStatus, { appearance: 'success', autoDismiss: true })
+    if (addNewUserStatus || updateUserStatus) {
+      addToast(addNewUserStatus ? addNewUserStatus : updateUserStatus, {
+        appearance: 'success',
+        autoDismiss: true
+      })
+      if (addNewUserStatus) setPageView('employeeListing')
+
+      if (updateUserStatus) {
+        if (props) props.setUpdateAction()
+      }
       userForm.current.reset()
       dispatch(clearUserStatus())
-      setPageView('employeeListing')
-    }
-    if (updateUserStatus) {
-      addToast(updateUserStatus, { appearance: 'success', autoDismiss: true })
-      userForm.current.reset()
-      dispatch(clearUserStatus())
-      if (props) props.setUpdateAction()
     }
   }, [addNewUserStatus, updateUserStatus, addToast])
 
   useEffect(() => {
-    if (error) {
-      addToast(error, { appearance: 'error', autoDismiss: true })
-      dispatch(clearUserStatus())
-    }
-
-    if (updateUserError) {
-      addToast(updateUserError, { appearance: 'error', autoDismiss: true })
+    if (error || updateUserError) {
+      addToast(error ? error : updateUserError, {
+        appearance: 'error',
+        autoDismiss: true
+      })
       dispatch(clearUserStatus())
     }
   }, [error, updateUserError, addToast])
@@ -129,7 +129,6 @@ const Employee = props => {
 
   let initialValues
   const initialValuesAddUser = formikInitialValuesAddUser
-
   initialValues = formikInitialValues(userToUpdate)
 
   if (userToUpdate) {
