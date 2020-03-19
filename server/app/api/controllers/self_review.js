@@ -86,7 +86,7 @@ module.exports = {
     });
   },
   getForUser: function(req, res, next) {
-     Self_Review_Model.find({employee_id: req.params.employee_id }, function(
+        Self_Review_Model.find({employee_id: req.params.employee_id , status : 'Active' },  function(
       err,
       users
     ) {
@@ -95,7 +95,7 @@ module.exports = {
       } else {
         res.json({
           status: "success",
-          message: "Peer Review list found!!!",
+          message: "Self Review list found!!!",
           data: users
         });
       }
