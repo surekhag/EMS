@@ -2,7 +2,8 @@ import {
   SET_ALL_USER_SELF_REVIEWS,
   SET_ALL_USER_SELF_REVIEWS_ERROR,
   SET_SELF_REVIEW_UPDATE_STATUS,
-  SET_SELF_REVIEW_UPDATE_ERROR
+  SET_SELF_REVIEW_UPDATE_ERROR,
+  CLEAR_REVIEW_STATUS
 } from '../actions/actionTypes.js'
 
 const initialState = {
@@ -32,6 +33,12 @@ export default function selfReviewReducer(state = initialState, action) {
       return {
         ...state,
         userSelfReviewUpdateError: action.payload.data
+      }
+    case CLEAR_REVIEW_STATUS:
+      return {
+        ...state,
+        userSelfReviewUpdateError: null,
+        userSelfReviewUpdateStatus: null
       }
     default:
       return state

@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 // @material-ui/core components
 import { makeStyles } from '@material-ui/core/styles'
-import InputLabel from '@material-ui/core/InputLabel'
 import Check from '@material-ui/icons/Check'
 import Checkbox from '@material-ui/core/Checkbox'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
@@ -11,17 +10,14 @@ import Button from '../CustomButtons/Button.js'
 import Card from '../Card/Card.js'
 import CardHeader from '../Card/CardHeader.js'
 import checkboxAdnRadioStyle from '../../assets/jss/material-dashboard-react/checkboxAdnRadioStyle'
-import MenuItem from '@material-ui/core/MenuItem'
-import FormControl from '@material-ui/core/FormControl'
-import Select from '@material-ui/core/Select'
 import Table from '../Table/Table'
 import CardBody from '../Card/CardBody.js'
 import CardFooter from '../Card/CardFooter.js'
-
+import { UserContext } from '../../context-provider/user-context'
 import {
-  updateSelfReview
-  // setUpdateReviewStatus,
-  // loadAllPeerForUser
+  updateSelfReview,
+  clearReviewStatus,
+  loadAllSelfReviewsForUser
 } from '../../actions/selfReviewActions'
 
 import { useDispatch, useSelector } from 'react-redux'
@@ -75,14 +71,8 @@ const SelfReviewDetails = props => {
   const classes = useStyles()
   const { selfReviewDeatails, projectDetails, ClickHandler } = props
   const { addToast } = useToasts()
-  console.log(props)
   const dispatch = useDispatch()
-  // const selfReviewUpdateStatus = useSelector(
-  //   state => state.selfReviewReducer.selfReviewUpdateStatus
-  // )
-  // let tempArray = []
   const selfReviewDetailHeader = ['Self Review Details', '']
-
   let temp = []
   temp.push(
     ['Employee Id', selfReviewDeatails.employee_id],
@@ -100,17 +90,44 @@ const SelfReviewDetails = props => {
   )
 
   const [selectedStatus, setSelectedStatus] = useState()
+  const userSelfReviewUpdateError = useSelector(
+    state => state.selfReviewReducer.userSelfReviewUpdateError
+  )
+  const userSelfReviewUpdateStatus = useSelector(
+    state => state.selfReviewReducer.userSelfReviewUpdateStatus
+  )
+  const { currentUser } = useContext(UserContext)
+
+  useEffect(() => {
+    if (userSelfReviewUpdateStatus) {
+      addToast(userSelfReviewUpdateStatus, {
+        appearance: 'success',
+        autoDismiss: true
+      })
+      dispatch(loadAllSelfReviewsForUser(currentUser.employee_id))
+      dispatch(clearReviewStatus())
+      ClickHandler()
+    }
+  }, [userSelfReviewUpdateStatus, addToast])
+
+  useEffect(() => {
+    if (userSelfReviewUpdateError) {
+      addToast(userSelfReviewUpdateError, {
+        appearance: 'error',
+        autoDismiss: true
+      })
+      dispatch(clearReviewStatus())
+    }
+  }, [userSelfReviewUpdateError, addToast])
 
   const changeHandler = e => {
     if (e.target.checked === true) setSelectedStatus('Done')
   }
 
   const updateHandler = () => {
-    console.log(selfReviewDeatails._id)
     dispatch(
       updateSelfReview(selfReviewDeatails._id, { status: selectedStatus })
     )
-    // dispatch(loadAllPeerForUser())
   }
   return (
     <Grid>
@@ -175,5 +192,4 @@ const SelfReviewDetails = props => {
     </Grid>
   )
 }
-// const selfReviewDetailsWithHOC = withToastManager(SelfReviewDetails)
 export default withToastManager(SelfReviewDetails)

@@ -34,7 +34,6 @@ export function* watchUserSelfReviewSaga() {
 }
 
 function* workerUpdateUserSelfReviewSaga({ payload }) {
-  console.log(payload)
   const { id, body } = payload
   try {
     const selfReviews = yield call(updateSelfReview, id, body)
@@ -42,7 +41,7 @@ function* workerUpdateUserSelfReviewSaga({ payload }) {
       yield put(setUpdateReviewError(selfReviews.data.message))
     }
     if (selfReviews.data.status == 'success') {
-      yield put(setUpdateReviewStatus(selfReviews.data.status))
+      yield put(setUpdateReviewStatus(selfReviews.data.message))
     }
   } catch (e) {
     if (e.response.data && e.response.data.message) {
