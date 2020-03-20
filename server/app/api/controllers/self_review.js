@@ -1,21 +1,36 @@
 const Self_Review_Model = require("../models/self_review");
 module.exports = {
   create: function(req, res, next) {
+    const {
+        employee_id,        
+        project_ids,
+        from_date,
+        to_date,
+        due_from,
+        due_to,
+        feedback,
+        review_form_link,
+        status = "Active",
+        created_date = new Date(),
+        updated_date = new Date(),
+        created_by = req.user.userName,
+        last_updated_by = req.user.userName
+    } = req.body;
     Self_Review_Model.create(
       {
-        employee_id: req.body.employee_id,        
-        project_ids: req.body.project_ids,
-        from_date: req.body.from_date,
-        to_date: req.body.to_date,
-        due_from: req.body.due_from,
-        due_to: req.body.due_to,
-        feedback : req.body.feedback,
-        review_form_link: req.body.review_form_link,
-        status: "Active",
-        created_date: new Date(),
-        updated_date: new Date(),
-        created_by: req.user.userName,
-        last_updated_by: req.user.userName
+        employee_id,        
+        project_ids,
+        from_date,
+        to_date,
+        due_from,
+        due_to,
+        feedback,
+        review_form_link,
+        status,
+        created_date,
+        updated_date,
+        created_by,
+        last_updated_by
       },
       function(err, result) {
         if (err) next(err);
