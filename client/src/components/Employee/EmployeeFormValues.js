@@ -1,7 +1,38 @@
 import * as Yup from 'yup'
-
+import {
+  yupRequired,
+  yupRequiredNumber,
+  yupRequiredDate
+} from '../../helpers/yupValidations'
 export const formikInitialValues = userToUpdate => {
   const {
+    firstname,
+    lastname,
+    middlename,
+    address1,
+    address2,
+    city,
+    zip,
+    state,
+    country,
+    gender,
+    dateofbirth = new Date(),
+    dateofjoining = new Date(),
+    status = 'Active',
+    experience_at_joining,
+    work_location,
+    timezone,
+    shift_timing,
+    designation,
+    employment_status,
+    userRole,
+    reporting_manager,
+    skills,
+    certifications,
+    achievements,
+    contact_no
+  } = userToUpdate ? userToUpdate[0] : {}
+  return {
     firstname,
     lastname,
     middlename,
@@ -27,33 +58,6 @@ export const formikInitialValues = userToUpdate => {
     certifications,
     achievements,
     contact_no
-  } = userToUpdate ? userToUpdate[0] : {}
-  return {
-    firstname: userToUpdate ? firstname : '',
-    lastname: userToUpdate ? lastname : '',
-    middlename: userToUpdate ? middlename : '',
-    address1: userToUpdate ? address1 : '',
-    address2: userToUpdate ? address2 : '',
-    city: userToUpdate ? city : '',
-    zip: userToUpdate ? zip : '',
-    state: userToUpdate ? state : '',
-    country: userToUpdate ? country : '',
-    gender: userToUpdate ? gender : '',
-    dateofbirth: userToUpdate ? dateofbirth : new Date(),
-    dateofjoining: userToUpdate ? dateofjoining : new Date(),
-    status: userToUpdate ? status : 'Active',
-    experience_at_joining: userToUpdate ? experience_at_joining : '',
-    work_location: userToUpdate ? work_location : '',
-    timezone: userToUpdate ? timezone : '',
-    shift_timing: userToUpdate ? shift_timing : '',
-    designation: userToUpdate ? designation : '',
-    employment_status: userToUpdate ? employment_status : '',
-    userRole: userToUpdate ? userRole : '',
-    reporting_manager: userToUpdate ? reporting_manager : '',
-    skills: userToUpdate ? skills : '',
-    certifications: userToUpdate ? certifications : '',
-    achievements: userToUpdate ? achievements : '',
-    contact_no: userToUpdate ? contact_no : ''
   }
 }
 
@@ -64,15 +68,6 @@ export const formikInitialValuesAddUser = {
   password: ''
 }
 
-const yupRequired = text => {
-  return Yup.string().required(`${text} is required`)
-}
-const yupRequiredNumber = text => {
-  return Yup.number().required(`${text} is required`)
-}
-const yupRequiredDate = text => {
-  return Yup.date().required(`${text} is required`)
-}
 export const formikAddNewUserValidations = Yup.object().shape({
   employee_id: yupRequiredNumber('Employee Id').typeError(
     'Employee Id must be a number'
@@ -116,7 +111,6 @@ export const formikUpdateValidations = Yup.object().shape({
       return value < date
     })
     .test('', 'Age must be greater than 18', function(value) {
-      const dt1 = value
       const date = new Date()
       const result = Math.floor(
         (Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()) -
