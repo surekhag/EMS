@@ -2,21 +2,36 @@ const projectModel = require("../models/projects");
 
 module.exports = {
   create: function(req, res, next) {
+    const {
+          title ,
+          description,
+          startdate,
+          enddate,
+          technology,
+          client,
+          client_location,
+          status = "Active",
+          type,
+          created_date = new Date(),
+          created_by = req.user.userName,
+          updated_date = new Date(),
+          last_updated_by = req.user.userName,
+    } = req.body;
     projectModel.create(
       {          
-          title  : req.body.title,
-          description  : req.body.description,
-          startdate : req.body.startdate,
-          enddate : req.body.enddate,
-          technology : req.body.technology,
-          client : req.body.client,
-          client_location : req.body.client_location ,
-          status : "Active",
-          type : req.body.type,
-          created_date : new Date(),
-          created_by : req.user.userName,
-          updated_date : new Date(),
-          last_updated_by : req.user.userName,
+         title ,
+          description,
+          startdate,
+          enddate,
+          technology,
+          client,
+          client_location,
+          status,
+          type,
+          created_date,
+          created_by,
+          updated_date,
+          last_updated_by,
       },
       function(err, result) {
         if (err) next(err);
