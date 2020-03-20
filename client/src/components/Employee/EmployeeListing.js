@@ -18,10 +18,7 @@ import {
 } from '../../actions/employeeAction'
 import { useToasts } from 'react-toast-notifications'
 import Employee from './Employee'
-import {
-  deleteEmployeeSuccessMsg,
-  deleteEmployeeErrors
-} from '../../selectors/index'
+import { deleteEmployeeSuccessMsg, deleteEmployeeErrors } from './selectors'
 const useStyles = makeStyles(styles)
 const EmployeeListing = props => {
   const { employeeData, setPageView } = props
@@ -32,8 +29,8 @@ const EmployeeListing = props => {
   const [userToUpdate, setUserToUpdate] = useState()
   const [updateAction, setUpdateAction] = useState()
   const [showDelDialog, setShowDelDialog] = useState(false)
-  const deleteEmployeeSuccess = useSelector(state => deleteEmployeeSuccessMsg(state))
-  const deleteEmployeeError = useSelector(state => deleteEmployeeErrors(state))
+  const deleteEmployeeSuccess = useSelector(deleteEmployeeSuccessMsg)
+  const deleteEmployeeError = useSelector(deleteEmployeeErrors)
 
   const employeeListingHeader = [
     'Employee Id',

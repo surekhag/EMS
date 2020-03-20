@@ -13,7 +13,7 @@ import DateFnsUtils from '@date-io/date-fns'
 import InputLabel from '@material-ui/core/InputLabel'
 import { useToasts } from 'react-toast-notifications'
 import Grid from '@material-ui/core/Grid'
-import { employeeStyles } from '../../componentStyles/index'
+import { employeeStyles } from './Styles'
 import MenuItem from '@material-ui/core/MenuItem'
 import FormControl from '@material-ui/core/FormControl'
 import { Formik, Form, ErrorMessage } from 'formik'
@@ -23,7 +23,7 @@ import {
   formikInitialValuesAddUser,
   formikAddNewUserValidations,
   formikUpdateValidations
-} from './EmployeeConstants'
+} from './EmployeeFormValues'
 import {
   addNewUser,
   clearUserStatus,
@@ -50,7 +50,7 @@ import {
   updateUserStatusSuccess,
   updateUserErrorMsg,
   addNewUserError
-} from '../../selectors/index'
+} from './selectors'
 
 const styles = employeeStyles
 const useStyles = makeStyles(styles)
@@ -60,11 +60,11 @@ const Employee = props => {
   const classes = useStyles()
   const { addToast } = useToasts()
   const dispatch = useDispatch()
-  const employeeData = useSelector(state => employeeDataSelector(state))
-  const error = useSelector(state => addNewUserError(state))
-  const addNewUserStatus = useSelector(state => addNewUserSuccess(state))
-  const updateUserStatus = useSelector(state => updateUserStatusSuccess(state))
-  const updateUserError = useSelector(state => updateUserErrorMsg(state))
+  const employeeData = useSelector(employeeDataSelector)
+  const error = useSelector(addNewUserError)
+  const addNewUserStatus = useSelector(addNewUserSuccess)
+  const updateUserStatus = useSelector(updateUserStatusSuccess)
+  const updateUserError = useSelector(updateUserErrorMsg)
   const userForm = useRef(null)
 
   // Load all emp info

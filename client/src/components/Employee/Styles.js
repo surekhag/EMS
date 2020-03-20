@@ -1,4 +1,4 @@
-import checkboxAdnRadioStyle from '../assets/jss/material-dashboard-react/checkboxAdnRadioStyle.js'
+import checkboxAdnRadioStyle from '../../assets/jss/material-dashboard-react/checkboxAdnRadioStyle.js'
 
 export const employeeStyles = {
   ...checkboxAdnRadioStyle,
