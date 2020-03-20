@@ -7,7 +7,7 @@ import AssignmentIcon from '@material-ui/icons/Assignment'
 import Projects from './views/Project/Projects'
 // import Employee from './components/Employee/EmployeeSearch'
 import Employee from './views/Employee/Employee'
-
+import SelfReview from './views/SelfReview/SelfReview'
 import PeerReview from './views/PeerReview/PeerReview'
 
 export const dashboardRoutesAdmin = [
@@ -91,18 +91,8 @@ export const dashboardRoutes = [
     name: 'Self Review History',
     rtlName: 'ملف تعريفي للمستخدم',
     icon: Person,
-    component: DashboardPage,
+    component: SelfReview,
     layout: '/admin',
     showLink: true
   }
-
-  // {
-  //   path: '/getDetails',
-  //   name: 'Peer Review Details',
-  //   rtlName: 'ملف تعريفي للمستخدم',
-  //   icon: GroupIcon,
-  //   component: PeerReviewDetails,
-  //   layout: '/admin',
-  //   showLink: false
-  // }
 ]

@@ -70,7 +70,7 @@ export default function CustomTable(props) {
                         if (item == 'Update') {
                           return (
                             <Button
-                              color="gray"
+                              color="primary"
                               size="sm"
                               className={classes.links}
                               onClick={e => updateUser(prop, k)}
@@ -81,7 +81,7 @@ export default function CustomTable(props) {
                         } else if (item == 'Delete') {
                           return (
                             <Button
-                              color="danger"
+                              color="white"
                               size="sm"
                               className={classes.links}
                               onClick={e => deleteUser(prop, k)}
@@ -97,7 +97,7 @@ export default function CustomTable(props) {
                   {showLink ? (
                     <TableCell className={classes.tableCell} key={k + 'cell'}>
                       <Button
-                        color="gray"
+                        color="primary"
                         size="sm"
                         onClick={() => {
                           onClickHandler(k)

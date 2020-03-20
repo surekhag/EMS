@@ -58,7 +58,7 @@ const Dashboard = props => {
   // const employeeData = useSelector(state => state.EmployeeInfo.employeeData)
 
   useEffect(() => {
-    dispatch(loadAllPeerForUser())
+    dispatch(loadAllPeerForUser(currentUser._id))
     dispatch(loadAllSelfReviewsForUser(currentUser.employee_id))
   }, [dispatch])
 
@@ -72,18 +72,22 @@ const Dashboard = props => {
   const tempArr = []
   let filteredEmployee
   if (peerReviews) {
-    filteredEmployee = peerReviews.data.data.filter(
+    filteredEmployee = peerReviews.filter(
       cls =>
-        cls.employee_under_review
-          .toLowerCase()
-          .includes(searchText.toLowerCase().trim()) &&
+        cls.employee_under_review.firstname +
+          ' ' +
+          cls.employee_under_review.lastname
+            .toLowerCase()
+            .includes(searchText.toLowerCase().trim()) &&
         cls.status !== 'Done' &&
         cls.status !== 'Inactive'
     )
     filteredEmployee.map((review, key) => {
       tempArr.push([
-        review.employee_under_review,
-        review.project,
+        review.employee_under_review.firstname +
+          ' ' +
+          review.employee_under_review.lastname,
+        review.project.title,
         review.to_date.slice(0, 10),
         review.status
       ])
@@ -179,7 +183,7 @@ const Dashboard = props => {
         </GridContainer>
       )}
 
-      {/* self review started */}     
+      {/* self review started */}
       {/* <GridContainer>
         <GridItem xs={12} sm={12} md={12}>
           <Card plain>

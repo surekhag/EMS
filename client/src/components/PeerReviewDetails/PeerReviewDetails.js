@@ -10,6 +10,7 @@ import Button from '../../components/CustomButtons/Button.js'
 import Card from '../../components/Card/Card.js'
 import CardHeader from '../../components/Card/CardHeader.js'
 import checkboxAdnRadioStyle from '../../assets/jss/material-dashboard-react/checkboxAdnRadioStyle'
+import peerReviewDetailsStyle from '../../assets/jss/material-dashboard-react/components/peerReviewDetailsStyle'
 import Table from '../Table/Table'
 import CardBody from '../../components/Card/CardBody.js'
 import CardFooter from '../../components/Card/CardFooter.js'
@@ -25,41 +26,7 @@ import { useToasts, withToastManager } from 'react-toast-notifications'
 
 const styles = {
   ...checkboxAdnRadioStyle,
-  cardTitleWhite: {
-    color: '#FFFFFF',
-    marginTop: '0px',
-    minHeight: 'auto',
-    fontWeight: '300',
-    fontFamily: "'Roboto', 'Helvetica', 'Arial', sans-serif",
-    marginBottom: '3px',
-    textDecoration: 'none'
-  },
-  grid: {
-    flexDirection: 'column',
-    justifyContent: 'center',
-    textAlign: 'center',
-    textTransform: 'uppercase'
-  },
-  footer: {
-    display: 'flex',
-    justifyContent: 'space-evenly'
-  },
-  formControl: {
-    margin: 11,
-    minWidth: 200
-  },
-
-  hoverEffect: {
-    '&:focus': {
-      backgroundColor: '#004de6',
-      color: 'white'
-    },
-    '&:hover': {
-      backgroundColor: '#004de6',
-      color: 'white',
-      opacity: '0.5'
-    }
-  }
+  ...peerReviewDetailsStyle
 }
 
 const useStyles = makeStyles(styles)
@@ -73,40 +40,45 @@ const PeerReviewDetails = props => {
     state => state.peerReviewReducer.peerReviewUpdateStatus
   )
   const tempArray = []
-  const peerReviewDetailHeader = ['Feilds', 'Data', 'Feilds', 'Data']
+  const peerReviewDetailHeader = []
   const [selectedStatus, setSelectedStatus] = useState('Active')
 
   if (reviewData) {
     tempArray.push(
       [
-        'Employee Under Review',
-        reviewData.employee_under_review,
-        'Employee Reviewing',
-        reviewData.employee_reviewing
+        <b>Employee Under Review</b>,
+        reviewData.employee_under_review.firstname +
+          ' ' +
+          reviewData.employee_under_review.lastname,
+        <b>Employee Reviewing</b>,
+        reviewData.employee_reviewing.firstname +
+          ' ' +
+          reviewData.employee_reviewing.lastname,
+        <b>Project</b>,
+        reviewData.project.title,
+        <b>Functional Manager</b>,
+        reviewData.functional_manager.firstname +
+          ' ' +
+          reviewData.functional_manager.lastname
       ],
       [
-        'Project',
-        reviewData.project,
-        'Functional Manager',
-        reviewData.functional_manager
-      ],
-      [
-        'Review From Date',
+        <b>Review From Date</b>,
         reviewData.from_date.slice(0, 10),
-        'Review To Date',
-        reviewData.to_date.slice(0, 10)
-      ],
-      [
-        'Due From Date',
+        <b>Review To Date</b>,
+        reviewData.to_date.slice(0, 10),
+        <b>Due From Date</b>,
         reviewData.due_from.slice(0, 10),
-        'Due To Date',
+        <b>Due To Date</b>,
         reviewData.due_to.slice(0, 10)
       ],
-      ['Form Link', reviewData.review_form_link, 'Status', reviewData.status],
       [
-        'Created Date',
+        <b>Form Link</b>,
+        reviewData.review_form_link,
+        <b>Status</b>,
+        reviewData.status,
+        <b>Created Date</b>,
         reviewData.created_date.slice(0, 10),
-        'Created By',
+        <b>Created By</b>,
         reviewData.created_by
       ]
     )

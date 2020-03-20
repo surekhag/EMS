@@ -1,9 +1,17 @@
 import { takeLatest, call, put } from 'redux-saga/effects'
-import { LOAD_ALL_USER_SELF_REVIEWS } from '../../actions/actionTypes.js'
-import { loadAllUserSelfReviews } from '../../api/selfReviewApi'
+import {
+  LOAD_ALL_USER_SELF_REVIEWS,
+  LOAD_ALL_SELF_REVIEWS
+} from '../../actions/actionTypes.js'
+import {
+  loadAllUserSelfReviews,
+  loadAllSelfReviews
+} from '../../api/selfReviewApi'
 import {
   setAllSelfReviewsForUser,
-  setAllSelfReviewsForUserError
+  setAllSelfReviewsForUserError,
+  setAllSelfReviews,
+  setAllSelfReviewsError
 } from '../../actions/selfReviewActions'
 
 function* workerLoadAllUserSelfReviewSaga({ payload }) {
@@ -13,7 +21,7 @@ function* workerLoadAllUserSelfReviewSaga({ payload }) {
     yield put(setAllSelfReviewsForUser(selfReviews.data.data))
   } catch (e) {
     if (e.response.data && e.response.data.message) {
-      //To do add code for all api calls .. invalid token case falls here
+      // To do add code for all api calls .. invalid token case falls here
       yield put(setAllSelfReviewsForUserError(e.response.data.message))
     } else {
       yield put(setAllSelfReviewsForUserError(e))
@@ -23,4 +31,22 @@ function* workerLoadAllUserSelfReviewSaga({ payload }) {
 
 export function* watchUserSelfReviewSaga() {
   yield takeLatest(LOAD_ALL_USER_SELF_REVIEWS, workerLoadAllUserSelfReviewSaga)
+}
+
+export function* workerLoadAllSelfReviewSaga() {
+  try {
+    const selfReviews = yield call(loadAllSelfReviews)
+    yield put(setAllSelfReviews(selfReviews.data.data))
+  } catch (e) {
+    if (e.response.data && e.response.data.message) {
+      // To do add code for all api calls .. invalid token case falls here
+      yield put(setAllSelfReviewsError(e.response.data.message))
+    } else {
+      yield put(setAllSelfReviewsError(e))
+    }
+  }
+}
+
+export function* watchSelfReviewSaga() {
+  yield takeLatest(LOAD_ALL_SELF_REVIEWS, workerLoadAllSelfReviewSaga)
 }

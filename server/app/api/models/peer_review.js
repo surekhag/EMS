@@ -2,22 +2,26 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const PeerReviewSchema = new Schema({
   employee_under_review: {
-    type: String,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
     trim: true,
     required: true
   },
   employee_reviewing: {
-    type: Array,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
     trim: true,
     required: true
   },
   project: {
-    type: String,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Project",
     trim: true,
     required: true
   },
   functional_manager: {
-    type: String,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
     trim: true,
     required: true
   },

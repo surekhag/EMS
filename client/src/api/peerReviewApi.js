@@ -8,8 +8,8 @@ import {
 export function loadAllPeerReviews() {
   return axios.get(FETCH_PEER_REVIEW)
 }
-export function loadAllUserPeerReviews() {
-  return axios.get(FETCH_USER_PEER)
+export function loadAllUserPeerReviews(id) {
+  return axios.get(FETCH_PEER_REVIEW + id)
 }
 export function createPeerReview(body) {
   return axios.post(CREATE_PEER_REVIEW, body)

@@ -48,6 +48,8 @@ function* workerCreatePeerReviewSaga({ payload }) {
   } catch (e) {
     yield put(setPeerReviewSuccess(e))
   }
+  const reviews = yield call(loadAllPeerReviews)
+  yield put(setAllPeerReviews(reviews))
 }
 
 export function* watchCreatePeerReviewSaga() {
@@ -56,10 +58,11 @@ export function* watchCreatePeerReviewSaga() {
 
 // Load Peer Reviews for User
 
-function* workerLoadUserPeerReviewSaga() {
+function* workerLoadUserPeerReviewSaga({ payload }) {
+  const id = payload.data
   try {
-    const peerReviews = yield call(loadAllUserPeerReviews)
-    yield put(setAllPeerForUser(peerReviews))
+    const peerReviews = yield call(loadAllUserPeerReviews, id)
+    yield put(setAllPeerForUser(peerReviews.data.data))
   } catch (e) {
     yield put(setAllPeerForUserError(e)) // todo
   }

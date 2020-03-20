@@ -2,72 +2,84 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const SelfReviewSchema = new Schema({   
-      employee_id : {
-        type: Number,
-        trim: true,
-        required: true,        
-      },    
-      project_ids: {
-        type: String,
-        trim: true,
-        required: true,        
-      },
-      from_date : {
-        type: Date,
-        trim: true,
-        required: true,        
-      },
-      to_date : {
-        type: Date,
-        trim: true,
-        required: true,        
-      },
-      due_from  : {
-        type: Date,
-        trim: true,
-        required: true,        
-      },
-      due_to  : {
-        type: Date,
-        trim: true,
-        required: true,        
-      }, 
-      review_form_link  : {
-        type: String,
-        trim: true,
-        required: true,        
-      },
-      status  : {
-        type: String,
-        trim: true,
-        required: true,        
-      },
-      feedback  : {
-        type: String,
-        trim: true,
-        required: true,        
-      },
-      created_date  : {
-        type: Date,
-        trim: true,
-        required: true,        
-      },
-      updated_date  : {
-        type: Date,
-        trim: true,
-        required: true,        
-      },
-      created_by  : {
-        type: String,
-        trim: true,
-        required: true,        
-      },
-      last_updated_by  : {
-        type: String,
-        trim: true,
-        required: true,        
-      },   
+const SelfReviewSchema = new Schema({
+  employee: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    trim: true,
+    required: true,
+  },
+  projects: {
+    type: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Project"
+      }
+    ],
+    trim: true,
+    required: true,
+  },
+  functional_manager: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    trim: true,
+    required: true
+  },
+  from_date: {
+    type: Date,
+    trim: true,
+    required: true,
+  },
+  to_date: {
+    type: Date,
+    trim: true,
+    required: true,
+  },
+  due_from: {
+    type: Date,
+    trim: true,
+    required: true,
+  },
+  due_to: {
+    type: Date,
+    trim: true,
+    required: true,
+  },
+  review_form_link: {
+    type: String,
+    trim: true,
+    required: true,
+  },
+  status: {
+    type: String,
+    trim: true,
+    required: true,
+  },
+  feedback: {
+    type: String,
+    trim: true,
+    required: true,
+  },
+  created_date: {
+    type: Date,
+    trim: true,
+    required: true,
+  },
+  updated_date: {
+    type: Date,
+    trim: true,
+    required: true,
+  },
+  created_by: {
+    type: String,
+    trim: true,
+    required: true,
+  },
+  last_updated_by: {
+    type: String,
+    trim: true,
+    required: true,
+  },
 });
 
 //todo add condition for rview submission

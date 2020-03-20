@@ -3,104 +3,34 @@ import React, { useEffect, useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import { compose } from 'redux'
 import { withToastManager, useToasts } from 'react-toast-notifications'
-
-import DateFnsUtils from '@date-io/date-fns'
 import { loadAllProjects } from '../../actions/projectAction'
 import { Formik, Form, ErrorMessage } from 'formik'
 import * as Yup from 'yup'
-import {
-  MuiPickersUtilsProvider,
-  KeyboardDatePicker
-} from '@material-ui/pickers'
 import withAuth from '../../HOC/withAuth'
 import {
   createPeerReview,
   updatePeerReview
 } from '../../actions/peerReviewAction'
 import { loadAllEmployeeData } from '../../actions/employeeAction'
-
 // core components
 import checkboxAdnRadioStyle from '../../assets/jss/material-dashboard-react/checkboxAdnRadioStyle.js'
+import createPeerFormStyle from '../../assets/jss/material-dashboard-react/components/createPeerFormStyle'
 import Grid from '@material-ui/core/Grid'
 import CustomInput from '../../components/CustomInput/CustomInput.js'
 import Button from '../../components/CustomButtons/Button.js'
+import DatePicker from '../../components/FromComponents/DatePicker'
+import SelectMenu from '../../components/FromComponents/SelectMenu'
 import Card from '../../components/Card/Card.js'
 import CardHeader from '../../components/Card/CardHeader.js'
 import MenuItem from '@material-ui/core/MenuItem'
-import Chip from '@material-ui/core/Chip'
-import Input from '@material-ui/core/Input'
-import InputLabel from '@material-ui/core/InputLabel'
-import FormControl from '@material-ui/core/FormControl'
-import Select from '@material-ui/core/Select'
 import CardBody from '../../components/Card/CardBody.js'
 import CardFooter from '../../components/Card/CardFooter.js'
+import validationSchema from './validationSchema'
 import { useSelector, useDispatch } from 'react-redux'
 
 const styles = {
   ...checkboxAdnRadioStyle,
-  cardCategoryWhite: {
-    color: 'rgba(255,255,255,.62)',
-    margin: '0',
-    fontSize: '14px',
-    marginTop: '0',
-    marginBottom: '0'
-  },
-  cardTitleWhite: {
-    color: '#FFFFFF',
-    marginTop: '0px',
-    minHeight: 'auto',
-    fontWeight: '300',
-    fontFamily: "'Roboto', 'Helvetica', 'Arial', sans-serif",
-    marginBottom: '3px',
-    textDecoration: 'none'
-  },
-  container: {
-    marginTop: '27px'
-  },
-  grid: {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    textAlign: 'right',
-    paddingRight: '30px',
-    textTransform: 'uppercase'
-  },
-  footerDisplay: {
-    justifyContent: 'space-evenly'
-  },
-  formControl: {
-    margin: '11px 0',
-    minWidth: '100%'
-  },
-  marginTop: {
-    margin: '0px'
-  },
-  widthSetting: {
-    width: '100%'
-  },
-  colorRed: {
-    color: 'red'
-  },
-  hoverEffect: {
-    '&:focus': {
-      backgroundColor: '#004de6',
-      color: 'white'
-    },
-    '&:hover': {
-      backgroundColor: '#004de6',
-      color: 'white',
-      opacity: '0.5'
-    }
-  },
-  chips: {
-    display: 'flex',
-    flexWrap: 'wrap'
-  },
-  chip: {
-    margin: 2,
-    backgroundColor: '#004de6',
-    color: 'white'
-  }
+  ...createPeerFormStyle
 }
 
 const useStyles = makeStyles(styles)
@@ -109,35 +39,32 @@ const CreatePeerForm = ({ updateInfo, ClickHandler }) => {
   const classes = useStyles()
   const { addToast } = useToasts()
   const [managers, setManagers] = useState()
-  const employeeData = useSelector(state => state.EmployeeInfo.employeeData)
-  const projects = useSelector(state => state.projectReducer.projects)
-  let initialValues
-  if (updateInfo) {
-    initialValues = {
-      employee_under_review: updateInfo.employee_under_review,
-      employee_reviewing: updateInfo.employee_reviewing,
-      project: updateInfo.project,
-      functional_manager: updateInfo.functional_manager,
-      from_date: updateInfo.from_date,
-      to_date: updateInfo.to_date,
-      due_from: updateInfo.due_from,
-      due_to: updateInfo.due_to,
-      review_form_link: updateInfo.review_form_link
-    }
-  } else {
-    initialValues = {
-      employee_under_review: '',
-      employee_reviewing: [],
-      project: '',
-      functional_manager: '',
-      from_date: new Date(),
-      to_date: new Date(),
-      due_from: new Date(),
-      due_to: new Date(),
-      review_form_link: ''
+  const {
+    employee_under_review,
+    employee_reviewing,
+    project,
+    functional_manager,
+    from_date,
+    to_date,
+    due_from,
+    due_to,
+    review_form_link
+  } = updateInfo || {}
+  const initialValues = updateInfo => {
+    return {
+      employee_under_review: updateInfo ? employee_under_review._id : '',
+      employee_reviewing: updateInfo ? employee_reviewing._id : [],
+      project: updateInfo ? project._id : '',
+      functional_manager: updateInfo ? functional_manager._id : '',
+      from_date: updateInfo ? from_date : new Date(),
+      to_date: updateInfo ? to_date : new Date(),
+      due_from: updateInfo ? due_from : new Date(),
+      due_to: updateInfo ? due_to : new Date(),
+      review_form_link: updateInfo ? review_form_link : ''
     }
   }
-
+  const employeeData = useSelector(state => state.EmployeeInfo.employeeData)
+  const projects = useSelector(state => state.projectReducer.projects)
   const peerReviewStatusMessage = useSelector(
     state => state.peerReviewReducer.peerReviewMessage
   )
@@ -148,32 +75,7 @@ const CreatePeerForm = ({ updateInfo, ClickHandler }) => {
     state => state.peerReviewReducer.peerReviewUpdateError
   )
   const dispatch = useDispatch()
-  const validationSchema = {
-    employee_under_review: Yup.string().required('Required'),
-    review_form_link: Yup.string().required('Required'),
-    employee_reviewing: Yup.string()
-      .notOneOf(
-        [Yup.ref('employee_under_review'), null],
-        'Employee under review must not equal to Employee reviewing'
-      )
-      .required('Required'),
-    from_date: Yup.date('Invalid date').required('required'),
-    to_date: Yup.date('Invalid date')
-      .test('', 'Must be greater than from date', function (value) {
-        const from_date = this.parent.from_date
-        return value > from_date
-      })
-      .required('required'),
-    due_from: Yup.date('Invalid date').required('required'),
-    due_to: Yup.date('Invalid date')
-      .test('', 'Must be greater than due from date', function (value) {
-        const due_from = this.parent.due_from
-        return value > due_from
-      })
-      .required('required'),
-    project: Yup.string().required('Required'),
-    functional_manager: Yup.string().required('Required')
-  }
+
   useEffect(() => {
     if (employeeData) {
       const emp = employeeData
@@ -235,7 +137,7 @@ const CreatePeerForm = ({ updateInfo, ClickHandler }) => {
   return (
     <Grid>
       <Formik
-        initialValues={initialValues}
+        initialValues={initialValues(updateInfo)}
         onSubmit={(values, { setSubmitting }) => {
           submitReview(values)
           setSubmitting(false)
@@ -254,128 +156,52 @@ const CreatePeerForm = ({ updateInfo, ClickHandler }) => {
                     Employee Under Review
                   </Grid>
                   <Grid xs={6} sm={6} md={3} item>
-                    <FormControl className={classes.formControl}>
-                      <Select
-                        name="employee_under_review"
-                        onChange={handleChange}
-                        value={values.employee_under_review}
-                        displayEmpty
-                      >
-                        <MenuItem
-                          className={classes.hoverEffect}
-                          value=""
-                          key={-1}
-                          disabled
-                        >
-                          Select Employee
-                        </MenuItem>
-                        {employeeData
-                          ? employeeData.map((prop, key) => {
+                    <SelectMenu
+                      name="employee_under_review"
+                      onChange={handleChange}
+                      disabledName="Select Employee"
+                      value={values.employee_under_review}
+                    >
+                      {employeeData
+                        ? employeeData.map((prop, key) => {
                             return prop.status !== 'Inactive' ? (
                               <MenuItem
                                 className={classes.hoverEffect}
-                                value={prop.userName}
+                                value={prop._id}
                                 key={key}
                               >
-                                {prop.userName}
+                                {prop.firstname} {prop.lastname}
                               </MenuItem>
                             ) : null
                           })
-                          : null}
-                      </Select>
-                    </FormControl>
-                    <ErrorMessage
-                      className={classes.colorRed}
-                      name="employee_under_review"
-                      component="div"
-                    />
+                        : null}
+                    </SelectMenu>
                   </Grid>
                   <Grid xs={6} sm={6} md={3} className={classes.grid} item>
                     Employee Reviewing
                   </Grid>
                   <Grid xs={6} sm={6} md={3} item>
-                    <FormControl className={classes.formControl}>
-                      {updateInfo
-                        ? <Select
-                          name="employee_reviewing"
-                          onChange={handleChange}
-                          value={values.employee_reviewing}
-                          displayEmpty
-                        >
-                          <MenuItem
-                            className={classes.hoverEffect}
-                            value=""
-                            key={-1}
-                            disabled
-                          >
-                            Select Employee
-                          </MenuItem>
-                          {employeeData
-                            ? employeeData.map((prop, key) => {
-                              return prop.status !== 'Inactive' ? (
-                                <MenuItem
-                                  className={classes.hoverEffect}
-                                  value={prop.userName}
-                                  key={key}
-                                >
-                                  {prop.userName}
-                                </MenuItem>
-                              ) : null
-                            })
-                            : null}
-                        </Select>
-                        : (
-                          <>
-                            <InputLabel>Select Employee</InputLabel>
-                            <Select
-                              id="demo-mutiple-chip"
-                              multiple
-                              name="employee_reviewing"
-                              onChange={handleChange}
-                              value={values.employee_reviewing}
-                              input={<Input id="select-multiple-chip" />}
-                              renderValue={selected => (
-                                <div className={classes.chips}>
-                                  {selected.map(value => (
-                                    <Chip
-                                      key={value}
-                                      label={value}
-                                      className={classes.chip}
-                                    />
-                                  ))}
-                                </div>
-                              )}
-                            >
+                    <SelectMenu
+                      name="employee_reviewing"
+                      onChange={handleChange}
+                      disabledName="Select Employee"
+                      value={values.employee_reviewing}
+                      multiple={!updateInfo}
+                    >
+                      {employeeData
+                        ? employeeData.map((prop, key) => {
+                            return prop.status !== 'Inactive' ? (
                               <MenuItem
                                 className={classes.hoverEffect}
-                                value=""
-                                key={-1}
-                                disabled
+                                value={prop._id}
+                                key={key}
                               >
-                                Select Employee
-                            </MenuItem>
-                              {employeeData
-                                ? employeeData.map((prop, key) => {
-                                  return prop.status !== 'Inactive' ? (
-                                    <MenuItem
-                                      className={classes.hoverEffect}
-                                      value={prop.userName}
-                                      key={key}
-                                    >
-                                      {prop.userName}
-                                    </MenuItem>
-                                  ) : null
-                                })
-                                : null}
-                            </Select>
-                          </>
-                        )}
-                    </FormControl>
-                    <ErrorMessage
-                      className={classes.colorRed}
-                      name="employee_reviewing"
-                      component="div"
-                    />
+                                {prop.firstname + ' ' + prop.lastname}
+                              </MenuItem>
+                            ) : null
+                          })
+                        : null}
+                    </SelectMenu>
                   </Grid>
                 </Grid>
                 <Grid className={classes.container} container>
@@ -383,185 +209,95 @@ const CreatePeerForm = ({ updateInfo, ClickHandler }) => {
                     Project
                   </Grid>
                   <Grid xs={6} sm={6} md={3} item>
-                    <FormControl className={classes.formControl}>
-                      <Select
-                        name="project"
-                        onChange={handleChange}
-                        value={values.project}
-                        displayEmpty
-                      >
-                        <MenuItem
-                          className={classes.hoverEffect}
-                          value=""
-                          key={-1}
-                          disabled
-                        >
-                          Select Project
-                        </MenuItem>
-                        {projects
-                          ? projects.map((prop, key) => {
+                    <SelectMenu
+                      name="project"
+                      onChange={handleChange}
+                      disabledName="Select Project"
+                      value={values.project}
+                    >
+                      {projects
+                        ? projects.map((prop, key) => {
                             return (
                               <MenuItem
                                 className={classes.hoverEffect}
-                                value={prop.title}
+                                value={prop._id}
                                 key={key}
                               >
                                 {prop.title}
                               </MenuItem>
                             )
                           })
-                          : null}
-                      </Select>
-                    </FormControl>
-                    <ErrorMessage
-                      className={classes.colorRed}
-                      name="project"
-                      component="div"
-                    />
+                        : null}
+                    </SelectMenu>
                   </Grid>
                   <Grid xs={6} sm={6} md={3} className={classes.grid} item>
                     Functional Manager
                   </Grid>
                   <Grid xs={6} sm={6} md={3} item>
-                    <FormControl className={classes.formControl}>
-                      <Select
-                        name="functional_manager"
-                        onChange={handleChange}
-                        value={values.functional_manager}
-                        displayEmpty
-                      >
-                        <MenuItem
-                          className={classes.hoverEffect}
-                          value=""
-                          key={-1}
-                          disabled
-                        >
-                          Select Manager
-                        </MenuItem>
-                        {managers
-                          ? managers.map(item => {
+                    <SelectMenu
+                      name="functional_manager"
+                      onChange={handleChange}
+                      disabledName="Select Manager"
+                      value={values.functional_manager}
+                    >
+                      {managers
+                        ? managers.map(item => {
                             return (
                               <MenuItem
-                                value={item.firstname + ' ' + item.lastname}
+                                value={item._id}
                                 className={classes.hoverEffect}
                               >
                                 {item.firstname + ' ' + item.lastname}
                               </MenuItem>
                             )
                           })
-                          : null}
-                      </Select>
-                    </FormControl>
-                    <ErrorMessage
-                      className={classes.colorRed}
-                      name="functional_manager"
-                      component="div"
-                    />
+                        : null}
+                    </SelectMenu>
                   </Grid>
                 </Grid>
                 <Grid className={classes.container} container>
                   <Grid xs={6} sm={6} md={3} className={classes.grid} item>
                     Review From Date
                   </Grid>
-                  <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                    <Grid xs={6} sm={6} md={3} item>
-                      <KeyboardDatePicker
-                        disableToolbar
-                        variant="inline"
-                        format="MM/dd/yyyy"
-                        name="from_date"
-                        margin="normal"
-                        className={classes.widthSetting}
-                        value={values.from_date}
-                        onChange={date => setFieldValue('from_date', date)}
-                        KeyboardButtonProps={{
-                          'aria-label': 'change date'
-                        }}
-                      />
-                      <ErrorMessage
-                        className={classes.colorRed}
-                        name="from_date"
-                        component="div"
-                      />
-                    </Grid>
-                  </MuiPickersUtilsProvider>
+                  <Grid xs={6} sm={6} md={3}>
+                    <DatePicker
+                      name="from_date"
+                      value={values.from_date}
+                      onChange={date => setFieldValue('from_date', date)}
+                    />
+                  </Grid>
                   <Grid xs={6} sm={6} md={3} className={classes.grid} item>
                     Review To Date
                   </Grid>
-                  <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                    <Grid xs={6} sm={6} md={3} item>
-                      <KeyboardDatePicker
-                        disableToolbar
-                        variant="inline"
-                        name="to_date"
-                        format="MM/dd/yyyy"
-                        className={classes.widthSetting}
-                        margin="normal"
-                        value={values.to_date}
-                        onChange={date => setFieldValue('to_date', date)}
-                        KeyboardButtonProps={{
-                          'aria-label': 'change date'
-                        }}
-                      />
-                      <ErrorMessage
-                        className={classes.colorRed}
-                        name="to_date"
-                        component="div"
-                      />
-                    </Grid>
-                  </MuiPickersUtilsProvider>
+                  <Grid xs={6} sm={6} md={3} item>
+                    <DatePicker
+                      name="to_date"
+                      value={values.to_date}
+                      onChange={date => setFieldValue('to_date', date)}
+                    />
+                  </Grid>
                 </Grid>
                 <Grid className={classes.container} container>
                   <Grid xs={6} sm={6} md={3} className={classes.grid} item>
                     Due From Date
                   </Grid>
-                  <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                    <Grid xs={6} sm={6} md={3} item>
-                      <KeyboardDatePicker
-                        disableToolbar
-                        variant="inline"
-                        name="due_from"
-                        format="MM/dd/yyyy"
-                        margin="normal"
-                        className={classes.widthSetting}
-                        value={values.due_from}
-                        onChange={date => setFieldValue('due_from', date)}
-                        KeyboardButtonProps={{
-                          'aria-label': 'change date'
-                        }}
-                      />
-                      <ErrorMessage
-                        className={classes.colorRed}
-                        name="due_from"
-                        component="div"
-                      />
-                    </Grid>
-                  </MuiPickersUtilsProvider>
+                  <Grid xs={6} sm={6} md={3} item>
+                    <DatePicker
+                      name="due_from"
+                      value={values.due_from}
+                      onChange={date => setFieldValue('due_from', date)}
+                    />
+                  </Grid>
                   <Grid xs={6} sm={6} md={3} className={classes.grid} item>
                     Due To Date
                   </Grid>
-                  <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                    <Grid xs={6} sm={6} md={3} item>
-                      <KeyboardDatePicker
-                        disableToolbar
-                        variant="inline"
-                        name="due_to"
-                        format="MM/dd/yyyy"
-                        margin="normal"
-                        className={classes.widthSetting}
-                        value={values.due_to}
-                        onChange={date => setFieldValue('due_to', date)}
-                        KeyboardButtonProps={{
-                          'aria-label': 'change date'
-                        }}
-                      />
-                      <ErrorMessage
-                        className={classes.colorRed}
-                        name="due_to"
-                        component="div"
-                      />
-                    </Grid>
-                  </MuiPickersUtilsProvider>
+                  <Grid xs={6} sm={6} md={3} item>
+                    <DatePicker
+                      name="due_to"
+                      value={values.due_to}
+                      onChange={date => setFieldValue('due_to', date)}
+                    />
+                  </Grid>
                 </Grid>
                 <Grid className={classes.container} container>
                   <Grid xs={6} sm={6} md={3} className={classes.grid} item>
@@ -596,10 +332,10 @@ const CreatePeerForm = ({ updateInfo, ClickHandler }) => {
                     UPDATE PEER REVIEW
                   </Button>
                 ) : (
-                    <Button type="submit" color="primary" disabled={isSubmitting}>
-                      CREATE PEER REVIEW
-                    </Button>
-                  )}
+                  <Button type="submit" color="primary" disabled={isSubmitting}>
+                    CREATE PEER REVIEW
+                  </Button>
+                )}
                 <Button type="submit" color="primary" onClick={ClickHandler}>
                   Close
                 </Button>

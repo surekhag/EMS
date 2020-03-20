@@ -59,6 +59,9 @@ const style = {
       opacity: '0.5'
     }
   }
+  // DialogWidth: {
+  //   maxWidth: false
+  // }
 }
 
 const useStyles = makeStyles(style)
@@ -126,9 +129,11 @@ const PeerReview = props => {
   if (peerReviewData) {
     filteredEmployee = peerReviewData.data.data.filter(
       cls =>
-        cls.employee_under_review
-          .toLowerCase()
-          .includes(selectedEmployee.toLowerCase().trim()) &&
+        cls.employee_under_review.firstname +
+          ' ' +
+          cls.employee_under_review.lastname
+            .toLowerCase()
+            .includes(selectedEmployee.toLowerCase().trim()) &&
         cls.status !== 'Inactive'
     )
     filteredEmployee.map((review, key) => {
@@ -137,10 +142,14 @@ const PeerReview = props => {
           className={classes.showPointer}
           onClick={() => viewDetailHandler(review)}
         >
-          {review.employee_under_review}
+          {review.employee_under_review.firstname +
+            ' ' +
+            review.employee_under_review.lastname}
         </span>,
-        review.employee_reviewing,
-        review.project,
+        review.employee_reviewing.firstname +
+          ' ' +
+          review.employee_reviewing.lastname,
+        review.project.title,
         review.to_date.slice(0, 10),
         review.status
       ])
@@ -203,10 +212,10 @@ const PeerReview = props => {
                       return prop.status !== 'Inactive' ? (
                         <MenuItem
                           className={classes.hoverEffect}
-                          value={prop.userName}
+                          value={prop.firstname + ' ' + prop.lastname}
                           key={key}
                         >
-                          {prop.userName}
+                          {prop.firstname} {prop.lastname}
                         </MenuItem>
                       ) : null
                     })
@@ -243,12 +252,12 @@ const PeerReview = props => {
         <DialogActions>
           <GridItem xs={12} sm={12} md={12}>
             <p> Are you sure you want to delete this Peer Review ? </p>
-            <Button color="success" size="sm" onClick={handleYesDelete}>
+            <Button color="black" size="sm" onClick={handleYesDelete}>
               {' '}
               Yes
             </Button>{' '}
             <Button
-              color="danger"
+              color="white"
               size="sm"
               onClick={() => setShowDelDialog(false)}
             >
@@ -258,7 +267,12 @@ const PeerReview = props => {
           </GridItem>
         </DialogActions>
       </Dialog>
-      <Dialog title="Peer Review Details" modal={true} open={showDetailsDialog}>
+      <Dialog
+        title="Peer Review Details"
+        maxWidth="lg"
+        modal={true}
+        open={showDetailsDialog}
+      >
         <DialogActions>
           <GridItem xs={12} sm={12} md={12}>
             <PeerReviewDetails reviewData={reviewDetails}></PeerReviewDetails>
