@@ -9,7 +9,7 @@ import Grid from '@material-ui/core/Grid'
 import Button from '../CustomButtons/Button.js'
 import Card from '../Card/Card.js'
 import CardHeader from '../Card/CardHeader.js'
-import checkboxAdnRadioStyle from '../../assets/jss/material-dashboard-react/checkboxAdnRadioStyle'
+import { selfReviewStyles } from './SelfReviewStyles'
 import Table from '../Table/Table'
 import CardBody from '../Card/CardBody.js'
 import CardFooter from '../Card/CardFooter.js'
@@ -22,59 +22,20 @@ import {
 
 import { useDispatch, useSelector } from 'react-redux'
 import { useToasts, withToastManager } from 'react-toast-notifications'
-
-const styles = {
-  ...checkboxAdnRadioStyle,
-  cardTitleWhite: {
-    color: '#FFFFFF',
-    marginTop: '0px',
-    minHeight: 'auto',
-    fontWeight: '300',
-    fontFamily: "'Roboto', 'Helvetica', 'Arial', sans-serif",
-    marginBottom: '3px',
-    textDecoration: 'none'
-  },
-  grid: {
-    flexDirection: 'column',
-    justifyContent: 'center',
-    textAlign: 'center',
-    textTransform: 'uppercase'
-  },
-  footer: {
-    display: 'flex',
-    justifyContent: 'space-evenly'
-  },
-  formControl: {
-    margin: 11,
-    minWidth: 200
-  },
-
-  hoverEffect: {
-    '&:focus': {
-      backgroundColor: '#004de6',
-      color: 'white'
-    },
-    '&:hover': {
-      backgroundColor: '#004de6',
-      color: 'white',
-      opacity: '0.5'
-    }
-  },
-  disabledButton: {
-    disabled: 'disabled'
-  }
-}
-
+import {
+  userSelfReviewUpdateErrorMsg,
+  userSelfReviewUpdateStatusMsg
+} from './selectors'
+const styles = selfReviewStyles
 const useStyles = makeStyles(styles)
-
 const SelfReviewDetails = props => {
   const classes = useStyles()
   const { selfReviewDeatails, projectDetails, ClickHandler } = props
   const { addToast } = useToasts()
   const dispatch = useDispatch()
   const selfReviewDetailHeader = ['Self Review Details', '']
-  let temp = []
-  temp.push(
+  let tableData = []
+  tableData.push(
     ['Employee Id', selfReviewDeatails.employee_id],
     ['Projects', projectDetails[0]],
     ['From Date', projectDetails[1]],
@@ -89,13 +50,9 @@ const SelfReviewDetails = props => {
     ['Review Form Link', selfReviewDeatails.review_form_link]
   )
 
-  const [selectedStatus, setSelectedStatus] = useState()
-  const userSelfReviewUpdateError = useSelector(
-    state => state.selfReviewReducer.userSelfReviewUpdateError
-  )
-  const userSelfReviewUpdateStatus = useSelector(
-    state => state.selfReviewReducer.userSelfReviewUpdateStatus
-  )
+  const [selectedStatus, setSelectedStatus] = useState('Active')
+  const userSelfReviewUpdateError = useSelector(userSelfReviewUpdateErrorMsg)
+  const userSelfReviewUpdateStatus = useSelector(userSelfReviewUpdateStatusMsg)
   const { currentUser } = useContext(UserContext)
 
   useEffect(() => {
@@ -142,7 +99,7 @@ const SelfReviewDetails = props => {
               <Table
                 tableHeaderColor="gray"
                 tableHead={selfReviewDetailHeader}
-                tableData={temp || null}
+                tableData={tableData || null}
                 showLink={false}
               />
               <Grid xs={6} sm={6} md={6} item>
@@ -171,7 +128,7 @@ const SelfReviewDetails = props => {
             type="submit"
             color="primary"
             onClick={updateHandler}
-            disabled={selectedStatus ? null : 'disabled'}
+            disabled={selectedStatus === 'Active' ? 'disabled' : null}
           >
             UPDATE REVIEW
           </Button>

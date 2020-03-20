@@ -23,8 +23,11 @@ import styles from '../../assets/jss/material-dashboard-react/views/dashboardSty
 import withAuth from '../../HOC/withAuth'
 import { UserContext } from '../../context-provider/user-context'
 import { loadAllProjects } from '../../actions/projectAction'
-import { loadAllEmployeeData } from '../../actions/employeeAction.js'
-
+import {
+  projectSelector,
+  userPeerReview,
+  userSelfReviewDeatils
+} from './selectors'
 const useStyles = makeStyles(styles)
 const Dashboard = props => {
   const classes = useStyles()
@@ -32,7 +35,7 @@ const Dashboard = props => {
   const [showDetail, setShowDetail] = useState(false)
   const [showSelfReviewDetail, setShowSelfreviewDetail] = useState(false)
   const [peerDetails, setPeerDetails] = useState('')
-  const [selfReviewDetails, setSelfReviewDetails] = useState()
+  const [selfReviewDetails, setSelfReviewDetails] = useState(null)
   const [projectDetails, setProjectDetails] = useState()
   const { currentUser } = useContext(UserContext)
   const dispatch = useDispatch()
@@ -50,14 +53,10 @@ const Dashboard = props => {
     'Due Fom Date',
     'Status'
   ]
-  const peerReviews = useSelector(
-    state => state.peerReviewReducer.userPeerReview
-  )
-  const userSelfReviews = useSelector(
-    state => state.selfReviewReducer.userSelfReviewDeatils
-  )
-  const projectData = useSelector(state => state.projectReducer.projects)
-  // const employeeData = useSelector(state => state.EmployeeInfo.employeeData)
+
+  const peerReviews = useSelector(userPeerReview)
+  const userSelfReviews = useSelector(userSelfReviewDeatils)
+  const projectData = useSelector(projectSelector)
 
   useEffect(() => {
     dispatch(loadAllPeerForUser())
