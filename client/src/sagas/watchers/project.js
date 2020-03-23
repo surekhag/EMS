@@ -63,8 +63,12 @@ function* workerAddProjectSaga(userinfo) {
     yield put(loadAllProjects())
   } catch (e) {
     if (e.response.data && e.response.data.message) {
-      // To do add code for all api calls .. invalid token case falls here
-      yield put(setNewProjectError(e.response.data.message))
+ if (e.response.data.message.indexOf('duplicate') !== -1) {
+        yield put(setNewProjectError('Project Already Exist!'))
+      } else {
+        // To do add code for all api calls .. invalid token case falls here
+        yield put(setNewProjectError(e.response.data.message))
+      }     
     } else {
       yield put(setNewProjectError(e))
     }
