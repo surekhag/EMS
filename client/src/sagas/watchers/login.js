@@ -24,7 +24,7 @@ function* workerLoginSaga(userinfo) {
   }
 }
 
-export default function* watchLoginSaga() {
+export function* watchLoginSaga() {
   yield takeLatest(LOGIN_TO_SITE, workerLoginSaga)
 }
 

@@ -3,7 +3,8 @@ import {
   LOGIN_TO_SITE_SUCCESS,
   USER_ATHENTICATION,
   LOGIN_TO_SITE_ERROR,
-  SESSION_EXPIRED
+  SESSION_EXPIRED,
+  CLEAR_LOGIN_ERRORS
 } from './actionTypes'
 
 export const loginToSite = (username, password) => {
@@ -42,5 +43,10 @@ export const authenticateUserSession = () => {
 export const sessionExpired = () => {
   return {
     type: SESSION_EXPIRED
+  }
+}
+export const clearErrors = () => {
+  return {
+    type: CLEAR_LOGIN_ERRORS
   }
 }

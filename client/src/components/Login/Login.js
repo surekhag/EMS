@@ -1,12 +1,8 @@
 import React, { useState, useEffect } from 'react'
-import { useSelector, connect } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { withToastManager, useToasts } from 'react-toast-notifications'
-// @material-ui/core components
 import { makeStyles } from '@material-ui/core/styles'
-import { loginToSite } from '../../actions/loginAction'
-
-// @material-ui/icons
-// core components
+import { loginToSite, clearErrors } from '../../actions/loginAction'
 import checkboxAdnRadioStyle from '../../assets/jss/material-dashboard-react/checkboxAdnRadioStyle'
 import GridItem from '../Grid/GridItem'
 import GridContainer from '../Grid/GridContainer'
@@ -47,13 +43,13 @@ const Login = props => {
   const [username, setUserName] = useState('')
   const [password, setPassword] = useState('')
   const [redirect, setRedirect] = useState(false)
-
+  const dispatch = useDispatch()
   const userInfo = useSelector(state => state.loginReducer.currentUser)
   const error = useSelector(state => state.loginReducer.error)
 
   const handleFormSubmit = e => {
     e.preventDefault()
-    props.loginToSite(username, password)
+    dispatch(loginToSite(username, password))
   }
 
   useEffect(() => {
@@ -66,6 +62,7 @@ const Login = props => {
   useEffect(() => {
     if (error) {
       addToast(error, { appearance: 'error', autoDismiss: true })
+      dispatch(clearErrors())
     }
   }, [error, addToast])
 
@@ -135,7 +132,4 @@ const Login = props => {
   )
 }
 
-const mapDispatchToProps = dispatch => ({
-  loginToSite: (username, password) => dispatch(loginToSite(username, password))
-})
-export default connect(null, mapDispatchToProps)(withToastManager(Login))
+export default withToastManager(Login)

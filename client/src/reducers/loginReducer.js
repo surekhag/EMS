@@ -2,7 +2,8 @@ import {
   LOGIN_TO_SITE_SUCCESS,
   LOGIN_TO_SITE_ERROR,
   SESSION_EXPIRED,
-  LOGOUT_FROM_SITE
+  LOGOUT_FROM_SITE,
+  CLEAR_LOGIN_ERRORS
 } from '../actions/actionTypes.js'
 
 const initialState = {
@@ -40,6 +41,11 @@ const loginReducer = (state = initialState, action) => {
         currentUser: null,
         error: null,
         isLoading: false
+      }
+    case CLEAR_LOGIN_ERRORS:
+      return {
+        ...state,
+        error: null
       }
     default:
       return state

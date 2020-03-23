@@ -4,7 +4,7 @@ import {
   watchEmployeeInfoSaga,
   watchDeleteEmployeeSaga
 } from './watchers/employeeInfo.js'
-import watchLoginSaga, { watchAuthenticateSaga } from './watchers/login'
+import { watchLoginSaga, watchAuthenticateSaga } from './watchers/login'
 
 import {
   watchPeerReviewSaga,
