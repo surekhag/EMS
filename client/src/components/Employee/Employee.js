@@ -50,7 +50,7 @@ import {
   updateUserStatusSuccess,
   updateUserErrorMsg,
   addNewUserError
-} from './selectors'
+} from '../../selectors/employeeSelectors'
 
 const styles = employeeStyles
 const useStyles = makeStyles(styles)

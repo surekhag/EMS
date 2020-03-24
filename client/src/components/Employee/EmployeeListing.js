@@ -18,7 +18,7 @@ import {
 } from '../../actions/employeeAction'
 import { useToasts } from 'react-toast-notifications'
 import Employee from './Employee'
-import { deleteEmployeeSuccessMsg, deleteEmployeeErrors } from './selectors'
+import { deleteEmployeeSuccessMsg, deleteEmployeeErrors } from '../../selectors/employeeSelectors'
 const useStyles = makeStyles(styles)
 const EmployeeListing = props => {
   const { employeeData, setPageView } = props
