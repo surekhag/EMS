@@ -23,12 +23,12 @@ import styles from '../../assets/jss/material-dashboard-react/views/dashboardSty
 import withAuth from '../../HOC/withAuth'
 import { UserContext } from '../../context-provider/user-context'
 import { loadAllProjects } from '../../actions/projectAction'
-import {formatDate} from '../../helpers/formatDates'
+import { formatDate } from '../../helpers/formatDates'
 import {
   userPeerReview,
   userSelfReviewDeatils
 } from '../../selectors/reviewSelectors'
-import {projectSelector} from '../../selectors/projectSelectors'
+import { projectSelector } from '../../selectors/projectSelectors'
 const useStyles = makeStyles(styles)
 const Dashboard = props => {
   const classes = useStyles()
@@ -57,11 +57,9 @@ const Dashboard = props => {
 
   const peerReviews = useSelector(userPeerReview)
   const userSelfReviews = useSelector(userSelfReviewDeatils)
-  const projectData = useSelector(projectSelector)
-
   useEffect(() => {
     dispatch(loadAllPeerForUser(currentUser._id))
-    dispatch(loadAllSelfReviewsForUser(currentUser.employee_id))
+    dispatch(loadAllSelfReviewsForUser(currentUser._id))
   }, [dispatch])
 
   useEffect(() => {
@@ -77,20 +75,20 @@ const Dashboard = props => {
     filteredEmployee = peerReviews.filter(
       cls =>
         cls.employee_under_review.firstname +
-          ' ' +
-          cls.employee_under_review.lastname
-            .toLowerCase()
-            .includes(searchText.toLowerCase().trim()) &&
+        ' ' +
+        cls.employee_under_review.lastname
+          .toLowerCase()
+          .includes(searchText.toLowerCase().trim()) &&
         cls.status !== 'Done' &&
         cls.status !== 'Inactive'
     )
     filteredEmployee.map((review, key) => {
       tempArr.push([
         review.employee_under_review.firstname +
-          ' ' +
-          review.employee_under_review.lastname,
+        ' ' +
+        review.employee_under_review.lastname,
         review.project.title,
-        review.to_date.slice(0, 10),
+        formatDate(review.to_date),
         review.status
       ])
       return 1
@@ -102,18 +100,16 @@ const Dashboard = props => {
   if (
     userSelfReviews &&
     userSelfReviews.length > 0 &&
-    userReviewDetailsArr.length == 0 &&
-    projectData
+    userReviewDetailsArr.length == 0
   ) {
     userSelfReviews.map((review, key1) => {
-      projects = review.project_ids.split(',')
-      projectData.map((item, key) => {
-        if (projects[key] && item._id == projects[key].trim()) {
+      review.projects.map((item, key) => {
+        {
           projectsArr.push([item.title])
         }
       })
       userReviewDetailsArr.push([
-        projectsArr.join('\n'),
+        projectsArr.join(','),
         formatDate(review.from_date),
         formatDate(review.to_date),
         formatDate(review.due_from),
@@ -156,68 +152,68 @@ const Dashboard = props => {
           ClickHandler={closeSelfReiewDetails}
         />
       ) : (
-        <GridContainer>
-          <GridItem xs={12} sm={12} md={12}>
-            <InputLabel className={classes.cardTitle}>
-              Welcome {currentUser ? currentUser.userName : null}
-            </InputLabel>
-          </GridItem>
-          <GridItem xs={12} sm={12} md={12}>
-            <CustomInput
-              formControlProps={{
-                className: classes.margin + ' ' + classes.search
-              }}
-              inputProps={{
-                onChange: changeHandler,
-                placeholder: 'Search Peer',
-                inputProps: {
-                  'aria-label': 'Search'
-                }
-              }}
-            />
-            <Button color="white" aria-label="edit" justIcon round>
-              <Search />
-            </Button>
-          </GridItem>
-          <GridItem xs={12} sm={12} md={12}>
-            <Card plain>
-              <CardHeader plain color="primary">
-                <h4 className={classes.cardTitleWhite}>PEER REVIEWS</h4>
-              </CardHeader>
-              <CardBody>
-                <Table
-                  tableHeaderColor="gray"
-                  tableHead={peerReviewListingHeader}
-                  tableData={tempArr || null}
-                  showLink={true}
-                  buttonText="Details"
-                  onClickHandler={onClickHandler}
+            <GridContainer>
+              <GridItem xs={12} sm={12} md={12}>
+                <InputLabel className={classes.cardTitle}>
+                  Welcome {currentUser ? currentUser.userName : null}
+                </InputLabel>
+              </GridItem>
+              <GridItem xs={12} sm={12} md={12}>
+                <CustomInput
+                  formControlProps={{
+                    className: classes.margin + ' ' + classes.search
+                  }}
+                  inputProps={{
+                    onChange: changeHandler,
+                    placeholder: 'Search Peer',
+                    inputProps: {
+                      'aria-label': 'Search'
+                    }
+                  }}
                 />
-              </CardBody>
-            </Card>
-          </GridItem>
+                <Button color="white" aria-label="edit" justIcon round>
+                  <Search />
+                </Button>
+              </GridItem>
+              {peerReviews ? <GridItem xs={12} sm={12} md={12}>
+                <Card plain>
+                  <CardHeader plain color="primary">
+                    <h4 className={classes.cardTitleWhite}>PEER REVIEWS</h4>
+                  </CardHeader>
+                  <CardBody>
+                    <Table
+                      tableHeaderColor="gray"
+                      tableHead={peerReviewListingHeader}
+                      tableData={tempArr || null}
+                      showLink={true}
+                      buttonText="Details"
+                      onClickHandler={onClickHandler}
+                    />
+                  </CardBody>
+                </Card>
+              </GridItem> : null}
 
-          {userSelfReviews && userSelfReviews.length > 0 ? (
-            <GridItem xs={12} sm={12} md={12}>
-              <Card plain>
-                <CardHeader plain color="primary">
-                  <h4 className={classes.cardTitleWhite}>SELF REVIEW</h4>
-                </CardHeader>
-                <CardBody>
-                  <Table
-                    tableHeaderColor="gray"
-                    tableHead={SelfReviewListingHeader}
-                    tableData={userReviewDetailsArr || null}
-                    showLink={true}
-                    buttonText="Details"
-                    onClickHandler={handleSelfReviewDetails}
-                  />
-                </CardBody>
-              </Card>
-            </GridItem>
-          ) : null}
-        </GridContainer>
-      )}
+              {userSelfReviews && userSelfReviews.length > 0 ? (
+                <GridItem xs={12} sm={12} md={12}>
+                  <Card plain>
+                    <CardHeader plain color="primary">
+                      <h4 className={classes.cardTitleWhite}>SELF REVIEW</h4>
+                    </CardHeader>
+                    <CardBody>
+                      <Table
+                        tableHeaderColor="gray"
+                        tableHead={SelfReviewListingHeader}
+                        tableData={userReviewDetailsArr || null}
+                        showLink={true}
+                        buttonText="Details"
+                        onClickHandler={handleSelfReviewDetails}
+                      />
+                    </CardBody>
+                  </Card>
+                </GridItem>
+              ) : null}
+            </GridContainer>
+          )}
     </div>
   )
 }

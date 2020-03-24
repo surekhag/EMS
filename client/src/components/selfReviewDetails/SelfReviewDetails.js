@@ -36,7 +36,7 @@ const SelfReviewDetails = props => {
   const selfReviewDetailHeader = ['Self Review Details', '']
   let tableData = []
   tableData.push(
-    ['Employee Id', selfReviewDeatails.employee_id],
+    ['Employee', selfReviewDeatails.employee.firstname + ' ' + selfReviewDeatails.employee.lastname],
     ['Projects', projectDetails[0]],
     ['From Date', projectDetails[1]],
     ['To Date', projectDetails[2]],
@@ -88,7 +88,7 @@ const SelfReviewDetails = props => {
   }
   return (
     <Grid>
-      
+
       <Card>
         <CardHeader color="primary">
           <h4 className={classes.cardTitleWhite}>REVIEW DETAILS</h4>

@@ -30,7 +30,9 @@ import CardBody from '../../components/Card/CardBody'
 import CardFooter from '../../components/Card/CardFooter'
 import validationSchema from './validationSchema'
 import { useSelector, useDispatch } from 'react-redux'
-
+import { employeeDataSelector, managerDataSelector } from '../../selectors/employeeSelectors'
+import { projectSelector } from '../../selectors/projectSelectors'
+import { peerReviewUpdateStatusSelector, peerReviewMessageSelector, peerReviewUpdateErrorSelector } from '../../selectors/reviewSelectors'
 const styles = {
   ...checkboxAdnRadioStyle,
   ...createPeerFormStyle
@@ -65,18 +67,12 @@ const CreatePeerForm = ({ updateInfo, ClickHandler }) => {
       review_form_link: updateInfo ? review_form_link : ''
     }
   }
-  const employeeData = useSelector(state => state.EmployeeInfo.employeeData)
-  const managers = useSelector(state => state.EmployeeInfo.managers)
-  const projects = useSelector(state => state.projectReducer.projects)
-  const peerReviewStatusMessage = useSelector(
-    state => state.peerReviewReducer.peerReviewMessage
-  )
-  const peerReviewUpdateStatus = useSelector(
-    state => state.peerReviewReducer.peerReviewUpdateStatus
-  )
-  const peerReviewUpdateError = useSelector(
-    state => state.peerReviewReducer.peerReviewUpdateError
-  )
+  const employeeData = useSelector(employeeDataSelector)
+  const managers = useSelector(managerDataSelector)
+  const projects = useSelector(projectSelector)
+  const peerReviewStatusMessage = useSelector(peerReviewMessageSelector)
+  const peerReviewUpdateStatus = useSelector(peerReviewUpdateStatusSelector)
+  const peerReviewUpdateError = useSelector(peerReviewUpdateErrorSelector)
   const dispatch = useDispatch()
 
   useEffect(() => {

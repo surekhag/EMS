@@ -21,45 +21,21 @@ import PeerReviewDetails from '../../components/PeerReviewDetails/PeerReviewDeta
 import MenuItem from '@material-ui/core/MenuItem'
 import FormControl from '@material-ui/core/FormControl'
 import Select from '@material-ui/core/Select'
-
+import { formatDate } from '../../helpers/formatDates'
 import withAuth from '../../HOC/withAuth'
 import { loadAllEmployeeData } from '../../actions/employeeAction'
+import { employeeDataSelector } from '../../selectors/employeeSelectors'
+import { peerReviewDataSelector, peerReviewDeleteSuccessSelector, peerReviewDeleteErrorSelector } from '../../selectors/reviewSelectors'
 import {
   loadAllPeerReviews,
   deletePeerReview
 } from '../../actions/peerReviewAction'
-import styles from '../../assets/jss/material-dashboard-react/views/dashboardStyle'
+import dashboardStyle from '../../assets/jss/material-dashboard-react/views/dashboardStyle'
+import styles from './styles'
 
 const style = {
-  ...styles,
-  formControl: {
-    margin: 11,
-    minWidth: 200
-  },
-  selectEmpty: {
-    marginTop: 10
-  },
-  grid: {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    textAlign: 'center'
-  },
-  showPointer: {
-    cursor: 'pointer'
-  },
-  hoverEffect: {
-    '&:focus': {
-      backgroundColor: '#004de6',
-      color: 'white'
-    },
-    '&:hover': {
-      backgroundColor: '#004de6',
-      color: 'white',
-      opacity: '0.5'
-    }
-  }
-
+  ...dashboardStyle,
+  ...styles
 }
 
 const useStyles = makeStyles(style)
@@ -83,16 +59,10 @@ const PeerReview = props => {
   const [showDetailsDialog, setShowDetailsDialog] = useState(false)
   const [reviewDetails, setReviewDetails] = useState('')
   const links = ['Update', 'Delete']
-  const employeeData = useSelector(state => state.EmployeeInfo.employeeData)
-  const peerReviewData = useSelector(
-    state => state.peerReviewReducer.peerReviewData
-  )
-  const peerReviewDeleteSuccess = useSelector(
-    state => state.peerReviewReducer.peerReviewDeleteSuccess
-  )
-  const peerReviewDeleteError = useSelector(
-    state => state.peerReviewReducer.peerReviewDeleteError
-  )
+  const employeeData = useSelector(employeeDataSelector)
+  const peerReviewData = useSelector(peerReviewDataSelector)
+  const peerReviewDeleteSuccess = useSelector(peerReviewDeleteSuccessSelector)
+  const peerReviewDeleteError = useSelector(peerReviewDeleteErrorSelector)
   useEffect(() => {
     dispatch(loadAllEmployeeData())
     dispatch(loadAllPeerReviews())
@@ -151,7 +121,7 @@ const PeerReview = props => {
         ' ' +
         review.employee_reviewing.lastname,
         review.project.title,
-        review.to_date.slice(0, 10),
+        formatDate(review.to_date),
         review.status
       ])
       return 1

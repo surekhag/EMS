@@ -1,23 +1,23 @@
 const Self_Review_Model = require("../models/self_review");
 module.exports = {
-  create: function(req, res, next) {
-    const {employee_id,
-    projects,
-    from_date, 
-    to_date,
-    due_from,
-    due_to, 
-    feedback,
-    functional_manager,
-    review_form_link, 
-    status='Active',
-    created_date =new Date(),
-    updated_date= new Date(),
-    created_by = req.user.userName, 
-    last_updated_by = req.user.userName} =req.body;
+  create: function (req, res, next) {
+    const { employee,
+      projects,
+      from_date,
+      to_date,
+      due_from,
+      due_to,
+      feedback,
+      functional_manager,
+      review_form_link,
+      status = 'Active',
+      created_date = new Date(),
+      updated_date = new Date(),
+      created_by = req.user.userName,
+      last_updated_by = req.user.userName } = req.body;
     Self_Review_Model.create(
       {
-        employee_id,        
+        employee,
         projects,
         from_date,
         to_date,
@@ -103,20 +103,20 @@ module.exports = {
       });
   },
   getForUser: function (req, res, next) {
-    Self_Review_Model.find({ employee_id: req.params.employee_id }, function (
-      err,
-      users
-    ) {
-      if (err) {
-        next(err);
-      } else {
-        res.json({
-          status: "success",
-          message: "Self Review list found!!!",
-          data: users
-        });
-      }
-    });
+    Self_Review_Model.find({ employee: req.params.employee_id }).populate('projects', 'title')
+      .populate('employee', 'firstname lastname')
+      .populate('functional_manager', 'firstname lastname')
+      .exec(function (err, reviews) {
+        if (err) {
+          next(err);
+        } else {
+          res.json({
+            status: "success",
+            message: "Self Review list found!!!",
+            data: reviews
+          });
+        }
+      });
   },
 
   delete: function (req, res, next) {

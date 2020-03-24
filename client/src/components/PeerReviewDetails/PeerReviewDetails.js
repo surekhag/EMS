@@ -14,7 +14,8 @@ import peerReviewDetailsStyle from '../../assets/jss/material-dashboard-react/co
 import Table from '../Table/Table'
 import CardBody from '../../components/Card/CardBody'
 import CardFooter from '../../components/Card/CardFooter'
-
+import { peerReviewUpdateStatusSelector } from '../../selectors/reviewSelectors'
+import { formatDate } from '../../helpers/formatDates'
 import {
   updatePeerReview,
   setUpdateReviewStatus,
@@ -36,9 +37,7 @@ const PeerReviewDetails = props => {
   const { reviewData, ClickHandler } = props
   const { addToast } = useToasts()
   const dispatch = useDispatch()
-  const peerReviewUpdateStatus = useSelector(
-    state => state.peerReviewReducer.peerReviewUpdateStatus
-  )
+  const peerReviewUpdateStatus = useSelector(peerReviewUpdateStatusSelector)
   const tableDataArray = []
   const peerReviewDetailHeader = []
   const [selectedStatus, setSelectedStatus] = useState('Active')
@@ -63,13 +62,13 @@ const PeerReviewDetails = props => {
       ],
       [
         <b>Review From Date</b>,
-        reviewData.from_date.slice(0, 10),
+        formatDate(reviewData.from_date),
         <b>Review To Date</b>,
-        reviewData.to_date.slice(0, 10),
+        formatDate(reviewData.to_date),
         <b>Due From Date</b>,
-        reviewData.due_from.slice(0, 10),
+        formatDate(reviewData.due_from),
         <b>Due To Date</b>,
-        reviewData.due_to.slice(0, 10)
+        formatDate(reviewData.due_to)
       ],
       [
         <b>Form Link</b>,
@@ -77,7 +76,7 @@ const PeerReviewDetails = props => {
         <b>Status</b>,
         reviewData.status,
         <b>Created Date</b>,
-        reviewData.created_date.slice(0, 10),
+        formatDate(reviewData.created_date),
         <b>Created By</b>,
         reviewData.created_by
       ]

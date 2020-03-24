@@ -1,6 +1,9 @@
 export function employeeDataSelector(state) {
   return state.EmployeeInfo.employeeData
 }
+export function managerDataSelector(state) {
+  return state.EmployeeInfo.managers
+}
 export function addNewUserError(state) {
   return state.userReducer.error
 }
