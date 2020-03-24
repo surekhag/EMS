@@ -18,6 +18,7 @@ import MenuItem from '@material-ui/core/MenuItem'
 import FormControl from '@material-ui/core/FormControl'
 import { Formik, Form, ErrorMessage } from 'formik'
 import { useSelector, useDispatch } from 'react-redux'
+import DatePicker from '../../components/FromComponents/DatePicker'
 import {
   formikInitialValues,
   formikInitialValuesAddUser,
@@ -456,62 +457,20 @@ const Employee = props => {
                       </div>
                     </GridItem>
                     <GridItem xs={12} sm={12} md={4}>
-                      <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                        <Grid
-                          container
-                          justify="flex-start"
-                          style={{ paddingLeft: 11, paddingRight: 11 }}
-                        >
-                          <KeyboardDatePicker
-                            disableToolbar
-                            variant="inline"
-                            format="MM/dd/yyyy"
-                            margin="normal"
-                            name="dateofbirth"
-                            label="Date Of Birth"
-                            value={values.dateofbirth}
-                            onChange={date =>
-                              setFieldValue('dateofbirth', date)
-                            }
-                            KeyboardButtonProps={{
-                              'aria-label': 'change date'
-                            }}
-                            fullWidth
-                          />
-                        </Grid>
-                      </MuiPickersUtilsProvider>
-                      <div className={classes.error}>
-                        <ErrorMessage name="dateofbirth" />
-                      </div>
+                       <DatePicker
+                      name="dateofbirth"
+                      value={values.dateofbirth}
+                      label="Date Of Birth"
+                      onChange={date => setFieldValue('dateofbirth', date)}
+                    />                      
                     </GridItem>
                     <GridItem xs={12} sm={12} md={4}>
-                      <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                        <Grid
-                          container
-                          justify="flex-start"
-                          style={{ paddingLeft: 11, paddingRight: 11 }}
-                        >
-                          <KeyboardDatePicker
-                            disableToolbar
-                            variant="inline"
-                            format="MM/dd/yyyy"
-                            margin="normal"
-                            name="dateofjoining"
-                            label="Date Of Joining"
-                            value={values.dateofjoining}
-                            onChange={date =>
-                              setFieldValue('dateofjoining', date)
-                            }
-                            KeyboardButtonProps={{
-                              'aria-label': 'change date'
-                            }}
-                            fullWidth
-                          />
-                        </Grid>
-                      </MuiPickersUtilsProvider>
-                      <div className={classes.error}>
-                        <ErrorMessage name="dateofjoining" />
-                      </div>
+                       <DatePicker
+                      name="dateofjoining"
+                      value={values.dateofjoining}
+                      label="Date Of Joining"
+                      onChange={date => setFieldValue('dateofjoining', date)}
+                    />                     
                     </GridItem>
                     <GridItem xs={12} sm={12} md={6}>
                       <FormControl className={classes.formControl}>
