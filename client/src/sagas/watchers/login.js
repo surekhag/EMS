@@ -1,5 +1,5 @@
 import { put, takeLatest, call } from 'redux-saga/effects'
-import { LOGIN_TO_SITE, USER_ATHENTICATION } from '../../actions/actionTypes.js'
+import { LOGIN_TO_SITE, USER_ATHENTICATION } from '../../actions/actionTypes'
 import {
   loginToSiteSuccess,
   loginToSiteError,

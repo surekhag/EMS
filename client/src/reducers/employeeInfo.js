@@ -3,7 +3,7 @@ import {
   DELETE_EMPLOYEE_SUCCESS,
   DELETE_EMPLOYEE_ERROR,
   CLEAR_DELETE_EMPLOYEE_MESSAGE
-} from '../actions/actionTypes.js'
+} from '../actions/actionTypes'
 
 const initialState = {
   employeeData: null,

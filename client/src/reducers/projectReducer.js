@@ -7,7 +7,7 @@ import {
   CLEAR_PROJECT_STATUS_MESSAGE,
   DELETE_PROJECT_SUCCESS,
   DELETE_PROJECT_ERROR
-} from '../actions/actionTypes.js'
+} from '../actions/actionTypes'
 
 const initialState = {
   projects: null,

@@ -4,7 +4,7 @@ import {
   SET_SELF_REVIEW_UPDATE_STATUS,
   SET_SELF_REVIEW_UPDATE_ERROR,
   CLEAR_REVIEW_STATUS
-} from '../actions/actionTypes.js'
+} from '../actions/actionTypes'
 
 const initialState = {
   userSelfReviewDeatils: null,

@@ -6,13 +6,13 @@ import Checkbox from '@material-ui/core/Checkbox'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 // core components
 import Grid from '@material-ui/core/Grid'
-import Button from '../CustomButtons/Button.js'
-import Card from '../Card/Card.js'
-import CardHeader from '../Card/CardHeader.js'
+import Button from '../CustomButtons/Button'
+import Card from '../Card/Card'
+import CardHeader from '../Card/CardHeader'
 import { selfReviewStyles } from './SelfReviewStyles'
 import Table from '../Table/Table'
-import CardBody from '../Card/CardBody.js'
-import CardFooter from '../Card/CardFooter.js'
+import CardBody from '../Card/CardBody'
+import CardFooter from '../Card/CardFooter'
 import { UserContext } from '../../context-provider/user-context'
 import {
   updateSelfReview,

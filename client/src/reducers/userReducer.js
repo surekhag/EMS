@@ -4,7 +4,7 @@ import {
   CLEAR_USER_STATUS_MESSAGE,
   SET_UPDATE_USER_SUCCESS,
   SET_UPDATE_USER_ERROR
-} from '../actions/actionTypes.js'
+} from '../actions/actionTypes'
 
 const initialState = {
   addNewUserStatus: null,

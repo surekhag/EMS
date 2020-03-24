@@ -4,7 +4,7 @@ import {
   UPDATE_PROJECT,
   DELETE_PROJECT,
   ADD_NEW_PROJECT
-} from '../../actions/actionTypes.js'
+} from '../../actions/actionTypes'
 import {
   loadAllProjectsApi,
   deleteProjectApi,
