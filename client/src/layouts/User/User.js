@@ -4,14 +4,14 @@ import PerfectScrollbar from 'perfect-scrollbar'
 import 'perfect-scrollbar/css/perfect-scrollbar.css'
 import { makeStyles } from '@material-ui/core/styles'
 import bgImage from '../../assets/img/sidebar-2.jpg'
-import Navbar from '../../components/Navbars/Navbar.js'
-import Footer from '../../components/Footer/Footer.js'
-import Sidebar from '../../components/Sidebar/Sidebar.js'
+import Navbar from '../../components/Navbars/Navbar'
+import Footer from '../../components/Footer/Footer'
+import Sidebar from '../../components/Sidebar/Sidebar'
 import {
   dashboardRoutesAdmin as adminRoutes,
   dashboardRoutes as userRoutes
-} from '../../routes.js'
-import styles from '../../assets/jss/material-dashboard-react/layouts/userStyle.js'
+} from '../../routes'
+import styles from '../../assets/jss/material-dashboard-react/layouts/userStyle'
 import logo from '../../assets/img/oelogo.png'
 import { UserContext } from '../../context-provider/user-context'
 
@@ -57,7 +57,7 @@ const useStyles = makeStyles(styles)
 
 export default function User({ ...rest }) {
   const { currentUser } = useContext(UserContext)
-  const [routes, setRoutes] = useState()
+  const [routes, setRoutes] = useState(null)
   const [switchRoutes, setSwitchRoutes] = useState()
 
   // styles

@@ -19,7 +19,8 @@ import {
   setNewProjectSuccess,
   setNewProjectError,
   setUpdateProjectSuccess,
-  setUpdateProjectError
+  setUpdateProjectError,
+  setAllProjectsDataError
 } from '../../actions/projectAction'
 
 function* workerLoadAllProjects() {
@@ -27,8 +28,12 @@ function* workerLoadAllProjects() {
     const projects = yield call(loadAllProjectsApi)
     yield put(setAllProjectsData(projects))
   } catch (e) {
-    console.log(e)
-    // yield put(setAllProjectsDataError(e)); //todo
+     if (e.response.data && e.response.data.message) {
+         // To do add code for all api calls .. invalid token case falls here
+      yield put(setAllProjectsDataError(e.response.data.message))
+    } else {
+      yield put(setAllProjectsDataError(e))
+    }
   }
 }
 

@@ -1,5 +1,5 @@
 import { put, takeLatest, call } from 'redux-saga/effects'
-import { ADD_NEW_USER, UPDATE_USER } from '../../actions/actionTypes.js'
+import { ADD_NEW_USER, UPDATE_USER } from '../../actions/actionTypes'
 import {
   setNewUserSuccess,
   setNewUserError,

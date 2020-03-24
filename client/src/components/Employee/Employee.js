@@ -166,8 +166,7 @@ const Employee = props => {
             <Card id="add_new_employee">
               <Form ref={userForm}>
                 <CardHeader color="primary">
-                  <h4 className={classes.cardTitleWhite}>
-                    
+                  <h4 className={classes.cardTitleWhite}>                    
                     {userToUpdate ? 'UPDATE EMPLOYEE' : 'ADD EMPLOYEE '}
                   </h4>
                 </CardHeader>
@@ -539,8 +538,7 @@ const Employee = props => {
                     </GridItem>
                     <GridItem xs={12} sm={12} md={6}>
                       <FormControl className={classes.formControl}>
-                        <InputLabel htmlFor="work_location">
-                          
+                        <InputLabel htmlFor="work_location">                          
                           Work Location
                         </InputLabel>
                         <Select

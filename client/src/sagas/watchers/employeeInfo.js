@@ -3,16 +3,16 @@ import { put, takeLatest, call } from 'redux-saga/effects'
 import {
   LOAD_ALL_EMPLOYEE_SAGA,
   DELETE_EMPLOYEE
-} from '../../actions/actionTypes.js'
+} from '../../actions/actionTypes'
 import {
   setAllEmployeeData,
   deleteEmployeeSuccess,
   deleteEmployeeError
-} from '../../actions/employeeAction.js'
+} from '../../actions/employeeAction'
 import {
   loadAllEmployeeData,
   deleteEmployeeApi
-} from '../../api/employeeApi.js'
+} from '../../api/employeeApi'
 
 function* workerEmployeeInfoSaga() {
   try {

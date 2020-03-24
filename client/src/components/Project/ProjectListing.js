@@ -1,20 +1,21 @@
-import Table from '../Table/Table.js'
+import Table from '../Table/Table'
 import { useSelector, useDispatch } from 'react-redux'
-import Card from '../Card/Card.js'
-import CardHeader from '../Card/CardHeader.js'
-import CardBody from '../Card/CardBody.js'
+import Card from '../Card/Card'
+import CardHeader from '../Card/CardHeader'
+import CardBody from '../Card/CardBody'
 import React, { useState, useEffect } from 'react'
-// import GridItem from '../../components/Grid/GridItem.js'
+// import GridItem from '../../components/Grid/GridItem'
 import { makeStyles } from '@material-ui/core/styles'
-import Button from '../CustomButtons/Button.js'
+import Button from '../CustomButtons/Button'
 import styles from '../../assets/jss/material-dashboard-react/views/dashboardStyle'
-import GridItem from '../Grid/GridItem.js'
+import GridItem from '../Grid/GridItem'
 // import DialogActions from '@material-ui/core/DialogActions';
 import { Dialog, DialogActions } from '@material-ui/core'
 import { deleteProject, clearProjectMsg } from '../../actions/projectAction'
 import { useToasts } from 'react-toast-notifications'
 import Employee from './Project'
 import {deleteProjectSuccessMsg,deleteProjectErrorMsg } from '../../selectors/projectSelectors'
+import {getMonthOfDate, getDayOfDate} from '../../helpers/formatDates'
 const useStyles = makeStyles(styles)
 const ProjectListing = props => {
   const { projectData, setPageView } = props
@@ -72,14 +73,14 @@ const ProjectListing = props => {
 
       const start = new Date(startdate)
       const end = new Date(enddate)
-      const mnth = ('0' + (start.getMonth() + 1)).slice(-2)
-      const day = ('0' + start.getDate()).slice(-2)
+      const mnth = getMonthOfDate (start)
+      const day = getDayOfDate(start) 
       startdate = [day, mnth, start.getFullYear()].join('/')
 
       let formattedEnddate
       if (enddate) {
-        const mnth = ('0' + (end.getMonth() + 1)).slice(-2)
-        const day = ('0' + end.getDate()).slice(-2)
+        const mnth = getMonthOfDate (end)
+        const day = getDayOfDate(end)
         formattedEnddate = [day, mnth, end.getFullYear()].join('/')
       }
       enddate = enddate ? formattedEnddate : '-'

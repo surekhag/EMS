@@ -9,20 +9,21 @@ import InputLabel from '@material-ui/core/InputLabel'
 // @material-ui/icons
 import Search from '@material-ui/icons/Search'
 // core components
-import CustomInput from '../../components/CustomInput/CustomInput.js'
-import Button from '../../components/CustomButtons/Button.js'
-import GridItem from '../../components/Grid/GridItem.js'
-import GridContainer from '../../components/Grid/GridContainer.js'
-import Table from '../../components/Table/Table.js'
-import Card from '../../components/Card/Card.js'
-import CardHeader from '../../components/Card/CardHeader.js'
-import CardBody from '../../components/Card/CardBody.js'
+import CustomInput from '../../components/CustomInput/CustomInput'
+import Button from '../../components/CustomButtons/Button'
+import GridItem from '../../components/Grid/GridItem'
+import GridContainer from '../../components/Grid/GridContainer'
+import Table from '../../components/Table/Table'
+import Card from '../../components/Card/Card'
+import CardHeader from '../../components/Card/CardHeader'
+import CardBody from '../../components/Card/CardBody'
 import PeerReviewDetails from '../../components/PeerReviewDetails/PeerReviewDetails'
 import SelfReviewDetails from '../../components/selfReviewDetails/SelfReviewDetails'
 import styles from '../../assets/jss/material-dashboard-react/views/dashboardStyle'
 import withAuth from '../../HOC/withAuth'
 import { UserContext } from '../../context-provider/user-context'
 import { loadAllProjects } from '../../actions/projectAction'
+import {formatDate} from '../../helpers/formatDates'
 import {
   userPeerReview,
   userSelfReviewDeatils
@@ -113,9 +114,9 @@ const Dashboard = props => {
       })
       userReviewDetailsArr.push([
         projectsArr.join('\n'),
-        review.from_date.slice(0, 10),
-        review.to_date.slice(0, 10),
-        review.due_from.slice(0, 10),
+        formatDate(review.from_date),
+        formatDate(review.to_date),
+        formatDate(review.due_from),
         review.status
       ])
       projectsArr = []
