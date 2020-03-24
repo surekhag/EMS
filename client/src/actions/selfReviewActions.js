@@ -13,7 +13,8 @@ import {
   SET_SELF_REVIEW_ERROR,
   DELETE_SELF_REVIEW,
   DELETE_SELF_REVIEW_SUCCESS,
-  DELETE_SELF_REVIEW_ERROR
+  DELETE_SELF_REVIEW_ERROR,
+  CLEAR_REVIEW_STATUS
 } from './actionTypes'
 
 export function loadAllSelfReviews() {
@@ -111,5 +112,11 @@ export function peerReviewDeleteFailue(data) {
   return {
     type: DELETE_SELF_REVIEW_ERROR,
     payload: { data }
+  }
+}
+
+export function clearReviewStatus() {
+  return {
+    type: CLEAR_REVIEW_STATUS
   }
 }

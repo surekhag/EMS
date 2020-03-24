@@ -2,23 +2,37 @@ const Self_Review_Model = require("../models/self_review");
 const Projects_Model = require("../models/projects");
 const Users_Model = require("../models/users");
 module.exports = {
-  create: function (req, res, next) {
+  create: function(req, res, next) {
+    const {employee_id,
+    projects,
+    from_date, 
+    to_date,
+    due_from,
+    due_to, 
+    feedback,
+    functional_manager,
+    review_form_link, 
+    status='Active',
+    created_date =new Date(),
+    updated_date= new Date(),
+    created_by = req.user.userName, 
+    last_updated_by = req.user.userName} =req.body;
     Self_Review_Model.create(
       {
-        employee: req.body.employee_id,
-        projects: req.body.project_ids,
-        functional_manager: req.body.manager_id,
-        from_date: req.body.from_date,
-        to_date: req.body.to_date,
-        due_from: req.body.due_from,
-        due_to: req.body.due_to,
-        feedback: req.body.feedback,
-        review_form_link: req.body.review_form_link,
-        status: "Active",
-        created_date: new Date(),
-        updated_date: new Date(),
-        created_by: req.user.userName,
-        last_updated_by: req.user.userName
+        employee_id,        
+        projects,
+        from_date,
+        to_date,
+        due_from,
+        due_to,
+        feedback,
+        functional_manager,
+        review_form_link,
+        status,
+        created_date,
+        updated_date,
+        created_by,
+        last_updated_by
       },
       function (err, result) {
         if (err) next(err);
@@ -100,7 +114,7 @@ module.exports = {
       } else {
         res.json({
           status: "success",
-          message: "Peer Review list found!!!",
+          message: "Self Review list found!!!",
           data: users
         });
       }

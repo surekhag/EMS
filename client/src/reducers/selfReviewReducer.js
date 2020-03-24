@@ -1,17 +1,18 @@
 import {
   SET_ALL_USER_SELF_REVIEWS,
   SET_ALL_USER_SELF_REVIEWS_ERROR,
-  SET_ALL_SELF_REVIEWS,
-  SET_ALL_SELF_REVIEWS_ERROR
+  SET_SELF_REVIEW_UPDATE_STATUS,
+  SET_SELF_REVIEW_UPDATE_ERROR,
+  CLEAR_REVIEW_STATUS
 } from '../actions/actionTypes.js'
 
 const initialState = {
   userSelfReviewDeatils: null,
   userSelfReviewDeatilsError: null,
-  selfReviewDetails: null,
-  selfReviewDetailsError: null
+  userSelfReviewUpdateStatus: null,
+  userSelfReviewUpdateError: null
 }
-export default function peerReviewReducer(state = initialState, action) {
+export default function selfReviewReducer(state = initialState, action) {
   switch (action.type) {
     case SET_ALL_USER_SELF_REVIEWS:
       return {
@@ -23,17 +24,22 @@ export default function peerReviewReducer(state = initialState, action) {
         ...state,
         userSelfReviewDeatilsError: action.payload.data
       }
-    case SET_ALL_SELF_REVIEWS:
+    case SET_SELF_REVIEW_UPDATE_STATUS:
       return {
         ...state,
-        selfReviewDetails: action.payload.data
+        userSelfReviewUpdateStatus: action.payload.data
       }
-    case SET_ALL_SELF_REVIEWS_ERROR:
+    case SET_SELF_REVIEW_UPDATE_ERROR:
       return {
         ...state,
-        selfReviewDetailsError: action.payload.data
+        userSelfReviewUpdateError: action.payload.data
       }
-
+    case CLEAR_REVIEW_STATUS:
+      return {
+        ...state,
+        userSelfReviewUpdateError: null,
+        userSelfReviewUpdateStatus: null
+      }
     default:
       return state
   }

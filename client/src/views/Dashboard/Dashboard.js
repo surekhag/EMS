@@ -18,12 +18,16 @@ import Card from '../../components/Card/Card.js'
 import CardHeader from '../../components/Card/CardHeader.js'
 import CardBody from '../../components/Card/CardBody.js'
 import PeerReviewDetails from '../../components/PeerReviewDetails/PeerReviewDetails'
+import SelfReviewDetails from '../../components/selfReviewDetails/SelfReviewDetails'
 import styles from '../../assets/jss/material-dashboard-react/views/dashboardStyle'
 import withAuth from '../../HOC/withAuth'
 import { UserContext } from '../../context-provider/user-context'
 import { loadAllProjects } from '../../actions/projectAction'
-import { loadAllEmployeeData } from '../../actions/employeeAction.js'
-
+import {
+  projectSelector,
+  userPeerReview,
+  userSelfReviewDeatils
+} from './selectors'
 const useStyles = makeStyles(styles)
 const Dashboard = props => {
   const classes = useStyles()
@@ -31,7 +35,8 @@ const Dashboard = props => {
   const [showDetail, setShowDetail] = useState(false)
   const [showSelfReviewDetail, setShowSelfreviewDetail] = useState(false)
   const [peerDetails, setPeerDetails] = useState('')
-  const [selfReviewDetails, setSelfReviewDetails] = useState()
+  const [selfReviewDetails, setSelfReviewDetails] = useState(null)
+  const [projectDetails, setProjectDetails] = useState()
   const { currentUser } = useContext(UserContext)
   const dispatch = useDispatch()
   const peerReviewListingHeader = [
@@ -48,14 +53,10 @@ const Dashboard = props => {
     'Due Fom Date',
     'Status'
   ]
-  const peerReviews = useSelector(
-    state => state.peerReviewReducer.userPeerReview
-  )
-  const userSelfReviews = useSelector(
-    state => state.selfReviewReducer.userSelfReviewDeatils
-  )
-  const projectData = useSelector(state => state.projectReducer.projects)
-  // const employeeData = useSelector(state => state.EmployeeInfo.employeeData)
+
+  const peerReviews = useSelector(userPeerReview)
+  const userSelfReviews = useSelector(userSelfReviewDeatils)
+  const projectData = useSelector(projectSelector)
 
   useEffect(() => {
     dispatch(loadAllPeerForUser(currentUser._id))
@@ -125,13 +126,21 @@ const Dashboard = props => {
     setPeerDetails(filteredEmployee[key])
     setShowDetail(true)
   }
+  const handleSelfReviewDetails = key => {
+    setSelfReviewDetails(userSelfReviews[key])
+    setProjectDetails(userReviewDetailsArr[key])
+    setShowSelfreviewDetail(true)
+  }
+
   const changeHandler = e => {
     setsearchText(e.target.value)
   }
   const detailsSwitchHandler = () => {
     setShowDetail(false)
   }
-
+  const closeSelfReiewDetails = () => {
+    setShowSelfreviewDetail(false)
+  }
   return (
     <div>
       {showDetail ? (
@@ -139,6 +148,12 @@ const Dashboard = props => {
           reviewData={peerDetails}
           ClickHandler={detailsSwitchHandler}
         ></PeerReviewDetails>
+      ) : showSelfReviewDetail ? (
+        <SelfReviewDetails
+          selfReviewDeatails={selfReviewDetails}
+          projectDetails={projectDetails}
+          ClickHandler={closeSelfReiewDetails}
+        />
       ) : (
         <GridContainer>
           <GridItem xs={12} sm={12} md={12}>
@@ -180,29 +195,28 @@ const Dashboard = props => {
               </CardBody>
             </Card>
           </GridItem>
+
+          {userSelfReviews && userSelfReviews.length > 0 ? (
+            <GridItem xs={12} sm={12} md={12}>
+              <Card plain>
+                <CardHeader plain color="primary">
+                  <h4 className={classes.cardTitleWhite}>SELF REVIEW</h4>
+                </CardHeader>
+                <CardBody>
+                  <Table
+                    tableHeaderColor="gray"
+                    tableHead={SelfReviewListingHeader}
+                    tableData={userReviewDetailsArr || null}
+                    showLink={true}
+                    buttonText="Details"
+                    onClickHandler={handleSelfReviewDetails}
+                  />
+                </CardBody>
+              </Card>
+            </GridItem>
+          ) : null}
         </GridContainer>
       )}
-
-      {/* self review started */}
-      {/* <GridContainer>
-        <GridItem xs={12} sm={12} md={12}>
-          <Card plain>
-            <CardHeader plain color="primary">
-              <h4 className={classes.cardTitleWhite}>SELF REVIEW</h4>
-            </CardHeader>
-            <CardBody>
-              <Table
-                tableHeaderColor="gray"
-                tableHead={SelfReviewListingHeader}
-                tableData={userReviewDetailsArr || null}
-                showLink={true}
-                buttonText="Details"
-                onClickHandler={onClickHandler}
-              />
-            </CardBody>
-          </Card>
-        </GridItem>
-      </GridContainer> */}
     </div>
   )
 }
