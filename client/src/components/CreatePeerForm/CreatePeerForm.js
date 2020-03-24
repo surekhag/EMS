@@ -9,22 +9,25 @@ import * as Yup from 'yup'
 import withAuth from '../../HOC/withAuth'
 import {
   createPeerReview,
-  updatePeerReview
+  updatePeerReview,
+  setPeerReviewSuccess,
+  setUpdateReviewStatus,
+  setUpdateReviewError
 } from '../../actions/peerReviewAction'
-import { loadAllEmployeeData } from '../../actions/employeeAction'
+import { loadAllEmployeeData, loadManagers } from '../../actions/employeeAction'
 // core components
-import checkboxAdnRadioStyle from '../../assets/jss/material-dashboard-react/checkboxAdnRadioStyle.js'
+import checkboxAdnRadioStyle from '../../assets/jss/material-dashboard-react/checkboxAdnRadioStyle'
 import createPeerFormStyle from '../../assets/jss/material-dashboard-react/components/createPeerFormStyle'
 import Grid from '@material-ui/core/Grid'
-import CustomInput from '../../components/CustomInput/CustomInput.js'
-import Button from '../../components/CustomButtons/Button.js'
+import CustomInput from '../../components/CustomInput/CustomInput'
+import Button from '../../components/CustomButtons/Button'
 import DatePicker from '../../components/FromComponents/DatePicker'
 import SelectMenu from '../../components/FromComponents/SelectMenu'
-import Card from '../../components/Card/Card.js'
-import CardHeader from '../../components/Card/CardHeader.js'
+import Card from '../../components/Card/Card'
+import CardHeader from '../../components/Card/CardHeader'
 import MenuItem from '@material-ui/core/MenuItem'
-import CardBody from '../../components/Card/CardBody.js'
-import CardFooter from '../../components/Card/CardFooter.js'
+import CardBody from '../../components/Card/CardBody'
+import CardFooter from '../../components/Card/CardFooter'
 import validationSchema from './validationSchema'
 import { useSelector, useDispatch } from 'react-redux'
 
@@ -38,7 +41,6 @@ const useStyles = makeStyles(styles)
 const CreatePeerForm = ({ updateInfo, ClickHandler }) => {
   const classes = useStyles()
   const { addToast } = useToasts()
-  const [managers, setManagers] = useState()
   const {
     employee_under_review,
     employee_reviewing,
@@ -64,6 +66,7 @@ const CreatePeerForm = ({ updateInfo, ClickHandler }) => {
     }
   }
   const employeeData = useSelector(state => state.EmployeeInfo.employeeData)
+  const managers = useSelector(state => state.EmployeeInfo.managers)
   const projects = useSelector(state => state.projectReducer.projects)
   const peerReviewStatusMessage = useSelector(
     state => state.peerReviewReducer.peerReviewMessage
@@ -77,17 +80,9 @@ const CreatePeerForm = ({ updateInfo, ClickHandler }) => {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    if (employeeData) {
-      const emp = employeeData
-      const managers = emp.filter(item => {
-        if (item.userRole === 'Manager' && item.status === 'Active') return item
-      })
-      setManagers(managers)
-    }
-  }, [employeeData])
-  useEffect(() => {
     dispatch(loadAllProjects())
     dispatch(loadAllEmployeeData())
+    dispatch(loadManagers())
   }, [dispatch])
   useEffect(() => {
     if (peerReviewStatusMessage) {
@@ -102,7 +97,11 @@ const CreatePeerForm = ({ updateInfo, ClickHandler }) => {
           autoDismiss: true
         })
       }
-    } else if (peerReviewUpdateStatus) {
+      dispatch(setPeerReviewSuccess(''));
+    }
+  }, [peerReviewStatusMessage, addToast, dispatch])
+  useEffect(() => {
+    if (peerReviewUpdateStatus) {
       if (peerReviewUpdateStatus.status === 200) {
         addToast('Peer Review successfully updated', {
           appearance: 'success',
@@ -114,19 +113,19 @@ const CreatePeerForm = ({ updateInfo, ClickHandler }) => {
           autoDismiss: true
         })
       }
-    } else if (peerReviewUpdateError) {
+      dispatch(setUpdateReviewStatus(''))
+    }
+  }, [peerReviewUpdateStatus, addToast, dispatch])
+
+  useEffect(() => {
+    if (peerReviewUpdateError) {
       addToast('Error while saving form', {
         appearance: 'error',
         autoDismiss: true
       })
+      dispatch(setUpdateReviewError())
     }
-  }, [
-    peerReviewStatusMessage,
-    peerReviewUpdateStatus,
-    peerReviewUpdateError,
-    addToast,
-    dispatch
-  ])
+  }, [peerReviewUpdateError, addToast, dispatch])
   const submitReview = values => {
     if (updateInfo) {
       dispatch(updatePeerReview(updateInfo._id, values))
@@ -164,16 +163,16 @@ const CreatePeerForm = ({ updateInfo, ClickHandler }) => {
                     >
                       {employeeData
                         ? employeeData.map((prop, key) => {
-                            return prop.status !== 'Inactive' ? (
-                              <MenuItem
-                                className={classes.hoverEffect}
-                                value={prop._id}
-                                key={key}
-                              >
-                                {prop.firstname} {prop.lastname}
-                              </MenuItem>
-                            ) : null
-                          })
+                          return prop.status !== 'Inactive' ? (
+                            <MenuItem
+                              className={classes.hoverEffect}
+                              value={prop._id}
+                              key={key}
+                            >
+                              {prop.firstname} {prop.lastname}
+                            </MenuItem>
+                          ) : null
+                        })
                         : null}
                     </SelectMenu>
                   </Grid>
@@ -190,16 +189,16 @@ const CreatePeerForm = ({ updateInfo, ClickHandler }) => {
                     >
                       {employeeData
                         ? employeeData.map((prop, key) => {
-                            return prop.status !== 'Inactive' ? (
-                              <MenuItem
-                                className={classes.hoverEffect}
-                                value={prop._id}
-                                key={key}
-                              >
-                                {prop.firstname + ' ' + prop.lastname}
-                              </MenuItem>
-                            ) : null
-                          })
+                          return prop.status !== 'Inactive' ? (
+                            <MenuItem
+                              className={classes.hoverEffect}
+                              value={prop._id}
+                              key={key}
+                            >
+                              {prop.firstname + ' ' + prop.lastname}
+                            </MenuItem>
+                          ) : null
+                        })
                         : null}
                     </SelectMenu>
                   </Grid>
@@ -217,16 +216,16 @@ const CreatePeerForm = ({ updateInfo, ClickHandler }) => {
                     >
                       {projects
                         ? projects.map((prop, key) => {
-                            return (
-                              <MenuItem
-                                className={classes.hoverEffect}
-                                value={prop._id}
-                                key={key}
-                              >
-                                {prop.title}
-                              </MenuItem>
-                            )
-                          })
+                          return (
+                            <MenuItem
+                              className={classes.hoverEffect}
+                              value={prop._id}
+                              key={key}
+                            >
+                              {prop.title}
+                            </MenuItem>
+                          )
+                        })
                         : null}
                     </SelectMenu>
                   </Grid>
@@ -242,15 +241,15 @@ const CreatePeerForm = ({ updateInfo, ClickHandler }) => {
                     >
                       {managers
                         ? managers.map(item => {
-                            return (
-                              <MenuItem
-                                value={item._id}
-                                className={classes.hoverEffect}
-                              >
-                                {item.firstname + ' ' + item.lastname}
-                              </MenuItem>
-                            )
-                          })
+                          return (
+                            <MenuItem
+                              value={item._id}
+                              className={classes.hoverEffect}
+                            >
+                              {item.firstname + ' ' + item.lastname}
+                            </MenuItem>
+                          )
+                        })
                         : null}
                     </SelectMenu>
                   </Grid>
@@ -315,7 +314,6 @@ const CreatePeerForm = ({ updateInfo, ClickHandler }) => {
                         value: values.review_form_link,
                         name: 'review_form_link',
                         onChange: handleChange
-                        // required: true
                       }}
                     ></CustomInput>
                     <ErrorMessage
@@ -332,10 +330,10 @@ const CreatePeerForm = ({ updateInfo, ClickHandler }) => {
                     UPDATE PEER REVIEW
                   </Button>
                 ) : (
-                  <Button type="submit" color="primary" disabled={isSubmitting}>
-                    CREATE PEER REVIEW
-                  </Button>
-                )}
+                    <Button type="submit" color="primary" disabled={isSubmitting}>
+                      CREATE PEER REVIEW
+                    </Button>
+                  )}
                 <Button type="submit" color="primary" onClick={ClickHandler}>
                   Close
                 </Button>

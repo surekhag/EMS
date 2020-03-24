@@ -2,6 +2,7 @@
 const HOST = 'http://localhost:3001'
 export const FETCH_EMPLOYEE_URL = HOST + '/users/'
 export const LOGIN_URL = HOST + '/users/login'
+export const FETCH_MANAGER_URL = HOST + '/users/managers'
 export const USER_AUTHENTICATION_URL = HOST + '/authorization'
 export const FETCH_ALL_PROJECTS = HOST + '/projects'
 export const FETCH_PEER_REVIEW = HOST + '/peersReview/'

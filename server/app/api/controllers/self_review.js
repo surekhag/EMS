@@ -1,6 +1,4 @@
 const Self_Review_Model = require("../models/self_review");
-const Projects_Model = require("../models/projects");
-const Users_Model = require("../models/users");
 module.exports = {
   create: function (req, res, next) {
     Self_Review_Model.create(

@@ -2,13 +2,17 @@ import {
   SET_ALL_EMPLOYEES,
   DELETE_EMPLOYEE_SUCCESS,
   DELETE_EMPLOYEE_ERROR,
-  CLEAR_DELETE_EMPLOYEE_MESSAGE
+  CLEAR_DELETE_EMPLOYEE_MESSAGE,
+  SET_ALL_MANAGER,
+  LOAD_MANAGER_ERROR
 } from '../actions/actionTypes.js'
 
 const initialState = {
   employeeData: null,
   deleteEmployeeSuccess: null,
-  deleteEmployeeError: null
+  deleteEmployeeError: null,
+  managers: null,
+  loadManagerError: null
 }
 export default function employeeInfoReducer(state = initialState, action) {
   switch (action.type) {
@@ -16,6 +20,16 @@ export default function employeeInfoReducer(state = initialState, action) {
       return {
         ...state,
         employeeData: action.payload.data
+      }
+    case SET_ALL_MANAGER:
+      return {
+        ...state,
+        managers: action.payload.data
+      }
+    case LOAD_MANAGER_ERROR:
+      return {
+        ...state,
+        loadManagerError: action.payload.data
       }
     case DELETE_EMPLOYEE_SUCCESS:
       return {
