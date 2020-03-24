@@ -13,7 +13,7 @@ import DateFnsUtils from '@date-io/date-fns'
 import { withToastManager, useToasts } from 'react-toast-notifications'
 import Grid from '@material-ui/core/Grid'
 import { Formik, Form, ErrorMessage } from 'formik'
-import {projectStyles} from './styles'
+import { projectStyles } from './styles'
 import { useSelector, useDispatch } from 'react-redux'
 import {
   addNewProject,
@@ -21,7 +21,12 @@ import {
   updateProject
 } from '../../actions/projectAction'
 import * as Yup from 'yup'
-import {newProjectAddError,addNewProjectStatusMsg, updateProjectStatusMsg, updateProjectErrorMsg} from '../../selectors/projectSelectors'
+import {
+  newProjectAddError,
+  addNewProjectStatusMsg,
+  updateProjectStatusMsg,
+  updateProjectErrorMsg
+} from '../../selectors/projectSelectors'
 import {
   yupRequired,
   yupRequiredNumber,
@@ -32,7 +37,7 @@ import {
   KeyboardDatePicker
 } from '@material-ui/pickers'
 
-const styles = projectStyles;
+const styles = projectStyles
 const useStyles = makeStyles(styles)
 const ProjectAllocation = props => {
   const { setPageView, projectToUpdate } = props
@@ -45,7 +50,7 @@ const ProjectAllocation = props => {
   const updateProjectStatus = useSelector(updateProjectStatusMsg)
   const updateProjectError = useSelector(updateProjectErrorMsg)
 
-    const projectForm = useRef(null)
+  const projectForm = useRef(null)
 
   useEffect(() => {
     if (addNewProjectStatus) {
@@ -56,10 +61,10 @@ const ProjectAllocation = props => {
       projectForm.current.reset()
       dispatch(clearProjectMsg())
       setPageView('projectListing')
-    }   
+    }
   }, [addNewProjectStatus, addToast])
 
-  useEffect(() => {    
+  useEffect(() => {
     if (updateProjectStatus) {
       addToast(updateProjectStatus, {
         appearance: 'success',
@@ -78,45 +83,57 @@ const ProjectAllocation = props => {
     }
   }, [error, addToast])
 
-   useEffect(() => {
-   if (updateProjectError) {
+  useEffect(() => {
+    if (updateProjectError) {
       addToast(updateProjectError, { appearance: 'error', autoDismiss: true })
       dispatch(clearProjectMsg())
     }
   }, [updateProjectError, addToast])
 
   const submitFormValues = values => {
-    dispatch(projectToUpdate ? updateProject(values, projectToUpdate[0]._id): addNewProject(values))    
+    dispatch(
+      projectToUpdate
+        ? updateProject(values, projectToUpdate[0]._id)
+        : addNewProject(values)
+    )
   }
 
   let initialValues
-  const {title, description, client, client_location,startdate=new Date(),enddate= new Date(),status= 'Active',
-      technology,type
-  }  = projectToUpdate ? projectToUpdate[0] : {}
-  
-initialValues = {
-      title,
-      description,
-      client,
-      client_location,
-      startdate,
-      enddate,
-      status,
-      technology,
-      type
-    }
+  const {
+    title,
+    description,
+    client,
+    client_location,
+    startdate = new Date(),
+    enddate = new Date(),
+    status = 'Active',
+    technology,
+    type
+  } = projectToUpdate ? projectToUpdate[0] : {}
+
+  initialValues = {
+    title,
+    description,
+    client,
+    client_location,
+    startdate,
+    enddate,
+    status,
+    technology,
+    type
+  }
 
   const handleProjectListView = () => {
     props.setUpdateAction()
   }
 
   const projectDataValidation = Yup.object().shape({
-    title: yupRequired("Project Title")
+    title: yupRequired('Project Title')
       .min(2, 'Too Short!')
       .max(50, 'Too Long!'),
     description: yupRequired('Description')
       .min(2, 'Too Short!')
-      .max(150, 'Too Long!'),     
+      .max(150, 'Too Long!'),
     client: yupRequired('Client')
       .min(2, 'Too Short!')
       .max(50, 'Too Long!'),
@@ -127,8 +144,7 @@ initialValues = {
     technology: yupRequired('Technology')
       .min(2, 'Too Short!')
       .max(50, 'Too Long!'),
-    startdate: yupRequiredDate('Start Date')
-      .typeError(''),
+    startdate: yupRequiredDate('Start Date').typeError(''),
     enddate: yupRequiredDate('End Date')
       .typeError('')
       .test('', 'Must be greater than Start Date', function(value) {
@@ -153,7 +169,6 @@ initialValues = {
               <Form ref={projectForm}>
                 <CardHeader color="primary">
                   <h4 className={classes.cardTitleWhite}>
-                    
                     {projectToUpdate ? 'UPDATE PROJECT' : 'ADD PROJECT'}
                   </h4>
                 </CardHeader>

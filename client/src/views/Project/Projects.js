@@ -37,19 +37,19 @@ const Projects = props => {
       <GridItem style={{ textAlign: 'end' }} xs={12} sm={12} md={12}>
         {pageView === 'projectListing' ? (
           <>
-            <Button type="submit" color="primary" onClick={handleAddProject}>              
+            <Button type="submit" color="primary" onClick={handleAddProject}>
               ADD PROJECT
             </Button>
             <Button
               type="submit"
               color="primary"
               onClick={handleAllocateProject}
-            >              
+            >
               ALLOCATE PROJECT
             </Button>
           </>
         ) : (
-          <Button type="submit" color="primary" onClick={handlesearchProject}>            
+          <Button type="submit" color="primary" onClick={handlesearchProject}>
             Back To Projects
           </Button>
         )}

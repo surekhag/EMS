@@ -23,12 +23,12 @@ import styles from '../../assets/jss/material-dashboard-react/views/dashboardSty
 import withAuth from '../../HOC/withAuth'
 import { UserContext } from '../../context-provider/user-context'
 import { loadAllProjects } from '../../actions/projectAction'
-import {formatDate} from '../../helpers/formatDates'
+import { formatDate } from '../../helpers/formatDates'
 import {
   userPeerReview,
   userSelfReviewDeatils
 } from '../../selectors/reviewSelectors'
-import {projectSelector} from '../../selectors/projectSelectors'
+import { projectSelector } from '../../selectors/projectSelectors'
 const useStyles = makeStyles(styles)
 const Dashboard = props => {
   const classes = useStyles()

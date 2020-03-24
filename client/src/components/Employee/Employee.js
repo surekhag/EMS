@@ -167,7 +167,7 @@ const Employee = props => {
             <Card id="add_new_employee">
               <Form ref={userForm}>
                 <CardHeader color="primary">
-                  <h4 className={classes.cardTitleWhite}>                    
+                  <h4 className={classes.cardTitleWhite}>
                     {userToUpdate ? 'UPDATE EMPLOYEE' : 'ADD EMPLOYEE '}
                   </h4>
                 </CardHeader>
@@ -457,20 +457,20 @@ const Employee = props => {
                       </div>
                     </GridItem>
                     <GridItem xs={12} sm={12} md={4}>
-                       <DatePicker
-                      name="dateofbirth"
-                      value={values.dateofbirth}
-                      label="Date Of Birth"
-                      onChange={date => setFieldValue('dateofbirth', date)}
-                    />                      
+                      <DatePicker
+                        name="dateofbirth"
+                        value={values.dateofbirth}
+                        label="Date Of Birth"
+                        onChange={date => setFieldValue('dateofbirth', date)}
+                      />
                     </GridItem>
                     <GridItem xs={12} sm={12} md={4}>
-                       <DatePicker
-                      name="dateofjoining"
-                      value={values.dateofjoining}
-                      label="Date Of Joining"
-                      onChange={date => setFieldValue('dateofjoining', date)}
-                    />                     
+                      <DatePicker
+                        name="dateofjoining"
+                        value={values.dateofjoining}
+                        label="Date Of Joining"
+                        onChange={date => setFieldValue('dateofjoining', date)}
+                      />
                     </GridItem>
                     <GridItem xs={12} sm={12} md={6}>
                       <FormControl className={classes.formControl}>
@@ -497,7 +497,7 @@ const Employee = props => {
                     </GridItem>
                     <GridItem xs={12} sm={12} md={6}>
                       <FormControl className={classes.formControl}>
-                        <InputLabel htmlFor="work_location">                          
+                        <InputLabel htmlFor="work_location">
                           Work Location
                         </InputLabel>
                         <Select
@@ -604,7 +604,6 @@ const Employee = props => {
                     <GridItem xs={12} sm={12} md={6}>
                       <FormControl className={classes.formControl}>
                         <InputLabel htmlFor="employment_status">
-                          
                           Employment Status
                         </InputLabel>
                         <Select

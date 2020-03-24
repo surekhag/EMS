@@ -14,8 +14,11 @@ import { Dialog, DialogActions } from '@material-ui/core'
 import { deleteProject, clearProjectMsg } from '../../actions/projectAction'
 import { useToasts } from 'react-toast-notifications'
 import Employee from './Project'
-import {deleteProjectSuccessMsg,deleteProjectErrorMsg } from '../../selectors/projectSelectors'
-import {getMonthOfDate, getDayOfDate} from '../../helpers/formatDates'
+import {
+  deleteProjectSuccessMsg,
+  deleteProjectErrorMsg
+} from '../../selectors/projectSelectors'
+import { getMonthOfDate, getDayOfDate } from '../../helpers/formatDates'
 const useStyles = makeStyles(styles)
 const ProjectListing = props => {
   const { projectData, setPageView } = props
@@ -26,7 +29,7 @@ const ProjectListing = props => {
   const [updateAction, setUpdateAction] = useState(null)
   const [showDelDialog, setShowDelDialog] = useState(false)
   const deleteProjectSuccess = useSelector(deleteProjectSuccessMsg)
- const deleteProjectError = useSelector(deleteProjectErrorMsg)
+  const deleteProjectError = useSelector(deleteProjectErrorMsg)
 
   const projectListingHeader = [
     'Title',
@@ -73,13 +76,13 @@ const ProjectListing = props => {
 
       const start = new Date(startdate)
       const end = new Date(enddate)
-      const mnth = getMonthOfDate (start)
-      const day = getDayOfDate(start) 
+      const mnth = getMonthOfDate(start)
+      const day = getDayOfDate(start)
       startdate = [day, mnth, start.getFullYear()].join('/')
 
       let formattedEnddate
       if (enddate) {
-        const mnth = getMonthOfDate (end)
+        const mnth = getMonthOfDate(end)
         const day = getDayOfDate(end)
         formattedEnddate = [day, mnth, end.getFullYear()].join('/')
       }
@@ -94,7 +97,7 @@ const ProjectListing = props => {
         enddate
       }
       projectDetails.push(Object.values(data))
-      return ;
+      return
     })
     // Get/Delete data from Active projects
     //  projectData = filteredProject;

@@ -9,10 +9,7 @@ import {
   deleteEmployeeSuccess,
   deleteEmployeeError
 } from '../../actions/employeeAction'
-import {
-  loadAllEmployeeData,
-  deleteEmployeeApi
-} from '../../api/employeeApi'
+import { loadAllEmployeeData, deleteEmployeeApi } from '../../api/employeeApi'
 
 function* workerEmployeeInfoSaga() {
   try {
