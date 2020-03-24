@@ -95,15 +95,15 @@ const Project = props => {
   }  = projectToUpdate ? projectToUpdate[0] : {}
   
 initialValues = {
-      title:title,
-      description:description,
-      client:client,
-      client_location:client_location,
-      startdate:startdate,
-      enddate:enddate,
-      status:status,
-      technology:technology,
-      type:type
+      title,
+      description,
+      client,
+      client_location,
+      startdate,
+      enddate,
+      status,
+      technology,
+      type
     }
 
   const handleProjectListView = () => {
