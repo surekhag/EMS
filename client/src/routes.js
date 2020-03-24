@@ -44,7 +44,7 @@ export const dashboardRoutesAdmin = [
     name: 'Self Review',
     rtlName: 'ملف تعريفي للمستخدم',
     icon: Person,
-    component: PeerReview,
+    component: SelfReview,
     layout: '/admin',
     showLink: true
   }
