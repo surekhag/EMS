@@ -1,4 +1,3 @@
-
 export function projectSelector(state) {
   return state.projectReducer.projects
 }
@@ -24,4 +23,3 @@ export function deleteProjectSuccessMsg(state) {
 export function deleteProjectErrorMsg(state) {
   return state.projectReducer.deleteProjectError
 }
- 

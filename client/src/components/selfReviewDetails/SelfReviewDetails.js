@@ -88,7 +88,6 @@ const SelfReviewDetails = props => {
   }
   return (
     <Grid>
-
       <Card>
         <CardHeader color="primary">
           <h4 className={classes.cardTitleWhite}>REVIEW DETAILS</h4>

@@ -46,6 +46,6 @@ export default function* root() {
     fork(watchAddProjectSaga),
     fork(watchUpadateProjectSaga),
     fork(watchUserSelfReviewSaga),
-    fork(watchUpdateUserSelfReviewSaga),
+    fork(watchUpdateUserSelfReviewSaga)
   ])
 }
