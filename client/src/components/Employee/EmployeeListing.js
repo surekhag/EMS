@@ -1,15 +1,15 @@
-import Table from '../../components/Table/Table.js'
+import Table from '../../components/Table/Table'
 import { useSelector, useDispatch } from 'react-redux'
-import Card from '../../components/Card/Card.js'
-import CardHeader from '../../components/Card/CardHeader.js'
-import CardBody from '../../components/Card/CardBody.js'
+import Card from '../../components/Card/Card'
+import CardHeader from '../../components/Card/CardHeader'
+import CardBody from '../../components/Card/CardBody'
 import React, { useState, useEffect } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import Search from '@material-ui/icons/Search'
-import CustomInput from '../../components/CustomInput/CustomInput.js'
-import Button from '../../components/CustomButtons/Button.js'
+import CustomInput from '../../components/CustomInput/CustomInput'
+import Button from '../../components/CustomButtons/Button'
 import styles from '../../assets/jss/material-dashboard-react/views/dashboardStyle'
-import GridItem from '../../components/Grid/GridItem.js'
+import GridItem from '../../components/Grid/GridItem'
 // import DialogActions from '@material-ui/core/DialogActions';
 import { Dialog, DialogActions } from '@material-ui/core'
 import {
@@ -26,8 +26,8 @@ const EmployeeListing = props => {
   const classes = useStyles()
   const [searchText, setsearchText] = useState('')
   const dispatch = useDispatch()
-  const [userToUpdate, setUserToUpdate] = useState()
-  const [updateAction, setUpdateAction] = useState()
+  const [userToUpdate, setUserToUpdate] = useState(null)
+  const [updateAction, setUpdateAction] = useState(null)
   const [showDelDialog, setShowDelDialog] = useState(false)
   const deleteEmployeeSuccess = useSelector(deleteEmployeeSuccessMsg)
   const deleteEmployeeError = useSelector(deleteEmployeeErrors)
@@ -48,7 +48,7 @@ const EmployeeListing = props => {
   // Clear Search text on Update Cancel/Success
   useEffect(() => {
     if (!updateAction) {
-      setsearchText()
+      setsearchText('')
     }
   }, [updateAction])
 
@@ -113,7 +113,7 @@ const EmployeeListing = props => {
         managerName
       }
       employeeDetails.push(Object.values(data))
-      return 1
+      return ;
     })
   }
 
@@ -201,7 +201,7 @@ const EmployeeListing = props => {
             <DialogActions>
               <GridItem xs={12} sm={12} md={12}>
                 <p> Are you sure you want to delete this Employee ? </p>
-                <Button onClick={handleYesDelete}> Yes</Button>{' '}
+                <Button onClick={handleYesDelete}> Yes</Button>
                 <Button onClick={handleNoDelete}> No</Button>
               </GridItem>
             </DialogActions>

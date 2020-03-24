@@ -167,8 +167,8 @@ const Employee = props => {
               <Form ref={userForm}>
                 <CardHeader color="primary">
                   <h4 className={classes.cardTitleWhite}>
-                    {' '}
-                    {userToUpdate ? 'UPDATE EMPLOYEE' : 'ADD EMPLOYEE '}{' '}
+                    
+                    {userToUpdate ? 'UPDATE EMPLOYEE' : 'ADD EMPLOYEE '}
                   </h4>
                 </CardHeader>
 
@@ -438,7 +438,7 @@ const Employee = props => {
                       <div className={classes.error}>
                         <ErrorMessage name="contact_no" />
                       </div>
-                    </GridItem>{' '}
+                    </GridItem>
                     <GridItem xs={12} sm={12} md={4}>
                       <CustomInput
                         labelText="Experience At Joining"
@@ -540,7 +540,7 @@ const Employee = props => {
                     <GridItem xs={12} sm={12} md={6}>
                       <FormControl className={classes.formControl}>
                         <InputLabel htmlFor="work_location">
-                          {' '}
+                          
                           Work Location
                         </InputLabel>
                         <Select
@@ -597,7 +597,7 @@ const Employee = props => {
                     <GridItem xs={12} sm={12} md={6}>
                       <FormControl className={classes.formControl}>
                         <InputLabel htmlFor="shift_timing">
-                          Shift Timing{' '}
+                          Shift Timing
                         </InputLabel>
                         <Select
                           value={values.shift_timing}
@@ -622,7 +622,7 @@ const Employee = props => {
                     <GridItem xs={12} sm={12} md={6}>
                       <FormControl className={classes.formControl}>
                         <InputLabel htmlFor="designation">
-                          Designation{' '}
+                          Designation
                         </InputLabel>
                         <Select
                           value={values.designation}
@@ -647,7 +647,7 @@ const Employee = props => {
                     <GridItem xs={12} sm={12} md={6}>
                       <FormControl className={classes.formControl}>
                         <InputLabel htmlFor="employment_status">
-                          {' '}
+                          
                           Employment Status
                         </InputLabel>
                         <Select

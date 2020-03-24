@@ -24,10 +24,10 @@ import withAuth from '../../HOC/withAuth'
 import { UserContext } from '../../context-provider/user-context'
 import { loadAllProjects } from '../../actions/projectAction'
 import {
-  projectSelector,
   userPeerReview,
   userSelfReviewDeatils
-} from './selectors'
+} from '../../selectors/reviewSelectors'
+import {projectSelector} from '../../selectors/projectSelectors'
 const useStyles = makeStyles(styles)
 const Dashboard = props => {
   const classes = useStyles()

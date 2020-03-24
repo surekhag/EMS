@@ -1,19 +1,19 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
-import GridContainer from '../Grid/GridContainer.js'
-import GridItem from '../Grid/GridItem.js'
-import Card from '../Card/Card.js'
-import CardHeader from '../Card/CardHeader.js'
-import CardBody from '../Card/CardBody.js'
-import CardFooter from '../Card/CardFooter.js'
-import Button from '../CustomButtons/Button.js'
-import CustomInput from '../CustomInput/CustomInput.js'
+import GridContainer from '../Grid/GridContainer'
+import GridItem from '../Grid/GridItem'
+import Card from '../Card/Card'
+import CardHeader from '../Card/CardHeader'
+import CardBody from '../Card/CardBody'
+import CardFooter from '../Card/CardFooter'
+import Button from '../CustomButtons/Button'
+import CustomInput from '../CustomInput/CustomInput'
 import 'date-fns'
 import DateFnsUtils from '@date-io/date-fns'
 import { withToastManager, useToasts } from 'react-toast-notifications'
 import Grid from '@material-ui/core/Grid'
-import checkboxAdnRadioStyle from '../../assets/jss/material-dashboard-react/checkboxAdnRadioStyle.js'
 import { Formik, Form, ErrorMessage } from 'formik'
+import {projectStyles} from './styles'
 import { useSelector, useDispatch } from 'react-redux'
 import {
   addNewProject,
@@ -21,53 +21,18 @@ import {
   updateProject
 } from '../../actions/projectAction'
 import * as Yup from 'yup'
-
+import {newProjectAddError,addNewProjectStatusMsg, updateProjectStatusMsg, updateProjectErrorMsg} from '../../selectors/projectSelectors'
+import {
+  yupRequired,
+  yupRequiredNumber,
+  yupRequiredDate
+} from '../../helpers/yupValidations'
 import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker
 } from '@material-ui/pickers'
 
-const styles = {
-  ...checkboxAdnRadioStyle,
-  cardCategoryWhite: {
-    color: 'rgba(255,255,255,.62)',
-    margin: '0',
-    fontSize: '14px',
-    marginTop: '0',
-    marginBottom: '0'
-  },
-  cardTitleWhite: {
-    color: '#FFFFFF',
-    marginTop: '0px',
-    minHeight: 'auto',
-    fontWeight: '300',
-    fontFamily: "'Roboto', 'Helvetica', 'Arial', sans-serif",
-    marginBottom: '3px',
-    textDecoration: 'none'
-  },
-  root: {
-    display: 'flex',
-    flexWrap: 'wrap'
-  },
-  formControl: {
-    margin: 11,
-    minWidth: 120,
-    wrap: 'nowrap',
-    fullWidth: 'true',
-    display: 'flex'
-  },
-  selectEmpty: {
-    marginTop: 10
-  },
-  error: {
-    color: 'red'
-  },
-  dateStyle: {
-    paddingLeft: 11,
-    paddingRight: 11
-  }
-}
-
+const styles = projectStyles;
 const useStyles = makeStyles(styles)
 const Project = props => {
   const { setPageView, projectToUpdate } = props
@@ -75,17 +40,12 @@ const Project = props => {
   const { addToast } = useToasts()
   const dispatch = useDispatch()
 
-  const error = useSelector(state => state.projectReducer.error)
-  const addNewProjectStatus = useSelector(
-    state => state.projectReducer.addNewProjectStatus
-  )
-  const updateProjectStatus = useSelector(
-    state => state.projectReducer.updateProjectStatus
-  )
-  const updateProjectError = useSelector(
-    state => state.projectReducer.updateProjectError
-  )
-  const projectForm = useRef(null)
+  const error = useSelector(newProjectAddError)
+  const addNewProjectStatus = useSelector(addNewProjectStatusMsg)
+  const updateProjectStatus = useSelector(updateProjectStatusMsg)
+  const updateProjectError = useSelector(updateProjectErrorMsg)
+
+    const projectForm = useRef(null)
 
   useEffect(() => {
     if (addNewProjectStatus) {
@@ -96,7 +56,10 @@ const Project = props => {
       projectForm.current.reset()
       dispatch(clearProjectMsg())
       setPageView('projectListing')
-    }
+    }   
+  }, [addNewProjectStatus, addToast])
+
+  useEffect(() => {    
     if (updateProjectStatus) {
       addToast(updateProjectStatus, {
         appearance: 'success',
@@ -106,87 +69,67 @@ const Project = props => {
       dispatch(clearProjectMsg())
       if (props) props.setUpdateAction()
     }
-  }, [addNewProjectStatus, updateProjectStatus, addToast])
+  }, [updateProjectStatus, addToast])
 
   useEffect(() => {
     if (error) {
       addToast(error, { appearance: 'error', autoDismiss: true })
       dispatch(clearProjectMsg())
     }
+  }, [error, addToast])
 
-    if (updateProjectError) {
+   useEffect(() => {
+   if (updateProjectError) {
       addToast(updateProjectError, { appearance: 'error', autoDismiss: true })
       dispatch(clearProjectMsg())
     }
-  }, [error, updateProjectError, addToast])
+  }, [updateProjectError, addToast])
 
   const submitFormValues = values => {
-    if (projectToUpdate) {
-      const id = projectToUpdate[0]._id
-      dispatch(updateProject(values, id))
-    } else {
-      dispatch(addNewProject(values))
-    }
+    dispatch(projectToUpdate ? updateProject(values, projectToUpdate[0]._id): addNewProject(values))    
   }
 
   let initialValues
-  if (projectToUpdate) {
-    initialValues = {
-      title: projectToUpdate[0].title,
-      description: projectToUpdate[0].description,
-      client: projectToUpdate[0].client,
-      client_location: projectToUpdate[0].client_location,
-      startdate: projectToUpdate[0].startdate,
-      enddate: projectToUpdate[0].enddate,
-      status: projectToUpdate[0].status,
-      technology: projectToUpdate[0].technology,
-      type: projectToUpdate[0].type
+  const {title, description, client, client_location,startdate=new Date(),enddate= new Date(),status= 'Active',
+      technology,type
+  }  = projectToUpdate ? projectToUpdate[0] : {}
+  
+initialValues = {
+      title:title,
+      description:description,
+      client:client,
+      client_location:client_location,
+      startdate:startdate,
+      enddate:enddate,
+      status:status,
+      technology:technology,
+      type:type
     }
-  } else {
-    initialValues = {
-      title: '',
-      description: '',
-      client: '',
-      client_location: '',
-      startdate: new Date(),
-      enddate: new Date(),
-      status: 'Active',
-      technology: '',
-      type: ''
-    }
-  }
 
   const handleProjectListView = () => {
     props.setUpdateAction()
   }
 
   const projectDataValidation = Yup.object().shape({
-    title: Yup.string()
-      .required('Project Title is required')
+    title: yupRequired("Project Title")
       .min(2, 'Too Short!')
       .max(50, 'Too Long!'),
-    description: Yup.string()
+    description: yupRequired('Description')
       .min(2, 'Too Short!')
-      .max(150, 'Too Long!')
-      .required('Description is required'),
-    client: Yup.string()
-      .required('Client is required')
+      .max(150, 'Too Long!'),     
+    client: yupRequired('Client')
       .min(2, 'Too Short!')
       .max(50, 'Too Long!'),
-    client_location: Yup.string().required('Client Location is required'),
-    type: Yup.string()
-      .required('Project Type is required')
+    client_location: yupRequired('Client Location'),
+    type: yupRequired('Project Type')
       .min(2, 'Too Short!')
       .max(50, 'Too Long!'),
-    technology: Yup.string()
-      .required('Technology is required')
+    technology: yupRequired('Technology')
       .min(2, 'Too Short!')
       .max(50, 'Too Long!'),
-    startdate: Yup.date('Invalid date')
-      .required('Start Date is required')
+    startdate: yupRequiredDate('Start Date')
       .typeError(''),
-    enddate: Yup.date('Invalid date')
-      .required('Start Date is required')
+    enddate: yupRequiredDate('End Date')
       .typeError('')
       .test('', 'Must be greater than Start Date', function(value) {
         const startdate = this.parent.startdate
@@ -210,8 +153,8 @@ const Project = props => {
               <Form ref={projectForm}>
                 <CardHeader color="primary">
                   <h4 className={classes.cardTitleWhite}>
-                    {' '}
-                    {projectToUpdate ? 'UPDATE PROJECT' : 'ADD PROJECT'}{' '}
+                    
+                    {projectToUpdate ? 'UPDATE PROJECT' : 'ADD PROJECT'}
                   </h4>
                 </CardHeader>
 

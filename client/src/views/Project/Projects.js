@@ -4,8 +4,8 @@ import { loadAllProjects } from '../../actions/projectAction'
 // react plugin for creating charts
 
 import Button from '../../components/CustomButtons/Button'
-import GridItem from '../../components/Grid/GridItem.js'
-import GridContainer from '../../components/Grid/GridContainer.js'
+import GridItem from '../../components/Grid/GridItem'
+import GridContainer from '../../components/Grid/GridContainer'
 import ProjectListing from '../../components/Project/ProjectListing'
 import Project from '../../components/Project/Project'
 import ProjectAllocation from '../../components/Project/ProjectAllocation'
@@ -37,23 +37,20 @@ const Projects = props => {
       <GridItem style={{ textAlign: 'end' }} xs={12} sm={12} md={12}>
         {pageView === 'projectListing' ? (
           <>
-            <Button type="submit" color="primary" onClick={handleAddProject}>
-              {' '}
-              ADD PROJECT{' '}
+            <Button type="submit" color="primary" onClick={handleAddProject}>              
+              ADD PROJECT
             </Button>
             <Button
               type="submit"
               color="primary"
               onClick={handleAllocateProject}
-            >
-              {' '}
-              ALLOCATE PROJECT{' '}
+            >              
+              ALLOCATE PROJECT
             </Button>
           </>
         ) : (
-          <Button type="submit" color="primary" onClick={handlesearchProject}>
-            {' '}
-            Back To Projects{' '}
+          <Button type="submit" color="primary" onClick={handlesearchProject}>            
+            Back To Projects
           </Button>
         )}
       </GridItem>

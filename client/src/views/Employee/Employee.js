@@ -7,11 +7,11 @@ import GridContainer from '../../components/Grid/GridContainer.js'
 import EmployeeListing from '../../components/Employee/EmployeeListing'
 import Employee from '../../components/Employee/Employee'
 import withAuth from '../../HOC/withAuth'
-
+import {employeeDataSelector} from '../../selectors/employeeSelectors'
 const Employees = props => {
   const dispatch = useDispatch()
   const [pageView, setPageView] = useState('employeeListing')
-  const employeeData = useSelector(state => state.EmployeeInfo.employeeData)
+  const employeeData = useSelector(employeeDataSelector)
 
   useEffect(() => {
     dispatch(loadAllEmployeeData())
@@ -29,14 +29,12 @@ const Employees = props => {
     <GridContainer>
       <GridItem style={{ textAlign: 'end' }} xs={12} sm={12} md={12}>
         {pageView === 'employeeListing' ? (
-          <Button type="submit" color="primary" onClick={handleAddUser}>
-            {' '}
-            ADD EMPLOYEE{' '}
+          <Button type="submit" color="primary" onClick={handleAddUser}>            
+            ADD EMPLOYEE
           </Button>
         ) : (
-          <Button type="submit" color="primary" onClick={handlesearchUser}>
-            {' '}
-            SEARCH EMPLOYEE{' '}
+          <Button type="submit" color="primary" onClick={handlesearchUser}>            
+            SEARCH EMPLOYEE
           </Button>
         )}
       </GridItem>

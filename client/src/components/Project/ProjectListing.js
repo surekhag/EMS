@@ -14,6 +14,7 @@ import { Dialog, DialogActions } from '@material-ui/core'
 import { deleteProject, clearProjectMsg } from '../../actions/projectAction'
 import { useToasts } from 'react-toast-notifications'
 import Employee from './Project'
+import {deleteProjectSuccessMsg,deleteProjectErrorMsg } from '../../selectors/projectSelectors'
 const useStyles = makeStyles(styles)
 const ProjectListing = props => {
   const { projectData, setPageView } = props
@@ -21,14 +22,10 @@ const ProjectListing = props => {
   const classes = useStyles()
   const dispatch = useDispatch()
   const [projectToUpdate, setProjectToUpdate] = useState()
-  const [updateAction, setUpdateAction] = useState()
+  const [updateAction, setUpdateAction] = useState(null)
   const [showDelDialog, setShowDelDialog] = useState(false)
-  const deleteProjectSuccess = useSelector(
-    state => state.projectReducer.deleteProjectSuccess
-  )
-  const deleteProjectError = useSelector(
-    state => state.projectReducer.deleteProjectError
-  )
+  const deleteProjectSuccess = useSelector(deleteProjectSuccessMsg)
+ const deleteProjectError = useSelector(deleteProjectErrorMsg)
 
   const projectListingHeader = [
     'Title',
@@ -96,7 +93,7 @@ const ProjectListing = props => {
         enddate
       }
       projectDetails.push(Object.values(data))
-      return 1
+      return ;
     })
     // Get/Delete data from Active projects
     //  projectData = filteredProject;
