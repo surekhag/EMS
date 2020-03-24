@@ -4,7 +4,10 @@ import {
   DELETE_EMPLOYEE,
   DELETE_EMPLOYEE_SUCCESS,
   DELETE_EMPLOYEE_ERROR,
-  CLEAR_DELETE_EMPLOYEE_MESSAGE
+  CLEAR_DELETE_EMPLOYEE_MESSAGE,
+  LOAD_ALL_MANAGER_SAGA,
+  SET_ALL_MANAGER,
+  LOAD_MANAGER_ERROR
 } from './actionTypes'
 
 // Load and Set Employee Data
@@ -45,5 +48,23 @@ export function deleteEmployeeError(data) {
 export function clearDeleteEmployeeMsg() {
   return {
     type: CLEAR_DELETE_EMPLOYEE_MESSAGE
+  }
+}
+
+export function loadManagers() {
+  return {
+    type: LOAD_ALL_MANAGER_SAGA
+  }
+}
+export function setManagers(data) {
+  return {
+    type: SET_ALL_MANAGER,
+    payload: { data }
+  }
+}
+export function setManagerError(e) {
+  return {
+    type: LOAD_MANAGER_ERROR,
+    payload: { e }
   }
 }

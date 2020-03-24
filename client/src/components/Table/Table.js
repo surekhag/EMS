@@ -8,8 +8,8 @@ import TableRow from '@material-ui/core/TableRow'
 import TableBody from '@material-ui/core/TableBody'
 import TableCell from '@material-ui/core/TableCell'
 // core components
-import Button from '../../components/CustomButtons/Button.js'
-import styles from '../../assets/jss/material-dashboard-react/components/tableStyle.js'
+import Button from '../../components/CustomButtons/Button'
+import styles from '../../assets/jss/material-dashboard-react/components/tableStyle'
 
 const useStyles = makeStyles(styles)
 
