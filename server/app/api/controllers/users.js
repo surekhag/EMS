@@ -113,10 +113,12 @@ module.exports = {
     });
   },
   getAll: function (req, res, next) {
-    userModel.find({}, function (err, users) {
+    const query = req.params? req.params: null
+    userModel.find(query, function (err, users) {
       if (err) {
         next(err);
       } else {
+        console.log(req.params, query);
         res.json({
           status: "success",
           message: "Users list found!!!",
