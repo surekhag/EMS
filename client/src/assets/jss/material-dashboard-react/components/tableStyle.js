@@ -74,15 +74,6 @@ const tableStyle = theme => ({
     outline: 'none',
     verticalAlign: 'middle'
   }
-  // links: {
-  //   paddingRight: 5,
-  //   color: 'blue',
-  //   cursor: 'pointer',
-  //   fontSize: 15,
-  //   '&:hover': {
-  //     textDecoration: 'underline'
-  //   }
-  // }
 })
 
 export default tableStyle

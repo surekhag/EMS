@@ -5,7 +5,7 @@ import {
   LOAD_ALL_USER_PEER_SAGA,
   UPDATE_PEER_REVIEW,
   DELETE_PEER_REVIEW
-} from '../../actions/actionTypes.js'
+} from '../../actions/actionTypes'
 import {
   loadAllPeerReviews,
   createPeerReview,

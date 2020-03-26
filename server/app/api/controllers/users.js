@@ -3,71 +3,71 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const config = require("../../../config");
 module.exports = {
-  create: function(req, res, next) {
+  create: function (req, res, next) {
     const {
-          employee_id,
-          email,
-          userName,
-          password,
-          firstname,
-          lastname,
-          middlename,
-          address1,
-          address2,
-          city,
-          zip,
-          state,
-          country,
-          gender,
-          dateofbirth,
-          dateofjoining,
-          status = "Active",
-          experience_at_joining,
-          work_location,
-          timezone,
-          shift_timing,
-          designation,
-          employment_status,
-          userRole,
-          reporting_manager,
-          contact_no,
-          skills,
-          certifications,
-          achievements
+      employee_id,
+      email,
+      userName,
+      password,
+      firstname,
+      lastname,
+      middlename,
+      address1,
+      address2,
+      city,
+      zip,
+      state,
+      country,
+      gender,
+      dateofbirth,
+      dateofjoining,
+      status = "Active",
+      experience_at_joining,
+      work_location,
+      timezone,
+      shift_timing,
+      designation,
+      employment_status,
+      userRole,
+      reporting_manager,
+      contact_no,
+      skills,
+      certifications,
+      achievements
     } = req.body;
     userModel.create(
       {
-          employee_id,
-          email,
-          userName,
-          password,
-          firstname,
-          lastname,
-          middlename,
-          address1,
-          address2,
-          city,
-          zip,
-          state,
-          country,
-          gender,
-          dateofbirth,
-          dateofjoining,
-          status,
-          experience_at_joining,
-          work_location,
-          timezone,
-          shift_timing,
-          designation,
-          employment_status,
-          userRole,
-          reporting_manager,
-          contact_no,
-          skills,
-          certifications,
-          achievements
+        employee_id,
+        email,
+        userName,
+        password,
+        firstname,
+        lastname,
+        middlename,
+        address1,
+        address2,
+        city,
+        zip,
+        state,
+        country,
+        gender,
+        dateofbirth,
+        dateofjoining,
+        status,
+        experience_at_joining,
+        work_location,
+        timezone,
+        shift_timing,
+        designation,
+        employment_status,
+        userRole,
+        reporting_manager,
+        contact_no,
+        skills,
+        certifications,
+        achievements
       },
-      function(err, result) {
+      function (err, result) {
         if (err) next(err);
         else
           res.json({
@@ -78,8 +78,8 @@ module.exports = {
       }
     );
   },
-  authenticate: function(req, res, next) {
-    userModel.findOne({ userName: req.body.userName }, function(err, userInfo) {
+  authenticate: function (req, res, next) {
+    userModel.findOne({ userName: req.body.userName }, function (err, userInfo) {
       if (err) {
         console.log("in err");
         next(err);
@@ -90,7 +90,7 @@ module.exports = {
         ) {
           const { password, ...userWithoutPassword } = userInfo._doc;
           const token = jwt.sign(
-            { id: userInfo._id, userName : userInfo.userName, role: userInfo.userRole },
+            { id: userInfo._id, userName: userInfo.userName, role: userInfo.userRole },
             config.secret,
             {
               expiresIn: config.tokenExpiry
@@ -112,8 +112,8 @@ module.exports = {
       }
     });
   },
-  getAll: function(req, res, next) {
-    userModel.find({}, function(err, users) {
+  getAll: function (req, res, next) {
+    userModel.find({}, function (err, users) {
       if (err) {
         next(err);
       } else {
@@ -125,41 +125,54 @@ module.exports = {
       }
     });
   },
-  update: function(req, res, next) {    
-    userModel.findOneAndUpdate({ _id: req.params.id }, 
-      {
-          $set: req.body 
-      },      
-      function(err, userInfo) {      
+  getManagers: function (req, res, next) {
+    userModel.find({ userRole: "Manager" }, function (err, users) {
       if (err) {
-        console.log("in err");
         next(err);
-      }      
-      else {
-              res.json({
-                status: "success",
-                message: "User Info  updated successfully!!!",                
-              });
-            }
+      } else {
+        res.json({
+          status: "success",
+          message: "Users list found!!!",
+          data: users
         });
+      }
+    });
+  },
+  update: function (req, res, next) {
+    userModel.findOneAndUpdate({ _id: req.params.id },
+      {
+        $set: req.body
+      },
+      function (err, userInfo) {
+        if (err) {
+          console.log("in err");
+          next(err);
+        }
+        else {
+          res.json({
+            status: "success",
+            message: "User Info  updated successfully!!!",
+          });
+        }
+      });
   },
 
-  delete: function(req, res, next) {
-    userModel.findOneAndUpdate({ _id: req.params.id }, 
+  delete: function (req, res, next) {
+    userModel.findOneAndUpdate({ _id: req.params.id },
       {
-         status : "Inactive"
-      },      
-      function(err, userInfo) {      
-      if (err) {
-        console.log("in err");
-        next(err);
-      }      
-      else {
-              res.json({
-                status: "success",
-                message: "User Info deleted successfully!!!",                
-              });
-            }
-        });
+        status: "Inactive"
+      },
+      function (err, userInfo) {
+        if (err) {
+          console.log("in err");
+          next(err);
+        }
+        else {
+          res.json({
+            status: "success",
+            message: "User Info deleted successfully!!!",
+          });
+        }
+      });
   }
 };

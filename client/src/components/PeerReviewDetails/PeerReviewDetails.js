@@ -6,15 +6,16 @@ import Checkbox from '@material-ui/core/Checkbox'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 // core components
 import Grid from '@material-ui/core/Grid'
-import Button from '../../components/CustomButtons/Button.js'
-import Card from '../../components/Card/Card.js'
-import CardHeader from '../../components/Card/CardHeader.js'
+import Button from '../../components/CustomButtons/Button'
+import Card from '../../components/Card/Card'
+import CardHeader from '../../components/Card/CardHeader'
 import checkboxAdnRadioStyle from '../../assets/jss/material-dashboard-react/checkboxAdnRadioStyle'
 import peerReviewDetailsStyle from '../../assets/jss/material-dashboard-react/components/peerReviewDetailsStyle'
 import Table from '../Table/Table'
-import CardBody from '../../components/Card/CardBody.js'
-import CardFooter from '../../components/Card/CardFooter.js'
-
+import CardBody from '../../components/Card/CardBody'
+import CardFooter from '../../components/Card/CardFooter'
+import { peerReviewUpdateStatusSelector } from '../../selectors/reviewSelectors'
+import { formatDate } from '../../helpers/formatDates'
 import {
   updatePeerReview,
   setUpdateReviewStatus,
@@ -36,40 +37,38 @@ const PeerReviewDetails = props => {
   const { reviewData, ClickHandler } = props
   const { addToast } = useToasts()
   const dispatch = useDispatch()
-  const peerReviewUpdateStatus = useSelector(
-    state => state.peerReviewReducer.peerReviewUpdateStatus
-  )
-  const tempArray = []
+  const peerReviewUpdateStatus = useSelector(peerReviewUpdateStatusSelector)
+  const tableDataArray = []
   const peerReviewDetailHeader = []
   const [selectedStatus, setSelectedStatus] = useState('Active')
 
   if (reviewData) {
-    tempArray.push(
+    tableDataArray.push(
       [
         <b>Employee Under Review</b>,
         reviewData.employee_under_review.firstname +
-          ' ' +
-          reviewData.employee_under_review.lastname,
+        ' ' +
+        reviewData.employee_under_review.lastname,
         <b>Employee Reviewing</b>,
         reviewData.employee_reviewing.firstname +
-          ' ' +
-          reviewData.employee_reviewing.lastname,
+        ' ' +
+        reviewData.employee_reviewing.lastname,
         <b>Project</b>,
         reviewData.project.title,
         <b>Functional Manager</b>,
         reviewData.functional_manager.firstname +
-          ' ' +
-          reviewData.functional_manager.lastname
+        ' ' +
+        reviewData.functional_manager.lastname
       ],
       [
         <b>Review From Date</b>,
-        reviewData.from_date.slice(0, 10),
+        formatDate(reviewData.from_date),
         <b>Review To Date</b>,
-        reviewData.to_date.slice(0, 10),
+        formatDate(reviewData.to_date),
         <b>Due From Date</b>,
-        reviewData.due_from.slice(0, 10),
+        formatDate(reviewData.due_from),
         <b>Due To Date</b>,
-        reviewData.due_to.slice(0, 10)
+        formatDate(reviewData.due_to)
       ],
       [
         <b>Form Link</b>,
@@ -77,15 +76,14 @@ const PeerReviewDetails = props => {
         <b>Status</b>,
         reviewData.status,
         <b>Created Date</b>,
-        reviewData.created_date.slice(0, 10),
+        formatDate(reviewData.created_date),
         <b>Created By</b>,
         reviewData.created_by
       ]
     )
   }
   const changeHandler = e => {
-    if (e.target.checked === true) setSelectedStatus('Done')
-    else setSelectedStatus('Active')
+    setSelectedStatus(e.target.checked ? 'Done' : 'Active')
   }
   useEffect(() => {
     if (peerReviewUpdateStatus) {
@@ -106,7 +104,6 @@ const PeerReviewDetails = props => {
   const updateHandler = () => {
     dispatch(updatePeerReview(reviewData._id, { status: selectedStatus }))
     dispatch(loadAllPeerForUser())
-    window.location.reload()
   }
   return (
     <Grid>
@@ -120,7 +117,7 @@ const PeerReviewDetails = props => {
               <Table
                 tableHeaderColor="gray"
                 tableHead={peerReviewDetailHeader}
-                tableData={tempArray || null}
+                tableData={tableDataArray || null}
                 showLink={false}
               />
               {ClickHandler ? (
