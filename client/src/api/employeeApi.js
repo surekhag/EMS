@@ -5,7 +5,8 @@ import {
   USER_URL
 } from '../configurations/endPoints'
 
-export function loadAllEmployeeData() {
+export function loadAllEmployeeData(data) {
+  console.log('api', data)
   return axios.get(FETCH_EMPLOYEE_URL)
 }
 export function loadManagers() {
@@ -15,6 +16,6 @@ export function loadManagers() {
 export function deleteEmployeeApi(id) {
   return axios.delete(USER_URL + id)
 }
-export function loadActiveEmployeeApi() {
-  return axios.get(FETCH_EMPLOYEE_URL+ 'Active')
+export function loadActiveEmployeeApi(data) {
+  return axios.get(FETCH_EMPLOYEE_URL+ data)
 }

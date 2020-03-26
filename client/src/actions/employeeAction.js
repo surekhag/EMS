@@ -15,9 +15,10 @@ import {
 
 // Load and Set Employee Data
 export function loadAllEmployeeData(data) {
-  console.log(data)
+  console.log('action', data)
   return {
-    type: LOAD_ALL_EMPLOYEE_SAGA
+    type: LOAD_ALL_EMPLOYEE_SAGA,
+    payload : {data}
   }
 }
 export function loadActiveEmployeeData() {

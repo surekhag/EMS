@@ -22,10 +22,19 @@ import {
   loadActiveEmployeeApi
 } from '../../api/employeeApi'
 
-function* workerEmployeeInfoSaga() {
+function* workerEmployeeInfoSaga({payload}) {
+  console.log('saga',payload)
+  const {data} = payload;
   try {
+    if(data){
+const employees = yield call(loadActiveEmployeeApi,data)
+    yield put(setActiveEmployeeData(employees))
+    }
+    else{
     const employees = yield call(loadAllEmployeeData)
     yield put(setAllEmployeeData(employees))
+    }
+    
   } catch (e) { }
 }
 
