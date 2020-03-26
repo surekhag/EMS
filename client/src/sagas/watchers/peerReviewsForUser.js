@@ -11,7 +11,7 @@ function* workerLoadUserPeerReviewSaga() {
     const peerReviews = yield call(loadAllUserPeerReviews)
     yield put(setAllPeerForUser(peerReviews))
   } catch (e) {
-    console.log(e)
+    //To do return message  only
     // yield put(setAllPeerForUserError(e)); //todo
   }
 }

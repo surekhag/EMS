@@ -20,6 +20,7 @@ function* workerUpdatePeerReviewSaga(data) {
     )
     yield put(setUpdateReviewStatus(status))
   } catch (e) {
+    //To do return message  only
     yield put(setUpdateReviewError(e))
   }
 }
@@ -29,11 +30,10 @@ export function* watchUpdatePeerReviewSaga() {
 }
 function* workerDaletePeerReviewSaga(data) {
   try {
-    console.log(data, 'datain SAga')
     const status = yield call(deletePeerReview, data.payload.id)
-    console.log(status, 'status')
     yield put(peerReviewDeleteSuccess(status))
   } catch (e) {
+    //To do return message  only
     yield put(peerReviewDeleteFailue(e))
   }
 }

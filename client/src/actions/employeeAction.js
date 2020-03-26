@@ -8,22 +8,15 @@ import {
   LOAD_ALL_MANAGER_SAGA,
   SET_ALL_MANAGER,
   LOAD_MANAGER_ERROR,
- LOAD_ACTIVE_EMPLOYEES,
- LOAD_ACTIVE_EMPLOYEES_ERROR,
- SET_ACTIVE_EMPLOYEES
+  LOAD_EMPLOYEES_ERROR,
+  SET_ACTIVE_EMPLOYEES
 } from './actionTypes'
 
 // Load and Set Employee Data
 export function loadAllEmployeeData(data) {
-  console.log('action', data)
   return {
     type: LOAD_ALL_EMPLOYEE_SAGA,
-    payload : {data}
-  }
-}
-export function loadActiveEmployeeData() {
-  return {
-    type: LOAD_ACTIVE_EMPLOYEES,
+    payload: { data }
   }
 }
 export function setActiveEmployeeData(info) {
@@ -34,9 +27,9 @@ export function setActiveEmployeeData(info) {
   }
 }
 
-export function loadActiveEmployeeError(data) {
+export function loadEmployeeError(data) {
   return {
-    type: LOAD_ACTIVE_EMPLOYEES_ERROR,
+    type: LOAD_EMPLOYEES_ERROR,
     payload: { data }
   }
 }

@@ -3,7 +3,6 @@ import { put, takeLatest, call } from 'redux-saga/effects'
 import {
   LOAD_ALL_EMPLOYEE_SAGA,
   LOAD_ALL_MANAGER_SAGA,
-  LOAD_ACTIVE_EMPLOYEES,
   DELETE_EMPLOYEE
 } from '../../actions/actionTypes'
 import {
@@ -13,7 +12,7 @@ import {
   setManagers,
   setManagerError,
   setActiveEmployeeData,
-loadActiveEmployeeError
+  loadEmployeeError
 } from '../../actions/employeeAction'
 import {
   loadAllEmployeeData,
@@ -22,43 +21,30 @@ import {
   loadActiveEmployeeApi
 } from '../../api/employeeApi'
 
-function* workerEmployeeInfoSaga({payload}) {
-  console.log('saga',payload)
-  const {data} = payload;
+function* workerEmployeeInfoSaga({ payload }) {
+  const { data } = payload
   try {
-    if(data){
-const employees = yield call(loadActiveEmployeeApi,data)
-    yield put(setActiveEmployeeData(employees))
+    if (data) {
+      const employees = yield call(loadActiveEmployeeApi, data)
+      yield put(setActiveEmployeeData(employees))
+    } else {
+      const employees = yield call(loadAllEmployeeData)
+      yield put(setAllEmployeeData(employees))
     }
-    else{
-    const employees = yield call(loadAllEmployeeData)
-    yield put(setAllEmployeeData(employees))
+  } catch (e) {
+     if (e.response.data && e.response.data.message) {
+       //Invalid token - to do
+      yield put(loadEmployeeError(e.response.data.message))
+    } else {
+      yield put(loadEmployeeError(e))
     }
-    
-  } catch (e) { }
+  }
 }
 
 export function* watchEmployeeInfoSaga() {
   yield takeLatest(LOAD_ALL_EMPLOYEE_SAGA, workerEmployeeInfoSaga)
 }
 
-function* workerActiveEmployeeInfoSaga() {
-  try {
-    const employees = yield call(loadActiveEmployeeApi)
-    yield put(setActiveEmployeeData(employees))
-  } catch (e) {
-if (e.response.data && e.response.data.message) {
-      yield put(loadActiveEmployeeError(e.response.data.message))
-    } else {
-      yield put(loadActiveEmployeeError(e))
-    }
-
-   }
-}
-
-export function* watchActiveEmployeeInfoSaga() {
-  yield takeLatest(LOAD_ACTIVE_EMPLOYEES, workerActiveEmployeeInfoSaga)
-}
 
 //load Manager Saga
 function* workerManagerSaga() {
@@ -66,7 +52,7 @@ function* workerManagerSaga() {
     const managers = yield call(loadManagers)
     yield put(setManagers(managers.data.data))
   } catch (e) {
-    setManagerError(e);
+    setManagerError(e)
   }
 }
 

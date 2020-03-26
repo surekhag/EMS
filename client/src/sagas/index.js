@@ -4,7 +4,6 @@ import {
   watchEmployeeInfoSaga,
   watchManagerSaga,
   watchDeleteEmployeeSaga,
-  watchActiveEmployeeInfoSaga
 } from './watchers/employeeInfo.js'
 import { watchLoginSaga, watchAuthenticateSaga } from './watchers/login'
 
@@ -48,6 +47,5 @@ export default function* root() {
     fork(watchUpadateProjectSaga),
     fork(watchUserSelfReviewSaga),
     fork(watchUpdateUserSelfReviewSaga),
-    fork(watchActiveEmployeeInfoSaga)
   ])
 }
