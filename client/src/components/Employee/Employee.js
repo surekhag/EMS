@@ -18,6 +18,7 @@ import MenuItem from '@material-ui/core/MenuItem'
 import FormControl from '@material-ui/core/FormControl'
 import { Formik, Form, ErrorMessage } from 'formik'
 import { useSelector, useDispatch } from 'react-redux'
+import SelectMenu from '../FromComponents/SelectMenu'
 import DatePicker from '../../components/FromComponents/DatePicker'
 import {
   formikInitialValues,
@@ -321,7 +322,7 @@ const Employee = props => {
                         }}
                       />
                     </GridItem>
-                    <GridItem xs={12} sm={12} md={4}>
+                    {/* <GridItem xs={12} sm={12} md={4}>
                       <FormControl className={classes.formControl}>
                         <InputLabel htmlFor="country"> Country</InputLabel>
                         <Select
@@ -350,43 +351,55 @@ const Employee = props => {
                       <div className={classes.error}>
                         <ErrorMessage name="country" />
                       </div>
+                    </GridItem> */}
+                    <GridItem xs={12} sm={12} md={4}>
+                      <SelectMenu
+                        className={classes.formControl}
+                        name="country"
+                        onChange={handleChange}
+                        disabledName="None"
+                        label="Country"
+                        onBlur={e => {
+                          setFieldValue('state', '')
+                        }}
+                        value={values.country}
+                      >
+                        {countryData.map(item => {
+                          return (
+                            <MenuItem value={item.country}>
+                              {item.name}
+                            </MenuItem>
+                          )
+                        })}
+                      </SelectMenu>
                     </GridItem>
                     <GridItem xs={12} sm={12} md={4}>
-                      <FormControl className={classes.formControl}>
-                        <InputLabel htmlFor="state">State</InputLabel>
-                        <Select
-                          value={values.state}
-                          onChange={handleChange}
-                          inputProps={{
-                            name: 'state',
-                            id: 'state'
-                          }}
-                        >
-                          <MenuItem value="">
-                            <em>None</em>
-                          </MenuItem>
-                          {countryData.map(item => {
-                            if (
-                              values.country &&
-                              item.country == values.country
-                            ) {
-                              return getStates(values.country).map(item => {
-                                if (item) {
-                                  return (
-                                    <MenuItem value={item.code}>
-                                      {item.name}
-                                    </MenuItem>
-                                  )
-                                }
-                              })
-                            }
-                          })}
-                        </Select>
-                      </FormControl>
-                      <div className={classes.error}>
-                        <ErrorMessage name="state" />
-                      </div>
+                      <SelectMenu
+                        name="state"
+                        onChange={handleChange}
+                        disabledName="None"
+                        label="State"
+                        value={values.state}
+                      >
+                        {countryData.map(item => {
+                          if (
+                            values.country &&
+                            item.country == values.country
+                          ) {
+                            return getStates(values.country).map(item => {
+                              if (item) {
+                                return (
+                                  <MenuItem value={item.code}>
+                                    {item.name}
+                                  </MenuItem>
+                                )
+                              }
+                            })
+                          }
+                        })}
+                      </SelectMenu>
                     </GridItem>
+
                     <GridItem xs={12} sm={12} md={4}></GridItem>
                     <GridItem xs={12} sm={12} md={4}>
                       <CustomInput
@@ -473,212 +486,118 @@ const Employee = props => {
                       />
                     </GridItem>
                     <GridItem xs={12} sm={12} md={6}>
-                      <FormControl className={classes.formControl}>
-                        <InputLabel htmlFor="gender"> Gender</InputLabel>
-                        <Select
-                          value={values.gender}
-                          onChange={handleChange}
-                          inputProps={{
-                            name: 'gender',
-                            id: 'gender'
-                          }}
-                        >
-                          <MenuItem value="">
-                            <em>None</em>
-                          </MenuItem>
-                          {gender.map(item => {
-                            return <MenuItem value={item}>{item}</MenuItem>
-                          })}
-                        </Select>
-                      </FormControl>
-                      <div className={classes.error}>
-                        <ErrorMessage name="gender" />
-                      </div>
+                      <SelectMenu
+                        name="gender"
+                        onChange={handleChange}
+                        disabledName="None"
+                        label="Gender"
+                        value={values.gender}
+                      >
+                        {gender.map(item => {
+                          return <MenuItem value={item}>{item}</MenuItem>
+                        })}
+                      </SelectMenu>
                     </GridItem>
                     <GridItem xs={12} sm={12} md={6}>
-                      <FormControl className={classes.formControl}>
-                        <InputLabel htmlFor="work_location">
-                          Work Location
-                        </InputLabel>
-                        <Select
-                          value={values.work_location}
-                          onChange={handleChange}
-                          inputProps={{
-                            name: 'work_location',
-                            id: 'work_location'
-                          }}
-                        >
-                          <MenuItem value="">
-                            <em>None</em>
-                          </MenuItem>
-                          {work_location.map(item => {
-                            return (
-                              <MenuItem value={item.id}>
-                                {item.location}
-                              </MenuItem>
-                            )
-                          })}
-                        </Select>
-                      </FormControl>
-                      <div className={classes.error}>
-                        <ErrorMessage name="work_location" />
-                      </div>
+                      <SelectMenu
+                        name="work_location"
+                        onChange={handleChange}
+                        disabledName="None"
+                        label="Work Location"
+                        value={values.work_location}
+                      >
+                        {work_location.map(item => {
+                          return (
+                            <MenuItem value={item.id}>{item.location}</MenuItem>
+                          )
+                        })}
+                      </SelectMenu>
                     </GridItem>
                     <GridItem xs={12} sm={12} md={6}>
-                      <FormControl className={classes.formControl}>
-                        <InputLabel htmlFor="timezone"> Timezone</InputLabel>
-                        <Select
-                          value={values.timezone}
-                          onChange={handleChange}
-                          inputProps={{
-                            name: 'timezone',
-                            id: 'timezone'
-                          }}
-                        >
-                          <MenuItem value="">
-                            <em>None</em>
-                          </MenuItem>
-                          {work_location.map(item => {
-                            return (
-                              <MenuItem value={item.location}>
-                                {item.location}
-                              </MenuItem>
-                            )
-                          })}
-                        </Select>
-                      </FormControl>
-                      <div className={classes.error}>
-                        <ErrorMessage name="timezone" />
-                      </div>
+                      <SelectMenu
+                        name="timezone"
+                        onChange={handleChange}
+                        disabledName="None"
+                        label="Timezone"
+                        value={values.timezone}
+                      >
+                        {work_location.map(item => {
+                          return (
+                            <MenuItem value={item.id}>{item.location}</MenuItem>
+                          )
+                        })}
+                      </SelectMenu>
                     </GridItem>
                     <GridItem xs={12} sm={12} md={6}>
-                      <FormControl className={classes.formControl}>
-                        <InputLabel htmlFor="shift_timing">
-                          Shift Timing
-                        </InputLabel>
-                        <Select
-                          value={values.shift_timing}
-                          onChange={handleChange}
-                          inputProps={{
-                            name: 'shift_timing',
-                            id: 'shift_timing'
-                          }}
-                        >
-                          <MenuItem value="">
-                            <em>None</em>
-                          </MenuItem>
-                          {shift_timing.map(item => {
-                            return <MenuItem value={item}>{item}</MenuItem>
-                          })}
-                        </Select>
-                      </FormControl>
-                      <div className={classes.error}>
-                        <ErrorMessage name="shift_timing" />
-                      </div>
+                      <SelectMenu
+                        name="shift_timing"
+                        onChange={handleChange}
+                        disabledName="None"
+                        label="Shift Timing"
+                        value={values.shift_timing}
+                      >
+                        {shift_timing.map(item => {
+                          return <MenuItem value={item}>{item}</MenuItem>
+                        })}
+                      </SelectMenu>
                     </GridItem>
                     <GridItem xs={12} sm={12} md={6}>
-                      <FormControl className={classes.formControl}>
-                        <InputLabel htmlFor="designation">
-                          Designation
-                        </InputLabel>
-                        <Select
-                          value={values.designation}
-                          onChange={handleChange}
-                          inputProps={{
-                            name: 'designation',
-                            id: 'designation'
-                          }}
-                        >
-                          <MenuItem value="">
-                            <em>None</em>
-                          </MenuItem>
-                          {designation.map(item => {
-                            return <MenuItem value={item}>{item}</MenuItem>
-                          })}
-                        </Select>
-                      </FormControl>
-                      <div className={classes.error}>
-                        <ErrorMessage name="designation" />
-                      </div>
+                      <SelectMenu
+                        name="designation"
+                        onChange={handleChange}
+                        disabledName="None"
+                        label="Designation"
+                        value={values.designation}
+                      >
+                        {designation.map(item => {
+                          return <MenuItem value={item}>{item}</MenuItem>
+                        })}
+                      </SelectMenu>
                     </GridItem>
                     <GridItem xs={12} sm={12} md={6}>
-                      <FormControl className={classes.formControl}>
-                        <InputLabel htmlFor="employment_status">
-                          Employment Status
-                        </InputLabel>
-                        <Select
-                          value={values.employment_status}
-                          onChange={handleChange}
-                          inputProps={{
-                            name: 'employment_status',
-                            id: 'employment_status'
-                          }}
-                        >
-                          <MenuItem value="">
-                            <em>None</em>
-                          </MenuItem>
-                          {employment_status.map(item => {
-                            return <MenuItem value={item}>{item}</MenuItem>
-                          })}
-                        </Select>
-                      </FormControl>
-                      <div className={classes.error}>
-                        <ErrorMessage name="employment_status" />
-                      </div>
+                      <SelectMenu
+                        name="employment_status"
+                        onChange={handleChange}
+                        disabledName="None"
+                        label="Employment Status"
+                        value={values.employment_status}
+                      >
+                        {employment_status.map(item => {
+                          return <MenuItem value={item}>{item}</MenuItem>
+                        })}
+                      </SelectMenu>
                     </GridItem>
                     <GridItem xs={12} sm={12} md={6}>
-                      <FormControl className={classes.formControl}>
-                        <InputLabel htmlFor="userRole"> User Role</InputLabel>
-                        <Select
-                          value={values.userRole}
-                          onChange={handleChange}
-                          inputProps={{
-                            name: 'userRole',
-                            id: 'userRole'
-                          }}
-                        >
-                          <MenuItem value="">
-                            <em>None</em>
-                          </MenuItem>
-                          {userRole.map(item => {
-                            return <MenuItem value={item}>{item}</MenuItem>
-                          })}
-                        </Select>
-                      </FormControl>
-                      <div className={classes.error}>
-                        <ErrorMessage name="userRole" />
-                      </div>
+                      <SelectMenu
+                        name="userRole"
+                        onChange={handleChange}
+                        disabledName="None"
+                        label="User Role"
+                        value={values.userRole}
+                      >
+                        {userRole.map(item => {
+                          return <MenuItem value={item}>{item}</MenuItem>
+                        })}
+                      </SelectMenu>
                     </GridItem>
                     <GridItem xs={12} sm={12} md={6}>
-                      <FormControl className={classes.formControl}>
-                        <InputLabel htmlFor="reporting_manager">
-                          Reporting Manager
-                        </InputLabel>
-                        <Select
-                          value={values.reporting_manager}
-                          onChange={handleChange}
-                          inputProps={{
-                            name: 'reporting_manager',
-                            id: 'reporting_manager'
-                          }}
-                        >
-                          <MenuItem value="">
-                            <em>None</em>
-                          </MenuItem>
-                          {managers
-                            ? managers.map(item => {
-                                return (
-                                  <MenuItem value={item.employee_id}>
-                                    {item.firstname + ' ' + item.lastname}
-                                  </MenuItem>
-                                )
-                              })
-                            : null}
-                        </Select>
-                      </FormControl>
-                      <div className={classes.error}>
-                        <ErrorMessage name="reporting_manager" />
-                      </div>
+                      <SelectMenu
+                        name="reporting_manager"
+                        onChange={handleChange}
+                        disabledName="None"
+                        label="Reporting Manager"
+                        value={values.reporting_manager}
+                      >
+                        {managers
+                          ? managers.map(item => {
+                              return (
+                                <MenuItem value={item.employee_id}>
+                                  {item.firstname + ' ' + item.lastname}
+                                </MenuItem>
+                              )
+                            })
+                          : null}
+                      </SelectMenu>
                     </GridItem>
                     <GridItem xs={12} sm={12} md={6}>
                       <CustomInput

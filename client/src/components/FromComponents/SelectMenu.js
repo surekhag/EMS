@@ -5,14 +5,17 @@ import MenuItem from '@material-ui/core/MenuItem'
 import FormControl from '@material-ui/core/FormControl'
 import Select from '@material-ui/core/Select'
 import { ErrorMessage } from 'formik'
-
+import InputLabel from '@material-ui/core/InputLabel'
 const useStyles = makeStyles({
   colorRed: {
     color: 'red'
   },
   formControl: {
-    margin: 11,
-    minWidth: 200
+    margin: '11px 0',
+    minWidth: 200,
+    wrap: 'nowrap',
+    fullWidth: 'true',
+    display: 'flex'
   },
 
   hoverEffect: {
@@ -33,15 +36,17 @@ export default function SelectMenu({
   value,
   disabledName,
   children,
+  label,
   ...rest
 }) {
   const classes = useStyles()
   return (
     <>
       <FormControl className={classes.formControl}>
+        <InputLabel htmlFor={label}> {label}</InputLabel>
         <Select name={name} value={value} {...rest} displayEmpty>
           <MenuItem className={classes.hoverEffect} value="" key={-1} disabled>
-            {disabledName}
+            <em>{disabledName}</em>
           </MenuItem>
           {children}
         </Select>
