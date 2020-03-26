@@ -3,6 +3,7 @@ import { put, takeLatest, call } from 'redux-saga/effects'
 import {
   LOAD_ALL_EMPLOYEE_SAGA,
   LOAD_ALL_MANAGER_SAGA,
+  LOAD_ACTIVE_EMPLOYEES,
   DELETE_EMPLOYEE
 } from '../../actions/actionTypes'
 import {
@@ -10,12 +11,15 @@ import {
   deleteEmployeeSuccess,
   deleteEmployeeError,
   setManagers,
-  setManagerError
+  setManagerError,
+  setActiveEmployeeData,
+loadActiveEmployeeError
 } from '../../actions/employeeAction'
 import {
   loadAllEmployeeData,
   loadManagers,
-  deleteEmployeeApi
+  deleteEmployeeApi,
+  loadActiveEmployeeApi
 } from '../../api/employeeApi'
 
 function* workerEmployeeInfoSaga() {
@@ -27,6 +31,24 @@ function* workerEmployeeInfoSaga() {
 
 export function* watchEmployeeInfoSaga() {
   yield takeLatest(LOAD_ALL_EMPLOYEE_SAGA, workerEmployeeInfoSaga)
+}
+
+function* workerActiveEmployeeInfoSaga() {
+  try {
+    const employees = yield call(loadActiveEmployeeApi)
+    yield put(setActiveEmployeeData(employees))
+  } catch (e) {
+if (e.response.data && e.response.data.message) {
+      yield put(loadActiveEmployeeError(e.response.data.message))
+    } else {
+      yield put(loadActiveEmployeeError(e))
+    }
+
+   }
+}
+
+export function* watchActiveEmployeeInfoSaga() {
+  yield takeLatest(LOAD_ACTIVE_EMPLOYEES, workerActiveEmployeeInfoSaga)
 }
 
 //load Manager Saga

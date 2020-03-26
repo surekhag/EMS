@@ -14,7 +14,7 @@ const Employees = props => {
   const employeeData = useSelector(employeeDataSelector)
 
   useEffect(() => {
-    dispatch(loadAllEmployeeData())
+    dispatch(loadAllEmployeeData('Active'))
   }, [dispatch])
 
   const handleAddUser = () => {

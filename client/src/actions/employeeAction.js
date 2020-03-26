@@ -7,15 +7,39 @@ import {
   CLEAR_DELETE_EMPLOYEE_MESSAGE,
   LOAD_ALL_MANAGER_SAGA,
   SET_ALL_MANAGER,
-  LOAD_MANAGER_ERROR
+  LOAD_MANAGER_ERROR,
+ LOAD_ACTIVE_EMPLOYEES,
+ LOAD_ACTIVE_EMPLOYEES_ERROR,
+ SET_ACTIVE_EMPLOYEES
 } from './actionTypes'
 
 // Load and Set Employee Data
-export function loadAllEmployeeData() {
+export function loadAllEmployeeData(data) {
+  console.log(data)
   return {
     type: LOAD_ALL_EMPLOYEE_SAGA
   }
 }
+export function loadActiveEmployeeData() {
+  return {
+    type: LOAD_ACTIVE_EMPLOYEES,
+  }
+}
+export function setActiveEmployeeData(info) {
+  const data = info.data.data
+  return {
+    type: SET_ACTIVE_EMPLOYEES,
+    payload: { data }
+  }
+}
+
+export function loadActiveEmployeeError(data) {
+  return {
+    type: LOAD_ACTIVE_EMPLOYEES_ERROR,
+    payload: { data }
+  }
+}
+
 export function setAllEmployeeData(info) {
   const data = info.data.data
   return {

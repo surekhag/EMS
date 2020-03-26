@@ -3,7 +3,8 @@ import watchLogoutSaga from './watchers/logout.js'
 import {
   watchEmployeeInfoSaga,
   watchManagerSaga,
-  watchDeleteEmployeeSaga
+  watchDeleteEmployeeSaga,
+  watchActiveEmployeeInfoSaga
 } from './watchers/employeeInfo.js'
 import { watchLoginSaga, watchAuthenticateSaga } from './watchers/login'
 
@@ -46,6 +47,7 @@ export default function* root() {
     fork(watchAddProjectSaga),
     fork(watchUpadateProjectSaga),
     fork(watchUserSelfReviewSaga),
-    fork(watchUpdateUserSelfReviewSaga)
+    fork(watchUpdateUserSelfReviewSaga),
+    fork(watchActiveEmployeeInfoSaga)
   ])
 }

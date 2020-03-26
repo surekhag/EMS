@@ -1,9 +1,8 @@
 import axios from 'axios'
 import {
   FETCH_ALL_PROJECTS,
-  DELETE_PROJECT_URL,
   ADD_NEW_PROJECT_URL,
-  UPDATE_PROJECT_URL
+  PROJECT_URL
 } from '../configurations/endPoints'
 
 export function loadAllProjectsApi() {
@@ -11,7 +10,7 @@ export function loadAllProjectsApi() {
 }
 
 export function deleteProjectApi(id) {
-  return axios.delete(DELETE_PROJECT_URL + id)
+  return axios.delete(PROJECT_URL + id)
 }
 
 export function addNewProjectApi(data) {
@@ -21,5 +20,5 @@ export function addNewProjectApi(data) {
 
 export function updateProjectApi(payload) {
   const { userInfo, id } = payload
-  return axios.put(UPDATE_PROJECT_URL + id, userInfo)
+  return axios.put(PROJECT_URL + id, userInfo)
 }
