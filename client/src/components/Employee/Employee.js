@@ -8,17 +8,14 @@ import CardBody from '../../components/Card/CardBody'
 import CardFooter from '../../components/Card/CardFooter'
 import Button from '../../components/CustomButtons/Button'
 import CustomInput from '../../components/CustomInput/CustomInput'
-import Select from '@material-ui/core/Select'
-import DateFnsUtils from '@date-io/date-fns'
-import InputLabel from '@material-ui/core/InputLabel'
 import { useToasts } from 'react-toast-notifications'
-import Grid from '@material-ui/core/Grid'
 import { employeeStyles } from './Styles'
 import MenuItem from '@material-ui/core/MenuItem'
 import FormControl from '@material-ui/core/FormControl'
 import { Formik, Form, ErrorMessage } from 'formik'
 import { useSelector, useDispatch } from 'react-redux'
 import SelectMenu from '../FromComponents/SelectMenu'
+import Input from '../FromComponents/Input'
 import DatePicker from '../../components/FromComponents/DatePicker'
 import {
   formikInitialValues,
@@ -41,11 +38,6 @@ import {
   userRole,
   countryData
 } from '../../constants'
-
-import {
-  MuiPickersUtilsProvider,
-  KeyboardDatePicker
-} from '@material-ui/pickers'
 import {
   employeeDataSelector,
   addNewUserSuccess,
@@ -178,180 +170,80 @@ const Employee = props => {
                     {userToUpdate ? null : (
                       <>
                         <GridItem xs={12} sm={12} md={6}>
-                          <CustomInput
+                          <Input
+                            name="employee_id"
+                            value={values.employee_id}
+                            onChange={handleChange}
                             labelText="Employee Id"
-                            formControlProps={{
-                              fullWidth: true
-                            }}
-                            inputProps={{
-                              value: values.employee_id,
-                              name: 'employee_id',
-                              onChange: handleChange
-                            }}
                           />
-                          <div className={classes.error}>
-                            <ErrorMessage name="employee_id" />
-                          </div>
                         </GridItem>
                         <GridItem xs={12} sm={12} md={6}>
-                          <CustomInput
+                          <Input
+                            name="email"
+                            value={values.email}
+                            onChange={handleChange}
                             labelText="Email Address"
-                            formControlProps={{
-                              fullWidth: true
-                            }}
-                            inputProps={{
-                              value: values.email,
-                              name: 'email',
-                              onChange: handleChange
-                            }}
                           />
-                          <div className={classes.error}>
-                            <ErrorMessage name="email" />
-                          </div>
                         </GridItem>
                         <GridItem xs={12} sm={12} md={6}>
-                          <CustomInput
+                          <Input
+                            name="userName"
+                            value={values.userName}
+                            onChange={handleChange}
                             labelText="UserName"
-                            formControlProps={{
-                              fullWidth: true
-                            }}
-                            inputProps={{
-                              value: values.userName,
-                              name: 'userName',
-                              onChange: handleChange
-                            }}
                           />
-                          <div className={classes.error}>
-                            <ErrorMessage name="userName" />
-                          </div>
                         </GridItem>
                         <GridItem xs={12} sm={12} md={6}>
-                          <CustomInput
+                          <Input
+                            name="password"
+                            value={values.password}
+                            onChange={handleChange}
                             labelText="Password"
-                            formControlProps={{
-                              fullWidth: true
-                            }}
-                            inputProps={{
-                              type: 'password',
-                              value: values.password,
-                              name: 'password',
-                              onChange: handleChange
-                            }}
+                            type="password"
                           />
-                          <div className={classes.error}>
-                            <ErrorMessage name="password" />
-                          </div>
                         </GridItem>
                       </>
                     )}
                     <GridItem xs={12} sm={12} md={4}>
-                      <CustomInput
+                      <Input
+                        name="firstname"
+                        value={values.firstname}
+                        onChange={handleChange}
                         labelText="Firstname"
-                        formControlProps={{
-                          fullWidth: true
-                        }}
-                        inputProps={{
-                          value: values.firstname,
-                          name: 'firstname',
-                          onChange: handleChange
-                        }}
                       />
-                      <div className={classes.error}>
-                        <ErrorMessage name="firstname" />
-                      </div>
                     </GridItem>
                     <GridItem xs={12} sm={12} md={4}>
-                      <CustomInput
+                      <Input
+                        name="middlename"
+                        value={values.middlename}
+                        onChange={handleChange}
                         labelText="Middlename"
-                        formControlProps={{
-                          fullWidth: true
-                        }}
-                        inputProps={{
-                          value: values.middlename,
-                          name: 'middlename',
-                          onChange: handleChange
-                        }}
                       />
-                      <div className={classes.error}>
-                        <ErrorMessage name="middlename" />
-                      </div>
                     </GridItem>
                     <GridItem xs={12} sm={12} md={4}>
-                      <CustomInput
+                      <Input
+                        name="lastname"
+                        value={values.lastname}
+                        onChange={handleChange}
                         labelText="Lastname"
-                        formControlProps={{
-                          fullWidth: true
-                        }}
-                        inputProps={{
-                          value: values.lastname,
-                          name: 'lastname',
-                          onChange: handleChange
-                        }}
                       />
-                      <div className={classes.error}>
-                        <ErrorMessage name="lastname" />
-                      </div>
                     </GridItem>
                     <GridItem xs={12} sm={12} md={6}>
-                      <CustomInput
+                      <Input
+                        name="address1"
+                        value={values.address1}
+                        onChange={handleChange}
                         labelText="Address 1"
-                        formControlProps={{
-                          fullWidth: true
-                        }}
-                        inputProps={{
-                          value: values.address1,
-                          name: 'address1',
-                          onChange: handleChange
-                        }}
                       />
-                      <div className={classes.error}>
-                        <ErrorMessage name="address1" />
-                      </div>
                     </GridItem>
                     <GridItem xs={12} sm={12} md={6}>
-                      <CustomInput
+                      <Input
+                        name="address2"
+                        value={values.address2}
+                        onChange={handleChange}
                         labelText="Address 2"
-                        formControlProps={{
-                          fullWidth: true
-                        }}
-                        inputProps={{
-                          value: values.address2,
-                          name: 'address2',
-                          onChange: handleChange,
-                          required: false
-                        }}
                       />
                     </GridItem>
-                    {/* <GridItem xs={12} sm={12} md={4}>
-                      <FormControl className={classes.formControl}>
-                        <InputLabel htmlFor="country"> Country</InputLabel>
-                        <Select
-                          value={values.country}
-                          onChange={handleChange}
-                          onBlur={e => {
-                            setFieldValue('state', '')
-                          }}
-                          inputProps={{
-                            name: 'country',
-                            id: 'country'
-                          }}
-                        >
-                          <MenuItem value="">
-                            <em>None</em>
-                          </MenuItem>
-                          {countryData.map(item => {
-                            return (
-                              <MenuItem value={item.country}>
-                                {item.name}
-                              </MenuItem>
-                            )
-                          })}
-                        </Select>
-                      </FormControl>
-                      <div className={classes.error}>
-                        <ErrorMessage name="country" />
-                      </div>
-                    </GridItem> */}
                     <GridItem xs={12} sm={12} md={4}>
                       <SelectMenu
                         className={classes.formControl}
@@ -399,7 +291,6 @@ const Employee = props => {
                         })}
                       </SelectMenu>
                     </GridItem>
-
                     <GridItem xs={12} sm={12} md={4}></GridItem>
                     <GridItem xs={12} sm={12} md={4}>
                       <CustomInput
@@ -600,52 +491,31 @@ const Employee = props => {
                       </SelectMenu>
                     </GridItem>
                     <GridItem xs={12} sm={12} md={6}>
-                      <CustomInput
+                      <Input
+                        name="skills"
+                        value={values.skills}
+                        onChange={handleChange}
                         labelText="Skills"
-                        formControlProps={{
-                          fullWidth: true
-                        }}
-                        inputProps={{
-                          value: values.skills,
-                          name: 'skills',
-                          onChange: handleChange
-                        }}
                       />
-                      <div className={classes.error}>
-                        <ErrorMessage name="skills" />
-                      </div>
                     </GridItem>
                     <GridItem xs={12} sm={12} md={6}>
-                      <CustomInput
+                      <Input
+                        name="certifications"
+                        value={values.certifications}
+                        onChange={handleChange}
                         labelText="Certifications"
-                        formControlProps={{
-                          fullWidth: true
-                        }}
-                        inputProps={{
-                          value: values.certifications,
-                          name: 'certifications',
-                          onChange: handleChange,
-                          required: false
-                        }}
                       />
                     </GridItem>
                     <GridItem xs={12} sm={12} md={12}>
-                      <CustomInput
+                      <Input
+                        name="achievements"
+                        value={values.achievements}
+                        onChange={handleChange}
                         labelText="Achievements"
-                        formControlProps={{
-                          fullWidth: true
-                        }}
-                        inputProps={{
-                          value: values.achievements,
-                          name: 'achievements',
-                          onChange: handleChange,
-                          required: false
-                        }}
                       />
                     </GridItem>
                   </GridContainer>
                 </CardBody>
-
                 <CardFooter>
                   {userToUpdate ? (
                     <>
