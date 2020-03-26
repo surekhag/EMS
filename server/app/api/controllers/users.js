@@ -118,7 +118,6 @@ module.exports = {
       if (err) {
         next(err);
       } else {
-        console.log(req.params, query);
         res.json({
           status: "success",
           message: "Users list found!!!",
