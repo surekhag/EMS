@@ -8,8 +8,8 @@ import TableRow from '@material-ui/core/TableRow'
 import TableBody from '@material-ui/core/TableBody'
 import TableCell from '@material-ui/core/TableCell'
 // core components
-import Button from '../../components/CustomButtons/Button.js'
-import styles from '../../assets/jss/material-dashboard-react/components/tableStyle.js'
+import Button from '../../components/CustomButtons/Button'
+import styles from '../../assets/jss/material-dashboard-react/components/tableStyle'
 
 const useStyles = makeStyles(styles)
 
@@ -21,7 +21,10 @@ export default function CustomTable(props) {
     tableHeaderColor,
     showLink,
     buttonText,
-    onClickHandler
+    onClickHandler,
+    addLinks,
+    updateUser,
+    deleteUser
   } = props
   return (
     <div className={classes.tableResponsive}>
@@ -42,7 +45,7 @@ export default function CustomTable(props) {
                     </TableCell>
                   )
                 })}
-                {showLink ? <TableCell /> : null}
+                {showLink || addLinks ? <TableCell /> : null}
               </TableRow>
             </TableHead>
           ) : null}
@@ -57,10 +60,44 @@ export default function CustomTable(props) {
                       </TableCell>
                     )
                   })}
+
+                  {addLinks ? (
+                    <TableCell
+                      className={classes.tableCell}
+                      key={k + 'updateDelete'}
+                    >
+                      {addLinks.map(item => {
+                        if (item == 'Update') {
+                          return (
+                            <Button
+                              color="primary"
+                              size="sm"
+                              className={classes.links}
+                              onClick={e => updateUser(prop, k)}
+                            >
+                              {item}
+                            </Button>
+                          )
+                        } else if (item == 'Delete') {
+                          return (
+                            <Button
+                              color="white"
+                              size="sm"
+                              className={classes.links}
+                              onClick={e => deleteUser(prop, k)}
+                            >
+                              {item}
+                            </Button>
+                          )
+                        }
+                      })}
+                    </TableCell>
+                  ) : null}
+
                   {showLink ? (
                     <TableCell className={classes.tableCell} key={k + 'cell'}>
                       <Button
-                        color="success"
+                        color="primary"
                         size="sm"
                         onClick={() => {
                           onClickHandler(k)

@@ -1,5 +1,5 @@
 import { put, takeLatest, call } from 'redux-saga/effects'
-import { LOGIN_TO_SITE, USER_ATHENTICATION } from '../../actions/actionTypes.js'
+import { LOGIN_TO_SITE, USER_ATHENTICATION } from '../../actions/actionTypes'
 import {
   loginToSiteSuccess,
   loginToSiteError,
@@ -7,7 +7,7 @@ import {
 } from '../../actions/loginAction'
 import { logInToSiteApi, userSessionApi } from '../../api/loginApi'
 import { setToken, removeToken } from '../../helpers/auth'
-function * workerLoginSaga (userinfo) {
+function* workerLoginSaga(userinfo) {
   const { username, password } = userinfo.payload
   try {
     const loginStatus = yield call(logInToSiteApi, username, password)
@@ -24,11 +24,11 @@ function * workerLoginSaga (userinfo) {
   }
 }
 
-export function * watchLoginSaga () {
+export function* watchLoginSaga() {
   yield takeLatest(LOGIN_TO_SITE, workerLoginSaga)
 }
 
-function * workerAuthenticateSaga () {
+function* workerAuthenticateSaga() {
   try {
     const userSessionData = yield call(userSessionApi)
     yield put(loginToSiteSuccess(userSessionData))
@@ -44,6 +44,6 @@ function * workerAuthenticateSaga () {
   }
 }
 
-export function * watchAuthenticateSaga () {
+export function* watchAuthenticateSaga() {
   yield takeLatest(USER_ATHENTICATION, workerAuthenticateSaga)
 }

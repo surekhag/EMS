@@ -12,9 +12,9 @@ import ListItem from '@material-ui/core/ListItem'
 import ListItemText from '@material-ui/core/ListItemText'
 import Icon from '@material-ui/core/Icon'
 // core components
-import AdminNavbarLinks from '../../components/Navbars/AdminNavbarLinks.js'
+import AdminNavbarLinks from '../../components/Navbars/AdminNavbarLinks'
 
-import styles from '../../assets/jss/material-dashboard-react/components/sidebarStyle.js'
+import styles from '../../assets/jss/material-dashboard-react/components/sidebarStyle'
 
 const useStyles = makeStyles(styles)
 
@@ -61,12 +61,12 @@ export default function Sidebar(props) {
                     {prop.icon}
                   </Icon>
                 ) : (
-                  <prop.icon
-                    className={classNames(classes.itemIcon, whiteFontClasses, {
-                      [classes.itemIconRTL]: props.rtlActive
-                    })}
-                  />
-                )}
+                    <prop.icon
+                      className={classNames(classes.itemIcon, whiteFontClasses, {
+                        [classes.itemIconRTL]: props.rtlActive
+                      })}
+                    />
+                  )}
                 <ListItemText
                   primary={props.rtlActive ? prop.rtlName : prop.name}
                   className={classNames(classes.itemText, whiteFontClasses, {

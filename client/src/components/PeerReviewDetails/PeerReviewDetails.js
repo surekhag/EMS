@@ -1,96 +1,89 @@
 import React, { useEffect, useState } from 'react'
 // @material-ui/core components
 import { makeStyles } from '@material-ui/core/styles'
-import InputLabel from '@material-ui/core/InputLabel'
+import Check from '@material-ui/icons/Check'
+import Checkbox from '@material-ui/core/Checkbox'
+import FormControlLabel from '@material-ui/core/FormControlLabel'
 // core components
 import Grid from '@material-ui/core/Grid'
-import Button from '../../components/CustomButtons/Button.js'
-import Card from '../../components/Card/Card.js'
-import CardHeader from '../../components/Card/CardHeader.js'
-import MenuItem from '@material-ui/core/MenuItem'
-import FormControl from '@material-ui/core/FormControl'
-import Select from '@material-ui/core/Select'
+import Button from '../../components/CustomButtons/Button'
+import Card from '../../components/Card/Card'
+import CardHeader from '../../components/Card/CardHeader'
+import checkboxAdnRadioStyle from '../../assets/jss/material-dashboard-react/checkboxAdnRadioStyle'
+import peerReviewDetailsStyle from '../../assets/jss/material-dashboard-react/components/peerReviewDetailsStyle'
 import Table from '../Table/Table'
-import CardBody from '../../components/Card/CardBody.js'
-import CardFooter from '../../components/Card/CardFooter.js'
-
+import CardBody from '../../components/Card/CardBody'
+import CardFooter from '../../components/Card/CardFooter'
+import { peerReviewUpdateStatusSelector } from '../../selectors/reviewSelectors'
+import { formatDate } from '../../helpers/formatDates'
 import {
   updatePeerReview,
-  setUpdateReviewStatus
+  setUpdateReviewStatus,
+  loadAllPeerForUser
 } from '../../actions/peerReviewAction'
-import { loadAllPeerForUser } from '../../actions/peerReviewAction'
+
 import { useDispatch, useSelector } from 'react-redux'
 import { useToasts, withToastManager } from 'react-toast-notifications'
 
 const styles = {
-  cardTitleWhite: {
-    color: '#FFFFFF',
-    marginTop: '0px',
-    minHeight: 'auto',
-    fontWeight: '300',
-    fontFamily: "'Roboto', 'Helvetica', 'Arial', sans-serif",
-    marginBottom: '3px',
-    textDecoration: 'none'
-  },
-  grid: {
-    flexDirection: 'column',
-    justifyContent: 'center',
-    textAlign: 'center',
-    textTransform: 'uppercase'
-  },
-  footer: {
-    display: 'flex',
-    justifyContent: 'space-evenly'
-  },
-  formControl: {
-    margin: 11,
-    minWidth: 200
-  },
-
-  hoverEffect: {
-    '&:focus': {
-      backgroundColor: '#004de6',
-      color: 'white'
-    },
-    '&:hover': {
-      backgroundColor: '#004de6',
-      color: 'white',
-      opacity: '0.5'
-    }
-  }
+  ...checkboxAdnRadioStyle,
+  ...peerReviewDetailsStyle
 }
 
 const useStyles = makeStyles(styles)
 
 const PeerReviewDetails = props => {
   const classes = useStyles()
-  const { reviewData, ClickHandler } = props
+  const { reviewData, closeHandler, showButtons } = props
   const { addToast } = useToasts()
   const dispatch = useDispatch()
-  const peerReviewUpdateStatus = useSelector(
-    state => state.peerReviewReducer.peerReviewUpdateStatus
-  )
-  const tempArray = []
-  const peerReviewDetailHeader = ['Feilds', 'Data']
-  const [selectedStatus, setSelectedStatus] = useState('')
+  const peerReviewUpdateStatus = useSelector(peerReviewUpdateStatusSelector)
+  const tableDataArray = []
+  const peerReviewDetailHeader = []
+  const [selectedStatus, setSelectedStatus] = useState('Active')
 
   if (reviewData) {
-    tempArray.push(
-      ['Employee Under Review', reviewData.employee_under_review],
-      ['Employee Reviewing', reviewData.employee_reviewing],
-      ['Project', reviewData.project],
-      ['From Date', reviewData.from_date.slice(0, 10)],
-      ['To Date', reviewData.to_date.slice(0, 10)],
-      ['Due From Date', reviewData.due_from.slice(0, 10)],
-      ['Due To Date', reviewData.due_to.slice(0, 10)],
-      ['Form Link', reviewData.review_form_link],
-      ['Status', reviewData.status],
-      ['Created Date', reviewData.created_date.slice(0, 10)],
-      ['Created By', reviewData.created_by]
+    tableDataArray.push(
+      [
+        <span className={classes.boldFont}>Employee Under Review</span>,
+        reviewData.employee_under_review.firstname +
+        ' ' +
+        reviewData.employee_under_review.lastname,
+        <span className={classes.boldFont}>Employee Reviewing</span>,
+        reviewData.employee_reviewing.firstname +
+        ' ' +
+        reviewData.employee_reviewing.lastname,
+        <span className={classes.boldFont}>Project</span>,
+        reviewData.project.title,
+        <span className={classes.boldFont}>Functional Manager</span>,
+        reviewData.functional_manager.firstname +
+        ' ' +
+        reviewData.functional_manager.lastname
+      ],
+      [
+        <span className={classes.boldFont}>Review From Date</span>,
+        formatDate(reviewData.from_date),
+        <span className={classes.boldFont}>Review To Date</span>,
+        formatDate(reviewData.to_date),
+        <span className={classes.boldFont}>Due From Date</span>,
+        formatDate(reviewData.due_from),
+        <span className={classes.boldFont}>Due To Date</span>,
+        formatDate(reviewData.due_to)
+      ],
+      [
+        <span className={classes.boldFont}>Form Link</span>,
+        reviewData.review_form_link,
+        <span className={classes.boldFont}>Status</span>,
+        reviewData.status,
+        <span className={classes.boldFont}>Created Date</span>,
+        formatDate(reviewData.created_date),
+        <span className={classes.boldFont}>Created By</span>,
+        reviewData.created_by
+      ]
     )
   }
   const changeHandler = e => {
-    setSelectedStatus(e.target.value)
+    setSelectedStatus(e.target.checked ? 'Done' : 'Active')
   }
   useEffect(() => {
     if (peerReviewUpdateStatus) {
@@ -109,11 +102,7 @@ const PeerReviewDetails = props => {
     }
   }, [peerReviewUpdateStatus, addToast, dispatch])
   const updateHandler = () => {
-    if (selectedStatus === '') {
-      dispatch(updatePeerReview(reviewData._id, { status: reviewData.status }))
-    } else {
-      dispatch(updatePeerReview(reviewData._id, { status: selectedStatus }))
-    }
+    dispatch(updatePeerReview(reviewData._id, { status: selectedStatus }))
     dispatch(loadAllPeerForUser())
   }
   return (
@@ -124,60 +113,59 @@ const PeerReviewDetails = props => {
         </CardHeader>
         <CardBody>
           <Grid container>
-            <Grid xs={0} sm={0} md={2} item></Grid>
-            <Grid xs={12} sm={12} md={8} item>
+            <Grid xs={12} sm={12} md={12} item>
               <Table
                 tableHeaderColor="gray"
                 tableHead={peerReviewDetailHeader}
-                tableData={tempArray || null}
+                tableData={tableDataArray || null}
                 showLink={false}
               />
-              <Grid xs={6} sm={6} md={6} className={classes.grid} item>
-                <FormControl className={classes.formControl}>
-                  <InputLabel htmlFor="SelectStatus">Change Status</InputLabel>
-                  <Select
-                    value={selectedStatus}
-                    onChange={changeHandler}
-                    inputProps={{
-                      name: 'SelectStatus',
-                      id: 'SelectStatus'
-                    }}
-                  >
-                    <MenuItem className={classes.hoverEffect} value="Done">
-                      Done
-                    </MenuItem>
-                    <MenuItem
-                      className={classes.hoverEffect}
-                      value="InProgress"
-                    >
-                      In Progress
-                    </MenuItem>
-                  </Select>
-                </FormControl>
-              </Grid>
+              {showButtons ? (
+                <Grid xs={6} sm={6} md={6} item>
+                  <div>
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          onChange={changeHandler}
+                          checkedIcon={
+                            <Check className={classes.checkedIcon} />
+                          }
+                          icon={<Check className={classes.uncheckedIcon} />}
+                          classes={{
+                            checked: classes.checked,
+                            root: classes.root
+                          }}
+                        />
+                      }
+                      label={' I have submitted Form'}
+                    />
+                  </div>
+                </Grid>
+              ) : null}
             </Grid>
-            <Grid xs={0} sm={0} md={2} item></Grid>
           </Grid>
         </CardBody>
-        <CardFooter className={classes.footer}>
-          <Button type="submit" color="primary" onClick={updateHandler}>
-            UPDATE REVIEW
-          </Button>
-          <Button type="submit" color="primary" onClick={ClickHandler}>
-            Close
-          </Button>
-        </CardFooter>
+        {showButtons ? (
+          <CardFooter className={classes.footer}>
+            <Button type="submit" color="primary" onClick={updateHandler}>
+              UPDATE REVIEW
+            </Button>
+            <Button type="submit" color="primary" onClick={closeHandler}>
+              Close
+            </Button>
+          </CardFooter>
+        ) : null}
       </Card>
-      <iframe
-        src={reviewData.review_form_link}
-        width="100%"
-        height="800"
-        frameborder="0"
-        marginheight="0"
-        marginwidth="0"
-      >
-        Loading...
-      </iframe>
+      {showButtons ? (
+        <iframe
+          title="myFrame"
+          src={reviewData.review_form_link}
+          width="100%"
+          height="800"
+        >
+          Loading...
+        </iframe>
+      ) : null}
     </Grid>
   )
 }

@@ -1,21 +1,43 @@
-import React from 'react'
+import React, { useContext, useState } from 'react'
 import { Switch, Route, Redirect } from 'react-router-dom'
 import PerfectScrollbar from 'perfect-scrollbar'
 import 'perfect-scrollbar/css/perfect-scrollbar.css'
 import { makeStyles } from '@material-ui/core/styles'
 import bgImage from '../../assets/img/sidebar-2.jpg'
-import Navbar from '../../components/Navbars/Navbar.js'
-import Footer from '../../components/Footer/Footer.js'
-import Sidebar from '../../components/Sidebar/Sidebar.js'
-import routes from '../../routes.js'
-import styles from '../../assets/jss/material-dashboard-react/layouts/userStyle.js'
+import Navbar from '../../components/Navbars/Navbar'
+import Footer from '../../components/Footer/Footer'
+import Sidebar from '../../components/Sidebar/Sidebar'
+import {
+  dashboardRoutesAdmin as adminRoutes,
+  dashboardRoutes as userRoutes
+} from '../../routes'
+import styles from '../../assets/jss/material-dashboard-react/layouts/userStyle'
 import logo from '../../assets/img/oelogo.png'
+import { UserContext } from '../../context-provider/user-context'
 
 let ps
 
-const switchRoutes = (
+const userSwitchRoutes = (
   <Switch>
-    {routes.map((prop, key) => {
+    {userRoutes.map((prop, key) => {
+      if (prop.layout === '/admin') {
+        return (
+          <Route
+            path={prop.layout + prop.path}
+            component={prop.component}
+            key={key}
+          />
+        )
+      }
+      return null
+    })}
+    <Redirect from="/admin" to="/admin/dashboard" />
+  </Switch>
+)
+
+const adminSwitchRoutes = (
+  <Switch>
+    {userRoutes.concat(adminRoutes).map((prop, key) => {
       if (prop.layout === '/admin') {
         return (
           <Route
@@ -34,6 +56,10 @@ const switchRoutes = (
 const useStyles = makeStyles(styles)
 
 export default function User({ ...rest }) {
+  const { currentUser } = useContext(UserContext)
+  const [routes, setRoutes] = useState(null)
+  const [switchRoutes, setSwitchRoutes] = useState()
+
   // styles
   const classes = useStyles()
   // ref to help us initialize PerfectScrollbar on windows devices
@@ -51,49 +77,66 @@ export default function User({ ...rest }) {
       setMobileOpen(false)
     }
   }
-  // initialize and destroy the PerfectScrollbar plugin
   React.useEffect(() => {
-    if (navigator.platform.indexOf('Win') > -1) {
-      ps = new PerfectScrollbar(mainPanel.current, {
-        suppressScrollX: true,
-        suppressScrollY: false
-      })
-      document.body.style.overflow = 'hidden'
+    if (
+      currentUser &&
+      (currentUser.userRole == 'Admin' || currentUser.userRole == 'admin')
+    ) {
+      setRoutes(userRoutes.concat(adminRoutes))
+      setSwitchRoutes(adminSwitchRoutes)
+    } else {
+      setRoutes(userRoutes)
+      setSwitchRoutes(userSwitchRoutes)
     }
-    window.addEventListener('resize', resizeFunction)
-    // Specify how to clean up after this effect:
-    return function cleanup() {
-      if (navigator.platform.indexOf('Win') > -1) {
-        ps.destroy()
-      }
-      window.removeEventListener('resize', resizeFunction)
-    }
-  }, [mainPanel])
+  }, [currentUser])
+  // initialize and destroy the PerfectScrollbar plugin
+  //To do  - not working in laptop; so commented for now.
+  // React.useEffect(() => {
+  //   if (navigator.platform.indexOf('Win') > -1) {
+  //     ps = new PerfectScrollbar(mainPanel.current, {
+  //       suppressScrollX: true,
+  //       suppressScrollY: false
+  //     })
+  //     document.body.style.overflow = 'hidden'
+  //   }
+  //   window.addEventListener('resize', resizeFunction)
+  //   // Specify how to clean up after this effect:
+  //   return function cleanup() {
+  //     if (navigator.platform.indexOf('Win') > -1) {
+  //       ps.destroy()
+  //     }
+  //     window.removeEventListener('resize', resizeFunction)
+  //   }
+  // }, [mainPanel])
   return (
     <div className={classes.wrapper}>
-      <Sidebar
-        routes={routes}
-        logoText={'Object Edge'}
-        logo={logo}
-        image={bgImage}
-        handleDrawerToggle={handleDrawerToggle}
-        open={mobileOpen}
-        color={color}
-        {...rest}
-      />
-      <div className={classes.mainPanel} ref={mainPanel}>
-        <Navbar
-          routes={routes}
-          handleDrawerToggle={handleDrawerToggle}
-          {...rest}
-        />
-        {
-          <div className={classes.content}>
-            <div className={classes.container}>{switchRoutes}</div>
+      {routes && switchRoutes ? (
+        <>
+          <Sidebar
+            routes={routes}
+            logoText={'Object Edge'}
+            logo={logo}
+            image={bgImage}
+            handleDrawerToggle={handleDrawerToggle}
+            open={mobileOpen}
+            color={color}
+            {...rest}
+          />
+          <div className={classes.mainPanel} ref={mainPanel}>
+            <Navbar
+              routes={routes}
+              handleDrawerToggle={handleDrawerToggle}
+              {...rest}
+            />
+            {
+              <div className={classes.content}>
+                <div className={classes.container}>{switchRoutes}</div>
+              </div>
+            }
+            {<Footer />}
           </div>
-        }
-        {<Footer />}
-      </div>
+        </>
+      ) : null}
     </div>
   )
 }

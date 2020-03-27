@@ -3,24 +3,21 @@ import React from 'react'
 // @material-ui/core components
 import { makeStyles } from '@material-ui/core/styles'
 import InputLabel from '@material-ui/core/InputLabel'
-import Checkbox from '@material-ui/core/Checkbox'
 import { Radio, RadioGroup } from '@material-ui/core'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 
-// @material-ui/icons
-import Check from '@material-ui/icons/Check'
 import Brightness1Icon from '@material-ui/icons/Brightness1'
 // core components
-import checkboxAdnRadioStyle from '../../assets/jss/material-dashboard-react/checkboxAdnRadioStyle.js'
-import GridItem from '../../components/Grid/GridItem.js'
-import GridContainer from '../../components/Grid/GridContainer.js'
-import CustomInput from '../../components/CustomInput/CustomInput.js'
-import Button from '../../components/CustomButtons/Button.js'
-import Card from '../../components/Card/Card.js'
-import CardHeader from '../../components/Card/CardHeader.js'
-import CardAvatar from '../../components/Card/CardAvatar.js'
-import CardBody from '../../components/Card/CardBody.js'
-import CardFooter from '../../components/Card/CardFooter.js'
+import checkboxAdnRadioStyle from '../../assets/jss/material-dashboard-react/checkboxAdnRadioStyle'
+import GridItem from '../../components/Grid/GridItem'
+import GridContainer from '../../components/Grid/GridContainer'
+import CustomInput from '../../components/CustomInput/CustomInput'
+import Button from '../../components/CustomButtons/Button'
+import Card from '../../components/Card/Card'
+import CardHeader from '../../components/Card/CardHeader'
+import CardAvatar from '../../components/Card/CardAvatar'
+import CardBody from '../../components/Card/CardBody'
+import CardFooter from '../../components/Card/CardFooter'
 
 import avatar from '../../assets/img/faces/marc.jpg'
 
@@ -156,7 +153,6 @@ export default function UserProfile() {
                 </GridItem>
               </GridContainer>
               <GridContainer>
-               
                 <GridItem xs={12} sm={12} md={6}>
                   <InputLabel style={{ color: '#AAAAAA' }}>Gender</InputLabel>
                   <RadioGroup aria-label="gender" name="gender1">

@@ -7,10 +7,10 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import ExpansionPanel from '@material-ui/core/ExpansionPanel'
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary'
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails'
-import CardBody from '../../components/Card/CardBody.js'
-import CardFooter from '../../components/Card/CardFooter.js'
+import CardBody from '../../components/Card/CardBody'
+import CardFooter from '../../components/Card/CardFooter'
 
-import styles from '../../assets/jss/material-dashboard-react/components/accordionStyle.js'
+import styles from '../../assets/jss/material-dashboard-react/components/accordionStyle'
 
 const useStyles = makeStyles(styles)
 

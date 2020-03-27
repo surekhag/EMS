@@ -4,7 +4,7 @@ import {
   SESSION_EXPIRED,
   LOGOUT_FROM_SITE,
   CLEAR_LOGIN_ERRORS
-} from '../actions/actionTypes.js'
+} from '../actions/actionTypes'
 
 const initialState = {
   currentUser: null,
