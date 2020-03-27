@@ -16,7 +16,7 @@ import Card from '../../components/Card/Card'
 import Button from '../../components/CustomButtons/Button'
 import CardHeader from '../../components/Card/CardHeader'
 import CardBody from '../../components/Card/CardBody'
-import CreatePeerForm from '../../components/CreatePeerForm/CreatePeerForm'
+import PeerReviewForm from '../../components/PeerReviewForm/PeerReviewForm'
 import PeerReviewDetails from '../../components/PeerReviewDetails/PeerReviewDetails'
 import MenuItem from '@material-ui/core/MenuItem'
 import FormControl from '@material-ui/core/FormControl'
@@ -47,7 +47,7 @@ const PeerReview = props => {
   const { addToast } = useToasts()
   const [selectedEmployee, setselectedEmployee] = useState('')
   const [isRedirectForm, setIsRedirectForm] = useState(false)
-  const [updateInfo, setUpdateInfo] = useState(false)
+  const [peerReviewInfo, setPeerReviewInfo] = useState(false)
   const [deleteId, setDeleteId] = useState('')
   const peerReviewListingHeader = [
     'Employee Under Review',
@@ -136,15 +136,14 @@ const PeerReview = props => {
     setselectedEmployee(e.target.value)
   }
   const createPeerHandler = () => {
-    setUpdateInfo('')
+    setPeerReviewInfo('')
     setIsRedirectForm(true)
   }
   const detailsSwitchHandler = () => {
     setIsRedirectForm(false)
-    // window.location.reload()
   }
   const updateUser = (val, k) => {
-    setUpdateInfo(filteredEmployee[k])
+    setPeerReviewInfo(filteredEmployee[k])
     setIsRedirectForm(true)
   }
 
@@ -159,10 +158,10 @@ const PeerReview = props => {
   return (
     <div>
       {isRedirectForm ? (
-        <CreatePeerForm
-          updateInfo={updateInfo}
-          ClickHandler={detailsSwitchHandler}
-        ></CreatePeerForm>
+        <PeerReviewForm
+          peerReviewInfo={peerReviewInfo}
+          clickHandler={detailsSwitchHandler}
+        ></PeerReviewForm>
       ) : (
           <GridContainer>
             <Grid xs={1} sm={1} md={1} className={classes.grid} item>

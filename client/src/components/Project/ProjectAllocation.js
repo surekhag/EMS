@@ -22,7 +22,7 @@ import {
 } from '../../actions/projectAction'
 import * as Yup from 'yup'
 import {
-  newProjectAddError,
+  addProjectError,
   addNewProjectStatusMsg,
   updateProjectStatusMsg,
   updateProjectErrorMsg
@@ -45,7 +45,7 @@ const ProjectAllocation = props => {
   const { addToast } = useToasts()
   const dispatch = useDispatch()
 
-  const error = useSelector(newProjectAddError)
+  const error = useSelector(addProjectError)
   const addNewProjectStatus = useSelector(addNewProjectStatusMsg)
   const updateProjectStatus = useSelector(updateProjectStatusMsg)
   const updateProjectError = useSelector(updateProjectErrorMsg)
@@ -147,7 +147,7 @@ const ProjectAllocation = props => {
     startdate: yupRequiredDate('Start Date').typeError(''),
     enddate: yupRequiredDate('End Date')
       .typeError('')
-      .test('', 'Must be greater than Start Date', function(value) {
+      .test('', 'Must be greater than Start Date', function (value) {
         const startdate = this.parent.startdate
         return value >= startdate
       })
@@ -359,15 +359,15 @@ const ProjectAllocation = props => {
                       </GridItem>
                     </>
                   ) : (
-                    <Button
-                      id="add"
-                      type="submit"
-                      color="primary"
-                      disabled={isSubmitting}
-                    >
-                      ADD PROJECT
-                    </Button>
-                  )}
+                      <Button
+                        id="add"
+                        type="submit"
+                        color="primary"
+                        disabled={isSubmitting}
+                      >
+                        ADD PROJECT
+                      </Button>
+                    )}
                 </CardFooter>
               </Form>
             </Card>

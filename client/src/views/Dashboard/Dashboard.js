@@ -35,7 +35,7 @@ const Dashboard = props => {
   const [showSelfReviewDetail, setShowSelfreviewDetail] = useState(false)
   const [peerDetails, setPeerDetails] = useState('')
   const [selfReviewDetails, setSelfReviewDetails] = useState(null)
-  const [projectDetails, setProjectDetails] = useState()
+  const [projectDetails, setProjectDetails] = useState('')
   const { currentUser } = useContext(UserContext)
   const dispatch = useDispatch()
   const peerReviewListingHeader = [
@@ -133,7 +133,7 @@ const Dashboard = props => {
       {showDetail ? (
         <PeerReviewDetails
           reviewData={peerDetails}
-          ClickHandler={detailsSwitchHandler}
+          closeHandler={detailsSwitchHandler}
           showButtons={true}
         ></PeerReviewDetails>
       ) : showSelfReviewDetail ? (

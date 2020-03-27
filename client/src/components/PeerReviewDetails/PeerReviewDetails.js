@@ -34,7 +34,7 @@ const useStyles = makeStyles(styles)
 
 const PeerReviewDetails = props => {
   const classes = useStyles()
-  const { reviewData, ClickHandler, showButtons } = props
+  const { reviewData, closeHandler, showButtons } = props
   const { addToast } = useToasts()
   const dispatch = useDispatch()
   const peerReviewUpdateStatus = useSelector(peerReviewUpdateStatusSelector)
@@ -150,7 +150,7 @@ const PeerReviewDetails = props => {
             <Button type="submit" color="primary" onClick={updateHandler}>
               UPDATE REVIEW
             </Button>
-            <Button type="submit" color="primary" onClick={ClickHandler}>
+            <Button type="submit" color="primary" onClick={closeHandler}>
               Close
             </Button>
           </CardFooter>

@@ -2,7 +2,7 @@ export function projectSelector(state) {
   return state.projectReducer.projects
 }
 
-export function newProjectAddError(state) {
+export function addProjectError(state) {
   return state.projectReducer.error
 }
 
