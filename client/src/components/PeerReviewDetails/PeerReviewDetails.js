@@ -34,7 +34,7 @@ const useStyles = makeStyles(styles)
 
 const PeerReviewDetails = props => {
   const classes = useStyles()
-  const { reviewData, ClickHandler } = props
+  const { reviewData, ClickHandler, showButtons } = props
   const { addToast } = useToasts()
   const dispatch = useDispatch()
   const peerReviewUpdateStatus = useSelector(peerReviewUpdateStatusSelector)
@@ -45,39 +45,39 @@ const PeerReviewDetails = props => {
   if (reviewData) {
     tableDataArray.push(
       [
-        <b>Employee Under Review</b>,
+        <span className={classes.boldFont}>Employee Under Review</span>,
         reviewData.employee_under_review.firstname +
         ' ' +
         reviewData.employee_under_review.lastname,
-        <b>Employee Reviewing</b>,
+        <span className={classes.boldFont}>Employee Reviewing</span>,
         reviewData.employee_reviewing.firstname +
         ' ' +
         reviewData.employee_reviewing.lastname,
-        <b>Project</b>,
+        <span className={classes.boldFont}>Project</span>,
         reviewData.project.title,
-        <b>Functional Manager</b>,
+        <span className={classes.boldFont}>Functional Manager</span>,
         reviewData.functional_manager.firstname +
         ' ' +
         reviewData.functional_manager.lastname
       ],
       [
-        <b>Review From Date</b>,
+        <span className={classes.boldFont}>Review From Date</span>,
         formatDate(reviewData.from_date),
-        <b>Review To Date</b>,
+        <span className={classes.boldFont}>Review To Date</span>,
         formatDate(reviewData.to_date),
-        <b>Due From Date</b>,
+        <span className={classes.boldFont}>Due From Date</span>,
         formatDate(reviewData.due_from),
-        <b>Due To Date</b>,
+        <span className={classes.boldFont}>Due To Date</span>,
         formatDate(reviewData.due_to)
       ],
       [
-        <b>Form Link</b>,
+        <span className={classes.boldFont}>Form Link</span>,
         reviewData.review_form_link,
-        <b>Status</b>,
+        <span className={classes.boldFont}>Status</span>,
         reviewData.status,
-        <b>Created Date</b>,
+        <span className={classes.boldFont}>Created Date</span>,
         formatDate(reviewData.created_date),
-        <b>Created By</b>,
+        <span className={classes.boldFont}>Created By</span>,
         reviewData.created_by
       ]
     )
@@ -120,7 +120,7 @@ const PeerReviewDetails = props => {
                 tableData={tableDataArray || null}
                 showLink={false}
               />
-              {ClickHandler ? (
+              {showButtons ? (
                 <Grid xs={6} sm={6} md={6} item>
                   <div>
                     <FormControlLabel
@@ -145,7 +145,7 @@ const PeerReviewDetails = props => {
             </Grid>
           </Grid>
         </CardBody>
-        {ClickHandler ? (
+        {showButtons ? (
           <CardFooter className={classes.footer}>
             <Button type="submit" color="primary" onClick={updateHandler}>
               UPDATE REVIEW
@@ -156,7 +156,7 @@ const PeerReviewDetails = props => {
           </CardFooter>
         ) : null}
       </Card>
-      {ClickHandler ? (
+      {showButtons ? (
         <iframe
           title="myFrame"
           src={reviewData.review_form_link}

@@ -2,7 +2,7 @@ import { takeLatest, call, put } from 'redux-saga/effects'
 import {
   LOAD_ALL_USER_SELF_REVIEWS,
   UPDATE_SELF_REVIEW
-} from '../../actions/actionTypes.js'
+} from '../../actions/actionTypes'
 import {
   loadAllUserSelfReviews,
   updateSelfReview

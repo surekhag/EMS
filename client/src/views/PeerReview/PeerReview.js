@@ -28,7 +28,9 @@ import { employeeDataSelector } from '../../selectors/employeeSelectors'
 import { peerReviewDataSelector, peerReviewDeleteSuccessSelector, peerReviewDeleteErrorSelector } from '../../selectors/reviewSelectors'
 import {
   loadAllPeerReviews,
-  deletePeerReview
+  deletePeerReview,
+  peerReviewDeleteSuccess,
+  peerReviewDeleteFailue
 } from '../../actions/peerReviewAction'
 import dashboardStyle from '../../assets/jss/material-dashboard-react/views/dashboardStyle'
 import styles from './styles'
@@ -61,15 +63,15 @@ const PeerReview = props => {
   const links = ['Update', 'Delete']
   const employeeData = useSelector(employeeDataSelector)
   const peerReviewData = useSelector(peerReviewDataSelector)
-  const peerReviewDeleteSuccess = useSelector(peerReviewDeleteSuccessSelector)
+  const peerReviewDeleteSuccessMessage = useSelector(peerReviewDeleteSuccessSelector)
   const peerReviewDeleteError = useSelector(peerReviewDeleteErrorSelector)
   useEffect(() => {
     dispatch(loadAllEmployeeData())
     dispatch(loadAllPeerReviews())
   }, [dispatch])
   useEffect(() => {
-    if (peerReviewDeleteSuccess) {
-      if (peerReviewDeleteSuccess.status === 200) {
+    if (peerReviewDeleteSuccessMessage) {
+      if (peerReviewDeleteSuccessMessage.status === 200) {
         addToast('Peer Review successfully deleted', {
           appearance: 'success',
           autoDismiss: true
@@ -80,14 +82,16 @@ const PeerReview = props => {
           autoDismiss: true
         })
       }
+      dispatch(peerReviewDeleteSuccess(''));
     }
-  }, [peerReviewDeleteSuccess, addToast])
+  }, [peerReviewDeleteSuccessMessage, addToast])
   useEffect(() => {
     if (peerReviewDeleteError) {
       addToast('Error while deleting Peer Review', {
         appearance: 'error',
         autoDismiss: true
       })
+      dispatch(peerReviewDeleteFailue(''))
     }
   }, [peerReviewDeleteError, addToast])
 
@@ -246,7 +250,7 @@ const PeerReview = props => {
       >
         <DialogActions>
           <GridItem xs={12} sm={12} md={12}>
-            <PeerReviewDetails reviewData={reviewDetails}></PeerReviewDetails>
+            <PeerReviewDetails reviewData={reviewDetails} showButtons={false}></PeerReviewDetails>
 
             <Button
               color="primary"

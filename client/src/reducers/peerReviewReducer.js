@@ -8,7 +8,7 @@ import {
   SET_PEER_REVIEW_UPDATE_ERROR,
   DELETE_PEER_REVIEW_SUCCESS,
   DELETE_PEER_REVIEW_ERROR
-} from '../actions/actionTypes.js'
+} from '../actions/actionTypes'
 
 const initialState = {
   peerReviewData: null,
