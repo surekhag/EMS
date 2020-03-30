@@ -1,6 +1,10 @@
 export function employeeDataSelector(state) {
   return state.EmployeeInfo.employeeData
 }
+export function activeEmployeeDataSelector(state) {
+  return state.EmployeeInfo.activeEmployeeData
+}
+
 export function managerDataSelector(state) {
   return state.EmployeeInfo.managers
 }

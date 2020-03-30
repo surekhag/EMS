@@ -7,11 +7,11 @@ import GridContainer from '../../components/Grid/GridContainer'
 import EmployeeListing from '../../components/Employee/EmployeeListing'
 import Employee from '../../components/Employee/Employee'
 import withAuth from '../../HOC/withAuth'
-import { employeeDataSelector } from '../../selectors/employeeSelectors'
+import { employeeDataSelector, activeEmployeeDataSelector } from '../../selectors/employeeSelectors'
 const Employees = props => {
   const dispatch = useDispatch()
   const [pageView, setPageView] = useState('employeeListing')
-  const employeeData = useSelector(employeeDataSelector)
+  const employeeData = useSelector(activeEmployeeDataSelector)
 
   useEffect(() => {
     dispatch(loadAllEmployeeData('Active'))

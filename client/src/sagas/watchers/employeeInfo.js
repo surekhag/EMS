@@ -26,9 +26,11 @@ function* workerEmployeeInfoSaga({ payload }) {
   try {
     if (data) {
       const employees = yield call(loadActiveEmployeeApi, data)
+      console.log("active",employees)
       yield put(setActiveEmployeeData(employees))
     } else {
       const employees = yield call(loadAllEmployeeData)
+       console.log('all',employees)
       yield put(setAllEmployeeData(employees))
     }
   } catch (e) {
