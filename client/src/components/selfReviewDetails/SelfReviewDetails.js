@@ -101,24 +101,33 @@ const SelfReviewDetails = props => {
                 tableData={tableData || null}
                 showLink={false}
               />
-              <Grid xs={6} sm={6} md={6} item>
-                <div>
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        onChange={changeHandler}
-                        checkedIcon={<Check className={classes.checkedIcon} />}
-                        icon={<Check className={classes.uncheckedIcon} />}
-                        classes={{
-                          checked: classes.checked,
-                          root: classes.root
-                        }}
-                      />
-                    }
-                    label={' I have submitted Form'}
-                  />
-                </div>
-              </Grid>
+            </Grid>
+            <Grid xs={12} sm={12} md={12} item>
+              <iframe
+                src={selfReviewDeatails.review_form_link}
+                width="100%"
+                height="800"
+              >
+                Loading...
+      </iframe>
+            </Grid>
+            <Grid xs={6} sm={6} md={6} item>
+              <div>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      onChange={changeHandler}
+                      checkedIcon={<Check className={classes.checkedIcon} />}
+                      icon={<Check className={classes.uncheckedIcon} />}
+                      classes={{
+                        checked: classes.checked,
+                        root: classes.root
+                      }}
+                    />
+                  }
+                  label={' I have submitted Form'}
+                />
+              </div>
             </Grid>
           </Grid>
         </CardBody>
@@ -138,13 +147,7 @@ const SelfReviewDetails = props => {
           </Button>
         </CardFooter>
       </Card>
-      <iframe
-        src={selfReviewDeatails.review_form_link}
-        width="100%"
-        height="800"
-      >
-        Loading...
-      </iframe>
+
     </Grid>
   )
 }

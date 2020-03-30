@@ -24,7 +24,8 @@ const createPeerFormStyle = {
     justifyContent: 'center',
     textAlign: 'right',
     paddingRight: '30px',
-    textTransform: 'uppercase'
+    textTransform: 'capitalize',
+    fontWeight: "bold"
   },
   footerDisplay: {
     justifyContent: 'space-evenly'

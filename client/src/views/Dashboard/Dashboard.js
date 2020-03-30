@@ -7,10 +7,8 @@ import { loadAllSelfReviewsForUser } from '../../actions/selfReviewActions'
 import { makeStyles } from '@material-ui/core/styles'
 import InputLabel from '@material-ui/core/InputLabel'
 // @material-ui/icons
-import Search from '@material-ui/icons/Search'
+
 // core components
-import CustomInput from '../../components/CustomInput/CustomInput'
-import Button from '../../components/CustomButtons/Button'
 import GridItem from '../../components/Grid/GridItem'
 import GridContainer from '../../components/Grid/GridContainer'
 import Table from '../../components/Table/Table'
@@ -149,24 +147,7 @@ const Dashboard = props => {
                   Welcome {currentUser ? currentUser.userName : null}
                 </InputLabel>
               </GridItem>
-              <GridItem xs={12} sm={12} md={12}>
-                <CustomInput
-                  formControlProps={{
-                    className: classes.margin + ' ' + classes.search
-                  }}
-                  inputProps={{
-                    onChange: changeHandler,
-                    placeholder: 'Search Peer',
-                    inputProps: {
-                      'aria-label': 'Search'
-                    }
-                  }}
-                />
-                <Button color="white" aria-label="edit" justIcon round>
-                  <Search />
-                </Button>
-              </GridItem>
-              {peerReviews ? <GridItem xs={12} sm={12} md={12}>
+              {peerReviews && peerReviews.length > 0 ? <GridItem xs={12} sm={12} md={12}>
                 <Card plain>
                   <CardHeader plain color="primary">
                     <h4 className={classes.cardTitleWhite}>PEER REVIEWS</h4>
