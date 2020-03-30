@@ -289,72 +289,36 @@ const Employee = props => {
                     </GridItem>
                     <GridItem xs={12} sm={12} md={4}></GridItem>
                     <GridItem xs={12} sm={12} md={4}>
-                      <CustomInput
-                        labelText="City *"
+                      <Input
                         name="city"
-                        formControlProps={{
-                          fullWidth: true
-                        }}
-                        inputProps={{
-                          value: values.city,
-                          name: 'city',
-                          onChange: handleChange
-                        }}
+                        value={values.city}
+                        onChange={handleChange}
+                        labelText="City *"
                       />
-                      <div className={classes.error}>
-                        <ErrorMessage name="city" />
-                      </div>
                     </GridItem>
                     <GridItem xs={12} sm={12} md={4}>
-                      <CustomInput
-                        labelText="Zip *"
+                      <Input
                         name="zip"
-                        formControlProps={{
-                          fullWidth: true
-                        }}
-                        inputProps={{
-                          value: values.zip,
-                          name: 'zip',
-                          onChange: handleChange
-                        }}
+                        value={values.zip}
+                        onChange={handleChange}
+                        labelText="Zip *"
                       />
-                      <div className={classes.error}>
-                        <ErrorMessage name="zip" />
-                      </div>
                     </GridItem>
                     <GridItem xs={12} sm={12} md={4}>
-                      <CustomInput
-                        labelText="Conatct Number *"
+                      <Input
                         name="contact_no"
-                        formControlProps={{
-                          fullWidth: true
-                        }}
-                        inputProps={{
-                          value: values.contact_no,
-                          name: 'contact_no',
-                          onChange: handleChange
-                        }}
+                        value={values.contact_no}
+                        onChange={handleChange}
+                        labelText="Conatct Number *"
                       />
-                      <div className={classes.error}>
-                        <ErrorMessage name="contact_no" />
-                      </div>
                     </GridItem>
                     <GridItem xs={12} sm={12} md={4}>
-                      <CustomInput
-                        labelText="Experience At Joining *"
+                      <Input
                         name="experience_at_joining"
-                        formControlProps={{
-                          fullWidth: true
-                        }}
-                        inputProps={{
-                          value: values.experience_at_joining,
-                          name: 'experience_at_joining',
-                          onChange: handleChange
-                        }}
+                        value={values.experience_at_joining}
+                        onChange={handleChange}
+                        labelText="Experience At Joining *"
                       />
-                      <div className={classes.error}>
-                        <ErrorMessage name="experience_at_joining" />
-                      </div>
                     </GridItem>
                     <GridItem xs={12} sm={12} md={4}>
                       <DatePicker
@@ -368,7 +332,7 @@ const Employee = props => {
                       <DatePicker
                         name="dateofjoining"
                         value={values.dateofjoining}
-                        label="Date Of Joining"
+                        label="Date Of Joining *"
                         onChange={date => setFieldValue('dateofjoining', date)}
                       />
                     </GridItem>
@@ -377,7 +341,7 @@ const Employee = props => {
                         name="gender"
                         onChange={handleChange}
                         disabledName="None"
-                        label="Gender"
+                        label="Gender *"
                         value={values.gender}
                       >
                         {gender.map(item => {
@@ -390,7 +354,7 @@ const Employee = props => {
                         name="work_location"
                         onChange={handleChange}
                         disabledName="None"
-                        label="Work Location"
+                        label="Work Location *"
                         value={values.work_location}
                       >
                         {work_location.map(item => {
@@ -405,7 +369,7 @@ const Employee = props => {
                         name="timezone"
                         onChange={handleChange}
                         disabledName="None"
-                        label="Timezone"
+                        label="Timezone *"
                         value={values.timezone}
                       >
                         {work_location.map(item => {
@@ -420,7 +384,7 @@ const Employee = props => {
                         name="shift_timing"
                         onChange={handleChange}
                         disabledName="None"
-                        label="Shift Timing"
+                        label="Shift Timing *"
                         value={values.shift_timing}
                       >
                         {shift_timing.map(item => {
@@ -433,7 +397,7 @@ const Employee = props => {
                         name="designation"
                         onChange={handleChange}
                         disabledName="None"
-                        label="Designation"
+                        label="Designation *"
                         value={values.designation}
                       >
                         {designation.map(item => {
@@ -446,7 +410,7 @@ const Employee = props => {
                         name="employment_status"
                         onChange={handleChange}
                         disabledName="None"
-                        label="Employment Status"
+                        label="Employment Status *"
                         value={values.employment_status}
                       >
                         {employment_status.map(item => {
@@ -459,7 +423,7 @@ const Employee = props => {
                         name="userRole"
                         onChange={handleChange}
                         disabledName="None"
-                        label="User Role"
+                        label="User Role *"
                         value={values.userRole}
                       >
                         {userRole.map(item => {
@@ -472,7 +436,12 @@ const Employee = props => {
                         name="reporting_manager"
                         onChange={handleChange}
                         disabledName="None"
-                        label="Reporting Manager"
+                        label={
+                          values.designation === 'Partner' ||
+                          values.designation === 'Chief Executive Officer'
+                            ? 'Reporting Manager'
+                            : 'Reporting Manager *'
+                        }
                         value={values.reporting_manager}
                       >
                         {managers
@@ -491,7 +460,7 @@ const Employee = props => {
                         name="skills"
                         value={values.skills}
                         onChange={handleChange}
-                        labelText="Skills"
+                        labelText="Skills *"
                       />
                     </GridItem>
                     <GridItem xs={12} sm={12} md={6}>
