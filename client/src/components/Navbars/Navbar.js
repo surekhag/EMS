@@ -17,6 +17,7 @@ import styles from '../../assets/jss/material-dashboard-react/components/headerS
 const useStyles = makeStyles(styles)
 
 export default function Header(props) {
+  console.log(props)
   const classes = useStyles()
   const { color } = props
   const appBarClasses = classNames({

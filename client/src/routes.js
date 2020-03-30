@@ -11,6 +11,15 @@ import SelfReview from './views/SelfReview/SelfReview'
 import PeerReview from './views/PeerReview/PeerReview'
 
 export const dashboardRoutesAdmin = [
+    {
+    path: '#',
+    name: 'Separator',
+    rtlName: 'ملف تعريفي للمستخدم',
+    icon: '',
+    component: '',
+    layout: '/admin',
+    showLink: true
+  },
   {
     path: '/employee',
     name: 'Employees',
@@ -20,7 +29,6 @@ export const dashboardRoutesAdmin = [
     layout: '/admin',
     showLink: true
   },
-
   {
     path: '/projects',
     name: 'Projects',

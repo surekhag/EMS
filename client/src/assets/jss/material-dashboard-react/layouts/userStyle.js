@@ -30,7 +30,11 @@ const appStyle = theme => ({
   container,
   map: {
     marginTop: '70px'
-  }
+  },
+ avoidClicks: {
+  pointerEvents: 'none',
+  cursor: 'default'
+}
 })
 
 export default appStyle

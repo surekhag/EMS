@@ -40,11 +40,14 @@ const adminSwitchRoutes = (
     {userRoutes.concat(adminRoutes).map((prop, key) => {
       if (prop.layout === '/admin') {
         return (
+          <>
+          {prop.name == 'Separator' ? prop.name = "_________________" : 
           <Route
             path={prop.layout + prop.path}
             component={prop.component}
             key={key}
-          />
+          />}
+          </>
         )
       }
       return null
@@ -123,7 +126,12 @@ export default function User({ ...rest }) {
             {...rest}
           />
           <div className={classes.mainPanel} ref={mainPanel}>
-            <Navbar
+            {/* <Navbar
+              routes={adminRoutes}
+              handleDrawerToggle={handleDrawerToggle}
+              {...rest}
+            />  */}
+             <Navbar
               routes={routes}
               handleDrawerToggle={handleDrawerToggle}
               {...rest}
