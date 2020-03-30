@@ -23,7 +23,7 @@ const peerReviewDetailsStyle = {
     minWidth: 200
   },
   boldFont: {
-    fontWeight: "bold"
+    fontWeight: 'bold'
   },
 
   hoverEffect: {

@@ -25,7 +25,11 @@ import { formatDate } from '../../helpers/formatDates'
 import withAuth from '../../HOC/withAuth'
 import { loadAllEmployeeData } from '../../actions/employeeAction'
 import { employeeDataSelector } from '../../selectors/employeeSelectors'
-import { peerReviewDataSelector, peerReviewDeleteSuccessSelector, peerReviewDeleteErrorSelector } from '../../selectors/reviewSelectors'
+import {
+  peerReviewDataSelector,
+  peerReviewDeleteSuccessSelector,
+  peerReviewDeleteErrorSelector
+} from '../../selectors/reviewSelectors'
 import {
   loadAllPeerReviews,
   deletePeerReview,
@@ -63,7 +67,9 @@ const PeerReview = props => {
   const links = ['Update', 'Delete']
   const employeeData = useSelector(employeeDataSelector)
   const peerReviewData = useSelector(peerReviewDataSelector)
-  const peerReviewDeleteSuccessMessage = useSelector(peerReviewDeleteSuccessSelector)
+  const peerReviewDeleteSuccessMessage = useSelector(
+    peerReviewDeleteSuccessSelector
+  )
   const peerReviewDeleteError = useSelector(peerReviewDeleteErrorSelector)
   useEffect(() => {
     dispatch(loadAllEmployeeData())
@@ -82,7 +88,7 @@ const PeerReview = props => {
           autoDismiss: true
         })
       }
-      dispatch(peerReviewDeleteSuccess(''));
+      dispatch(peerReviewDeleteSuccess(''))
     }
   }, [peerReviewDeleteSuccessMessage, addToast])
   useEffect(() => {
@@ -105,10 +111,10 @@ const PeerReview = props => {
     filteredEmployee = peerReviewData.data.data.filter(
       cls =>
         cls.employee_under_review.firstname +
-        ' ' +
-        cls.employee_under_review.lastname
-          .toLowerCase()
-          .includes(selectedEmployee.toLowerCase().trim()) &&
+          ' ' +
+          cls.employee_under_review.lastname
+            .toLowerCase()
+            .includes(selectedEmployee.toLowerCase().trim()) &&
         cls.status !== 'Inactive'
     )
     filteredEmployee.map((review, key) => {
@@ -122,8 +128,8 @@ const PeerReview = props => {
             review.employee_under_review.lastname}
         </span>,
         review.employee_reviewing.firstname +
-        ' ' +
-        review.employee_reviewing.lastname,
+          ' ' +
+          review.employee_reviewing.lastname,
         review.project.title,
         formatDate(review.to_date),
         review.status
@@ -163,26 +169,26 @@ const PeerReview = props => {
           clickHandler={detailsSwitchHandler}
         ></PeerReviewForm>
       ) : (
-          <GridContainer>
-            <Grid xs={1} sm={1} md={1} className={classes.grid} item>
-              <InputLabel>Search By:</InputLabel>
-            </Grid>
-            <GridItem xs={5} sm={5} md={5}>
-              <FormControl className={classes.formControl}>
-                <InputLabel htmlFor="SelectEmployee"> Select Employee</InputLabel>
-                <Select
-                  value={selectedEmployee}
-                  onChange={changeHandler}
-                  inputProps={{
-                    name: 'SelectEmployee',
-                    id: 'SelectEmployee'
-                  }}
-                >
-                  <MenuItem className={classes.hoverEffect} value="">
-                    <em>None</em>
-                  </MenuItem>
-                  {employeeData
-                    ? employeeData.map((prop, key) => {
+        <GridContainer>
+          <Grid xs={1} sm={1} md={1} className={classes.grid} item>
+            <InputLabel>Search By:</InputLabel>
+          </Grid>
+          <GridItem xs={5} sm={5} md={5}>
+            <FormControl className={classes.formControl}>
+              <InputLabel htmlFor="SelectEmployee"> Select Employee</InputLabel>
+              <Select
+                value={selectedEmployee}
+                onChange={changeHandler}
+                inputProps={{
+                  name: 'SelectEmployee',
+                  id: 'SelectEmployee'
+                }}
+              >
+                <MenuItem className={classes.hoverEffect} value="">
+                  <em>None</em>
+                </MenuItem>
+                {employeeData
+                  ? employeeData.map((prop, key) => {
                       return prop.status !== 'Inactive' ? (
                         <MenuItem
                           className={classes.hoverEffect}
@@ -193,35 +199,35 @@ const PeerReview = props => {
                         </MenuItem>
                       ) : null
                     })
-                    : null}
-                </Select>
-              </FormControl>
-            </GridItem>
-            <GridItem style={{ textAlign: 'end' }} xs={6} sm={6} md={6}>
-              <Button color="primary" onClick={createPeerHandler}>
-                Create Peer
+                  : null}
+              </Select>
+            </FormControl>
+          </GridItem>
+          <GridItem style={{ textAlign: 'end' }} xs={6} sm={6} md={6}>
+            <Button color="primary" onClick={createPeerHandler}>
+              Create Peer
             </Button>
-            </GridItem>
-            <GridItem xs={12} sm={12} md={12}>
-              <Card plain>
-                <CardHeader plain color="primary">
-                  <h4 className={classes.cardTitleWhite}>PEER REVIEW</h4>
-                </CardHeader>
-                <CardBody>
-                  <Table
-                    tableHeaderColor="gray"
-                    tableHead={peerReviewListingHeader}
-                    tableData={tempArr || null}
-                    addLinks={links}
-                    updateUser={updateUser}
-                    deleteUser={deleteUser}
-                    showLink={false}
-                  />
-                </CardBody>
-              </Card>
-            </GridItem>
-          </GridContainer>
-        )}
+          </GridItem>
+          <GridItem xs={12} sm={12} md={12}>
+            <Card plain>
+              <CardHeader plain color="primary">
+                <h4 className={classes.cardTitleWhite}>PEER REVIEW</h4>
+              </CardHeader>
+              <CardBody>
+                <Table
+                  tableHeaderColor="gray"
+                  tableHead={peerReviewListingHeader}
+                  tableData={tempArr || null}
+                  addLinks={links}
+                  updateUser={updateUser}
+                  deleteUser={deleteUser}
+                  showLink={false}
+                />
+              </CardBody>
+            </Card>
+          </GridItem>
+        </GridContainer>
+      )}
       <Dialog title="Delete Peer" modal={true} open={showDelDialog}>
         <DialogActions>
           <GridItem xs={12} sm={12} md={12}>
@@ -249,7 +255,10 @@ const PeerReview = props => {
       >
         <DialogActions>
           <GridItem xs={12} sm={12} md={12}>
-            <PeerReviewDetails reviewData={reviewDetails} showButtons={false}></PeerReviewDetails>
+            <PeerReviewDetails
+              reviewData={reviewDetails}
+              showButtons={false}
+            ></PeerReviewDetails>
 
             <Button
               color="primary"

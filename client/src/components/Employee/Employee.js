@@ -37,7 +37,7 @@ import {
   userRole,
   countryData
 } from '../../constants'
-import {  
+import {
   managerDataSelector,
   addNewUserSuccess,
   updateUserStatusSuccess,
@@ -61,7 +61,7 @@ const Employee = props => {
   const userForm = useRef(null)
 
   // Load all emp info
-  useEffect(() => { 
+  useEffect(() => {
     dispatch(loadManagers())
   }, [])
 
@@ -111,8 +111,10 @@ const Employee = props => {
     })
     return states.length > 0 ? states[0].states : []
   }
-  const submitFormValues = values => {    
-    userToUpdate ? dispatch(updateUser(values,  userToUpdate[0]._id)) :  dispatch(addNewUser(values))
+  const submitFormValues = values => {
+    userToUpdate
+      ? dispatch(updateUser(values, userToUpdate[0]._id))
+      : dispatch(addNewUser(values))
   }
 
   let initialValues

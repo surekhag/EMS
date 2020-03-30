@@ -22,7 +22,7 @@ function* workerEmployeeInfoSaga() {
   try {
     const employees = yield call(loadAllEmployeeData)
     yield put(setAllEmployeeData(employees))
-  } catch (e) { }
+  } catch (e) {}
 }
 
 export function* watchEmployeeInfoSaga() {
@@ -35,7 +35,7 @@ function* workerManagerSaga() {
     const managers = yield call(loadManagers)
     yield put(setManagers(managers.data.data))
   } catch (e) {
-    setManagerError(e);
+    setManagerError(e)
   }
 }
 

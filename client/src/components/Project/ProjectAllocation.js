@@ -147,7 +147,7 @@ const ProjectAllocation = props => {
     startdate: yupRequiredDate('Start Date').typeError(''),
     enddate: yupRequiredDate('End Date')
       .typeError('')
-      .test('', 'Must be greater than Start Date', function (value) {
+      .test('', 'Must be greater than Start Date', function(value) {
         const startdate = this.parent.startdate
         return value >= startdate
       })
@@ -359,15 +359,15 @@ const ProjectAllocation = props => {
                       </GridItem>
                     </>
                   ) : (
-                      <Button
-                        id="add"
-                        type="submit"
-                        color="primary"
-                        disabled={isSubmitting}
-                      >
-                        ADD PROJECT
-                      </Button>
-                    )}
+                    <Button
+                      id="add"
+                      type="submit"
+                      color="primary"
+                      disabled={isSubmitting}
+                    >
+                      ADD PROJECT
+                    </Button>
+                  )}
                 </CardFooter>
               </Form>
             </Card>
