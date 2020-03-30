@@ -78,10 +78,7 @@ export default function User({ ...rest }) {
     }
   }
   React.useEffect(() => {
-    if (
-      currentUser &&
-      (currentUser.userRole == 'Admin' || currentUser.userRole == 'admin')
-    ) {
+    if (currentUser && currentUser.userRole === 'Admin') {
       setRoutes(userRoutes.concat(adminRoutes))
       setSwitchRoutes(adminSwitchRoutes)
     } else {

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import GridContainer from '../Grid/GridContainer'
 import GridItem from '../Grid/GridItem'
@@ -7,7 +7,6 @@ import CardHeader from '../Card/CardHeader'
 import CardBody from '../Card/CardBody'
 import CardFooter from '../Card/CardFooter'
 import Button from '../CustomButtons/Button'
-import CustomInput from '../CustomInput/CustomInput'
 import Input from '../FromComponents/Input'
 import 'date-fns'
 
@@ -28,15 +27,7 @@ import {
   updateProjectStatusMsg,
   updateProjectErrorMsg
 } from '../../selectors/projectSelectors'
-import {
-  yupRequired,
-  yupRequiredNumber,
-  yupRequiredDate
-} from '../../helpers/yupValidations'
-import {
-  MuiPickersUtilsProvider,
-  KeyboardDatePicker
-} from '@material-ui/pickers'
+import { yupRequired, yupRequiredDate } from '../../helpers/yupValidations'
 
 const styles = projectStyles
 const useStyles = makeStyles(styles)
@@ -63,7 +54,7 @@ const Project = props => {
       dispatch(clearProjectMsg())
       setPageView('projectListing')
     }
-  }, [addNewProjectStatus, addToast])
+  }, [addNewProjectStatus, addToast, dispatch])
 
   useEffect(() => {
     if (updateProjectStatus) {
@@ -75,21 +66,21 @@ const Project = props => {
       dispatch(clearProjectMsg())
       if (props) props.setUpdateAction()
     }
-  }, [updateProjectStatus, addToast])
+  }, [updateProjectStatus, addToast, dispatch])
 
   useEffect(() => {
     if (error) {
       addToast(error, { appearance: 'error', autoDismiss: true })
       dispatch(clearProjectMsg())
     }
-  }, [error, addToast])
+  }, [error, addToast, dispatch])
 
   useEffect(() => {
     if (updateProjectError) {
       addToast(updateProjectError, { appearance: 'error', autoDismiss: true })
       dispatch(clearProjectMsg())
     }
-  }, [updateProjectError, addToast])
+  }, [updateProjectError, addToast, dispatch])
 
   const submitFormValues = values => {
     dispatch(
@@ -177,75 +168,74 @@ const Project = props => {
                 <CardBody>
                   <GridContainer>
                     <GridItem xs={12} sm={12} md={6}>
-                       <Input
-                            name="title"
-                            value={values.title}
-                            onChange={handleChange}
-                            labelText="Project Title * "
-                          />                     
+                      <Input
+                        name="title"
+                        value={values.title}
+                        onChange={handleChange}
+                        labelText="Project Title * "
+                      />
                     </GridItem>
 
                     <GridItem xs={12} sm={12} md={6}>
-                       <Input
-                            name="description"
-                            value={values.description}
-                            onChange={handleChange}
-                            labelText="Description * "
-                          />
+                      <Input
+                        name="description"
+                        value={values.description}
+                        onChange={handleChange}
+                        labelText="Description * "
+                      />
                     </GridItem>
 
                     <GridItem xs={12} sm={12} md={6}>
-                       <Input
-                            name="client"
-                            value={values.client}
-                            onChange={handleChange}
-                            labelText="Client *"
-                          />
+                      <Input
+                        name="client"
+                        value={values.client}
+                        onChange={handleChange}
+                        labelText="Client *"
+                      />
                     </GridItem>
                     <GridItem xs={12} sm={12} md={6}>
-                       <Input
-                            name="client_location"
-                            value={values.client_location}
-                            onChange={handleChange}
-                            labelText="Client Location * "
-                          />
-                    </GridItem>
-
-                    <GridItem xs={12} sm={12} md={6}>
-                       <Input
-                            name="technology"
-                            value={values.technology}
-                            onChange={handleChange}
-                            labelText="Technology * "
-                          />
+                      <Input
+                        name="client_location"
+                        value={values.client_location}
+                        onChange={handleChange}
+                        labelText="Client Location * "
+                      />
                     </GridItem>
 
                     <GridItem xs={12} sm={12} md={6}>
-                       <Input
-                            name="type"
-                            value={values.type}
-                            onChange={handleChange}
-                            labelText="Project Type * "
-                          />
+                      <Input
+                        name="technology"
+                        value={values.technology}
+                        onChange={handleChange}
+                        labelText="Technology * "
+                      />
                     </GridItem>
 
                     <GridItem xs={12} sm={12} md={6}>
-                       <DatePicker
+                      <Input
+                        name="type"
+                        value={values.type}
+                        onChange={handleChange}
+                        labelText="Project Type * "
+                      />
+                    </GridItem>
+
+                    <GridItem xs={12} sm={12} md={6}>
+                      <DatePicker
                         name="startdate"
                         value={values.startdate}
                         label="Start Date *"
                         onChange={date => setFieldValue('startdate', date)}
                       />
-                      
                     </GridItem>
 
                     <GridItem xs={12} sm={12} md={6}>
-                       <DatePicker
+                      <DatePicker
                         name="enddate"
                         value={values.enddate}
                         label="End Date *"
                         onChange={date => setFieldValue('enddate', date)}
-                      />                     
+                      />
                     </GridItem>
                   </GridContainer>
                 </CardBody>
