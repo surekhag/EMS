@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import Card from '../../components/Card/Card'
 import CardHeader from '../../components/Card/CardHeader'
 import CardBody from '../../components/Card/CardBody'
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import Search from '@material-ui/icons/Search'
 import CustomInput from '../../components/CustomInput/CustomInput'
@@ -27,6 +27,7 @@ const EmployeeListing = props => {
   const { addToast } = useToasts()
   const classes = useStyles()
   const [searchText, setsearchText] = useState('')
+  const [employeeDetails, setEmployeeDetails] = useState([])
   const dispatch = useDispatch()
   const [userToUpdate, setUserToUpdate] = useState(null)
   const [updateAction, setUpdateAction] = useState(null)
@@ -74,55 +75,62 @@ const EmployeeListing = props => {
     }
   }, [deleteEmployeeError, addToast, dispatch])
 
-  const employeeDetails = []
   let filteredEmployee
-  if (employeeData && searchText) {
-    filteredEmployee = employeeData.filter(
-      cls =>
-        cls.userName.toLowerCase().includes(searchText.toLowerCase().trim()) &&
-        cls.status !== 'Inactive'
-    )
-    filteredEmployee.map((key, value) => {
-      const {
-        employee_id,
-        firstname,
-        lastname,
-        contact_no,
-        email,
-        reporting_manager,
-        designation
-      } = key
 
-      const manager = filteredEmployee.filter(item => {
-        if (
-          item.userRole === 'Manager' &&
-          item.employee_id === reporting_manager
-        ) {
-          return item
+  const searchHandler = () => {
+    const employeeDetails = []
+    if (employeeData && searchText) {
+      //To do - update api to get only active users
+      filteredEmployee = employeeData.filter(
+        cls =>
+          cls.userName
+            .toLowerCase()
+            .includes(searchText.toLowerCase().trim()) &&
+          cls.status !== 'Inactive'
+      )
+      filteredEmployee.map((key, value) => {
+        const {
+          employee_id,
+          firstname,
+          lastname,
+          contact_no,
+          email,
+          reporting_manager,
+          designation
+        } = key
+
+        const manager = filteredEmployee.filter(item => {
+          if (
+            item.userRole === 'Manager' &&
+            item.employee_id === reporting_manager
+          ) {
+            return item
+          }
+        })
+        const managerName = manager[0]
+          ? manager[0].firstname + ' ' + manager[0].lastname
+          : 'NA'
+
+        const name = firstname + ' ' + lastname
+        const data = {
+          employee_id,
+          name,
+          designation,
+          contact_no,
+          email,
+          managerName
         }
-        return false
+        employeeDetails.push(Object.values(data))
+        return
       })
-      const managerName = manager[0]
-        ? manager[0].firstname + ' ' + manager[0].lastname
-        : 'NA'
-
-      const name = firstname + ' ' + lastname
-      const data = {
-        employee_id,
-        name,
-        designation,
-        contact_no,
-        email,
-        managerName
-      }
-      employeeDetails.push(Object.values(data))
-      return false
-    })
+    }
+    setEmployeeDetails(employeeDetails)
   }
 
   const links = ['Edit', 'Delete']
 
   const getUserToUpdate = (employeeData, employee_id) => {
+    console.log(employeeData)
     return employeeData.filter(item => {
       if (item.employee_id === employee_id) return item
 
@@ -132,12 +140,14 @@ const EmployeeListing = props => {
 
   const updateUser = val => {
     setUpdateAction('update')
-    const user = getUserToUpdate(filteredEmployee, val[0])
+    //To do - update api to get only active users
+    const user = getUserToUpdate(employeeData, val[0])
     setUserToUpdate(user)
   }
 
   const deleteUser = val => {
-    const user = getUserToUpdate(filteredEmployee, val[0])
+    //To do - update api to get only active users
+    const user = getUserToUpdate(employeeData, val[0])
     setUpdateAction('delete')
     setUserToUpdate(user)
     setShowDelDialog(true)
@@ -175,7 +185,13 @@ const EmployeeListing = props => {
                 }
               }}
             />
-            <Button color="white" aria-label="edit" justIcon round>
+            <Button
+              color="white"
+              aria-label="edit"
+              justIcon
+              round
+              onClick={searchHandler}
+            >
               <Search />
             </Button>
           </GridItem>
@@ -186,19 +202,23 @@ const EmployeeListing = props => {
                 <h4 className={classes.cardTitleWhite}>Employee List</h4>
               </CardHeader>
               <CardBody>
-                <Table
-                  tableHeaderColor="gray"
-                  tableHead={
-                    employeeData && employeeDetails.length > 0 && searchText
-                      ? employeeListingHeader
-                      : null
-                  }
-                  tableData={employeeDetails || null}
-                  addLinks={links}
-                  updateUser={updateUser}
-                  deleteUser={deleteUser}
-                  showLink={false}
-                />
+                {employeeData && employeeDetails.length > 0 && searchText ? (
+                  <Table
+                    tableHeaderColor="gray"
+                    tableHead={
+                      employeeData && employeeDetails.length > 0 && searchText
+                        ? employeeListingHeader
+                        : null
+                    }
+                    tableData={employeeDetails || null}
+                    addLinks={links}
+                    updateUser={updateUser}
+                    deleteUser={deleteUser}
+                    showLink={false}
+                  />
+                ) : (
+                  '**Please search for employee result'
+                )}
               </CardBody>
             </Card>
           </GridItem>

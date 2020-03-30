@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 // @material-ui/core components
 import { makeStyles } from '@material-ui/core/styles'
 import { compose } from 'redux'
@@ -94,6 +94,7 @@ const PeerReviewForm = ({ peerReviewInfo, clickHandler }) => {
           appearance: 'success',
           autoDismiss: true
         })
+        clickHandler()
       } else {
         addToast('Error while saving form', {
           appearance: 'error',
@@ -102,7 +103,7 @@ const PeerReviewForm = ({ peerReviewInfo, clickHandler }) => {
       }
       dispatch(setPeerReviewSuccess(''))
     }
-  }, [peerReviewStatusMessage, addToast, dispatch])
+  }, [peerReviewStatusMessage, addToast, dispatch, clickHandler])
   useEffect(() => {
     if (peerReviewUpdateStatus) {
       if (peerReviewUpdateStatus.status === 200) {
@@ -110,6 +111,7 @@ const PeerReviewForm = ({ peerReviewInfo, clickHandler }) => {
           appearance: 'success',
           autoDismiss: true
         })
+        clickHandler()
       } else {
         addToast('Error while saving form', {
           appearance: 'error',
@@ -118,7 +120,7 @@ const PeerReviewForm = ({ peerReviewInfo, clickHandler }) => {
       }
       dispatch(setUpdateReviewStatus(''))
     }
-  }, [peerReviewUpdateStatus, addToast, dispatch])
+  }, [peerReviewUpdateStatus, addToast, dispatch, clickHandler])
 
   useEffect(() => {
     if (peerReviewUpdateError) {
@@ -155,7 +157,7 @@ const PeerReviewForm = ({ peerReviewInfo, clickHandler }) => {
               <CardBody>
                 <Grid className={classes.container} container>
                   <Grid xs={6} sm={6} md={3} className={classes.grid} item>
-                    Employee Under Review
+                    Employee Under Review *
                   </Grid>
                   <Grid xs={6} sm={6} md={3} item>
                     <SelectMenu
@@ -180,7 +182,7 @@ const PeerReviewForm = ({ peerReviewInfo, clickHandler }) => {
                     </SelectMenu>
                   </Grid>
                   <Grid xs={6} sm={6} md={3} className={classes.grid} item>
-                    Employee Reviewing
+                    Employee Reviewing *
                   </Grid>
                   <Grid xs={6} sm={6} md={3} item>
                     <SelectMenu
@@ -208,7 +210,7 @@ const PeerReviewForm = ({ peerReviewInfo, clickHandler }) => {
                 </Grid>
                 <Grid className={classes.container} container>
                   <Grid xs={6} sm={6} md={3} className={classes.grid} item>
-                    Project
+                    Project *
                   </Grid>
                   <Grid xs={6} sm={6} md={3} item>
                     <SelectMenu
@@ -233,7 +235,7 @@ const PeerReviewForm = ({ peerReviewInfo, clickHandler }) => {
                     </SelectMenu>
                   </Grid>
                   <Grid xs={6} sm={6} md={3} className={classes.grid} item>
-                    Functional Manager
+                    Functional Manager *
                   </Grid>
                   <Grid xs={6} sm={6} md={3} item>
                     <SelectMenu
@@ -259,7 +261,7 @@ const PeerReviewForm = ({ peerReviewInfo, clickHandler }) => {
                 </Grid>
                 <Grid className={classes.container} container>
                   <Grid xs={6} sm={6} md={3} className={classes.grid} item>
-                    Review From Date
+                    Review From Date *
                   </Grid>
                   <Grid xs={6} sm={6} md={3}>
                     <DatePicker
@@ -269,7 +271,7 @@ const PeerReviewForm = ({ peerReviewInfo, clickHandler }) => {
                     />
                   </Grid>
                   <Grid xs={6} sm={6} md={3} className={classes.grid} item>
-                    Review To Date
+                    Review To Date *
                   </Grid>
                   <Grid xs={6} sm={6} md={3} item>
                     <DatePicker
@@ -281,7 +283,7 @@ const PeerReviewForm = ({ peerReviewInfo, clickHandler }) => {
                 </Grid>
                 <Grid className={classes.container} container>
                   <Grid xs={6} sm={6} md={3} className={classes.grid} item>
-                    Due From Date
+                    Due From Date *
                   </Grid>
                   <Grid xs={6} sm={6} md={3} item>
                     <DatePicker
@@ -291,7 +293,7 @@ const PeerReviewForm = ({ peerReviewInfo, clickHandler }) => {
                     />
                   </Grid>
                   <Grid xs={6} sm={6} md={3} className={classes.grid} item>
-                    Due To Date
+                    Due To Date *
                   </Grid>
                   <Grid xs={6} sm={6} md={3} item>
                     <DatePicker
@@ -303,7 +305,7 @@ const PeerReviewForm = ({ peerReviewInfo, clickHandler }) => {
                 </Grid>
                 <Grid className={classes.container} container>
                   <Grid xs={6} sm={6} md={3} className={classes.grid} item>
-                    Google Form Link
+                    Google Form Link *
                   </Grid>
                   <Grid xs={6} sm={6} md={3} item>
                     <CustomInput
@@ -337,7 +339,7 @@ const PeerReviewForm = ({ peerReviewInfo, clickHandler }) => {
                     CREATE PEER REVIEW
                   </Button>
                 )}
-                <Button type="submit" color="primary" onClick={clickHandler}>
+                <Button type="submit" color="white" onClick={clickHandler}>
                   Close
                 </Button>
               </CardFooter>

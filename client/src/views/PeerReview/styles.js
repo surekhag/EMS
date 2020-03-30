@@ -25,6 +25,11 @@ const styles = {
       color: 'white',
       opacity: '0.5'
     }
+  },
+  displayCenter: {
+    display: 'flex',
+    justifyContent: 'center'
   }
 }
+
 export default styles

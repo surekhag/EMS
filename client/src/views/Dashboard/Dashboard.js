@@ -2,15 +2,15 @@ import React, { useState, useEffect, useContext } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { loadAllPeerForUser } from '../../actions/peerReviewAction'
 import { loadAllSelfReviewsForUser } from '../../actions/selfReviewActions'
+
+import Search from '@material-ui/icons/Search'
 // react plugin for creating charts
 // @material-ui/core
 import { makeStyles } from '@material-ui/core/styles'
 import InputLabel from '@material-ui/core/InputLabel'
 // @material-ui/icons
-import Search from '@material-ui/icons/Search'
+
 // core components
-import CustomInput from '../../components/CustomInput/CustomInput'
-import Button from '../../components/CustomButtons/Button'
 import GridItem from '../../components/Grid/GridItem'
 import GridContainer from '../../components/Grid/GridContainer'
 import Table from '../../components/Table/Table'
@@ -22,11 +22,14 @@ import SelfReviewDetails from '../../components/selfReviewDetails/SelfReviewDeta
 import styles from '../../assets/jss/material-dashboard-react/views/dashboardStyle'
 import withAuth from '../../HOC/withAuth'
 import { UserContext } from '../../context-provider/user-context'
+import CustomInput from '../../components/CustomInput/CustomInput'
 import { formatDate } from '../../helpers/formatDates'
 import {
   userPeerReview,
   userSelfReviewDeatils
 } from '../../selectors/reviewSelectors'
+
+import Button from '../../components/CustomButtons/Button'
 const useStyles = makeStyles(styles)
 const Dashboard = props => {
   const classes = useStyles()
@@ -171,7 +174,7 @@ const Dashboard = props => {
               </>
             ) : null}
           </GridItem>
-          {peerReviews ? (
+          {peerReviews && peerReviews.length > 0 ? (
             <GridItem xs={12} sm={12} md={12}>
               <Card plain>
                 <CardHeader plain color="primary">

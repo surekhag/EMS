@@ -64,7 +64,7 @@ const PeerReview = props => {
   const [showDelDialog, setShowDelDialog] = useState(false)
   const [showDetailsDialog, setShowDetailsDialog] = useState(false)
   const [reviewDetails, setReviewDetails] = useState('')
-  const links = ['Update', 'Delete']
+  const links = ['Edit', 'Delete']
   const employeeData = useSelector(employeeDataSelector)
   const peerReviewData = useSelector(peerReviewDataSelector)
   const peerReviewDeleteSuccessMessage = useSelector(
@@ -90,7 +90,7 @@ const PeerReview = props => {
       }
       dispatch(peerReviewDeleteSuccess(''))
     }
-  }, [peerReviewDeleteSuccessMessage, addToast])
+  }, [peerReviewDeleteSuccessMessage, addToast, dispatch])
   useEffect(() => {
     if (peerReviewDeleteError) {
       addToast('Error while deleting Peer Review', {
@@ -99,7 +99,7 @@ const PeerReview = props => {
       })
       dispatch(peerReviewDeleteFailue(''))
     }
-  }, [peerReviewDeleteError, addToast])
+  }, [peerReviewDeleteError, addToast, dispatch])
 
   const viewDetailHandler = details => {
     setReviewDetails(details)
@@ -232,18 +232,20 @@ const PeerReview = props => {
         <DialogActions>
           <GridItem xs={12} sm={12} md={12}>
             <p> Are you sure you want to delete this Peer Review ? </p>
-            <Button color="black" size="sm" onClick={handleYesDelete}>
-              {' '}
-              Yes
-            </Button>{' '}
-            <Button
-              color="white"
-              size="sm"
-              onClick={() => setShowDelDialog(false)}
-            >
-              {' '}
-              No
-            </Button>
+            <div className={classes.displayCenter}>
+              <Button color="primary" size="sm" onClick={handleYesDelete}>
+                {' '}
+                Yes
+              </Button>{' '}
+              <Button
+                color="white"
+                size="sm"
+                onClick={() => setShowDelDialog(false)}
+              >
+                {' '}
+                No
+              </Button>
+            </div>
           </GridItem>
         </DialogActions>
       </Dialog>
