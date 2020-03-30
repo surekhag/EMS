@@ -10,7 +10,6 @@ import CustomInput from '../../components/CustomInput/CustomInput'
 import Button from '../../components/CustomButtons/Button'
 import styles from '../../assets/jss/material-dashboard-react/views/dashboardStyle'
 import GridItem from '../../components/Grid/GridItem'
-// import DialogActions from '@material-ui/core/DialogActions';
 import { Dialog, DialogActions } from '@material-ui/core'
 import {
   deleteEmployee,
@@ -96,11 +95,12 @@ const EmployeeListing = props => {
 
       const manager = filteredEmployee.filter(item => {
         if (
-          item.userRole == 'Manager' &&
-          item.employee_id == reporting_manager
+          item.userRole === 'Manager' &&
+          item.employee_id === reporting_manager
         ) {
           return item
         }
+        return true
       })
       const managerName = manager[0]
         ? manager[0].firstname + ' ' + manager[0].lastname
@@ -116,7 +116,7 @@ const EmployeeListing = props => {
         managerName
       }
       employeeDetails.push(Object.values(data))
-      return
+      return true
     })
   }
 
@@ -124,7 +124,9 @@ const EmployeeListing = props => {
 
   const getUserToUpdate = (employeeData, employee_id) => {
     return employeeData.filter(item => {
-      if (item.employee_id == employee_id) return item
+      if (item.employee_id === employee_id) return item
+
+      return true
     })
   }
 
@@ -152,7 +154,7 @@ const EmployeeListing = props => {
 
   return (
     <>
-      {updateAction == 'update' ? (
+      {updateAction === 'update' ? (
         <Employee
           setUpdateAction={setUpdateAction}
           userToUpdate={userToUpdate}

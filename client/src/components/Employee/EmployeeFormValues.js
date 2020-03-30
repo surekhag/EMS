@@ -132,6 +132,10 @@ export const formikUpdateValidations = Yup.object().shape({
   designation: yupRequired('Designation'),
   employment_status: yupRequired('Employment Status'),
   userRole: yupRequired('User Role'),
-  reporting_manager: yupRequired('Reporting Manager'),
+  reporting_manager: Yup.string().when('designation', {
+    is: designation =>
+      designation !== 'Partner' && designation !== 'Chief Executive Officer',
+    then: yupRequired('Reporting Manager')
+  }),
   skills: yupRequired('Skill')
 })

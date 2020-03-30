@@ -64,7 +64,7 @@ const Login = props => {
       addToast(error, { appearance: 'error', autoDismiss: true })
       dispatch(clearErrors())
     }
-  }, [error, addToast])
+  }, [error, addToast, dispatch])
 
   const classes = useStyles()
 

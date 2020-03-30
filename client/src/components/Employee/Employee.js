@@ -170,7 +170,7 @@ const Employee = props => {
                             name="employee_id"
                             value={values.employee_id}
                             onChange={handleChange}
-                            labelText="Employee Id"
+                            labelText="Employee Id * "
                           />
                         </GridItem>
                         <GridItem xs={12} sm={12} md={6}>
@@ -178,7 +178,7 @@ const Employee = props => {
                             name="email"
                             value={values.email}
                             onChange={handleChange}
-                            labelText="Email Address"
+                            labelText="Email Address *"
                           />
                         </GridItem>
                         <GridItem xs={12} sm={12} md={6}>
@@ -186,7 +186,7 @@ const Employee = props => {
                             name="userName"
                             value={values.userName}
                             onChange={handleChange}
-                            labelText="UserName"
+                            labelText="UserName *"
                           />
                         </GridItem>
                         <GridItem xs={12} sm={12} md={6}>
@@ -194,7 +194,7 @@ const Employee = props => {
                             name="password"
                             value={values.password}
                             onChange={handleChange}
-                            labelText="Password"
+                            labelText="Password *"
                             type="password"
                           />
                         </GridItem>
@@ -205,7 +205,7 @@ const Employee = props => {
                         name="firstname"
                         value={values.firstname}
                         onChange={handleChange}
-                        labelText="Firstname"
+                        labelText="Firstname *"
                       />
                     </GridItem>
                     <GridItem xs={12} sm={12} md={4}>
@@ -221,7 +221,7 @@ const Employee = props => {
                         name="lastname"
                         value={values.lastname}
                         onChange={handleChange}
-                        labelText="Lastname"
+                        labelText="Lastname *"
                       />
                     </GridItem>
                     <GridItem xs={12} sm={12} md={6}>
@@ -229,7 +229,7 @@ const Employee = props => {
                         name="address1"
                         value={values.address1}
                         onChange={handleChange}
-                        labelText="Address 1"
+                        labelText="Address 1 *"
                       />
                     </GridItem>
                     <GridItem xs={12} sm={12} md={6}>
@@ -246,7 +246,7 @@ const Employee = props => {
                         name="country"
                         onChange={handleChange}
                         disabledName="None"
-                        label="Country"
+                        label="Country *"
                         onBlur={e => {
                           setFieldValue('state', '')
                         }}
@@ -266,13 +266,13 @@ const Employee = props => {
                         name="state"
                         onChange={handleChange}
                         disabledName="None"
-                        label="State"
+                        label="State *"
                         value={values.state}
                       >
                         {countryData.map(item => {
                           if (
                             values.country &&
-                            item.country == values.country
+                            item.country === values.country
                           ) {
                             return getStates(values.country).map(item => {
                               if (item) {
@@ -290,7 +290,7 @@ const Employee = props => {
                     <GridItem xs={12} sm={12} md={4}></GridItem>
                     <GridItem xs={12} sm={12} md={4}>
                       <CustomInput
-                        labelText="City"
+                        labelText="City *"
                         name="city"
                         formControlProps={{
                           fullWidth: true
@@ -307,7 +307,7 @@ const Employee = props => {
                     </GridItem>
                     <GridItem xs={12} sm={12} md={4}>
                       <CustomInput
-                        labelText="Zip"
+                        labelText="Zip *"
                         name="zip"
                         formControlProps={{
                           fullWidth: true
@@ -324,7 +324,7 @@ const Employee = props => {
                     </GridItem>
                     <GridItem xs={12} sm={12} md={4}>
                       <CustomInput
-                        labelText="Conatct Number"
+                        labelText="Conatct Number *"
                         name="contact_no"
                         formControlProps={{
                           fullWidth: true
@@ -341,7 +341,7 @@ const Employee = props => {
                     </GridItem>
                     <GridItem xs={12} sm={12} md={4}>
                       <CustomInput
-                        labelText="Experience At Joining"
+                        labelText="Experience At Joining *"
                         name="experience_at_joining"
                         formControlProps={{
                           fullWidth: true
@@ -360,7 +360,7 @@ const Employee = props => {
                       <DatePicker
                         name="dateofbirth"
                         value={values.dateofbirth}
-                        label="Date Of Birth"
+                        label="Date Of Birth *"
                         onChange={date => setFieldValue('dateofbirth', date)}
                       />
                     </GridItem>

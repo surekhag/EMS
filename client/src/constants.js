@@ -19,7 +19,9 @@ export const designation = [
   'Admin',
   'Scrum Master',
   'Technology Lead',
-  'Senior Architect'
+  'Senior Architect',
+  'Chief Executive Officer',
+  'Partner'
 ]
 
 export const employment_status = ['Part Time', 'Full time', 'Contractor']
