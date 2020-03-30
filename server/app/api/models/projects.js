@@ -21,7 +21,7 @@ const ProjectSchema = new Schema({
     enddate : {
         type: Date,
         trim: true,
-        required: false
+        required: true
       },
     technology : {
         type: String,
@@ -56,7 +56,7 @@ const ProjectSchema = new Schema({
     created_by : {
         type: String,
         trim: true,
-        required: false
+        required: true
       },
     updated_date : {
         type: Date,
