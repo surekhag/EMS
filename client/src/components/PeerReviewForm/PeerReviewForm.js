@@ -19,15 +19,15 @@ import { loadAllEmployeeData, loadManagers } from '../../actions/employeeAction'
 import checkboxAdnRadioStyle from '../../assets/jss/material-dashboard-react/checkboxAdnRadioStyle'
 import createPeerFormStyle from '../../assets/jss/material-dashboard-react/components/createPeerFormStyle'
 import Grid from '@material-ui/core/Grid'
-import CustomInput from '../../components/CustomInput/CustomInput'
-import Button from '../../components/CustomButtons/Button'
-import DatePicker from '../../components/FromComponents/DatePicker'
-import SelectMenu from '../../components/FromComponents/SelectMenu'
-import Card from '../../components/Card/Card'
-import CardHeader from '../../components/Card/CardHeader'
+import CustomInput from '../CustomInput/CustomInput'
+import Button from '../CustomButtons/Button'
+import DatePicker from '../FromComponents/DatePicker'
+import SelectMenu from '../FromComponents/SelectMenu'
+import Card from '../Card/Card'
+import CardHeader from '../Card/CardHeader'
 import MenuItem from '@material-ui/core/MenuItem'
-import CardBody from '../../components/Card/CardBody'
-import CardFooter from '../../components/Card/CardFooter'
+import CardBody from '../Card/CardBody'
+import CardFooter from '../Card/CardFooter'
 import validationSchema from './validationSchema'
 import { useSelector, useDispatch } from 'react-redux'
 import { employeeDataSelector, managerDataSelector } from '../../selectors/employeeSelectors'
@@ -40,7 +40,7 @@ const styles = {
 
 const useStyles = makeStyles(styles)
 
-const CreatePeerForm = ({ updateInfo, ClickHandler }) => {
+const PeerReviewForm = ({ peerReviewInfo, clickHandler }) => {
   const classes = useStyles()
   const { addToast } = useToasts()
   const {
@@ -53,18 +53,18 @@ const CreatePeerForm = ({ updateInfo, ClickHandler }) => {
     due_from,
     due_to,
     review_form_link
-  } = updateInfo || {}
-  const initialValues = updateInfo => {
+  } = peerReviewInfo || {}
+  const initialValues = peerReviewInfo => {
     return {
-      employee_under_review: updateInfo ? employee_under_review._id : '',
-      employee_reviewing: updateInfo ? employee_reviewing._id : [],
-      project: updateInfo ? project._id : '',
-      functional_manager: updateInfo ? functional_manager._id : '',
-      from_date: updateInfo ? from_date : new Date(),
-      to_date: updateInfo ? to_date : new Date(),
-      due_from: updateInfo ? due_from : new Date(),
-      due_to: updateInfo ? due_to : new Date(),
-      review_form_link: updateInfo ? review_form_link : ''
+      employee_under_review: peerReviewInfo ? employee_under_review._id : '',
+      employee_reviewing: peerReviewInfo ? employee_reviewing._id : [],
+      project: peerReviewInfo ? project._id : '',
+      functional_manager: peerReviewInfo ? functional_manager._id : '',
+      from_date: peerReviewInfo ? from_date : new Date(),
+      to_date: peerReviewInfo ? to_date : new Date(),
+      due_from: peerReviewInfo ? due_from : new Date(),
+      due_to: peerReviewInfo ? due_to : new Date(),
+      review_form_link: peerReviewInfo ? review_form_link : ''
     }
   }
   const employeeData = useSelector(employeeDataSelector)
@@ -123,8 +123,8 @@ const CreatePeerForm = ({ updateInfo, ClickHandler }) => {
     }
   }, [peerReviewUpdateError, addToast, dispatch])
   const submitReview = values => {
-    if (updateInfo) {
-      dispatch(updatePeerReview(updateInfo._id, values))
+    if (peerReviewInfo) {
+      dispatch(updatePeerReview(peerReviewInfo._id, values))
     } else {
       dispatch(createPeerReview(values))
     }
@@ -132,7 +132,7 @@ const CreatePeerForm = ({ updateInfo, ClickHandler }) => {
   return (
     <Grid>
       <Formik
-        initialValues={initialValues(updateInfo)}
+        initialValues={initialValues(peerReviewInfo)}
         onSubmit={(values, { setSubmitting }) => {
           submitReview(values)
           setSubmitting(false)
@@ -181,7 +181,7 @@ const CreatePeerForm = ({ updateInfo, ClickHandler }) => {
                       onChange={handleChange}
                       disabledName="Select Employee"
                       value={values.employee_reviewing}
-                      multiple={!updateInfo}
+                      multiple={!peerReviewInfo}
                     >
                       {employeeData
                         ? employeeData.map((prop, key) => {
@@ -321,7 +321,7 @@ const CreatePeerForm = ({ updateInfo, ClickHandler }) => {
                 </Grid>
               </CardBody>
               <CardFooter className={classes.footerDisplay}>
-                {updateInfo ? (
+                {peerReviewInfo ? (
                   <Button type="submit" color="primary" disabled={isSubmitting}>
                     UPDATE PEER REVIEW
                   </Button>
@@ -330,7 +330,7 @@ const CreatePeerForm = ({ updateInfo, ClickHandler }) => {
                       CREATE PEER REVIEW
                     </Button>
                   )}
-                <Button type="submit" color="primary" onClick={ClickHandler}>
+                <Button type="submit" color="primary" onClick={clickHandler}>
                   Close
                 </Button>
               </CardFooter>
@@ -344,5 +344,5 @@ const CreatePeerForm = ({ updateInfo, ClickHandler }) => {
 const peerReviewFormWithHOC = compose(
   withToastManager,
   withAuth
-)(CreatePeerForm)
+)(PeerReviewForm)
 export default peerReviewFormWithHOC

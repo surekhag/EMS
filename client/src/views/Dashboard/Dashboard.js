@@ -22,13 +22,11 @@ import SelfReviewDetails from '../../components/selfReviewDetails/SelfReviewDeta
 import styles from '../../assets/jss/material-dashboard-react/views/dashboardStyle'
 import withAuth from '../../HOC/withAuth'
 import { UserContext } from '../../context-provider/user-context'
-import { loadAllProjects } from '../../actions/projectAction'
 import { formatDate } from '../../helpers/formatDates'
 import {
   userPeerReview,
   userSelfReviewDeatils
 } from '../../selectors/reviewSelectors'
-import { projectSelector } from '../../selectors/projectSelectors'
 const useStyles = makeStyles(styles)
 const Dashboard = props => {
   const classes = useStyles()
@@ -37,7 +35,7 @@ const Dashboard = props => {
   const [showSelfReviewDetail, setShowSelfreviewDetail] = useState(false)
   const [peerDetails, setPeerDetails] = useState('')
   const [selfReviewDetails, setSelfReviewDetails] = useState(null)
-  const [projectDetails, setProjectDetails] = useState()
+  const [projectDetails, setProjectDetails] = useState('')
   const { currentUser } = useContext(UserContext)
   const dispatch = useDispatch()
   const peerReviewListingHeader = [
@@ -62,14 +60,7 @@ const Dashboard = props => {
     dispatch(loadAllSelfReviewsForUser(currentUser._id))
   }, [dispatch])
 
-  useEffect(() => {
-    if (userSelfReviews && userSelfReviews.length > 0) {
-      // dispatch(loadAllEmployeeData())
-      dispatch(loadAllProjects())
-    }
-  }, [dispatch, userSelfReviews])
-
-  const tempArr = []
+  const peerReviewsArray = []
   let filteredEmployee
   if (peerReviews) {
     filteredEmployee = peerReviews.filter(
@@ -83,7 +74,7 @@ const Dashboard = props => {
         cls.status !== 'Inactive'
     )
     filteredEmployee.map((review, key) => {
-      tempArr.push([
+      peerReviewsArray.push([
         review.employee_under_review.firstname +
         ' ' +
         review.employee_under_review.lastname,
@@ -95,7 +86,6 @@ const Dashboard = props => {
     })
   }
   const userReviewDetailsArr = []
-  let projects
   let projectsArr = []
   if (
     userSelfReviews &&
@@ -109,7 +99,7 @@ const Dashboard = props => {
         }
       })
       userReviewDetailsArr.push([
-        projectsArr.join(','),
+        projectsArr.join(', '),
         formatDate(review.from_date),
         formatDate(review.to_date),
         formatDate(review.due_from),
@@ -143,7 +133,8 @@ const Dashboard = props => {
       {showDetail ? (
         <PeerReviewDetails
           reviewData={peerDetails}
-          ClickHandler={detailsSwitchHandler}
+          closeHandler={detailsSwitchHandler}
+          showButtons={true}
         ></PeerReviewDetails>
       ) : showSelfReviewDetail ? (
         <SelfReviewDetails
@@ -184,7 +175,7 @@ const Dashboard = props => {
                     <Table
                       tableHeaderColor="gray"
                       tableHead={peerReviewListingHeader}
-                      tableData={tempArr || null}
+                      tableData={peerReviewsArray || null}
                       showLink={true}
                       buttonText="Details"
                       onClickHandler={onClickHandler}

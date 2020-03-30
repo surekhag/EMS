@@ -1,10 +1,10 @@
 import { all, fork } from 'redux-saga/effects'
-import watchLogoutSaga from './watchers/logout.js'
+import watchLogoutSaga from './watchers/logout'
 import {
   watchEmployeeInfoSaga,
   watchManagerSaga,
-  watchDeleteEmployeeSaga,
-} from './watchers/employeeInfo.js'
+  watchDeleteEmployeeSaga
+} from './watchers/employeeInfo'
 import { watchLoginSaga, watchAuthenticateSaga } from './watchers/login'
 
 import {

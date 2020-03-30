@@ -22,6 +22,9 @@ const peerReviewDetailsStyle = {
     margin: 11,
     minWidth: 200
   },
+  boldFont: {
+    fontWeight: "bold"
+  },
 
   hoverEffect: {
     '&:focus': {

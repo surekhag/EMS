@@ -16,7 +16,7 @@ import Card from '../../components/Card/Card'
 import Button from '../../components/CustomButtons/Button'
 import CardHeader from '../../components/Card/CardHeader'
 import CardBody from '../../components/Card/CardBody'
-import CreatePeerForm from '../../components/CreatePeerForm/CreatePeerForm'
+import PeerReviewForm from '../../components/PeerReviewForm/PeerReviewForm'
 import PeerReviewDetails from '../../components/PeerReviewDetails/PeerReviewDetails'
 import MenuItem from '@material-ui/core/MenuItem'
 import FormControl from '@material-ui/core/FormControl'
@@ -28,7 +28,9 @@ import { employeeDataSelector } from '../../selectors/employeeSelectors'
 import { peerReviewDataSelector, peerReviewDeleteSuccessSelector, peerReviewDeleteErrorSelector } from '../../selectors/reviewSelectors'
 import {
   loadAllPeerReviews,
-  deletePeerReview
+  deletePeerReview,
+  peerReviewDeleteSuccess,
+  peerReviewDeleteFailue
 } from '../../actions/peerReviewAction'
 import dashboardStyle from '../../assets/jss/material-dashboard-react/views/dashboardStyle'
 import styles from './styles'
@@ -45,7 +47,7 @@ const PeerReview = props => {
   const { addToast } = useToasts()
   const [selectedEmployee, setselectedEmployee] = useState('')
   const [isRedirectForm, setIsRedirectForm] = useState(false)
-  const [updateInfo, setUpdateInfo] = useState(false)
+  const [peerReviewInfo, setPeerReviewInfo] = useState(false)
   const [deleteId, setDeleteId] = useState('')
   const peerReviewListingHeader = [
     'Employee Under Review',
@@ -61,15 +63,15 @@ const PeerReview = props => {
   const links = ['Update', 'Delete']
   const employeeData = useSelector(employeeDataSelector)
   const peerReviewData = useSelector(peerReviewDataSelector)
-  const peerReviewDeleteSuccess = useSelector(peerReviewDeleteSuccessSelector)
+  const peerReviewDeleteSuccessMessage = useSelector(peerReviewDeleteSuccessSelector)
   const peerReviewDeleteError = useSelector(peerReviewDeleteErrorSelector)
   useEffect(() => {
     dispatch(loadAllEmployeeData())
     dispatch(loadAllPeerReviews())
   }, [dispatch])
   useEffect(() => {
-    if (peerReviewDeleteSuccess) {
-      if (peerReviewDeleteSuccess.status === 200) {
+    if (peerReviewDeleteSuccessMessage) {
+      if (peerReviewDeleteSuccessMessage.status === 200) {
         addToast('Peer Review successfully deleted', {
           appearance: 'success',
           autoDismiss: true
@@ -80,14 +82,16 @@ const PeerReview = props => {
           autoDismiss: true
         })
       }
+      dispatch(peerReviewDeleteSuccess(''));
     }
-  }, [peerReviewDeleteSuccess, addToast])
+  }, [peerReviewDeleteSuccessMessage, addToast])
   useEffect(() => {
     if (peerReviewDeleteError) {
       addToast('Error while deleting Peer Review', {
         appearance: 'error',
         autoDismiss: true
       })
+      dispatch(peerReviewDeleteFailue(''))
     }
   }, [peerReviewDeleteError, addToast])
 
@@ -132,15 +136,14 @@ const PeerReview = props => {
     setselectedEmployee(e.target.value)
   }
   const createPeerHandler = () => {
-    setUpdateInfo('')
+    setPeerReviewInfo('')
     setIsRedirectForm(true)
   }
   const detailsSwitchHandler = () => {
     setIsRedirectForm(false)
-    // window.location.reload()
   }
   const updateUser = (val, k) => {
-    setUpdateInfo(filteredEmployee[k])
+    setPeerReviewInfo(filteredEmployee[k])
     setIsRedirectForm(true)
   }
 
@@ -155,10 +158,10 @@ const PeerReview = props => {
   return (
     <div>
       {isRedirectForm ? (
-        <CreatePeerForm
-          updateInfo={updateInfo}
-          ClickHandler={detailsSwitchHandler}
-        ></CreatePeerForm>
+        <PeerReviewForm
+          peerReviewInfo={peerReviewInfo}
+          clickHandler={detailsSwitchHandler}
+        ></PeerReviewForm>
       ) : (
           <GridContainer>
             <Grid xs={1} sm={1} md={1} className={classes.grid} item>
@@ -246,7 +249,7 @@ const PeerReview = props => {
       >
         <DialogActions>
           <GridItem xs={12} sm={12} md={12}>
-            <PeerReviewDetails reviewData={reviewDetails}></PeerReviewDetails>
+            <PeerReviewDetails reviewData={reviewDetails} showButtons={false}></PeerReviewDetails>
 
             <Button
               color="primary"

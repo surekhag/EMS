@@ -14,9 +14,9 @@ import Poppers from '@material-ui/core/Popper'
 // @material-ui/icons
 import Person from '@material-ui/icons/Person'
 // core components
-import Button from '../../components/CustomButtons/Button.js'
+import Button from '../../components/CustomButtons/Button'
 import { logOut } from '../../actions/logoutAction'
-import styles from '../../assets/jss/material-dashboard-react/components/headerLinksStyle.js'
+import styles from '../../assets/jss/material-dashboard-react/components/headerLinksStyle'
 
 const useStyles = makeStyles(styles)
 
