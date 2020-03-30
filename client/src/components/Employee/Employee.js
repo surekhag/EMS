@@ -11,7 +11,6 @@ import CustomInput from '../../components/CustomInput/CustomInput'
 import { useToasts } from 'react-toast-notifications'
 import { employeeStyles } from './Styles'
 import MenuItem from '@material-ui/core/MenuItem'
-import FormControl from '@material-ui/core/FormControl'
 import { Formik, Form, ErrorMessage } from 'formik'
 import { useSelector, useDispatch } from 'react-redux'
 import SelectMenu from '../FromComponents/SelectMenu'
@@ -28,7 +27,7 @@ import {
   clearUserStatus,
   updateUser
 } from '../../actions/userActions'
-import { loadAllEmployeeData } from '../../actions/employeeAction'
+import { loadManagers } from '../../actions/employeeAction'
 import {
   gender,
   work_location,
@@ -38,8 +37,8 @@ import {
   userRole,
   countryData
 } from '../../constants'
-import {
-  employeeDataSelector,
+import {  
+  managerDataSelector,
   addNewUserSuccess,
   updateUserStatusSuccess,
   updateUserErrorMsg,
@@ -54,27 +53,27 @@ const Employee = props => {
   const classes = useStyles()
   const { addToast } = useToasts()
   const dispatch = useDispatch()
-  const employeeData = useSelector(employeeDataSelector)
   const error = useSelector(addNewUserError)
   const addNewUserStatus = useSelector(addNewUserSuccess)
   const updateUserStatus = useSelector(updateUserStatusSuccess)
   const updateUserError = useSelector(updateUserErrorMsg)
+  const managerdata = useSelector(managerDataSelector)
   const userForm = useRef(null)
 
   // Load all emp info
-  useEffect(() => {
-    dispatch(loadAllEmployeeData())
+  useEffect(() => { 
+    dispatch(loadManagers())
   }, [])
 
   useEffect(() => {
-    if (employeeData) {
-      const emp = employeeData
+    if (managerdata) {
+      const emp = managerdata
       const managers = emp.filter(item => {
-        if (item.userRole == 'Manager' && item.status == 'Active') return item
+        if (item.userRole === 'Manager' && item.status === 'Active') return item
       })
       setManagers(managers)
     }
-  }, [employeeData])
+  }, [managerdata])
 
   useEffect(() => {
     if (addNewUserStatus || updateUserStatus) {
@@ -112,13 +111,8 @@ const Employee = props => {
     })
     return states.length > 0 ? states[0].states : []
   }
-  const submitFormValues = values => {
-    if (userToUpdate) {
-      const id = userToUpdate[0]._id
-      dispatch(updateUser(values, id))
-    } else {
-      dispatch(addNewUser(values))
-    }
+  const submitFormValues = values => {    
+    userToUpdate ? dispatch(updateUser(values,  userToUpdate[0]._id)) :  dispatch(addNewUser(values))
   }
 
   let initialValues

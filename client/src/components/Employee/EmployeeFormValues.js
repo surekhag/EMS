@@ -90,9 +90,6 @@ export const formikUpdateValidations = Yup.object().shape({
   lastname: yupRequired('Lastname')
     .min(2, 'Too Short!')
     .max(50, 'Too Long!'),
-  middlename: yupRequired('Middlename')
-    .min(2, 'Too Short!')
-    .max(50, 'Too Long!'),
   contact_no: yupRequiredNumber('Contact Number')
     .typeError("Doesn't seems valid Contact Number")
     .positive()
