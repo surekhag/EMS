@@ -67,7 +67,7 @@ export default function CustomTable(props) {
                       key={k + 'updateDelete'}
                     >
                       {addLinks.map(item => {
-                        if (item === 'Update') {
+                        if (item === 'Edit') {
                           return (
                             <Button
                               color="primary"

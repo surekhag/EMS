@@ -10,7 +10,7 @@ import CustomInput from '../../components/CustomInput/CustomInput'
 import Button from '../../components/CustomButtons/Button'
 import styles from '../../assets/jss/material-dashboard-react/views/dashboardStyle'
 import GridItem from '../../components/Grid/GridItem'
-import { Dialog, DialogActions } from '@material-ui/core'
+import {DeleteModal} from '../../components/DeleteModal/deleteModal'
 import {
   deleteEmployee,
   clearDeleteEmployeeMsg
@@ -100,7 +100,7 @@ const EmployeeListing = props => {
         ) {
           return item
         }
-        return true
+        return false
       })
       const managerName = manager[0]
         ? manager[0].firstname + ' ' + manager[0].lastname
@@ -116,17 +116,17 @@ const EmployeeListing = props => {
         managerName
       }
       employeeDetails.push(Object.values(data))
-      return true
+      return  false
     })
   }
 
-  const links = ['Update', 'Delete']
+  const links = ['Edit', 'Delete']
 
   const getUserToUpdate = (employeeData, employee_id) => {
     return employeeData.filter(item => {
       if (item.employee_id === employee_id) return item
 
-      return true
+      return false
     })
   }
 
@@ -137,7 +137,8 @@ const EmployeeListing = props => {
   }
 
   const deleteUser = val => {
-    const user = getUserToUpdate(filteredEmployee, val[0])
+   
+    const user = getUserToUpdate(filteredEmployee, val[0]) 
     setUpdateAction('delete')
     setUserToUpdate(user)
     setShowDelDialog(true)
@@ -202,16 +203,13 @@ const EmployeeListing = props => {
               </CardBody>
             </Card>
           </GridItem>
-          <Dialog title="Delete Employee" modal={true} open={showDelDialog}>
-            <DialogActions>
-              <GridItem xs={12} sm={12} md={12}>
-                <p> Are you sure you want to delete this Employee ? </p>
-                <Button onClick={handleYesDelete}> Yes</Button>
-                <Button onClick={handleNoDelete}> No</Button>
-              </GridItem>
-            </DialogActions>
-          </Dialog>
-        </>
+         <DeleteModal
+          title="Delete Employee"
+          showDelDialog ={showDelDialog}
+          handleYesDelete = {handleYesDelete}
+          handleNoDelete= {handleNoDelete}
+          />
+           </>
       )}
     </>
   )

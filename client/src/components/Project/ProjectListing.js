@@ -103,7 +103,7 @@ const ProjectListing = props => {
     //  projectData = filteredProject;
   }
 
-  const links = ['Update', 'Delete']
+  const links = ['Edit', 'Delete']
 
   const getprojectToUpdate = (projectData, title) => {
     return projectData.filter(item => {
