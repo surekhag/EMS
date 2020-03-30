@@ -10,7 +10,7 @@ import CustomInput from '../../components/CustomInput/CustomInput'
 import Button from '../../components/CustomButtons/Button'
 import styles from '../../assets/jss/material-dashboard-react/views/dashboardStyle'
 import GridItem from '../../components/Grid/GridItem'
-import {DeleteModal} from '../../components/DeleteModal/deleteModal'
+import { DeleteModal } from '../../components/DeleteModal/deleteModal'
 import {
   deleteEmployee,
   clearDeleteEmployeeMsg
@@ -116,7 +116,7 @@ const EmployeeListing = props => {
         managerName
       }
       employeeDetails.push(Object.values(data))
-      return  false
+      return false
     })
   }
 
@@ -137,8 +137,7 @@ const EmployeeListing = props => {
   }
 
   const deleteUser = val => {
-   
-    const user = getUserToUpdate(filteredEmployee, val[0]) 
+    const user = getUserToUpdate(filteredEmployee, val[0])
     setUpdateAction('delete')
     setUserToUpdate(user)
     setShowDelDialog(true)
@@ -203,13 +202,13 @@ const EmployeeListing = props => {
               </CardBody>
             </Card>
           </GridItem>
-         <DeleteModal
-          title="Delete Employee"
-          showDelDialog ={showDelDialog}
-          handleYesDelete = {handleYesDelete}
-          handleNoDelete= {handleNoDelete}
+          <DeleteModal
+            title="Delete Employee"
+            showDelDialog={showDelDialog}
+            handleYesDelete={handleYesDelete}
+            handleNoDelete={handleNoDelete}
           />
-           </>
+        </>
       )}
     </>
   )
