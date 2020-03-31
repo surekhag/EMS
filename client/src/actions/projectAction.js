@@ -11,7 +11,9 @@ import {
   SET_NEW_PROJECT_ERROR,
   SET_UPDATE_PROJECT_SUCCESS,
   SET_UPDATE_PROJECT_ERROR,
-  SET_ALL_PROJECTS_ERROR
+  SET_ALL_PROJECTS_ERROR,
+  ALLOCATE_PROJECT,
+  UPDATE_PROJECT_ALLOCATION
 } from './actionTypes'
 
 export function loadAllProjects() {
@@ -40,13 +42,24 @@ export function addNewProject(userInfo) {
     userInfo
   }
 }
+export function allocateProject(userInfo) {
+  return {
+    type: ALLOCATE_PROJECT,
+    userInfo
+  }
+}
 export function updateProject(userInfo, id) {
   return {
     type: UPDATE_PROJECT,
     payload: { userInfo, id }
   }
 }
-
+export function updateProjectAllocation(userInfo, id) {
+  return {
+    type: UPDATE_PROJECT_ALLOCATION,
+    payload: { userInfo, id }
+  }
+}
 export function setNewProjectSuccess(data) {
   return {
     type: SET_NEW_PROJECT_SUCCESS,

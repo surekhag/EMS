@@ -128,7 +128,7 @@ const EmployeeListing = props => {
 
   const links = ['Edit', 'Delete']
 
-  const getUserToUpdate = (employeeData, employee_id) => {   
+  const getUserToUpdate = (employeeData, employee_id) => {
     return employeeData.filter(item => {
       if (item.employee_id === employee_id) return item
 

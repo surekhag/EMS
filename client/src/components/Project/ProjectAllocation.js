@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import GridContainer from '../Grid/GridContainer'
 import GridItem from '../Grid/GridItem'
@@ -7,8 +7,18 @@ import CardHeader from '../Card/CardHeader'
 import CardBody from '../Card/CardBody'
 import CardFooter from '../Card/CardFooter'
 import Button from '../CustomButtons/Button'
+import { loadAllEmployeeData } from '../../actions/employeeAction'
 import Input from '../FromComponents/Input'
+
+import { loadAllProjects } from '../../actions/projectAction'
+
+// import Grid from '@material-ui/core/Grid'
+import { projectSelector } from '../../selectors/projectSelectors'
 import 'date-fns'
+import { managerDataSelector } from '../../selectors/employeeSelectors'
+import { loadManagers } from '../../actions/employeeAction'
+import MenuItem from '@material-ui/core/MenuItem'
+import SelectMenu from '../FromComponents/SelectMenu'
 
 import DatePicker from '../../components/FromComponents/DatePicker'
 import { useToasts } from 'react-toast-notifications'
@@ -16,6 +26,8 @@ import { Formik, Form } from 'formik'
 import { projectStyles } from './styles'
 import { useSelector, useDispatch } from 'react-redux'
 import {
+  allocateProject,
+  updateProjectAllocation,
   addNewProject,
   clearProjectMsg,
   updateProject
@@ -29,10 +41,16 @@ import {
 } from '../../selectors/projectSelectors'
 import { yupRequired, yupRequiredDate } from '../../helpers/yupValidations'
 
+import { employeeDataSelector } from '../../selectors/employeeSelectors'
 const styles = projectStyles
 const useStyles = makeStyles(styles)
 const Project = props => {
   const { setPageView, projectToUpdate } = props
+
+  const projects = useSelector(projectSelector)
+  const employeeData = useSelector(employeeDataSelector)
+  const [managers, setManagers] = useState(null)
+  const [activeEmployees, setEmployeeData] = useState(null)
   const classes = useStyles()
   const { addToast } = useToasts()
   const dispatch = useDispatch()
@@ -42,7 +60,38 @@ const Project = props => {
   const updateProjectStatus = useSelector(updateProjectStatusMsg)
   const updateProjectError = useSelector(updateProjectErrorMsg)
 
+  const managerdata = useSelector(managerDataSelector)
+
   const projectForm = useRef(null)
+
+  useEffect(() => {
+    dispatch(loadAllEmployeeData())
+    dispatch(loadAllProjects())
+    dispatch(loadManagers())
+  }, [dispatch])
+
+  useEffect(() => {
+    if (managerdata) {
+      const emp = managerdata
+      const managers = emp.filter(item => {
+        if (item.userRole === 'manager' && item.status === 'Active') return item
+      })
+
+      setManagers(managers)
+    }
+  }, [managerdata])
+
+  useEffect(() => {
+    if (employeeData) {
+      const activeEmployees = employeeData.filter(item => {
+        if (item.status === 'Active') {
+          return item
+        }
+      })
+      console.log(employeeData, activeEmployees)
+      setEmployeeData(activeEmployees)
+    }
+  }, [employeeData])
 
   useEffect(() => {
     if (addNewProjectStatus) {
@@ -85,12 +134,12 @@ const Project = props => {
   const submitFormValues = values => {
     dispatch(
       projectToUpdate
-        ? updateProject(values, projectToUpdate[0]._id)
-        : addNewProject(values)
+        ? updateProjectAllocation(values, projectToUpdate[0]._id)
+        : allocateProject(values)
     )
   }
 
- let initialValues
+  let initialValues
   const {
     project_id,
     employee_id,
@@ -113,22 +162,9 @@ const Project = props => {
   }
 
   const projectDataValidation = Yup.object().shape({
-    title: yupRequired('Project Title')
-      .min(2, 'Too Short!')
-      .max(50, 'Too Long!'),
-    description: yupRequired('Description')
-      .min(2, 'Too Short!')
-      .max(150, 'Too Long!'),
-    client: yupRequired('Client')
-      .min(2, 'Too Short!')
-      .max(50, 'Too Long!'),
-    client_location: yupRequired('Client Location'),
-    type: yupRequired('Project Type')
-      .min(2, 'Too Short!')
-      .max(50, 'Too Long!'),
-    technology: yupRequired('Technology')
-      .min(2, 'Too Short!')
-      .max(50, 'Too Long!'),
+    project_id: yupRequired('Project'),
+    employee_id: yupRequired('Employee'),
+    manager_employee_id: yupRequired('Manager'),
     startdate: yupRequiredDate('Start Date').typeError(''),
     enddate: yupRequiredDate('End Date')
       .typeError('')
@@ -154,65 +190,56 @@ const Project = props => {
               <Form ref={projectForm}>
                 <CardHeader color="primary">
                   <h4 className={classes.cardTitleWhite}>
-                    {projectToUpdate ? 'UPDATE PROJECT' : 'ADD PROJECT'}
+                    {projectToUpdate
+                      ? 'UPDATE PROJECT ALLOCATION'
+                      : 'ALLOCATE PROJECT'}
                   </h4>
                 </CardHeader>
 
                 <CardBody>
                   <GridContainer>
                     <GridItem xs={12} sm={12} md={6}>
-                      <Input
-                        name="title"
-                        value={values.title}
+                      <SelectMenu
+                        name="employee_id"
                         onChange={handleChange}
-                        labelText="Project Title * "
-                      />
+                        disabledName="None"
+                        label={'Employee *'}
+                        value={values.employee_id}
+                      >
+                        {activeEmployees
+                          ? activeEmployees.map(item => {
+                              return (
+                                <MenuItem value={item.employee_id}>
+                                  {item.firstname + ' ' + item.lastname}
+                                </MenuItem>
+                              )
+                            })
+                          : null}
+                      </SelectMenu>
                     </GridItem>
-
-                    <GridItem xs={12} sm={12} md={6}>
-                      <Input
-                        name="description"
-                        value={values.description}
+                    <GridItem xs={6} sm={6} md={6}>
+                      <SelectMenu
+                        name="project_id"
                         onChange={handleChange}
-                        labelText="Description * "
-                      />
+                        disabledName="Select Project"
+                        label={'Project *'}
+                        value={values.project_id}
+                      >
+                        {projects
+                          ? projects.map((item, key) => {
+                              return (
+                                <MenuItem
+                                  // className={classes.hoverEffect}
+                                  value={item._id}
+                                  // key={key}
+                                >
+                                  {item.title}
+                                </MenuItem>
+                              )
+                            })
+                          : null}
+                      </SelectMenu>
                     </GridItem>
-
-                    <GridItem xs={12} sm={12} md={6}>
-                      <Input
-                        name="client"
-                        value={values.client}
-                        onChange={handleChange}
-                        labelText="Client *"
-                      />
-                    </GridItem>
-                    <GridItem xs={12} sm={12} md={6}>
-                      <Input
-                        name="client_location"
-                        value={values.client_location}
-                        onChange={handleChange}
-                        labelText="Client Location * "
-                      />
-                    </GridItem>
-
-                    <GridItem xs={12} sm={12} md={6}>
-                      <Input
-                        name="technology"
-                        value={values.technology}
-                        onChange={handleChange}
-                        labelText="Technology * "
-                      />
-                    </GridItem>
-
-                    <GridItem xs={12} sm={12} md={6}>
-                      <Input
-                        name="type"
-                        value={values.type}
-                        onChange={handleChange}
-                        labelText="Project Type * "
-                      />
-                    </GridItem>
-
                     <GridItem xs={12} sm={12} md={6}>
                       <DatePicker
                         name="startdate"
@@ -230,6 +257,25 @@ const Project = props => {
                         onChange={date => setFieldValue('enddate', date)}
                       />
                     </GridItem>
+                    <GridItem xs={12} sm={12} md={6}>
+                      <SelectMenu
+                        name="manager_employee_id"
+                        onChange={handleChange}
+                        disabledName="None"
+                        label={'Reporting Manager *'}
+                        value={values.manager_employee_id}
+                      >
+                        {managers
+                          ? managers.map(item => {
+                              return (
+                                <MenuItem value={item.employee_id}>
+                                  {item.firstname + ' ' + item.lastname}
+                                </MenuItem>
+                              )
+                            })
+                          : null}
+                      </SelectMenu>
+                    </GridItem>
                   </GridContainer>
                 </CardBody>
 
@@ -243,7 +289,7 @@ const Project = props => {
                           color="primary"
                           disabled={isSubmitting}
                         >
-                          UPDATE PROJECT
+                          UPDATE PROJECT ALLOCATION
                         </Button>
                         <Button
                           color="primary"
@@ -261,7 +307,7 @@ const Project = props => {
                       color="primary"
                       disabled={isSubmitting}
                     >
-                      ADD PROJECT
+                      ALLOCATE PROJECT
                     </Button>
                   )}
                 </CardFooter>
