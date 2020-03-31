@@ -79,7 +79,7 @@ module.exports = {
     );
   },
   authenticate: function (req, res, next) {
-    userModel.findOne({ userName: req.body.userName }, function (err, userInfo) {
+    userModel.findOne({ $or: [{userName: req.body.userName}, {email: req.body.userName}]}, function (err, userInfo) {
       if (err) {
         console.log("in err");
         next(err);
