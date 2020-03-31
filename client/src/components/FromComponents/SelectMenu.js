@@ -28,6 +28,11 @@ const useStyles = makeStyles({
       color: 'white',
       opacity: '0.5'
     }
+  },
+  label : {
+    color : '#000',
+    fontWeight: '700',
+    fontSize: 'inherit'
   }
 })
 
@@ -43,7 +48,7 @@ export default function SelectMenu({
   return (
     <>
       <FormControl className={classes.formControl}>
-        <InputLabel htmlFor={label}> {label}</InputLabel>
+        <InputLabel htmlFor={label}  className={classes.label}> {label}</InputLabel>
         <Select name={name} value={value} {...rest} displayEmpty>
           <MenuItem className={classes.hoverEffect} value="" key={-1} disabled>
             <em>{disabledName}</em>
