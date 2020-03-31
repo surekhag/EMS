@@ -10,7 +10,7 @@ import CustomInput from '../../components/CustomInput/CustomInput'
 import Button from '../../components/CustomButtons/Button'
 import styles from '../../assets/jss/material-dashboard-react/views/dashboardStyle'
 import GridItem from '../../components/Grid/GridItem'
-import { DeleteModal } from '../../components/DeleteModal/deleteModal'
+import { Modal } from '../Modal/modal'
 import {
   deleteEmployee,
   clearDeleteEmployeeMsg
@@ -222,11 +222,12 @@ const EmployeeListing = props => {
               </CardBody>
             </Card>
           </GridItem>
-          <DeleteModal
+          <Modal
             title="Delete Employee"
             showDelDialog={showDelDialog}
             handleYesDelete={handleYesDelete}
             handleNoDelete={handleNoDelete}
+            userInfo="Are you sure you want to delete this Employee ?"
           />
         </>
       )}
