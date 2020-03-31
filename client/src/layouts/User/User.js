@@ -58,6 +58,7 @@ const useStyles = makeStyles(styles)
 export default function User({ ...rest }) {
   const { currentUser } = useContext(UserContext)
   const [routes, setRoutes] = useState(null)
+   const [adminUserRoutes, setAdminUserRoutes] = useState(null)
   const [switchRoutes, setSwitchRoutes] = useState()
 
   // styles
@@ -79,7 +80,8 @@ export default function User({ ...rest }) {
   }
   React.useEffect(() => {
     if (currentUser && currentUser.userRole === 'admin') {
-      setRoutes(userRoutes.concat(adminRoutes))
+      setRoutes(userRoutes)
+      setAdminUserRoutes(adminRoutes)
       setSwitchRoutes(adminSwitchRoutes)
     } else {
       setRoutes(userRoutes)
@@ -111,6 +113,7 @@ export default function User({ ...rest }) {
         <>
           <Sidebar
             routes={routes}
+            adminRoutes = {adminUserRoutes}
             logoText={'Object Edge'}
             logo={logo}
             image={bgImage}

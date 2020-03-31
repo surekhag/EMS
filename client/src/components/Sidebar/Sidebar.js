@@ -24,10 +24,67 @@ export default function Sidebar(props) {
   function activeRoute(routeName) {
     return window.location.href.indexOf(routeName) > -1 ? true : false
   }
-  const { color, logo, image, logoText, routes } = props
+  const { color, logo, image, logoText, routes, adminRoutes } = props
+  const separator ='_____________________';
   var links = (
     <List className={classes.list}>
       {routes.map((prop, key) => {
+        var activePro = ' '
+        var listItemClasses
+        if (prop.path === '/upgrade-to-pro') {
+          activePro = classes.activePro + ' '
+          listItemClasses = classNames({
+            [' ' + classes[color]]: true
+          })
+        } else {
+          listItemClasses = classNames({
+            [' ' + classes[color]]: activeRoute(prop.layout + prop.path)
+          })
+        }
+        const whiteFontClasses = classNames({
+          [' ' + classes.whiteFont]: activeRoute(prop.layout + prop.path)
+        })
+        return (
+          <NavLink
+            to={prop.layout + prop.path}
+            className={activePro + classes.item}
+            activeClassName="active"
+            key={key}
+          >
+            {prop.showLink ? (
+              <ListItem button className={classes.itemLink + listItemClasses}>
+                {typeof prop.icon === 'string' ? (
+                  <Icon
+                    className={classNames(classes.itemIcon, whiteFontClasses, {
+                      [classes.itemIconRTL]: props.rtlActive
+                    })}
+                  >
+                    {prop.icon}
+                  </Icon>
+                ) : (
+                  <prop.icon
+                    className={classNames(classes.itemIcon, whiteFontClasses, {
+                      [classes.itemIconRTL]: props.rtlActive
+                    })}
+                  />
+                )}
+                <ListItemText
+                  primary={props.rtlActive ? prop.rtlName : prop.name}
+                  className={classNames(classes.itemText, whiteFontClasses, {
+                    [classes.itemTextRTL]: props.rtlActive
+                  })}
+                  disableTypography={true}
+                />
+              </ListItem>
+            ) : null}
+          </NavLink>
+        )
+      })}
+    </List>
+  )
+   var AdminLinks = (
+    <List className={classes.list}>
+      {adminRoutes && adminRoutes.map((prop, key) => {
         var activePro = ' '
         var listItemClasses
         if (prop.path === '/upgrade-to-pro') {
@@ -118,6 +175,12 @@ export default function Sidebar(props) {
           <div className={classes.sidebarWrapper}>
             <AdminNavbarLinks />
             {links}
+              {adminRoutes ?
+          <>
+          <span className={classes.itemLink}>
+            <span className={classes.itemText}>{separator} </span></span>
+          {AdminLinks}
+          </> : null }
           </div>
           {image !== undefined ? (
             <div
@@ -139,7 +202,16 @@ export default function Sidebar(props) {
           }}
         >
           {brand}
-          <div className={classes.sidebarWrapper}>{links}</div>
+          <div className={classes.sidebarWrapper}>
+            {links}
+          {adminRoutes ?
+          <>
+          <span className={classes.itemLink}>
+            <span className={classes.itemText}>{separator} </span></span>
+          {AdminLinks}
+          </> : null }
+          
+          </div>          
           {image !== undefined ? (
             <div
               className={classes.background}
