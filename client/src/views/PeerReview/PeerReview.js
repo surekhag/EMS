@@ -23,7 +23,7 @@ import FormControl from '@material-ui/core/FormControl'
 import Select from '@material-ui/core/Select'
 import { formatDate } from '../../helpers/formatDates'
 import withAuth from '../../HOC/withAuth'
-import { Modal } from '../../components/Modal/modal'
+import { AlertModal } from '../../components/Modal/modal'
 import { loadAllEmployeeData } from '../../actions/employeeAction'
 import { employeeDataSelector } from '../../selectors/employeeSelectors'
 import {
@@ -229,7 +229,7 @@ const PeerReview = props => {
           </GridItem>
         </GridContainer>
       )}
-      <Modal
+      <AlertModal
         title="Delete Peer"
         showDelDialog={showDelDialog}
         handleYesDelete={handleYesDelete}

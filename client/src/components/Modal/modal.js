@@ -4,7 +4,7 @@ import Button from '../CustomButtons/Button'
 // import styles from '../../assets/jss/material-dashboard-react/views/dashboardStyle'
 import GridItem from '../Grid/GridItem'
 
-export const Modal = props => {
+export const AlertModal = props => {
   const {
     title,
     showDelDialog,

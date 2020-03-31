@@ -10,7 +10,7 @@ import CustomInput from '../../components/CustomInput/CustomInput'
 import Button from '../../components/CustomButtons/Button'
 import styles from '../../assets/jss/material-dashboard-react/views/dashboardStyle'
 import GridItem from '../../components/Grid/GridItem'
-import { Modal } from '../Modal/modal'
+import { AlertModal } from '../Modal/modal'
 import {
   deleteEmployee,
   clearDeleteEmployeeMsg
@@ -76,7 +76,6 @@ const EmployeeListing = props => {
   }, [deleteEmployeeError, addToast, dispatch])
 
   let filteredEmployee
-
   const searchHandler = () => {
     const employeeDetails = []
     if (employeeData && searchText) {
@@ -129,8 +128,7 @@ const EmployeeListing = props => {
 
   const links = ['Edit', 'Delete']
 
-  const getUserToUpdate = (employeeData, employee_id) => {
-    console.log(employeeData)
+  const getUserToUpdate = (employeeData, employee_id) => {   
     return employeeData.filter(item => {
       if (item.employee_id === employee_id) return item
 
@@ -222,7 +220,7 @@ const EmployeeListing = props => {
               </CardBody>
             </Card>
           </GridItem>
-          <Modal
+          <AlertModal
             title="Delete Employee"
             showDelDialog={showDelDialog}
             handleYesDelete={handleYesDelete}
