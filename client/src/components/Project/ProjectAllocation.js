@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import GridContainer from '../Grid/GridContainer'
 import GridItem from '../Grid/GridItem'
@@ -7,12 +7,12 @@ import CardHeader from '../Card/CardHeader'
 import CardBody from '../Card/CardBody'
 import CardFooter from '../Card/CardFooter'
 import Button from '../CustomButtons/Button'
-import CustomInput from '../CustomInput/CustomInput'
+import Input from '../FromComponents/Input'
 import 'date-fns'
-import DateFnsUtils from '@date-io/date-fns'
-import { withToastManager, useToasts } from 'react-toast-notifications'
-import Grid from '@material-ui/core/Grid'
-import { Formik, Form, ErrorMessage } from 'formik'
+
+import DatePicker from '../../components/FromComponents/DatePicker'
+import { useToasts } from 'react-toast-notifications'
+import { Formik, Form } from 'formik'
 import { projectStyles } from './styles'
 import { useSelector, useDispatch } from 'react-redux'
 import {
@@ -27,19 +27,11 @@ import {
   updateProjectStatusMsg,
   updateProjectErrorMsg
 } from '../../selectors/projectSelectors'
-import {
-  yupRequired,
-  yupRequiredNumber,
-  yupRequiredDate
-} from '../../helpers/yupValidations'
-import {
-  MuiPickersUtilsProvider,
-  KeyboardDatePicker
-} from '@material-ui/pickers'
+import { yupRequired, yupRequiredDate } from '../../helpers/yupValidations'
 
 const styles = projectStyles
 const useStyles = makeStyles(styles)
-const ProjectAllocation = props => {
+const Project = props => {
   const { setPageView, projectToUpdate } = props
   const classes = useStyles()
   const { addToast } = useToasts()
@@ -62,7 +54,7 @@ const ProjectAllocation = props => {
       dispatch(clearProjectMsg())
       setPageView('projectListing')
     }
-  }, [addNewProjectStatus, addToast])
+  }, [addNewProjectStatus, addToast, dispatch])
 
   useEffect(() => {
     if (updateProjectStatus) {
@@ -74,21 +66,21 @@ const ProjectAllocation = props => {
       dispatch(clearProjectMsg())
       if (props) props.setUpdateAction()
     }
-  }, [updateProjectStatus, addToast])
+  }, [updateProjectStatus, addToast, dispatch])
 
   useEffect(() => {
     if (error) {
       addToast(error, { appearance: 'error', autoDismiss: true })
       dispatch(clearProjectMsg())
     }
-  }, [error, addToast])
+  }, [error, addToast, dispatch])
 
   useEffect(() => {
     if (updateProjectError) {
       addToast(updateProjectError, { appearance: 'error', autoDismiss: true })
       dispatch(clearProjectMsg())
     }
-  }, [updateProjectError, addToast])
+  }, [updateProjectError, addToast, dispatch])
 
   const submitFormValues = values => {
     dispatch(
@@ -98,31 +90,24 @@ const ProjectAllocation = props => {
     )
   }
 
-  let initialValues
+ let initialValues
   const {
-    title,
-    description,
-    client,
-    client_location,
+    project_id,
+    employee_id,
     startdate = new Date(),
     enddate = new Date(),
     status = 'Active',
-    technology,
-    type
+    manager_employee_id
   } = projectToUpdate ? projectToUpdate[0] : {}
 
   initialValues = {
-    title,
-    description,
-    client,
-    client_location,
+    project_id,
+    employee_id,
     startdate,
     enddate,
     status,
-    technology,
-    type
+    manager_employee_id
   }
-
   const handleProjectListView = () => {
     props.setUpdateAction()
   }
@@ -149,7 +134,7 @@ const ProjectAllocation = props => {
       .typeError('')
       .test('', 'Must be greater than Start Date', function(value) {
         const startdate = this.parent.startdate
-        return value >= startdate
+        return value > startdate
       })
   })
 
@@ -176,163 +161,74 @@ const ProjectAllocation = props => {
                 <CardBody>
                   <GridContainer>
                     <GridItem xs={12} sm={12} md={6}>
-                      Project Allocation - TO do
-                      <CustomInput
-                        labelText="Project Title"
-                        formControlProps={{
-                          fullWidth: true
-                        }}
-                        inputProps={{
-                          value: values.title,
-                          name: 'title',
-                          onChange: handleChange
-                        }}
+                      <Input
+                        name="title"
+                        value={values.title}
+                        onChange={handleChange}
+                        labelText="Project Title * "
                       />
-                      <div className={classes.error}>
-                        <ErrorMessage name="title" />
-                      </div>
                     </GridItem>
 
                     <GridItem xs={12} sm={12} md={6}>
-                      <CustomInput
-                        labelText="Description"
-                        formControlProps={{
-                          fullWidth: true
-                        }}
-                        inputProps={{
-                          value: values.description,
-                          name: 'description',
-                          onChange: handleChange
-                        }}
+                      <Input
+                        name="description"
+                        value={values.description}
+                        onChange={handleChange}
+                        labelText="Description * "
                       />
-                      <div className={classes.error}>
-                        <ErrorMessage name="description" />
-                      </div>
                     </GridItem>
 
                     <GridItem xs={12} sm={12} md={6}>
-                      <CustomInput
-                        labelText="Client"
-                        formControlProps={{
-                          fullWidth: true
-                        }}
-                        inputProps={{
-                          value: values.client,
-                          name: 'client',
-                          onChange: handleChange
-                        }}
+                      <Input
+                        name="client"
+                        value={values.client}
+                        onChange={handleChange}
+                        labelText="Client *"
                       />
-                      <div className={classes.error}>
-                        <ErrorMessage name="client" />
-                      </div>
                     </GridItem>
                     <GridItem xs={12} sm={12} md={6}>
-                      <CustomInput
-                        labelText="Client Location"
-                        formControlProps={{
-                          fullWidth: true
-                        }}
-                        inputProps={{
-                          value: values.client_location,
-                          name: 'client_location',
-                          onChange: handleChange
-                        }}
+                      <Input
+                        name="client_location"
+                        value={values.client_location}
+                        onChange={handleChange}
+                        labelText="Client Location * "
                       />
-                      <div className={classes.error}>
-                        <ErrorMessage name="client_location" />
-                      </div>
                     </GridItem>
 
                     <GridItem xs={12} sm={12} md={6}>
-                      <CustomInput
-                        labelText="Technology"
-                        formControlProps={{
-                          fullWidth: true
-                        }}
-                        inputProps={{
-                          value: values.technology,
-                          name: 'technology',
-                          onChange: handleChange,
-                          required: false
-                        }}
+                      <Input
+                        name="technology"
+                        value={values.technology}
+                        onChange={handleChange}
+                        labelText="Technology * "
                       />
-                      <div className={classes.error}>
-                        <ErrorMessage name="technology" />
-                      </div>
                     </GridItem>
 
                     <GridItem xs={12} sm={12} md={6}>
-                      <CustomInput
-                        labelText="Project Type"
-                        formControlProps={{
-                          fullWidth: true
-                        }}
-                        inputProps={{
-                          value: values.type,
-                          name: 'type',
-                          onChange: handleChange,
-                          required: false
-                        }}
+                      <Input
+                        name="type"
+                        value={values.type}
+                        onChange={handleChange}
+                        labelText="Project Type * "
                       />
-                      <div className={classes.error}>
-                        <ErrorMessage name="type" />
-                      </div>
                     </GridItem>
 
                     <GridItem xs={12} sm={12} md={6}>
-                      <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                        <Grid
-                          container
-                          justify="flex-start"
-                          style={{ paddingLeft: 11, paddingRight: 11 }}
-                        >
-                          <KeyboardDatePicker
-                            disableToolbar
-                            variant="inline"
-                            format="MM/dd/yyyy"
-                            margin="normal"
-                            name="startdate"
-                            label="Start Date"
-                            value={values.startdate}
-                            onChange={date => setFieldValue('startdate', date)}
-                            KeyboardButtonProps={{
-                              'aria-label': 'change date'
-                            }}
-                            fullWidth
-                          />
-                        </Grid>
-                      </MuiPickersUtilsProvider>
-                      <div className={classes.error}>
-                        <ErrorMessage name="startdate" />
-                      </div>
+                      <DatePicker
+                        name="startdate"
+                        value={values.startdate}
+                        label="Start Date *"
+                        onChange={date => setFieldValue('startdate', date)}
+                      />
                     </GridItem>
 
                     <GridItem xs={12} sm={12} md={6}>
-                      <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                        <Grid
-                          container
-                          justify="flex-start"
-                          style={{ paddingLeft: 11, paddingRight: 11 }}
-                        >
-                          <KeyboardDatePicker
-                            disableToolbar
-                            variant="inline"
-                            format="MM/dd/yyyy"
-                            margin="normal"
-                            name="enddate"
-                            label="End Date"
-                            value={values.enddate}
-                            onChange={date => setFieldValue('enddate', date)}
-                            KeyboardButtonProps={{
-                              'aria-label': 'change date'
-                            }}
-                            fullWidth
-                          />
-                        </Grid>
-                      </MuiPickersUtilsProvider>
-                      <div className={classes.error}>
-                        <ErrorMessage name="enddate" />
-                      </div>
+                      <DatePicker
+                        name="enddate"
+                        value={values.enddate}
+                        label="End Date *"
+                        onChange={date => setFieldValue('enddate', date)}
+                      />
                     </GridItem>
                   </GridContainer>
                 </CardBody>
@@ -377,4 +273,4 @@ const ProjectAllocation = props => {
     </GridContainer>
   )
 }
-export default ProjectAllocation
+export default Project

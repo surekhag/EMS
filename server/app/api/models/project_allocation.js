@@ -49,6 +49,11 @@ const ProjectAllocationSchema = new Schema({
         trim: true,
         required: true,        
       },
+    status : {
+    type: String,
+    trim: true,
+    required: true
+  },
 });
 
 module.exports = mongoose.model("Project_Allocation", ProjectAllocationSchema);

@@ -11,6 +11,7 @@ module.exports = {
                 updated_date = new Date(),
                 created_by = req.user.userName,
                 last_updated_by = req.user.userName,
+                status = "Active"
           } = req.body;
           Project_Allocation_Model.create(
             {   
@@ -22,7 +23,8 @@ module.exports = {
                 created_date,
                 updated_date,
                 created_by,
-                last_updated_by           
+                last_updated_by,
+                status           
             },
             function(err, result) {
               if (err) next(err);
