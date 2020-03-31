@@ -3,6 +3,7 @@ import {
   dangerColor,
   successColor,
   grayColor,
+  blackColor,
   defaultFont
 } from '../../material-dashboard-react.js'
 
@@ -33,8 +34,8 @@ const customInputStyle = {
   },
   labelRoot: {
     ...defaultFont,
-    color: grayColor[3] + ' !important',
-    fontWeight: '400',
+    color: blackColor + ' !important',
+    fontWeight: '700',
     fontSize: '14px',
     lineHeight: '1.42857',
     letterSpacing: 'unset'

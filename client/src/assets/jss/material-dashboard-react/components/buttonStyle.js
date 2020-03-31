@@ -88,12 +88,6 @@ const buttonStyle = {
       }
     }
   },
-  white: {
-    '&,&:focus,&:hover': {
-      backgroundColor: whiteColor,
-      color: grayColor[0]
-    }
-  },
   rose: {
     backgroundColor: roseColor[0],
     boxShadow:

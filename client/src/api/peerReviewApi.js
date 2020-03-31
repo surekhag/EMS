@@ -1,8 +1,7 @@
 import axios from 'axios'
 import {
   FETCH_PEER_REVIEW,
-  CREATE_PEER_REVIEW,
-  FETCH_USER_PEER
+  CREATE_PEER_REVIEW
 } from '../configurations/endPoints'
 
 export function loadAllPeerReviews() {

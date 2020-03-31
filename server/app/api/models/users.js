@@ -40,7 +40,7 @@ const UserSchema = new Schema({
   middlename: {
     type: String,
     trim: true,
-    required: true
+    required: false
   },
   address1: {
     type: String,
@@ -130,7 +130,7 @@ const UserSchema = new Schema({
   reporting_manager : {
     type: String,
     trim: true,
-    required: true
+    required: false
   },
   contact_no : {
     type: Number,

@@ -90,9 +90,6 @@ export const formikUpdateValidations = Yup.object().shape({
   lastname: yupRequired('Lastname')
     .min(2, 'Too Short!')
     .max(50, 'Too Long!'),
-  middlename: yupRequired('Middlename')
-    .min(2, 'Too Short!')
-    .max(50, 'Too Long!'),
   contact_no: yupRequiredNumber('Contact Number')
     .typeError("Doesn't seems valid Contact Number")
     .positive()
@@ -135,6 +132,10 @@ export const formikUpdateValidations = Yup.object().shape({
   designation: yupRequired('Designation'),
   employment_status: yupRequired('Employment Status'),
   userRole: yupRequired('User Role'),
-  reporting_manager: yupRequired('Reporting Manager'),
+  reporting_manager: Yup.string().when('designation', {
+    is: designation =>
+      designation !== 'Partner' && designation !== 'Chief Executive Officer',
+    then: yupRequired('Reporting Manager')
+  }),
   skills: yupRequired('Skill')
 })
