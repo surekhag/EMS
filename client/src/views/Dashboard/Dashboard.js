@@ -2,15 +2,15 @@ import React, { useState, useEffect, useContext } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { loadAllPeerForUser } from '../../actions/peerReviewAction'
 import { loadAllSelfReviewsForUser } from '../../actions/selfReviewActions'
+
+import Search from '@material-ui/icons/Search'
 // react plugin for creating charts
 // @material-ui/core
 import { makeStyles } from '@material-ui/core/styles'
 import InputLabel from '@material-ui/core/InputLabel'
 // @material-ui/icons
-import Search from '@material-ui/icons/Search'
+
 // core components
-import CustomInput from '../../components/CustomInput/CustomInput'
-import Button from '../../components/CustomButtons/Button'
 import GridItem from '../../components/Grid/GridItem'
 import GridContainer from '../../components/Grid/GridContainer'
 import Table from '../../components/Table/Table'
@@ -22,11 +22,14 @@ import SelfReviewDetails from '../../components/selfReviewDetails/SelfReviewDeta
 import styles from '../../assets/jss/material-dashboard-react/views/dashboardStyle'
 import withAuth from '../../HOC/withAuth'
 import { UserContext } from '../../context-provider/user-context'
+import CustomInput from '../../components/CustomInput/CustomInput'
 import { formatDate } from '../../helpers/formatDates'
 import {
   userPeerReview,
   userSelfReviewDeatils
 } from '../../selectors/reviewSelectors'
+
+import Button from '../../components/CustomButtons/Button'
 const useStyles = makeStyles(styles)
 const Dashboard = props => {
   const classes = useStyles()
@@ -66,18 +69,18 @@ const Dashboard = props => {
     filteredEmployee = peerReviews.filter(
       cls =>
         cls.employee_under_review.firstname +
-        ' ' +
-        cls.employee_under_review.lastname
-          .toLowerCase()
-          .includes(searchText.toLowerCase().trim()) &&
+          ' ' +
+          cls.employee_under_review.lastname
+            .toLowerCase()
+            .includes(searchText.toLowerCase().trim()) &&
         cls.status !== 'Done' &&
         cls.status !== 'Inactive'
     )
     filteredEmployee.map((review, key) => {
       peerReviewsArray.push([
         review.employee_under_review.firstname +
-        ' ' +
-        review.employee_under_review.lastname,
+          ' ' +
+          review.employee_under_review.lastname,
         review.project.title,
         formatDate(review.to_date),
         review.status
@@ -143,13 +146,15 @@ const Dashboard = props => {
           ClickHandler={closeSelfReiewDetails}
         />
       ) : (
-            <GridContainer>
-              <GridItem xs={12} sm={12} md={12}>
-                <InputLabel className={classes.cardTitle}>
-                  Welcome {currentUser ? currentUser.userName : null}
-                </InputLabel>
-              </GridItem>
-              <GridItem xs={12} sm={12} md={12}>
+        <GridContainer>
+          <GridItem xs={12} sm={12} md={12}>
+            <InputLabel className={classes.cardTitle}>
+              Welcome {currentUser ? currentUser.userName : null}
+            </InputLabel>
+          </GridItem>
+          <GridItem xs={12} sm={12} md={12}>
+            {currentUser && currentUser.userRole === 'admin' ? (
+              <>
                 <CustomInput
                   formControlProps={{
                     className: classes.margin + ' ' + classes.search
@@ -165,46 +170,50 @@ const Dashboard = props => {
                 <Button color="white" aria-label="edit" justIcon round>
                   <Search />
                 </Button>
-              </GridItem>
-              {peerReviews ? <GridItem xs={12} sm={12} md={12}>
-                <Card plain>
-                  <CardHeader plain color="primary">
-                    <h4 className={classes.cardTitleWhite}>PEER REVIEWS</h4>
-                  </CardHeader>
-                  <CardBody>
-                    <Table
-                      tableHeaderColor="gray"
-                      tableHead={peerReviewListingHeader}
-                      tableData={peerReviewsArray || null}
-                      showLink={true}
-                      buttonText="Details"
-                      onClickHandler={onClickHandler}
-                    />
-                  </CardBody>
-                </Card>
-              </GridItem> : null}
+              </>
+            ) : null}
+          </GridItem>
+          {peerReviews && peerReviews.length > 0 ? (
+            <GridItem xs={12} sm={12} md={12}>
+              <Card plain>
+                <CardHeader plain color="primary">
+                  <h4 className={classes.cardTitleWhite}>PEER REVIEWS</h4>
+                </CardHeader>
+                <CardBody>
+                  <Table
+                    tableHeaderColor="gray"
+                    tableHead={peerReviewListingHeader}
+                    tableData={peerReviewsArray || null}
+                    showLink={true}
+                    buttonText="Details"
+                    onClickHandler={onClickHandler}
+                  />
+                </CardBody>
+              </Card>
+            </GridItem>
+          ) : null}
 
-              {userSelfReviews && userSelfReviews.length > 0 ? (
-                <GridItem xs={12} sm={12} md={12}>
-                  <Card plain>
-                    <CardHeader plain color="primary">
-                      <h4 className={classes.cardTitleWhite}>SELF REVIEW</h4>
-                    </CardHeader>
-                    <CardBody>
-                      <Table
-                        tableHeaderColor="gray"
-                        tableHead={SelfReviewListingHeader}
-                        tableData={userReviewDetailsArr || null}
-                        showLink={true}
-                        buttonText="Details"
-                        onClickHandler={handleSelfReviewDetails}
-                      />
-                    </CardBody>
-                  </Card>
-                </GridItem>
-              ) : null}
-            </GridContainer>
-          )}
+          {userSelfReviews && userSelfReviews.length > 0 ? (
+            <GridItem xs={12} sm={12} md={12}>
+              <Card plain>
+                <CardHeader plain color="primary">
+                  <h4 className={classes.cardTitleWhite}>SELF REVIEW</h4>
+                </CardHeader>
+                <CardBody>
+                  <Table
+                    tableHeaderColor="gray"
+                    tableHead={SelfReviewListingHeader}
+                    tableData={userReviewDetailsArr || null}
+                    showLink={true}
+                    buttonText="Details"
+                    onClickHandler={handleSelfReviewDetails}
+                  />
+                </CardBody>
+              </Card>
+            </GridItem>
+          ) : null}
+        </GridContainer>
+      )}
     </div>
   )
 }

@@ -47,18 +47,18 @@ const PeerReviewDetails = props => {
       [
         <span className={classes.boldFont}>Employee Under Review</span>,
         reviewData.employee_under_review.firstname +
-        ' ' +
-        reviewData.employee_under_review.lastname,
+          ' ' +
+          reviewData.employee_under_review.lastname,
         <span className={classes.boldFont}>Employee Reviewing</span>,
         reviewData.employee_reviewing.firstname +
-        ' ' +
-        reviewData.employee_reviewing.lastname,
+          ' ' +
+          reviewData.employee_reviewing.lastname,
         <span className={classes.boldFont}>Project</span>,
         reviewData.project.title,
         <span className={classes.boldFont}>Functional Manager</span>,
         reviewData.functional_manager.firstname +
-        ' ' +
-        reviewData.functional_manager.lastname
+          ' ' +
+          reviewData.functional_manager.lastname
       ],
       [
         <span className={classes.boldFont}>Review From Date</span>,
@@ -69,16 +69,6 @@ const PeerReviewDetails = props => {
         formatDate(reviewData.due_from),
         <span className={classes.boldFont}>Due To Date</span>,
         formatDate(reviewData.due_to)
-      ],
-      [
-        <span className={classes.boldFont}>Form Link</span>,
-        reviewData.review_form_link,
-        <span className={classes.boldFont}>Status</span>,
-        reviewData.status,
-        <span className={classes.boldFont}>Created Date</span>,
-        formatDate(reviewData.created_date),
-        <span className={classes.boldFont}>Created By</span>,
-        reviewData.created_by
       ]
     )
   }
@@ -120,6 +110,20 @@ const PeerReviewDetails = props => {
                 tableData={tableDataArray || null}
                 showLink={false}
               />
+            </Grid>
+            <Grid xs={12} sm={12} md={12} item>
+              {showButtons ? (
+                <iframe
+                  title="myFrame"
+                  src={reviewData.review_form_link}
+                  width="100%"
+                  height="800"
+                >
+                  Loading...
+                </iframe>
+              ) : null}
+            </Grid>
+            <Grid xs={12} sm={12} md={12} item>
               {showButtons ? (
                 <Grid xs={6} sm={6} md={6} item>
                   <div>
@@ -150,22 +154,12 @@ const PeerReviewDetails = props => {
             <Button type="submit" color="primary" onClick={updateHandler}>
               UPDATE REVIEW
             </Button>
-            <Button type="submit" color="primary" onClick={closeHandler}>
+            <Button type="submit" color="white" onClick={closeHandler}>
               Close
             </Button>
           </CardFooter>
         ) : null}
       </Card>
-      {showButtons ? (
-        <iframe
-          title="myFrame"
-          src={reviewData.review_form_link}
-          width="100%"
-          height="800"
-        >
-          Loading...
-        </iframe>
-      ) : null}
     </Grid>
   )
 }

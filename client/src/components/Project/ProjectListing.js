@@ -6,12 +6,10 @@ import CardBody from '../Card/CardBody'
 import React, { useState, useEffect } from 'react'
 // import GridItem from '../../components/Grid/GridItem'
 import { makeStyles } from '@material-ui/core/styles'
-import Button from '../CustomButtons/Button'
 import styles from '../../assets/jss/material-dashboard-react/views/dashboardStyle'
 import GridItem from '../Grid/GridItem'
-// import DialogActions from '@material-ui/core/DialogActions';
-import { Dialog, DialogActions } from '@material-ui/core'
 import { deleteProject, clearProjectMsg } from '../../actions/projectAction'
+import { AlertModal } from '../../components/Modal/modal'
 import { useToasts } from 'react-toast-notifications'
 import Employee from './Project'
 import {
@@ -103,7 +101,7 @@ const ProjectListing = props => {
     //  projectData = filteredProject;
   }
 
-  const links = ['Update', 'Delete']
+  const links = ['Edit', 'Delete']
 
   const getprojectToUpdate = (projectData, title) => {
     return projectData.filter(item => {
@@ -165,15 +163,13 @@ const ProjectListing = props => {
               </CardBody>
             </Card>
           </GridItem>
-          <Dialog title="Delete Project" modal={true} open={showDelDialog}>
-            <DialogActions>
-              <GridItem xs={12} sm={12} md={12}>
-                <p> Are you sure you want to delete this Project ? </p>
-                <Button onClick={handleYesDelete}> Yes</Button>{' '}
-                <Button onClick={handleNoDelete}> No</Button>
-              </GridItem>
-            </DialogActions>
-          </Dialog>
+          <AlertModal
+            title="Delete Project"
+            showDelDialog={showDelDialog}
+            handleYesDelete={handleYesDelete}
+            handleNoDelete={handleNoDelete}
+            userInfo="Are you sure you want to delete this project ?"
+          />
         </>
       )}
     </>
