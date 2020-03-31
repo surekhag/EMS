@@ -23,6 +23,7 @@ import FormControl from '@material-ui/core/FormControl'
 import Select from '@material-ui/core/Select'
 import { formatDate } from '../../helpers/formatDates'
 import withAuth from '../../HOC/withAuth'
+import { DeleteModal } from '../../components/DeleteModal/deleteModal'
 import { loadAllEmployeeData } from '../../actions/employeeAction'
 import { employeeDataSelector } from '../../selectors/employeeSelectors'
 import {
@@ -111,10 +112,10 @@ const PeerReview = props => {
     filteredEmployee = peerReviewData.data.data.filter(
       cls =>
         cls.employee_under_review.firstname +
-          ' ' +
-          cls.employee_under_review.lastname
-            .toLowerCase()
-            .includes(selectedEmployee.toLowerCase().trim()) &&
+        ' ' +
+        cls.employee_under_review.lastname
+          .toLowerCase()
+          .includes(selectedEmployee.toLowerCase().trim()) &&
         cls.status !== 'Inactive'
     )
     filteredEmployee.map((review, key) => {
@@ -128,8 +129,8 @@ const PeerReview = props => {
             review.employee_under_review.lastname}
         </span>,
         review.employee_reviewing.firstname +
-          ' ' +
-          review.employee_reviewing.lastname,
+        ' ' +
+        review.employee_reviewing.lastname,
         review.project.title,
         formatDate(review.to_date),
         review.status
@@ -169,26 +170,26 @@ const PeerReview = props => {
           clickHandler={detailsSwitchHandler}
         ></PeerReviewForm>
       ) : (
-        <GridContainer>
-          <Grid xs={1} sm={1} md={1} className={classes.grid} item>
-            <InputLabel>Search By:</InputLabel>
-          </Grid>
-          <GridItem xs={5} sm={5} md={5}>
-            <FormControl className={classes.formControl}>
-              <InputLabel htmlFor="SelectEmployee"> Select Employee</InputLabel>
-              <Select
-                value={selectedEmployee}
-                onChange={changeHandler}
-                inputProps={{
-                  name: 'SelectEmployee',
-                  id: 'SelectEmployee'
-                }}
-              >
-                <MenuItem className={classes.hoverEffect} value="">
-                  <em>None</em>
-                </MenuItem>
-                {employeeData
-                  ? employeeData.map((prop, key) => {
+          <GridContainer>
+            <Grid xs={1} sm={1} md={1} className={classes.grid} item>
+              <InputLabel>Search By:</InputLabel>
+            </Grid>
+            <GridItem xs={5} sm={5} md={5}>
+              <FormControl className={classes.formControl}>
+                <InputLabel htmlFor="SelectEmployee"> Select Employee</InputLabel>
+                <Select
+                  value={selectedEmployee}
+                  onChange={changeHandler}
+                  inputProps={{
+                    name: 'SelectEmployee',
+                    id: 'SelectEmployee'
+                  }}
+                >
+                  <MenuItem className={classes.hoverEffect} value="">
+                    <em>None</em>
+                  </MenuItem>
+                  {employeeData
+                    ? employeeData.map((prop, key) => {
                       return prop.status !== 'Inactive' ? (
                         <MenuItem
                           className={classes.hoverEffect}
@@ -199,56 +200,40 @@ const PeerReview = props => {
                         </MenuItem>
                       ) : null
                     })
-                  : null}
-              </Select>
-            </FormControl>
-          </GridItem>
-          <GridItem style={{ textAlign: 'end' }} xs={6} sm={6} md={6}>
-            <Button color="primary" onClick={createPeerHandler}>
-              Create Peer
+                    : null}
+                </Select>
+              </FormControl>
+            </GridItem>
+            <GridItem style={{ textAlign: 'end' }} xs={6} sm={6} md={6}>
+              <Button color="primary" onClick={createPeerHandler}>
+                Create Peer
             </Button>
-          </GridItem>
-          <GridItem xs={12} sm={12} md={12}>
-            <Card plain>
-              <CardHeader plain color="primary">
-                <h4 className={classes.cardTitleWhite}>PEER REVIEW</h4>
-              </CardHeader>
-              <CardBody>
-                <Table
-                  tableHeaderColor="gray"
-                  tableHead={peerReviewListingHeader}
-                  tableData={tempArr || null}
-                  addLinks={links}
-                  updateUser={updateUser}
-                  deleteUser={deleteUser}
-                  showLink={false}
-                />
-              </CardBody>
-            </Card>
-          </GridItem>
-        </GridContainer>
-      )}
-      <Dialog title="Delete Peer" modal={true} open={showDelDialog}>
-        <DialogActions>
-          <GridItem xs={12} sm={12} md={12}>
-            <p> Are you sure you want to delete this Peer Review ? </p>
-            <div className={classes.displayCenter}>
-              <Button color="primary" size="sm" onClick={handleYesDelete}>
-                {' '}
-                Yes
-              </Button>{' '}
-              <Button
-                color="white"
-                size="sm"
-                onClick={() => setShowDelDialog(false)}
-              >
-                {' '}
-                No
-              </Button>
-            </div>
-          </GridItem>
-        </DialogActions>
-      </Dialog>
+            </GridItem>
+            <GridItem xs={12} sm={12} md={12}>
+              <Card plain>
+                <CardHeader plain color="primary">
+                  <h4 className={classes.cardTitleWhite}>PEER REVIEW</h4>
+                </CardHeader>
+                <CardBody>
+                  <Table
+                    tableHeaderColor="gray"
+                    tableHead={peerReviewListingHeader}
+                    tableData={tempArr || null}
+                    addLinks={links}
+                    updateUser={updateUser}
+                    deleteUser={deleteUser}
+                    showLink={false}
+                  />
+                </CardBody>
+              </Card>
+            </GridItem>
+          </GridContainer>
+        )}
+      <DeleteModal
+        title="Delete Peer"
+        showDelDialog={showDelDialog}
+        handleYesDelete={handleYesDelete}
+        handleNoDelete={() => setShowDelDialog(false)} />
       <Dialog
         title="Peer Review Details"
         maxWidth="lg"
