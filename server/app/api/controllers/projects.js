@@ -59,14 +59,15 @@ module.exports = {
   },
   getAll: function(req, res, next) {    
     //todo - remove or optimize it
-    projectModel.find({}, function(err, users) {
+     const query = req.query? req.query: {}
+    projectModel.find(query, function(err, projects) {
       if (err) {
         next(err);
       } else {
         res.json({
           status: "success",
           message: "Project list found!!!",
-          data: users
+          data: projects
         });
       }
     });

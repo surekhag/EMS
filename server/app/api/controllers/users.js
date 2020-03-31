@@ -113,7 +113,8 @@ module.exports = {
     });
   },
   getAll: function (req, res, next) {
-    userModel.find({}, function (err, users) {
+    const query = req.query? req.query: {}
+    userModel.find(query, function (err, users) {
       if (err) {
         next(err);
       } else {
