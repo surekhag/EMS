@@ -101,7 +101,7 @@ const EmployeeListing = props => {
 
         const manager = filteredEmployee.filter(item => {
           if (
-            item.userRole === 'Manager' &&
+            item.userRole === 'manager' &&
             item.employee_id === reporting_manager
           ) {
             return item

@@ -69,8 +69,9 @@ const Employee = props => {
     if (managerdata) {
       const emp = managerdata
       const managers = emp.filter(item => {
-        if (item.userRole === 'Manager' && item.status === 'Active') return item
+        if (item.userRole === 'manager' && item.status === 'Active') return item
       })
+      
       setManagers(managers)
     }
   }, [managerdata])
@@ -425,9 +426,9 @@ const Employee = props => {
                         disabledName="None"
                         label="User Role *"
                         value={values.userRole}
-                      >
+                      >                        
                         {userRole.map(item => {
-                          return <MenuItem value={item}>{item}</MenuItem>
+                          return <MenuItem value={item.id}>{item.role}</MenuItem>
                         })}
                       </SelectMenu>
                     </GridItem>

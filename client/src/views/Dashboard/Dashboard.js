@@ -59,7 +59,6 @@ const Dashboard = props => {
   const peerReviews = useSelector(userPeerReview)
   const userSelfReviews = useSelector(userSelfReviewDeatils)
   useEffect(() => {
-    console.log(currentUser.userRole)
     dispatch(loadAllPeerForUser(currentUser._id))
     dispatch(loadAllSelfReviewsForUser(currentUser._id))
   }, [dispatch])
@@ -154,7 +153,7 @@ const Dashboard = props => {
             </InputLabel>
           </GridItem>
           <GridItem xs={12} sm={12} md={12}>
-            {currentUser && currentUser.userRole === 'Admin' ? (
+            {currentUser && currentUser.userRole === 'admin' ? (
               <>
                 <CustomInput
                   formControlProps={{
