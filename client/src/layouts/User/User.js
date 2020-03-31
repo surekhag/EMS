@@ -58,7 +58,7 @@ const useStyles = makeStyles(styles)
 export default function User({ ...rest }) {
   const { currentUser } = useContext(UserContext)
   const [routes, setRoutes] = useState(null)
-   const [adminUserRoutes, setAdminUserRoutes] = useState(null)
+  const [adminUserRoutes, setAdminUserRoutes] = useState(null)
   const [switchRoutes, setSwitchRoutes] = useState()
 
   // styles
@@ -113,7 +113,7 @@ export default function User({ ...rest }) {
         <>
           <Sidebar
             routes={routes}
-            adminRoutes = {adminUserRoutes}
+            adminRoutes={adminUserRoutes}
             logoText={'Object Edge'}
             logo={logo}
             image={bgImage}
