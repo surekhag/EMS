@@ -58,7 +58,7 @@ const customInputStyle = {
     pointerEvents: 'none'
   },
   marginTop: {
-    marginTop: '16px',
+    marginTop: '16px'
   },
   formControl: {
     paddingBottom: '10px',

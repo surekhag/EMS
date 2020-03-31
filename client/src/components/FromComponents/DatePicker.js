@@ -15,6 +15,10 @@ const useStyles = makeStyles({
   },
   widthSetting: {
     width: '100%'
+  },
+  formLabel: {
+    color: '#000',
+    fontWeight: '700'
   }
 })
 
@@ -34,6 +38,9 @@ export default function DatePicker({ name, value, ...rest }) {
           value={value}
           KeyboardButtonProps={{
             'aria-label': 'change date'
+          }}
+          InputLabelProps={{
+            className: classes.formLabel
           }}
         />
         <ErrorMessage
