@@ -24,7 +24,8 @@ export default function CustomTable(props) {
     onClickHandler,
     addLinks,
     updateUser,
-    deleteUser
+    deleteUser,
+    allocateProject
   } = props
   return (
     <div className={classes.tableResponsive}>
@@ -89,6 +90,17 @@ export default function CustomTable(props) {
                               {item}
                             </Button>
                           )
+                        } else if (item === 'Allocations' && allocateProject) {
+                          return (
+                            <Button
+                              color="primary"
+                              size="sm"
+                              className={classes.links}
+                              onClick={e => allocateProject(prop, k)}
+                            >
+                              {item}
+                            </Button>
+                          )
                         }
                       })}
                     </TableCell>
@@ -103,8 +115,7 @@ export default function CustomTable(props) {
                           onClickHandler(k)
                         }}
                       >
-                        {' '}
-                        {buttonText}{' '}
+                        {buttonText}
                       </Button>
                     </TableCell>
                   ) : null}

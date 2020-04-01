@@ -13,7 +13,10 @@ import {
   SET_UPDATE_PROJECT_ERROR,
   SET_ALL_PROJECTS_ERROR,
   ALLOCATE_PROJECT,
-  UPDATE_PROJECT_ALLOCATION
+  UPDATE_PROJECT_ALLOCATION,
+  SET_ALLOCATE_PROJECT_SUCCESS,
+  SET_ALLOCATE_PROJECT_ERROR,
+  CLEAR_PROJECT_ALLOCATION_MESSAGE
 } from './actionTypes'
 
 export function loadAllProjects() {
@@ -42,12 +45,7 @@ export function addNewProject(userInfo) {
     userInfo
   }
 }
-export function allocateProject(userInfo) {
-  return {
-    type: ALLOCATE_PROJECT,
-    userInfo
-  }
-}
+
 export function updateProject(userInfo, id) {
   return {
     type: UPDATE_PROJECT,
@@ -111,5 +109,31 @@ export function deleteProjectError(data) {
 export function clearProjectMsg() {
   return {
     type: CLEAR_PROJECT_STATUS_MESSAGE
+  }
+}
+
+export function clearProjectAllocationMsg() {
+  return {
+    type: CLEAR_PROJECT_ALLOCATION_MESSAGE
+  }
+}
+
+export function setAllocateProjectSuccess(data) {
+  return {
+    type: SET_ALLOCATE_PROJECT_SUCCESS,
+    data
+  }
+}
+export function setAllocateProjectError(data) {
+  return {
+    type: SET_ALLOCATE_PROJECT_ERROR,
+    data
+  }
+}
+
+export function allocateProject(userInfo) {
+  return {
+    type: ALLOCATE_PROJECT,
+    userInfo
   }
 }

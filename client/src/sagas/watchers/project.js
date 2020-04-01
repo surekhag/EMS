@@ -93,7 +93,13 @@ function* workerUpadateProjectSaga({ payload }) {
   } catch (e) {
     if (e.response.data && e.response.data.message) {
       // To do add code for all api calls .. invalid token case falls here
-      yield put(setUpdateProjectError(e.response.data.message))
+
+      if (e.response.data.message.indexOf('duplicate') !== -1) {
+        yield put(setUpdateProjectError('Project Already Exist!'))
+      } else {
+        // To do add code for all api calls .. invalid token case falls here
+        yield put(setUpdateProjectError(e.response.data.message))
+      }
     } else {
       yield put(setUpdateProjectError(e))
     }

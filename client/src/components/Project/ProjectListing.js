@@ -11,7 +11,8 @@ import GridItem from '../Grid/GridItem'
 import { deleteProject, clearProjectMsg } from '../../actions/projectAction'
 import { AlertModal } from '../../components/Modal/modal'
 import { useToasts } from 'react-toast-notifications'
-import Employee from './Project'
+import Project from './Project'
+import { UpdateProjectAllocation } from './updateProjectAllocation'
 import {
   deleteProjectSuccessMsg,
   deleteProjectErrorMsg
@@ -101,7 +102,7 @@ const ProjectListing = props => {
     //  projectData = filteredProject;
   }
 
-  const links = ['Edit', 'Delete']
+  const links = ['Edit', 'Delete', 'Allocations']
 
   const getprojectToUpdate = (projectData, title) => {
     return projectData.filter(item => {
@@ -122,6 +123,11 @@ const ProjectListing = props => {
     setShowDelDialog(true)
   }
 
+  const allocateProject = val => {
+    setUpdateAction('allocateProject')
+    const user = getprojectToUpdate(filteredProject, val[0])
+    setProjectToUpdate(user)
+  }
   const handleYesDelete = () => {
     dispatch(deleteProject(projectToUpdate[0]._id))
     setShowDelDialog(false)
@@ -130,11 +136,16 @@ const ProjectListing = props => {
   const handleNoDelete = () => {
     setShowDelDialog(false)
   }
-
   return (
     <>
       {updateAction === 'update' ? (
-        <Employee
+        <Project
+          setUpdateAction={setUpdateAction}
+          projectToUpdate={projectToUpdate}
+          setPageView={setPageView}
+        />
+      ) : updateAction === 'allocateProject' ? (
+        <UpdateProjectAllocation
           setUpdateAction={setUpdateAction}
           projectToUpdate={projectToUpdate}
           setPageView={setPageView}
@@ -158,6 +169,7 @@ const ProjectListing = props => {
                   addLinks={links}
                   updateUser={updateUser}
                   deleteUser={deleteUser}
+                  allocateProject={allocateProject}
                   showLink={false}
                 />
               </CardBody>

@@ -54,7 +54,7 @@ const Project = props => {
       dispatch(clearProjectMsg())
       setPageView('projectListing')
     }
-  }, [addNewProjectStatus, addToast, dispatch])
+  }, [addNewProjectStatus, addToast, dispatch, setPageView])
 
   useEffect(() => {
     if (updateProjectStatus) {
@@ -66,7 +66,7 @@ const Project = props => {
       dispatch(clearProjectMsg())
       if (props) props.setUpdateAction()
     }
-  }, [updateProjectStatus, addToast, dispatch])
+  }, [updateProjectStatus, addToast, dispatch, props])
 
   useEffect(() => {
     if (error) {
@@ -262,14 +262,25 @@ const Project = props => {
                       </GridItem>
                     </>
                   ) : (
-                    <Button
-                      id="add"
-                      type="submit"
-                      color="primary"
-                      disabled={isSubmitting}
-                    >
-                      ADD PROJECT
-                    </Button>
+                    <>
+                      <GridItem xs={12} sm={12} md={6}>
+                        <Button
+                          id="add"
+                          type="submit"
+                          color="primary"
+                          disabled={isSubmitting}
+                        >
+                          ADD PROJECT
+                        </Button>
+                        <Button
+                          color="primary"
+                          disabled={isSubmitting}
+                          onClick={() => setPageView('projectListing')}
+                        >
+                          cancel
+                        </Button>
+                      </GridItem>
+                    </>
                   )}
                 </CardFooter>
               </Form>

@@ -8,10 +8,7 @@ import CardBody from '../Card/CardBody'
 import CardFooter from '../Card/CardFooter'
 import Button from '../CustomButtons/Button'
 import { loadAllEmployeeData } from '../../actions/employeeAction'
-import Input from '../FromComponents/Input'
-
 import { loadAllProjects } from '../../actions/projectAction'
-
 // import Grid from '@material-ui/core/Grid'
 import { projectSelector } from '../../selectors/projectSelectors'
 import 'date-fns'
@@ -28,17 +25,13 @@ import { useSelector, useDispatch } from 'react-redux'
 import {
   allocateProject,
   updateProjectAllocation,
-  addNewProject,
-  clearProjectMsg,
-  updateProject
+  clearProjectAllocationMsg
 } from '../../actions/projectAction'
 import * as Yup from 'yup'
 import {
-  addProjectError,
-  addNewProjectStatusMsg,
-  updateProjectStatusMsg,
-  updateProjectErrorMsg
-} from '../../selectors/projectSelectors'
+  projectAllocationStatus,
+  projectAllocationError
+} from '../../selectors/projectAllocationSelector'
 import { yupRequired, yupRequiredDate } from '../../helpers/yupValidations'
 
 import { employeeDataSelector } from '../../selectors/employeeSelectors'
@@ -55,11 +48,8 @@ const Project = props => {
   const { addToast } = useToasts()
   const dispatch = useDispatch()
 
-  const error = useSelector(addProjectError)
-  const addNewProjectStatus = useSelector(addNewProjectStatusMsg)
-  const updateProjectStatus = useSelector(updateProjectStatusMsg)
-  const updateProjectError = useSelector(updateProjectErrorMsg)
-
+  const projectAllocationSuccess = useSelector(projectAllocationStatus)
+  const projectAllocationErr = useSelector(projectAllocationError)
   const managerdata = useSelector(managerDataSelector)
 
   const projectForm = useRef(null)
@@ -76,7 +66,6 @@ const Project = props => {
       const managers = emp.filter(item => {
         if (item.userRole === 'manager' && item.status === 'Active') return item
       })
-
       setManagers(managers)
     }
   }, [managerdata])
@@ -88,48 +77,27 @@ const Project = props => {
           return item
         }
       })
-      console.log(employeeData, activeEmployees)
       setEmployeeData(activeEmployees)
     }
   }, [employeeData])
 
   useEffect(() => {
-    if (addNewProjectStatus) {
-      addToast(addNewProjectStatus, {
+    if (projectAllocationSuccess) {
+      addToast(projectAllocationSuccess, {
         appearance: 'success',
         autoDismiss: true
       })
       projectForm.current.reset()
-      dispatch(clearProjectMsg())
+      dispatch(clearProjectAllocationMsg())
       setPageView('projectListing')
     }
-  }, [addNewProjectStatus, addToast, dispatch])
-
+  }, [projectAllocationSuccess, addToast, dispatch, setPageView])
   useEffect(() => {
-    if (updateProjectStatus) {
-      addToast(updateProjectStatus, {
-        appearance: 'success',
-        autoDismiss: true
-      })
-      projectForm.current.reset()
-      dispatch(clearProjectMsg())
-      if (props) props.setUpdateAction()
+    if (projectAllocationErr) {
+      addToast(projectAllocationErr, { appearance: 'error', autoDismiss: true })
+      dispatch(clearProjectAllocationMsg())
     }
-  }, [updateProjectStatus, addToast, dispatch])
-
-  useEffect(() => {
-    if (error) {
-      addToast(error, { appearance: 'error', autoDismiss: true })
-      dispatch(clearProjectMsg())
-    }
-  }, [error, addToast, dispatch])
-
-  useEffect(() => {
-    if (updateProjectError) {
-      addToast(updateProjectError, { appearance: 'error', autoDismiss: true })
-      dispatch(clearProjectMsg())
-    }
-  }, [updateProjectError, addToast, dispatch])
+  }, [projectAllocationErr, addToast, dispatch])
 
   const submitFormValues = values => {
     dispatch(
@@ -141,33 +109,33 @@ const Project = props => {
 
   let initialValues
   const {
-    project_id,
-    employee_id,
+    project,
+    employee,
     startdate = new Date(),
     enddate = new Date(),
     status = 'Active',
-    manager_employee_id
+    functional_manager
   } = projectToUpdate ? projectToUpdate[0] : {}
 
   initialValues = {
-    project_id,
-    employee_id,
+    project,
+    employee,
     startdate,
     enddate,
     status,
-    manager_employee_id
+    functional_manager
   }
   const handleProjectListView = () => {
     props.setUpdateAction()
   }
 
   const projectDataValidation = Yup.object().shape({
-    project_id: yupRequired('Project'),
-    employee_id: yupRequired('Employee'),
-    manager_employee_id: yupRequired('Manager'),
-    startdate: yupRequiredDate('Start Date').typeError(''),
+    project: yupRequired('Project'),
+    employee: yupRequired('Employee'),
+    functional_manager: yupRequired('Manager'),
+    startdate: yupRequiredDate('Start Date').typeError('Invalid Date'),
     enddate: yupRequiredDate('End Date')
-      .typeError('')
+      .typeError('Invalid Date')
       .test('', 'Must be greater than Start Date', function(value) {
         const startdate = this.parent.startdate
         return value > startdate
@@ -200,16 +168,16 @@ const Project = props => {
                   <GridContainer>
                     <GridItem xs={12} sm={12} md={6}>
                       <SelectMenu
-                        name="employee_id"
+                        name="employee"
                         onChange={handleChange}
                         disabledName="None"
                         label={'Employee *'}
-                        value={values.employee_id}
+                        value={values.employee}
                       >
                         {activeEmployees
                           ? activeEmployees.map(item => {
                               return (
-                                <MenuItem value={item.employee_id}>
+                                <MenuItem value={item._id}>
                                   {item.firstname + ' ' + item.lastname}
                                 </MenuItem>
                               )
@@ -219,11 +187,11 @@ const Project = props => {
                     </GridItem>
                     <GridItem xs={6} sm={6} md={6}>
                       <SelectMenu
-                        name="project_id"
+                        name="project"
                         onChange={handleChange}
                         disabledName="Select Project"
                         label={'Project *'}
-                        value={values.project_id}
+                        value={values.project}
                       >
                         {projects
                           ? projects.map((item, key) => {
@@ -254,21 +222,23 @@ const Project = props => {
                         name="enddate"
                         value={values.enddate}
                         label="End Date *"
-                        onChange={date => setFieldValue('enddate', date)}
+                        onChange={date => {
+                          setFieldValue('enddate', date)
+                        }}
                       />
                     </GridItem>
                     <GridItem xs={12} sm={12} md={6}>
                       <SelectMenu
-                        name="manager_employee_id"
+                        name="functional_manager"
                         onChange={handleChange}
                         disabledName="None"
                         label={'Reporting Manager *'}
-                        value={values.manager_employee_id}
+                        value={values.functional_manager}
                       >
                         {managers
                           ? managers.map(item => {
                               return (
-                                <MenuItem value={item.employee_id}>
+                                <MenuItem value={item._id}>
                                   {item.firstname + ' ' + item.lastname}
                                 </MenuItem>
                               )
@@ -283,6 +253,7 @@ const Project = props => {
                   {projectToUpdate ? (
                     <>
                       <GridItem xs={12} sm={12} md={6}>
+                        {/* To do remove update code */}
                         <Button
                           id="update"
                           type="submit"
@@ -301,14 +272,25 @@ const Project = props => {
                       </GridItem>
                     </>
                   ) : (
-                    <Button
-                      id="add"
-                      type="submit"
-                      color="primary"
-                      disabled={isSubmitting}
-                    >
-                      ALLOCATE PROJECT
-                    </Button>
+                    <>
+                      <GridItem xs={12} sm={12} md={6}>
+                        <Button
+                          id="add"
+                          type="submit"
+                          color="primary"
+                          disabled={isSubmitting}
+                        >
+                          ALLOCATE PROJECT
+                        </Button>
+                        <Button
+                          color="primary"
+                          disabled={isSubmitting}
+                          onClick={() => setPageView('projectListing')}
+                        >
+                          cancel
+                        </Button>
+                      </GridItem>
+                    </>
                   )}
                 </CardFooter>
               </Form>
