@@ -23,7 +23,10 @@ import {
 import { watchUserSaga, watchUpadateUserSaga } from './watchers/user'
 import {
   watchUserSelfReviewSaga,
-  watchUpdateUserSelfReviewSaga
+  watchUpdateUserSelfReviewSaga,
+  watchSelfReviewSaga,
+  watchCreateSelfReviewSaga,
+  watchDeleteSelfReviewSaga
 } from './watchers/selfReview'
 
 export default function* root() {
@@ -46,6 +49,9 @@ export default function* root() {
     fork(watchAddProjectSaga),
     fork(watchUpadateProjectSaga),
     fork(watchUserSelfReviewSaga),
-    fork(watchUpdateUserSelfReviewSaga)
+    fork(watchUpdateUserSelfReviewSaga),
+    fork(watchSelfReviewSaga),
+    fork(watchCreateSelfReviewSaga),
+    fork(watchDeleteSelfReviewSaga)
   ])
 }

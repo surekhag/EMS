@@ -130,7 +130,6 @@ const EmployeeListing = props => {
   const links = ['Edit', 'Delete']
 
   const getUserToUpdate = (employeeData, employee_id) => {
-    console.log(employeeData)
     return employeeData.filter(item => {
       if (item.employee_id === employee_id) return item
 
@@ -171,65 +170,65 @@ const EmployeeListing = props => {
           setPageView={setPageView}
         />
       ) : (
-        <>
-          <GridItem xs={12} sm={12} md={12}>
-            <CustomInput
-              formControlProps={{
-                className: classes.margin + ' ' + classes.search
-              }}
-              inputProps={{
-                onChange: changeHandler,
-                placeholder: 'Search Employee',
-                inputProps: {
-                  'aria-label': 'Search'
-                }
-              }}
-            />
-            <Button
-              color="white"
-              aria-label="edit"
-              justIcon
-              round
-              onClick={searchHandler}
-            >
-              <Search />
-            </Button>
-          </GridItem>
+          <>
+            <GridItem xs={12} sm={12} md={12}>
+              <CustomInput
+                formControlProps={{
+                  className: classes.margin + ' ' + classes.search
+                }}
+                inputProps={{
+                  onChange: changeHandler,
+                  placeholder: 'Search Employee',
+                  inputProps: {
+                    'aria-label': 'Search'
+                  }
+                }}
+              />
+              <Button
+                color="white"
+                aria-label="edit"
+                justIcon
+                round
+                onClick={searchHandler}
+              >
+                <Search />
+              </Button>
+            </GridItem>
 
-          <GridItem xs={12} sm={12} md={12}>
-            <Card plain>
-              <CardHeader plain color="primary">
-                <h4 className={classes.cardTitleWhite}>Employee List</h4>
-              </CardHeader>
-              <CardBody>
-                {employeeData && employeeDetails.length > 0 && searchText ? (
-                  <Table
-                    tableHeaderColor="gray"
-                    tableHead={
-                      employeeData && employeeDetails.length > 0 && searchText
-                        ? employeeListingHeader
-                        : null
-                    }
-                    tableData={employeeDetails || null}
-                    addLinks={links}
-                    updateUser={updateUser}
-                    deleteUser={deleteUser}
-                    showLink={false}
-                  />
-                ) : (
-                  '**Please search for employee result'
-                )}
-              </CardBody>
-            </Card>
-          </GridItem>
-          <DeleteModal
-            title="Delete Employee"
-            showDelDialog={showDelDialog}
-            handleYesDelete={handleYesDelete}
-            handleNoDelete={handleNoDelete}
-          />
-        </>
-      )}
+            <GridItem xs={12} sm={12} md={12}>
+              <Card plain>
+                <CardHeader plain color="primary">
+                  <h4 className={classes.cardTitleWhite}>Employee List</h4>
+                </CardHeader>
+                <CardBody>
+                  {employeeData && employeeDetails.length > 0 && searchText ? (
+                    <Table
+                      tableHeaderColor="gray"
+                      tableHead={
+                        employeeData && employeeDetails.length > 0 && searchText
+                          ? employeeListingHeader
+                          : null
+                      }
+                      tableData={employeeDetails || null}
+                      addLinks={links}
+                      updateUser={updateUser}
+                      deleteUser={deleteUser}
+                      showLink={false}
+                    />
+                  ) : (
+                      '**Please search for employee result'
+                    )}
+                </CardBody>
+              </Card>
+            </GridItem>
+            <DeleteModal
+              title="Delete Employee"
+              showDelDialog={showDelDialog}
+              handleYesDelete={handleYesDelete}
+              handleNoDelete={handleNoDelete}
+            />
+          </>
+        )}
     </>
   )
 }

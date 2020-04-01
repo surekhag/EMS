@@ -111,9 +111,9 @@ const PeerReview = props => {
   if (peerReviewData) {
     filteredEmployee = peerReviewData.data.data.filter(
       cls =>
-        cls.employee_under_review.firstname +
-        ' ' +
-        cls.employee_under_review.lastname
+        (cls.employee_under_review.firstname +
+          ' ' +
+          cls.employee_under_review.lastname)
           .toLowerCase()
           .includes(selectedEmployee.toLowerCase().trim()) &&
         cls.status !== 'Inactive'
@@ -206,7 +206,7 @@ const PeerReview = props => {
             </GridItem>
             <GridItem style={{ textAlign: 'end' }} xs={6} sm={6} md={6}>
               <Button color="primary" onClick={createPeerHandler}>
-                Create Peer
+                Create Peer Review
             </Button>
             </GridItem>
             <GridItem xs={12} sm={12} md={12}>

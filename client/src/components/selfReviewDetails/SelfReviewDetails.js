@@ -12,6 +12,7 @@ import CardHeader from '../Card/CardHeader'
 import { selfReviewStyles } from './SelfReviewStyles'
 import Table from '../Table/Table'
 import CardBody from '../Card/CardBody'
+import { formatDate } from '../../helpers/formatDates'
 import CardFooter from '../Card/CardFooter'
 import { UserContext } from '../../context-provider/user-context'
 import {
@@ -30,7 +31,7 @@ const styles = selfReviewStyles
 const useStyles = makeStyles(styles)
 const SelfReviewDetails = props => {
   const classes = useStyles()
-  const { selfReviewDeatails, projectDetails, ClickHandler } = props
+  const { selfReviewDeatails, projectDetails, ClickHandler, showButtons } = props
   const { addToast } = useToasts()
   const dispatch = useDispatch()
   const selfReviewDetailHeader = ['Self Review Details', '']
@@ -39,16 +40,16 @@ const SelfReviewDetails = props => {
     [
       'Employee',
       selfReviewDeatails.employee.firstname +
-        ' ' +
-        selfReviewDeatails.employee.lastname
+      ' ' +
+      selfReviewDeatails.employee.lastname
     ],
     ['Projects', projectDetails[0]],
-    ['From Date', projectDetails[1]],
-    ['To Date', projectDetails[2]],
-    ['Due From', projectDetails[3]],
+    ['From Date', formatDate(selfReviewDeatails.from_date)],
+    ['To Date', formatDate(selfReviewDeatails.to_date)],
+    ['Due From', formatDate(selfReviewDeatails.due_from)],
     [
       'Due To',
-      selfReviewDeatails.due_to ? selfReviewDeatails.due_to.slice(0, 10) : null
+      selfReviewDeatails.due_to ? formatDate(selfReviewDeatails.due_to) : null
     ],
     ['Feedback', selfReviewDeatails.feedback],
     ['Status', selfReviewDeatails.status],
@@ -70,7 +71,7 @@ const SelfReviewDetails = props => {
       dispatch(clearReviewStatus())
       ClickHandler()
     }
-  }, [userSelfReviewUpdateStatus, addToast])
+  }, [userSelfReviewUpdateStatus, addToast, ClickHandler, currentUser.employee_id, dispatch])
 
   useEffect(() => {
     if (userSelfReviewUpdateError) {
@@ -80,7 +81,7 @@ const SelfReviewDetails = props => {
       })
       dispatch(clearReviewStatus())
     }
-  }, [userSelfReviewUpdateError, addToast])
+  }, [userSelfReviewUpdateError, addToast, dispatch])
 
   const changeHandler = e => {
     if (e.target.checked === true) setSelectedStatus('Done')
@@ -107,16 +108,17 @@ const SelfReviewDetails = props => {
                 showLink={false}
               />
             </Grid>
-            <Grid xs={12} sm={12} md={12} item>
+            {showButtons ? <Grid xs={12} sm={12} md={12} item>
               <iframe
                 src={selfReviewDeatails.review_form_link}
                 width="100%"
                 height="800"
+                title="selfReviewDetailsFrame"
               >
                 Loading...
               </iframe>
-            </Grid>
-            <Grid xs={6} sm={6} md={6} item>
+            </Grid> : null}
+            {showButtons ? <Grid xs={6} sm={6} md={6} item>
               <div>
                 <FormControlLabel
                   control={
@@ -133,10 +135,10 @@ const SelfReviewDetails = props => {
                   label={' I have submitted Form'}
                 />
               </div>
-            </Grid>
+            </Grid> : null}
           </Grid>
         </CardBody>
-        <CardFooter className={classes.footer}>
+        {showButtons ? <CardFooter className={classes.footer}>
           <Button
             type="submit"
             color="primary"
@@ -147,10 +149,10 @@ const SelfReviewDetails = props => {
           </Button>
 
           {/* className={classes.disabledButton} */}
-          <Button type="submit" color="primary" onClick={ClickHandler}>
+          <Button type="submit" color="white" onClick={ClickHandler}>
             Close
           </Button>
-        </CardFooter>
+        </CardFooter> : null}
       </Card>
     </Grid>
   )
