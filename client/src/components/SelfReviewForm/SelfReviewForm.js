@@ -75,7 +75,6 @@ const SelfReviewForm = ({ selfReviewInfo, clickHandler }) => {
   const selfReviewUpdateStatus = useSelector(selfReviewUpdateSelector)
   const selfReviewUpdateError = useSelector(selfReviewUpdateErrorSelector)
   const dispatch = useDispatch()
-
   useEffect(() => {
     dispatch(loadAllProjects())
     dispatch(loadAllEmployeeData())

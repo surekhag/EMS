@@ -10,7 +10,7 @@ import CustomInput from '../../components/CustomInput/CustomInput'
 import Button from '../../components/CustomButtons/Button'
 import styles from '../../assets/jss/material-dashboard-react/views/dashboardStyle'
 import GridItem from '../../components/Grid/GridItem'
-import { DeleteModal } from '../../components/DeleteModal/deleteModal'
+import { AlertModal } from '../Modal/modal'
 import {
   deleteEmployee,
   clearDeleteEmployeeMsg
@@ -76,7 +76,6 @@ const EmployeeListing = props => {
   }, [deleteEmployeeError, addToast, dispatch])
 
   let filteredEmployee
-
   const searchHandler = () => {
     const employeeDetails = []
     if (employeeData && searchText) {
@@ -101,7 +100,7 @@ const EmployeeListing = props => {
 
         const manager = filteredEmployee.filter(item => {
           if (
-            item.userRole === 'Manager' &&
+            item.userRole === 'manager' &&
             item.employee_id === reporting_manager
           ) {
             return item
@@ -221,11 +220,47 @@ const EmployeeListing = props => {
                 </CardBody>
               </Card>
             </GridItem>
-            <DeleteModal
+            <Button
+              color="white"
+              aria-label="edit"
+              justIcon
+              round
+              onClick={searchHandler}
+            >
+              <Search />
+            </Button>
+            <GridItem xs={12} sm={12} md={12}>
+              <Card plain>
+                <CardHeader plain color="primary">
+                  <h4 className={classes.cardTitleWhite}>Employee List</h4>
+                </CardHeader>
+                <CardBody>
+                  {employeeData && employeeDetails.length > 0 && searchText ? (
+                    <Table
+                      tableHeaderColor="gray"
+                      tableHead={
+                        employeeData && employeeDetails.length > 0 && searchText
+                          ? employeeListingHeader
+                          : null
+                      }
+                      tableData={employeeDetails || null}
+                      addLinks={links}
+                      updateUser={updateUser}
+                      deleteUser={deleteUser}
+                      showLink={false}
+                    />
+                  ) : (
+                      '**Please search for employee result'
+                    )}
+                </CardBody>
+              </Card>
+            </GridItem>
+            <AlertModal
               title="Delete Employee"
               showDelDialog={showDelDialog}
               handleYesDelete={handleYesDelete}
               handleNoDelete={handleNoDelete}
+              userInfo="Are you sure you want to delete this Employee ?"
             />
           </>
         )}

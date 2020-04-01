@@ -9,7 +9,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import styles from '../../assets/jss/material-dashboard-react/views/dashboardStyle'
 import GridItem from '../Grid/GridItem'
 import { deleteProject, clearProjectMsg } from '../../actions/projectAction'
-import { DeleteModal } from '../../components/DeleteModal/deleteModal'
+import { AlertModal } from '../../components/Modal/modal'
 import { useToasts } from 'react-toast-notifications'
 import Employee from './Project'
 import {
@@ -163,11 +163,12 @@ const ProjectListing = props => {
               </CardBody>
             </Card>
           </GridItem>
-          <DeleteModal
+          <AlertModal
             title="Delete Project"
             showDelDialog={showDelDialog}
             handleYesDelete={handleYesDelete}
             handleNoDelete={handleNoDelete}
+            userInfo="Are you sure you want to delete this project ?"
           />
         </>
       )}

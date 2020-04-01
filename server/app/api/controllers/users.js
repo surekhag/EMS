@@ -79,7 +79,7 @@ module.exports = {
     );
   },
   authenticate: function (req, res, next) {
-    userModel.findOne({ userName: req.body.userName }, function (err, userInfo) {
+    userModel.findOne({ $or: [{ userName: req.body.userName }, { email: req.body.userName }] }, function (err, userInfo) {
       if (err) {
         console.log("in err");
         next(err);
@@ -113,7 +113,7 @@ module.exports = {
     });
   },
   getAll: function (req, res, next) {
-    const query = req.query? req.query: {}
+    const query = req.query ? req.query : {}
     userModel.find(query, function (err, users) {
       if (err) {
         next(err);
@@ -127,7 +127,7 @@ module.exports = {
     });
   },
   getManagers: function (req, res, next) {
-    userModel.find({ userRole: "Manager" }, function (err, users) {
+    userModel.find({ userRole: "manager", userRole: "Manager" }, function (err, users) {
       if (err) {
         next(err);
       } else {
