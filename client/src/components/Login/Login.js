@@ -45,8 +45,6 @@ const Login = props => {
   const userForm = useRef(null)
 
   const { addToast } = useToasts()
-  const [username, setUserName] = useState('')
-  const [password, setPassword] = useState('')
   const [redirect, setRedirect] = useState(false)
   const dispatch = useDispatch()
   const userInfo = useSelector(state => state.loginReducer.currentUser)
@@ -55,6 +53,7 @@ const Login = props => {
   useEffect(() => {
     if (userInfo) {
       interceptors()
+      userForm.current.reset()
       setRedirect(true)
     }
   }, [userInfo])
