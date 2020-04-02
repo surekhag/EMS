@@ -67,7 +67,7 @@ const Dashboard = props => {
         cls.status !== 'Done' &&
         cls.status !== 'Inactive'
     )
-    filteredEmployee.map((review, key) => {
+    filteredEmployee.map((review) => {
       peerReviewsArray.push([
         review.employee_under_review.firstname +
         ' ' +
@@ -80,12 +80,18 @@ const Dashboard = props => {
     })
   }
   const userReviewDetailsArr = []
+  let filteredSelfReview
   if (
     userSelfReviews &&
     userSelfReviews.length > 0 &&
     userReviewDetailsArr.length === 0
   ) {
-    userSelfReviews.map((review, key1) => {
+    filteredSelfReview = userSelfReviews.filter(
+      cls =>
+        cls.status !== 'Done' &&
+        cls.status !== 'Inactive'
+    )
+    filteredSelfReview.map((review) => {
       let projectsArr = review.projects.map(item => item.title)
       userReviewDetailsArr.push([
         projectsArr.join(',\n'),
@@ -134,7 +140,7 @@ const Dashboard = props => {
                   Welcome {currentUser ? currentUser.userName : null}
                 </InputLabel>
               </GridItem>
-              {peerReviews && peerReviews.length > 0 ? (
+              {peerReviews && peerReviewsArray.length > 0 ? (
                 <GridItem xs={12} sm={12} md={12}>
                   <Card plain>
                     <CardHeader plain color="primary">
@@ -154,7 +160,7 @@ const Dashboard = props => {
                 </GridItem>
               ) : null}
 
-              {userSelfReviews && userSelfReviews.length > 0 ? (
+              {userSelfReviews && userReviewDetailsArr.length > 0 ? (
                 <GridItem xs={12} sm={12} md={12}>
                   <Card plain>
                     <CardHeader plain color="primary">

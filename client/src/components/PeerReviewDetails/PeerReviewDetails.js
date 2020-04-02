@@ -47,18 +47,18 @@ const PeerReviewDetails = props => {
       [
         <span className={classes.boldFont}>Employee Under Review</span>,
         reviewData.employee_under_review.firstname +
-          ' ' +
-          reviewData.employee_under_review.lastname,
+        ' ' +
+        reviewData.employee_under_review.lastname,
         <span className={classes.boldFont}>Employee Reviewing</span>,
         reviewData.employee_reviewing.firstname +
-          ' ' +
-          reviewData.employee_reviewing.lastname,
+        ' ' +
+        reviewData.employee_reviewing.lastname,
         <span className={classes.boldFont}>Project</span>,
         reviewData.project.title,
         <span className={classes.boldFont}>Functional Manager</span>,
         reviewData.functional_manager.firstname +
-          ' ' +
-          reviewData.functional_manager.lastname
+        ' ' +
+        reviewData.functional_manager.lastname
       ],
       [
         <span className={classes.boldFont}>Review From Date</span>,
@@ -82,6 +82,7 @@ const PeerReviewDetails = props => {
           appearance: 'success',
           autoDismiss: true
         })
+        closeHandler()
       } else {
         addToast('Error while saving form', {
           appearance: 'error',

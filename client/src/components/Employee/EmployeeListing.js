@@ -46,6 +46,8 @@ const EmployeeListing = props => {
 
   const changeHandler = e => {
     setsearchText(e.target.value)
+    if (!searchText)
+      setEmployeeDetails([]);
   }
 
   // Clear Search text on Update Cancel/Success
@@ -173,7 +175,6 @@ const EmployeeListing = props => {
             <GridItem xs={12} sm={12} md={12}>
               <CustomInput
                 formControlProps={{
-                  className: classes.margin + ' ' + classes.search
                 }}
                 inputProps={{
                   onChange: changeHandler,
@@ -194,41 +195,6 @@ const EmployeeListing = props => {
               </Button>
             </GridItem>
 
-            <GridItem xs={12} sm={12} md={12}>
-              <Card plain>
-                <CardHeader plain color="primary">
-                  <h4 className={classes.cardTitleWhite}>Employee List</h4>
-                </CardHeader>
-                <CardBody>
-                  {employeeData && employeeDetails.length > 0 && searchText ? (
-                    <Table
-                      tableHeaderColor="gray"
-                      tableHead={
-                        employeeData && employeeDetails.length > 0 && searchText
-                          ? employeeListingHeader
-                          : null
-                      }
-                      tableData={employeeDetails || null}
-                      addLinks={links}
-                      updateUser={updateUser}
-                      deleteUser={deleteUser}
-                      showLink={false}
-                    />
-                  ) : (
-                      '**Please search for employee result'
-                    )}
-                </CardBody>
-              </Card>
-            </GridItem>
-            <Button
-              color="white"
-              aria-label="edit"
-              justIcon
-              round
-              onClick={searchHandler}
-            >
-              <Search />
-            </Button>
             <GridItem xs={12} sm={12} md={12}>
               <Card plain>
                 <CardHeader plain color="primary">

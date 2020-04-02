@@ -9,6 +9,8 @@ import Projects from './views/Project/Projects'
 import Employee from './views/Employee/Employee'
 import SelfReview from './views/SelfReview/SelfReview'
 import PeerReview from './views/PeerReview/PeerReview'
+import SelfReviewHistory from './views/SelfReviewHistory/SelfReviewHistory'
+import PeerReviewHistory from './views/PeerReviewHistory/PeerReviewHistory'
 
 export const dashboardRoutesAdmin = [
   {
@@ -82,7 +84,7 @@ export const dashboardRoutes = [
     name: 'Peer Review History',
     rtlName: 'ملف تعريفي للمستخدم',
     icon: GroupIcon,
-    component: PeerReview,
+    component: PeerReviewHistory,
     layout: '/admin',
     showLink: true
   },
@@ -91,7 +93,7 @@ export const dashboardRoutes = [
     name: 'Self Review History',
     rtlName: 'ملف تعريفي للمستخدم',
     icon: Person,
-    component: SelfReview,
+    component: SelfReviewHistory,
     layout: '/admin',
     showLink: true
   }
