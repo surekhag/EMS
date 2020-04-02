@@ -38,7 +38,6 @@ module.exports = {
           );
         },
        getProjectAllocations: function (req, res, next) {
-         console.log(req.params )
     Project_Allocation_Model.find({ project: req.params.id })
       .populate('project', 'title')
       .populate('employee', 'firstname lastname')
