@@ -16,9 +16,9 @@ import { Redirect } from 'react-router-dom'
 import Input from '../FromComponents/Input'
 import interceptors from '../../helpers/interceptors'
 import { yupRequired } from '../../helpers/yupValidations'
-
 import { Formik, Form } from 'formik'
 import * as Yup from 'yup'
+import { loginError, currentUser } from '../../selectors/loginSelectors'
 const styles = {
   ...checkboxAdnRadioStyle,
   cardCategoryWhite: {
@@ -43,12 +43,11 @@ const useStyles = makeStyles(styles)
 
 const Login = props => {
   const userForm = useRef(null)
-
   const { addToast } = useToasts()
   const [redirect, setRedirect] = useState(false)
   const dispatch = useDispatch()
-  const userInfo = useSelector(state => state.loginReducer.currentUser)
-  const error = useSelector(state => state.loginReducer.error)
+  const userInfo = useSelector(currentUser)
+  const error = useSelector(loginError)
 
   useEffect(() => {
     if (userInfo) {
@@ -66,7 +65,6 @@ const Login = props => {
   }, [error, addToast, dispatch])
 
   const classes = useStyles()
-
   const initialValues = {
     username: '',
     password: ''
