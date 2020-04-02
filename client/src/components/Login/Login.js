@@ -100,7 +100,6 @@ const Login = props => {
         >
           {({ isSubmitting, values, setFieldValue, handleChange }) => (
             <GridItem xs={11} sm={8} md={5}>
-              {/* <form onSubmit={handleFormSubmit}> */}
               <Card>
                 <Form ref={userForm}>
                   <CardHeader color="primary">
