@@ -18,7 +18,8 @@ import {
   SET_ALLOCATE_PROJECT_ERROR,
   CLEAR_PROJECT_ALLOCATION_MESSAGE,
   GET_PROJECT_ALLOCATION_DATA,
-  SET_PROJECT_ALLOCATION_DATA
+  SET_PROJECT_ALLOCATION_DATA,
+  PROJECT_ALLOCATION_DATA_ERROR
 } from './actionTypes'
 
 export function loadAllProjects() {
@@ -149,6 +150,12 @@ export function getProjectAllocationData(id) {
 export function setProjectAllocationData(data) {
   return {
     type: SET_PROJECT_ALLOCATION_DATA,
+    data
+  }
+}
+export function setProjectAllocationDataErr(data) {
+  return {
+    type: PROJECT_ALLOCATION_DATA_ERROR,
     data
   }
 }

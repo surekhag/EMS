@@ -3,6 +3,7 @@ import {
   FETCH_ALL_PROJECTS,
   ADD_NEW_PROJECT_URL,
   ALLOCATE_NEW_PROJECT_URL,
+  ALLOCATE_PROJECT_URL,
   PROJECT_URL
 } from '../configurations/endPoints'
 
@@ -26,4 +27,8 @@ export function updateProjectApi(payload) {
 export function allocateProjectApi(data) {
   const reqBody = data.userInfo
   return axios.post(ALLOCATE_NEW_PROJECT_URL, reqBody)
+}
+
+export function projectAllocationDataApi(id) {
+  return axios.get(ALLOCATE_PROJECT_URL + id)
 }
