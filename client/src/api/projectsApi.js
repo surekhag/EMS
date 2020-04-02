@@ -2,7 +2,7 @@ import axios from 'axios'
 import {
   FETCH_ALL_PROJECTS,
   ADD_NEW_PROJECT_URL,
-  ALLOCATE_PROJECT_URL,
+  ALLOCATE_NEW_PROJECT_URL,
   PROJECT_URL
 } from '../configurations/endPoints'
 
@@ -18,12 +18,12 @@ export function addNewProjectApi(data) {
   const reqBody = data.userInfo
   return axios.post(ADD_NEW_PROJECT_URL, reqBody)
 }
-export function allocateProjectApi(data) {
-  const reqBody = data.userInfo
-  return axios.post(ALLOCATE_PROJECT_URL, reqBody)
-}
-
 export function updateProjectApi(payload) {
   const { userInfo, id } = payload
   return axios.put(PROJECT_URL + id, userInfo)
+}
+
+export function allocateProjectApi(data) {
+  const reqBody = data.userInfo
+  return axios.post(ALLOCATE_NEW_PROJECT_URL, reqBody)
 }

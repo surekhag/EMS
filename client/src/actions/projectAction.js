@@ -16,7 +16,9 @@ import {
   UPDATE_PROJECT_ALLOCATION,
   SET_ALLOCATE_PROJECT_SUCCESS,
   SET_ALLOCATE_PROJECT_ERROR,
-  CLEAR_PROJECT_ALLOCATION_MESSAGE
+  CLEAR_PROJECT_ALLOCATION_MESSAGE,
+  GET_PROJECT_ALLOCATION_DATA,
+  SET_PROJECT_ALLOCATION_DATA
 } from './actionTypes'
 
 export function loadAllProjects() {
@@ -135,5 +137,18 @@ export function allocateProject(userInfo) {
   return {
     type: ALLOCATE_PROJECT,
     userInfo
+  }
+}
+
+export function getProjectAllocationData(id) {
+  return {
+    type: GET_PROJECT_ALLOCATION_DATA,
+    payload: { id }
+  }
+}
+export function setProjectAllocationData(data) {
+  return {
+    type: SET_PROJECT_ALLOCATION_DATA,
+    data
   }
 }
