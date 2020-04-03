@@ -15,12 +15,16 @@ import {
 } from '../../api/projectsApi'
 
 function* workerAllocateProjectSaga(projectInfo) {
+  console.log("projectInfo : ",projectInfo )
   try {
     const allocateProjectResponse = yield call(allocateProjectApi, projectInfo)
+     
+      console.log("allocateProjectResponse : ",allocateProjectResponse )
     yield put(setAllocateProjectSuccess(allocateProjectResponse.data.message))
     // yield put(loadAllProjects())
   } catch (e) {
     if (e.response.data && e.response.data.message) {
+      console.log("saga err : ",e.response )
       // To do add code for all api calls .. invalid token case falls here
       yield put(setAllocateProjectError(e.response.data.message))
     } else {

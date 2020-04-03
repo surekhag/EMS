@@ -7,7 +7,10 @@ import styles from '../../assets/jss/material-dashboard-react/views/dashboardSty
 import GridItem from '../Grid/GridItem'
 import Button from '../CustomButtons/Button'
 import { getProjectAllocationData } from '../../actions/projectAction'
-import {singleProjectAllocationData, singleProjectAllocationDataErr} from '../../selectors/projectAllocationSelector'
+import {
+  singleProjectAllocationData,
+  singleProjectAllocationDataErr
+} from '../../selectors/projectAllocationSelector'
 import { useSelector, useDispatch } from 'react-redux'
 import Table from '../Table/Table'
 const useStyles = makeStyles(styles)
@@ -18,8 +21,10 @@ export const UpdateProjectAllocation = props => {
   //In progress
   console.log(projectToUpdate ? projectToUpdate[0]._id : null)
   const project_id = projectToUpdate ? projectToUpdate[0]._id : null
-  const projectAllocationDetails =useSelector(singleProjectAllocationData)
-  const projectAllocationDetailsErr =useSelector(singleProjectAllocationDataErr)
+  const projectAllocationDetails = useSelector(singleProjectAllocationData)
+  const projectAllocationDetailsErr = useSelector(
+    singleProjectAllocationDataErr
+  )
   const [projectAllocations, setProjectAllocationDetails] = useState([])
   useEffect(() => {
     if (project_id) {
@@ -27,26 +32,32 @@ export const UpdateProjectAllocation = props => {
     }
   }, [project_id])
 
- useEffect(() => {
+  useEffect(() => {
     if (projectAllocationDetails) {
-     console.log(projectAllocationDetails)
+      console.log(projectAllocationDetails)
       //  projectDetails.push(Object.values(data))
       // console.log(projectAllocationDetails)
-      const data = projectAllocationDetails.map((prop)=>{
-        const {employee, startdate, enddate,functional_manager} = prop
-         console.log(employee.firstname, employee.lastname, startdate, enddate,functional_manager.firstname,functional_manager.lastname )
-       
-      });
-    //  setProjectAllocationDetails(projectAllocationDetails)
+      const data = projectAllocationDetails.map(prop => {
+        const { employee, startdate, enddate, functional_manager } = prop
+        console.log(
+          employee.firstname,
+          employee.lastname,
+          startdate,
+          enddate,
+          functional_manager.firstname,
+          functional_manager.lastname
+        )
+      })
+      //  setProjectAllocationDetails(projectAllocationDetails)
     }
   }, [projectAllocationDetails])
-   useEffect(() => {
+  useEffect(() => {
     if (projectAllocationDetailsErr) {
       console.log(projectAllocationDetailsErr)
     }
   }, [projectAllocationDetailsErr])
 
-const projectListingHeader =['tets','test']
+  const projectListingHeader = ['tets', 'test']
   return (
     <>
       <GridItem xs={12} sm={12} md={12}>
@@ -56,19 +67,19 @@ const projectListingHeader =['tets','test']
           </CardHeader>
           <CardBody>
             <Table
-                  tableHeaderColor="gray"
-                  tableHead={
-                    projectAllocations && projectAllocations.length > 0
-                      ? projectListingHeader
-                      : null
-                  }
-                  // tableData={projectAllocations || null}
-                  // addLinks={links}
-                  // updateUser={updateUser}
-                  // deleteUser={deleteUser}
-                  // allocateProject={allocateProject}
-                  showLink={false}
-                />
+              tableHeaderColor="gray"
+              tableHead={
+                projectAllocations && projectAllocations.length > 0
+                  ? projectListingHeader
+                  : null
+              }
+              // tableData={projectAllocations || null}
+              // addLinks={links}
+              // updateUser={updateUser}
+              // deleteUser={deleteUser}
+              // allocateProject={allocateProject}
+              showLink={false}
+            />
           </CardBody>
         </Card>
         <Button

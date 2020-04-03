@@ -15,6 +15,7 @@ const initialState = {
 //to do remove unwanted code
 
 export default function projectAllocationReducer(state = initialState, action) {
+  console.log(action)
   switch (action.type) {
     case SET_PROJECT_ALLOCATION_DATA:
       return {
