@@ -32,3 +32,12 @@ export function allocateProjectApi(data) {
 export function projectAllocationDataApi(id) {
   return axios.get(ALLOCATE_PROJECT_URL + id)
 }
+
+export function deallocateProjectApi(payload) {
+  const { enddate, id } = payload
+  const reqBody = { enddate: enddate }
+  return axios.put(ALLOCATE_PROJECT_URL + id, reqBody)
+}
+export function deleteProjectAllocationApi(id) {
+  return axios.delete(ALLOCATE_PROJECT_URL + id)
+}

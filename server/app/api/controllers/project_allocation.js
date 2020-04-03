@@ -37,6 +37,8 @@ module.exports = {
             }
           );
         },
+       
+        //Get Employees allocated to Project id 
        getProjectAllocations: function (req, res, next) {
     Project_Allocation_Model.find({ project: req.params.id })
       .populate('project', 'title')
@@ -72,4 +74,42 @@ module.exports = {
         }
       });
   },
+
+   update: function (req, res, next) {
+    Project_Allocation_Model.findOneAndUpdate({ _id: req.params.id },
+      {
+        $set: req.body
+      },
+      function (err, info) {
+        if (err) {
+          next(err);
+        }
+        else {
+          console.log("in update ",  req.params.id,req.body )
+          res.json({
+            status: "success",
+            message: "Deallocated Employee successfully!!!",
+          });
+        }
+      });
+  },
+
+  delete: function (req, res, next) {
+    Project_Allocation_Model.findOneAndUpdate({ _id: req.params.id },
+      {
+        // status: "Inactive"
+      },
+      function (err, userInfo) {
+        if (err) {
+          next(err);
+        }
+        else {
+           console.log("in del : ",  req.params.id);
+          res.json({
+            status: "success",
+            message: "Project Allocation Info deleted successfully!!!",
+          });
+        }
+      });
+  }
 };

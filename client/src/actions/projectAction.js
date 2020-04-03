@@ -13,13 +13,18 @@ import {
   SET_UPDATE_PROJECT_ERROR,
   SET_ALL_PROJECTS_ERROR,
   ALLOCATE_PROJECT,
-  UPDATE_PROJECT_ALLOCATION,
   SET_ALLOCATE_PROJECT_SUCCESS,
   SET_ALLOCATE_PROJECT_ERROR,
   CLEAR_PROJECT_ALLOCATION_MESSAGE,
   GET_PROJECT_ALLOCATION_DATA,
   SET_PROJECT_ALLOCATION_DATA,
-  PROJECT_ALLOCATION_DATA_ERROR
+  PROJECT_ALLOCATION_DATA_ERROR,
+  DEALLOCATE_PROJECT,
+  DEALLOCATE_PROJECT_ERROR,
+  DEALLOCATE_PROJECT_SUCCESS,
+  DELETE_PROJECT_ALLOCATION,
+  DELETE_PROJECT_ALLOCATION_SUCCESS,
+  DELETE_PROJECT_ALLOCATION_ERROR
 } from './actionTypes'
 
 export function loadAllProjects() {
@@ -55,12 +60,7 @@ export function updateProject(userInfo, id) {
     payload: { userInfo, id }
   }
 }
-export function updateProjectAllocation(userInfo, id) {
-  return {
-    type: UPDATE_PROJECT_ALLOCATION,
-    payload: { userInfo, id }
-  }
-}
+
 export function setNewProjectSuccess(data) {
   return {
     type: SET_NEW_PROJECT_SUCCESS,
@@ -157,5 +157,45 @@ export function setProjectAllocationDataErr(data) {
   return {
     type: PROJECT_ALLOCATION_DATA_ERROR,
     data
+  }
+}
+export function unassignProject(id, enddate) {
+  return {
+    type: DEALLOCATE_PROJECT,
+    payload: { id: id, enddate: enddate }
+  }
+}
+
+export function setDeallocateProjectErr(data) {
+  return {
+    type: DEALLOCATE_PROJECT_ERROR,
+    data
+  }
+}
+export function setDeallocateProjectSuccess(data) {
+  return {
+    type: DEALLOCATE_PROJECT_SUCCESS,
+    data
+  }
+}
+
+export function deleteProjectAllocations(id) {
+  return {
+    type: DELETE_PROJECT_ALLOCATION,
+    payload: { id }
+  }
+}
+
+export function deleteProjectAllocationSuccess(data) {
+  return {
+    type: DELETE_PROJECT_ALLOCATION_SUCCESS,
+    payload: { data }
+  }
+}
+
+export function deleteProjectAllocationError(data) {
+  return {
+    type: DELETE_PROJECT_ALLOCATION_ERROR,
+    payload: { data }
   }
 }

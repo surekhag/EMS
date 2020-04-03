@@ -146,7 +146,6 @@ module.exports = {
       },
       function (err, userInfo) {
         if (err) {
-          console.log("in err");
           next(err);
         }
         else {
@@ -165,7 +164,6 @@ module.exports = {
       },
       function (err, userInfo) {
         if (err) {
-          console.log("in err");
           next(err);
         }
         else {

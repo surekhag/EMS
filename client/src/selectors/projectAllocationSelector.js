@@ -12,3 +12,19 @@ export function singleProjectAllocationData(state) {
 export function singleProjectAllocationDataErr(state) {
   return state.projectAllocationReducer.singleProjectAllocationDataError
 }
+
+export function deallocateProjectSuccess(state) {
+  return state.projectAllocationReducer.deallocateProjectStatus
+}
+
+export function deallocateProjectError(state) {
+  return state.projectAllocationReducer.deallocateProjectError
+}
+
+export function delProjectAllocationSuccess(state) {
+  return state.projectAllocationReducer.deleteProjectAllocationSuccess
+}
+
+export function delProjectAllocationError(state) {
+  return state.projectAllocationReducer.deleteProjectAllocationError
+}

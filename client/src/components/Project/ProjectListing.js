@@ -110,6 +110,7 @@ const ProjectListing = props => {
     })
   }
 
+  //To do update all user to project..naming convention
   const updateUser = val => {
     setUpdateAction('update')
     const user = getprojectToUpdate(filteredProject, val[0])

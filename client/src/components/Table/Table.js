@@ -25,7 +25,8 @@ export default function CustomTable(props) {
     addLinks,
     updateUser,
     deleteUser,
-    allocateProject
+    allocateProject,
+    deallocateProject
   } = props
   return (
     <div className={classes.tableResponsive}>
@@ -55,6 +56,10 @@ export default function CustomTable(props) {
               return (
                 <TableRow key={k} className={classes.tableBodyRow}>
                   {prop.map((prop, key) => {
+                    //This is only for deallocation of project where need _id in data but need not to show in UI.
+                    if (deallocateProject && key == 5) {
+                      return
+                    }
                     return (
                       <TableCell className={classes.tableCell} key={key}>
                         {prop}
@@ -97,6 +102,17 @@ export default function CustomTable(props) {
                               size="sm"
                               className={classes.links}
                               onClick={e => allocateProject(prop, k)}
+                            >
+                              {item}
+                            </Button>
+                          )
+                        } else if (item === 'Deallocate' && deallocateProject) {
+                          return (
+                            <Button
+                              color="primary"
+                              size="sm"
+                              className={classes.links}
+                              onClick={e => deallocateProject(prop, k)}
                             >
                               {item}
                             </Button>

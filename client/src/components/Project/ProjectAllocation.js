@@ -24,7 +24,6 @@ import { projectStyles } from './styles'
 import { useSelector, useDispatch } from 'react-redux'
 import {
   allocateProject,
-  updateProjectAllocation,
   clearProjectAllocationMsg
 } from '../../actions/projectAction'
 import * as Yup from 'yup'
@@ -100,11 +99,7 @@ const Project = props => {
   }, [projectAllocationErr, addToast, dispatch])
 
   const submitFormValues = values => {
-    dispatch(
-      projectToUpdate
-        ? updateProjectAllocation(values, projectToUpdate[0]._id)
-        : allocateProject(values)
-    )
+    dispatch(allocateProject(values))
   }
 
   let initialValues
