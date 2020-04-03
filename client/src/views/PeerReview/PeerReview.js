@@ -111,9 +111,7 @@ const PeerReview = props => {
   if (peerReviewData) {
     filteredEmployee = peerReviewData.data.data.filter(
       cls =>
-        (cls.employee_under_review.firstname +
-          ' ' +
-          cls.employee_under_review.lastname)
+        (`${cls.employee_under_review.firstname} ${cls.employee_under_review.lastname}`)
           .toLowerCase()
           .includes(selectedEmployee.toLowerCase().trim()) &&
         cls.status !== 'Inactive'
@@ -124,13 +122,9 @@ const PeerReview = props => {
           className={classes.showPointer}
           onClick={() => viewDetailHandler(review)}
         >
-          {review.employee_under_review.firstname +
-            ' ' +
-            review.employee_under_review.lastname}
+          {review.employee_under_review.firstname} {review.employee_under_review.lastname}
         </span>,
-        review.employee_reviewing.firstname +
-        ' ' +
-        review.employee_reviewing.lastname,
+        `${review.employee_reviewing.firstname} ${review.employee_reviewing.lastname}`,
         review.project.title,
         formatDate(review.to_date),
         review.status

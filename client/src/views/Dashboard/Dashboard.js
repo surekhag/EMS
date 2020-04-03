@@ -69,9 +69,7 @@ const Dashboard = props => {
     )
     filteredEmployee.map((review) => {
       peerReviewsArray.push([
-        review.employee_under_review.firstname +
-        ' ' +
-        review.employee_under_review.lastname,
+        `${review.employee_under_review.firstname} ${review.employee_under_review.lastname}`,
         review.project.title,
         formatDate(review.to_date),
         review.status

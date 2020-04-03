@@ -18,14 +18,12 @@ import Card from '../../components/Card/Card'
 import CardHeader from '../../components/Card/CardHeader'
 import CardBody from '../../components/Card/CardBody'
 import PeerReviewDetails from '../../components/PeerReviewDetails/PeerReviewDetails'
-import SelfReviewDetails from '../../components/selfReviewDetails/SelfReviewDetails'
 import styles from '../../assets/jss/material-dashboard-react/views/dashboardStyle'
 import withAuth from '../../HOC/withAuth'
 import { UserContext } from '../../context-provider/user-context'
 import { formatDate } from '../../helpers/formatDates'
 import {
     userPeerReview,
-    userSelfReviewDeatils
 } from '../../selectors/reviewSelectors'
 
 const useStyles = makeStyles(styles)
@@ -57,9 +55,7 @@ const PeerReviewHistory = props => {
         )
         filteredReview.map((review) => {
             peerReviewsArray.push([
-                review.employee_under_review.firstname +
-                ' ' +
-                review.employee_under_review.lastname,
+                `${review.employee_under_review.firstname} ${review.employee_under_review.lastname}`,
                 review.project.title,
                 formatDate(review.to_date),
                 review.status

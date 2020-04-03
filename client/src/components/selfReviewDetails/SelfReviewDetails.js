@@ -39,9 +39,7 @@ const SelfReviewDetails = props => {
   tableData.push(
     [
       'Employee',
-      selfReviewDeatails.employee.firstname +
-      ' ' +
-      selfReviewDeatails.employee.lastname
+      `${selfReviewDeatails.employee.firstname} ${selfReviewDeatails.employee.lastname}`
     ],
     ['Projects', projectDetails[0]],
     ['From Date', formatDate(selfReviewDeatails.from_date)],
