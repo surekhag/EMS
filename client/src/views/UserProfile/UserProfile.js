@@ -19,7 +19,6 @@ const useStyles = makeStyles(styles)
 const UserProfile = () => {
   const classes = useStyles()
   const { currentUser } = useContext(UserContext)
-  console.log("currentUser", currentUser);
   const { employee_id,
     email,
     userName,

@@ -107,9 +107,7 @@ const SelfReview = props => {
   if (selfReviewData) {
     filteredEmployee = selfReviewData.filter(
       cls =>
-        (cls.employee.firstname +
-          ' ' +
-          cls.employee.lastname)
+        (`${cls.employee.firstname} ${cls.employee.lastname}`)
           .toLowerCase()
           .includes(selectedEmployee.toLowerCase().trim()) &&
         cls.status !== 'Inactive'
@@ -121,9 +119,7 @@ const SelfReview = props => {
           className={classes.showPointer}
           onClick={() => viewDetailHandler(review, projectsArr)}
         >
-          {review.employee.firstname +
-            ' ' +
-            review.employee.lastname}
+          {review.employee.firstname} {review.employee.lastname}
         </span>,
         projectsArr.join(', '),
         formatDate(review.from_date),
