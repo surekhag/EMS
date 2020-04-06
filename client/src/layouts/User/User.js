@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import { Switch, Route, Redirect } from 'react-router-dom'
 import PerfectScrollbar from 'perfect-scrollbar'
 import 'perfect-scrollbar/css/perfect-scrollbar.css'
@@ -78,7 +78,7 @@ export default function User({ ...rest }) {
       setMobileOpen(false)
     }
   }
-  React.useEffect(() => {
+  useEffect(() => {
     if (currentUser && currentUser.userRole === 'admin') {
       setRoutes(userRoutes)
       setAdminUserRoutes(adminRoutes)
@@ -90,7 +90,7 @@ export default function User({ ...rest }) {
   }, [currentUser])
   // initialize and destroy the PerfectScrollbar plugin
   //To do  - not working in laptop; so commented for now.
-  // React.useEffect(() => {
+  // useEffect(() => {
   //   if (navigator.platform.indexOf('Win') > -1) {
   //     ps = new PerfectScrollbar(mainPanel.current, {
   //       suppressScrollX: true,

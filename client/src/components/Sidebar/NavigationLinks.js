@@ -12,46 +12,47 @@ const useStyles = makeStyles(styles)
 
 export const NavigationLinks = props => {
   const classes = useStyles()
-  let { links, color, activeRoute } = props
+  let { links, color, activeRoute, rtlActive } = props
   return (
     <List className={classes.list}>
       {links &&
         links.map((prop, key) => {
           let activePro = ' '
           let listItemClasses
-          if (prop.path === '/upgrade-to-pro') {
-            activePro = classes.activePro + ' '
+          const { layout, path, showLink, icon, rtlName, name } = prop
+          if (path === '/upgrade-to-pro') {
+            activePro = `${classes.activePro} `
             listItemClasses = classNames({
-              [' ' + classes[color]]: true
+              [` ${classes[color]}`]: true
             })
           } else {
             listItemClasses = classNames({
-              [' ' + classes[color]]: activeRoute(prop.layout + prop.path)
+              [` ${classes[color]}`]: activeRoute(layout + path)
             })
           }
           const whiteFontClasses = classNames({
-            [' ' + classes.whiteFont]: activeRoute(prop.layout + prop.path)
+            [` ${classes.whiteFont}`]: activeRoute(layout + path)
           })
           return (
             <NavLink
-              to={prop.layout + prop.path}
+              to={layout + path}
               className={activePro + classes.item}
               activeClassName="active"
               key={key}
             >
-              {prop.showLink ? (
+              {showLink ? (
                 <ListItem button className={classes.itemLink + listItemClasses}>
-                  {typeof prop.icon === 'string' ? (
+                  {typeof icon === 'string' ? (
                     <Icon
                       className={classNames(
                         classes.itemIcon,
                         whiteFontClasses,
                         {
-                          [classes.itemIconRTL]: props.rtlActive
+                          [classes.itemIconRTL]: rtlActive
                         }
                       )}
                     >
-                      {prop.icon}
+                      {icon}
                     </Icon>
                   ) : (
                     <prop.icon
@@ -59,15 +60,15 @@ export const NavigationLinks = props => {
                         classes.itemIcon,
                         whiteFontClasses,
                         {
-                          [classes.itemIconRTL]: props.rtlActive
+                          [classes.itemIconRTL]: rtlActive
                         }
                       )}
                     />
                   )}
                   <ListItemText
-                    primary={props.rtlActive ? prop.rtlName : prop.name}
+                    primary={rtlActive ? rtlName : name}
                     className={classNames(classes.itemText, whiteFontClasses, {
-                      [classes.itemTextRTL]: props.rtlActive
+                      [classes.itemTextRTL]: rtlActive
                     })}
                     disableTypography={true}
                   />

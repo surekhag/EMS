@@ -2,7 +2,6 @@
 import React from 'react'
 import classNames from 'classnames'
 import PropTypes from 'prop-types'
-// @material-ui/core components
 import { makeStyles } from '@material-ui/core/styles'
 import Drawer from '@material-ui/core/Drawer'
 import Hidden from '@material-ui/core/Hidden'
@@ -20,7 +19,7 @@ export default function Sidebar(props) {
   }
   const { color, logo, image, logoText, routes, adminRoutes } = props
   const separator = '_____________________'
- 
+
   const brand = (
     <div className={classes.logo}>
       <a
@@ -56,17 +55,18 @@ export default function Sidebar(props) {
         >
           {brand}
           <div className={classes.sidebarWrapper}>
-            <AdminNavbarLinks />           
+            <AdminNavbarLinks />
             <NavigationLinks
-                  links={routes}
-                  color={color}
-                  activeRoute={activeRoute} />
+              links={routes}
+              color={color}
+              activeRoute={activeRoute}
+            />
             {adminRoutes ? (
               <>
                 <span className={classes.itemLink}>
                   <span className={classes.itemText}>{separator} </span>
-                </span>               
-                 <NavigationLinks
+                </span>
+                <NavigationLinks
                   links={adminRoutes}
                   color={color}
                   activeRoute={activeRoute}
@@ -95,10 +95,11 @@ export default function Sidebar(props) {
         >
           {brand}
           <div className={classes.sidebarWrapper}>
-             <NavigationLinks
-                  links={routes}
-                  color={color}
-                  activeRoute={activeRoute}  />
+            <NavigationLinks
+              links={routes}
+              color={color}
+              activeRoute={activeRoute}
+            />
             {adminRoutes ? (
               <>
                 <span className={classes.itemLink}>
