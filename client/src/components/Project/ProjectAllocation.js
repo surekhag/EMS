@@ -37,7 +37,7 @@ import { employeeDataSelector } from '../../selectors/employeeSelectors'
 const styles = projectStyles
 const useStyles = makeStyles(styles)
 const Project = props => {
-  const { setPageView, projectToUpdate } = props
+  const { setPageView } = props
 
   const projects = useSelector(projectSelector)
   const employeeData = useSelector(employeeDataSelector)
@@ -102,26 +102,13 @@ const Project = props => {
     dispatch(allocateProject(values))
   }
 
-  let initialValues
-  const {
-    project,
-    employee,
-    startdate = new Date(),
-    enddate = new Date(),
-    status = 'Active',
-    functional_manager
-  } = projectToUpdate ? projectToUpdate[0] : {}
-
-  initialValues = {
-    project,
-    employee,
-    startdate,
-    enddate,
-    status,
-    functional_manager
-  }
-  const handleProjectListView = () => {
-    props.setUpdateAction()
+  const initialValues = {
+    project: null,
+    employee: null,
+    startdate: new Date(),
+    enddate: new Date(),
+    status: 'Active',
+    functional_manager: null
   }
 
   const projectDataValidation = Yup.object().shape({
@@ -153,9 +140,7 @@ const Project = props => {
               <Form ref={projectForm}>
                 <CardHeader color="primary">
                   <h4 className={classes.cardTitleWhite}>
-                    {projectToUpdate
-                      ? 'UPDATE PROJECT ALLOCATION'
-                      : 'ALLOCATE PROJECT'}
+                    {'ALLOCATE PROJECT'}
                   </h4>
                 </CardHeader>
 
@@ -191,11 +176,7 @@ const Project = props => {
                         {projects
                           ? projects.map((item, key) => {
                               return (
-                                <MenuItem
-                                  // className={classes.hoverEffect}
-                                  value={item._id}
-                                  // key={key}
-                                >
+                                <MenuItem value={item._id}>
                                   {item.title}
                                 </MenuItem>
                               )
@@ -245,48 +226,23 @@ const Project = props => {
                 </CardBody>
 
                 <CardFooter>
-                  {projectToUpdate ? (
-                    <>
-                      <GridItem xs={12} sm={12} md={6}>
-                        {/* To do remove update code */}
-                        <Button
-                          id="update"
-                          type="submit"
-                          color="primary"
-                          disabled={isSubmitting}
-                        >
-                          UPDATE PROJECT ALLOCATION
-                        </Button>
-                        <Button
-                          color="primary"
-                          disabled={isSubmitting}
-                          onClick={handleProjectListView}
-                        >
-                          cancel
-                        </Button>
-                      </GridItem>
-                    </>
-                  ) : (
-                    <>
-                      <GridItem xs={12} sm={12} md={6}>
-                        <Button
-                          id="add"
-                          type="submit"
-                          color="primary"
-                          disabled={isSubmitting}
-                        >
-                          ALLOCATE PROJECT
-                        </Button>
-                        <Button
-                          color="primary"
-                          disabled={isSubmitting}
-                          onClick={() => setPageView('projectListing')}
-                        >
-                          cancel
-                        </Button>
-                      </GridItem>
-                    </>
-                  )}
+                  <GridItem xs={12} sm={12} md={6}>
+                    <Button
+                      id="add"
+                      type="submit"
+                      color="primary"
+                      disabled={isSubmitting}
+                    >
+                      ALLOCATE PROJECT
+                    </Button>
+                    <Button
+                      color="primary"
+                      disabled={isSubmitting}
+                      onClick={() => setPageView('projectListing')}
+                    >
+                      cancel
+                    </Button>
+                  </GridItem>
                 </CardFooter>
               </Form>
             </Card>
