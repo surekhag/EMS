@@ -7,8 +7,8 @@ import {
 } from '../../actions/loginAction'
 import { logInToSiteApi, userSessionApi } from '../../api/loginApi'
 import { setToken, removeToken } from '../../helpers/auth'
-function* workerLoginSaga(userinfo) {
-  const { username, password } = userinfo.payload
+function* workerLoginSaga({ payload }) {
+  const { username, password } = payload.data
   try {
     const loginStatus = yield call(logInToSiteApi, username, password)
 
