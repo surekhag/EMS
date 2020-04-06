@@ -109,10 +109,10 @@ const EmployeeListing = props => {
           }
         })
         const managerName = manager[0]
-          ? manager[0].firstname + ' ' + manager[0].lastname
+          ? `${manager[0].firstname} ${manager[0].lastname}`
           : 'NA'
 
-        const name = firstname + ' ' + lastname
+        const name = `${firstname} ${lastname}`
         const data = {
           employee_id,
           name,
@@ -216,7 +216,7 @@ const EmployeeListing = props => {
                       showLink={false}
                     />
                   ) : (
-                      '**Please search for employee result'
+                      <p>**Please search for employee result</p>
                     )}
                 </CardBody>
               </Card>
