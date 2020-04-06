@@ -58,11 +58,11 @@ const ProjectListing = props => {
     }
   }, [deleteProjectError, addToast, dispatch])
 
-  const projectDetails = []
+  let projectDetails = []
   let filteredProject
   if (projectData) {
     filteredProject = projectData.filter(cls => cls.status !== 'Inactive')
-    filteredProject.map((key, value) => {
+    const tempProjectData = filteredProject.map((key, value) => {
       let {
         title,
         technology,
@@ -94,10 +94,10 @@ const ProjectListing = props => {
         startdate,
         enddate
       }
-      projectDetails.push(Object.values(data))
-      return
+      return Object.values(data)
     })
-    // to do  - Get/Delete data from Active projects api    
+    projectDetails = [...tempProjectData]
+    // to do  - Get/Delete data from Active projects api
   }
 
   const links = ['Edit', 'Delete', 'Allocations']
@@ -109,23 +109,23 @@ const ProjectListing = props => {
   }
 
   //To do update all user to project..naming convention
-  const updateUser = val => {
+  const updateProject = val => {
     setUpdateAction('update')
-    const user = getprojectToUpdate(filteredProject, val[0])
-    setProjectToUpdate(user)
+    const project = getprojectToUpdate(filteredProject, val[0])
+    setProjectToUpdate(project)
   }
 
-  const deleteUser = val => {
-    const user = getprojectToUpdate(filteredProject, val[0])
+  const deleteProject = val => {
+    const project = getprojectToUpdate(filteredProject, val[0])
     setUpdateAction('delete')
-    setProjectToUpdate(user)
+    setProjectToUpdate(project)
     setShowDelDialog(true)
   }
 
   const allocateProject = val => {
     setUpdateAction('allocateProject')
-    const user = getprojectToUpdate(filteredProject, val[0])
-    setProjectToUpdate(user)
+    const project = getprojectToUpdate(filteredProject, val[0])
+    setProjectToUpdate(project)
   }
   const handleYesDelete = () => {
     dispatch(deleteProject(projectToUpdate[0]._id))
@@ -166,8 +166,8 @@ const ProjectListing = props => {
                   }
                   tableData={projectDetails || null}
                   addLinks={links}
-                  updateUser={updateUser}
-                  deleteUser={deleteUser}
+                  updateUser={updateProject}
+                  deleteUser={deleteProject}
                   allocateProject={allocateProject}
                   showLink={false}
                 />

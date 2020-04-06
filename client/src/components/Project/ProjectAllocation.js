@@ -102,19 +102,19 @@ const Project = props => {
   }
 
   const initialValues = {
-    project: null,
-    employee: null,
+    project: undefined,
+    employee: undefined,
     startdate: new Date(),
     enddate: new Date(),
     status: 'Active',
-    functional_manager: null
+    functional_manager: undefined
   }
 
   const projectDataValidation = Yup.object().shape({
-    project: yupRequired('Project'),
     employee: yupRequired('Employee'),
+    project: yupRequired('Project'),
     functional_manager: yupRequired('Manager'),
-    startdate: yupRequiredDate('Start Date').typeError('Invalid Date'),
+    startdate: yupRequiredDate('Start Date').typeError(''),
     enddate: yupRequiredDate('End Date')
       .typeError('Invalid Date')
       .test('', 'Must be greater than Start Date', function(value) {
