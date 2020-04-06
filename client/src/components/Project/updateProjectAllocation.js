@@ -47,14 +47,14 @@ export const UpdateProjectAllocation = props => {
   const [projectAllocationToUpdate, setProjectAllocationToUpdate] = useState(
     null
   )
-  const project_id = projectToUpdate ? projectToUpdate[0]._id : null
+  const projectId = projectToUpdate ? projectToUpdate[0]._id : null
   const links = ['Deallocate', 'Delete']
 
   useEffect(() => {
-    if (project_id) {
-      dispatch(getProjectAllocationData(project_id))
+    if (projectId) {
+      dispatch(getProjectAllocationData(projectId))
     }
-  }, [project_id])
+  }, [projectId])
 
   useEffect(() => {
     if (deallocateProjectStatus) {
@@ -63,6 +63,9 @@ export const UpdateProjectAllocation = props => {
         autoDismiss: true
       })
       dispatch(clearProjectAllocationMsg())
+      if (projectId) {
+        dispatch(getProjectAllocationData(projectId))
+      }
       //data in sorted order
     }
   }, [deallocateProjectStatus, addToast, dispatch])
@@ -74,8 +77,8 @@ export const UpdateProjectAllocation = props => {
         autoDismiss: true
       })
       dispatch(clearProjectAllocationMsg())
-      if (project_id) {
-        dispatch(getProjectAllocationData(project_id))
+      if (projectId) {
+        dispatch(getProjectAllocationData(projectId))
       }
     }
   }, [delProjectAllocationStatus, addToast, dispatch])

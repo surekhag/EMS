@@ -21,7 +21,7 @@ export function addNewProjectApi(data) {
 }
 export function updateProjectApi(payload) {
   const { userInfo, id } = payload
-  return axios.put(PROJECT_URL + id, userInfo)
+  return axios.put(`${PROJECT_URL}${id}`, userInfo)
 }
 
 export function allocateProjectApi(data) {
@@ -30,14 +30,14 @@ export function allocateProjectApi(data) {
 }
 
 export function projectAllocationDataApi(id) {
-  return axios.get(ALLOCATE_PROJECT_URL + id)
+  return axios.get(`${ALLOCATE_PROJECT_URL}${id}`)
 }
 
 export function deallocateProjectApi(payload) {
   const { enddate, id } = payload
-  const reqBody = { enddate: enddate }
-  return axios.put(ALLOCATE_PROJECT_URL + id, reqBody)
+  const reqBody = { enddate }
+  return axios.put(`${ALLOCATE_PROJECT_URL}${id}`, reqBody)
 }
 export function deleteProjectAllocationApi(id) {
-  return axios.delete(ALLOCATE_PROJECT_URL + id)
+  return axios.delete(`${ALLOCATE_PROJECT_URL}${id}`)
 }

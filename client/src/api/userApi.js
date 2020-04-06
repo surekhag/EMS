@@ -8,5 +8,5 @@ export function addNewUserApi(data) {
 
 export function updateUserApi(payload) {
   const { userInfo, id } = payload
-  return axios.put(USER_URL + id, userInfo)
+  return axios.put(`${USER_URL}${id}`, userInfo)
 }

@@ -108,8 +108,6 @@ const Employee = props => {
       if (item.country === value) {
         return item
       }
-
-      // return false;
     })
     return states.length > 0 ? states[0].states : []
   }

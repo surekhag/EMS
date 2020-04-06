@@ -27,7 +27,6 @@ function* workerAllocateProjectSaga(projectInfo) {
     const allocateProjectResponse = yield call(allocateProjectApi, projectInfo)
 
     yield put(setAllocateProjectSuccess(allocateProjectResponse.data.message))
-    // yield put(loadAllProjects())
   } catch (e) {
     if (e.response.data && e.response.data.message) {
       // To do add code for all api calls .. invalid token case falls here

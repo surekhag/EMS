@@ -15,7 +15,6 @@ import { managerDataSelector } from '../../selectors/employeeSelectors'
 import { loadManagers } from '../../actions/employeeAction'
 import MenuItem from '@material-ui/core/MenuItem'
 import SelectMenu from '../FromComponents/SelectMenu'
-
 import DatePicker from '../../components/FromComponents/DatePicker'
 import { useToasts } from 'react-toast-notifications'
 import { Formik, Form } from 'formik'
@@ -25,19 +24,19 @@ import {
   allocateProject,
   clearProjectAllocationMsg
 } from '../../actions/projectAction'
-import * as Yup from 'yup'
 import {
   projectAllocationStatus,
   projectAllocationError
 } from '../../selectors/projectAllocationSelector'
-import { yupRequired, yupRequiredDate } from '../../helpers/yupValidations'
-
+import {
+  projectAllocationValidations,
+  projectAllocationInitialValues
+} from './projectFormData'
 import { employeeDataSelector } from '../../selectors/employeeSelectors'
 const styles = projectStyles
 const useStyles = makeStyles(styles)
 const Project = props => {
   const { setPageView } = props
-
   const projects = useSelector(projectSelector)
   const employeeData = useSelector(employeeDataSelector)
   const [managers, setManagers] = useState(null)
@@ -45,11 +44,9 @@ const Project = props => {
   const classes = useStyles()
   const { addToast } = useToasts()
   const dispatch = useDispatch()
-
   const projectAllocationSuccess = useSelector(projectAllocationStatus)
   const projectAllocationErr = useSelector(projectAllocationError)
   const managerdata = useSelector(managerDataSelector)
-
   const projectForm = useRef(null)
 
   useEffect(() => {
@@ -71,9 +68,7 @@ const Project = props => {
   useEffect(() => {
     if (employeeData) {
       const activeEmployees = employeeData.filter(item => {
-        if (item.status === 'Active') {
-          return item
-        }
+        if (item.status === 'Active') return item
       })
       setEmployeeData(activeEmployees)
     }
@@ -101,27 +96,8 @@ const Project = props => {
     dispatch(allocateProject(values))
   }
 
-  const initialValues = {
-    project: undefined,
-    employee: undefined,
-    startdate: new Date(),
-    enddate: new Date(),
-    status: 'Active',
-    functional_manager: undefined
-  }
-
-  const projectDataValidation = Yup.object().shape({
-    employee: yupRequired('Employee'),
-    project: yupRequired('Project'),
-    functional_manager: yupRequired('Manager'),
-    startdate: yupRequiredDate('Start Date').typeError(''),
-    enddate: yupRequiredDate('End Date')
-      .typeError('Invalid Date')
-      .test('', 'Must be greater than Start Date', function(value) {
-        const startdate = this.parent.startdate
-        return value > startdate
-      })
-  })
+  const initialValues = projectAllocationInitialValues
+  const projectDataValidation = projectAllocationValidations
 
   return (
     <GridContainer>
@@ -157,7 +133,7 @@ const Project = props => {
                           ? activeEmployees.map(item => {
                               return (
                                 <MenuItem value={item._id}>
-                                  {item.firstname + ' ' + item.lastname}
+                                  {`${item.firstname} ${item.lastname}`}
                                 </MenuItem>
                               )
                             })
@@ -172,15 +148,12 @@ const Project = props => {
                         label={'Project *'}
                         value={values.project}
                       >
-                        {projects
-                          ? projects.map((item, key) => {
-                              return (
-                                <MenuItem value={item._id}>
-                                  {item.title}
-                                </MenuItem>
-                              )
-                            })
-                          : null}
+                        {projects &&
+                          projects.map((item, key) => {
+                            return (
+                              <MenuItem value={item._id}>{item.title}</MenuItem>
+                            )
+                          })}
                       </SelectMenu>
                     </GridItem>
                     <GridItem xs={12} sm={12} md={6}>
@@ -210,15 +183,14 @@ const Project = props => {
                         label={'Reporting Manager *'}
                         value={values.functional_manager}
                       >
-                        {managers
-                          ? managers.map(item => {
-                              return (
-                                <MenuItem value={item._id}>
-                                  {item.firstname + ' ' + item.lastname}
-                                </MenuItem>
-                              )
-                            })
-                          : null}
+                        {managers &&
+                          managers.map(item => {
+                            return (
+                              <MenuItem value={item._id}>
+                                {`${item.firstname} ${item.lastname}`}
+                              </MenuItem>
+                            )
+                          })}
                       </SelectMenu>
                     </GridItem>
                   </GridContainer>

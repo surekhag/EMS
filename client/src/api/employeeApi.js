@@ -13,5 +13,5 @@ export function loadManagers() {
 }
 
 export function deleteEmployeeApi(id) {
-  return axios.delete(USER_URL + id)
+  return axios.delete(`${USER_URL}${id}`)
 }
