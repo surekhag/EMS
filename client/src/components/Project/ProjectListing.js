@@ -4,7 +4,6 @@ import Card from '../Card/Card'
 import CardHeader from '../Card/CardHeader'
 import CardBody from '../Card/CardBody'
 import React, { useState, useEffect } from 'react'
-// import GridItem from '../../components/Grid/GridItem'
 import { makeStyles } from '@material-ui/core/styles'
 import styles from '../../assets/jss/material-dashboard-react/views/dashboardStyle'
 import GridItem from '../Grid/GridItem'
@@ -98,8 +97,7 @@ const ProjectListing = props => {
       projectDetails.push(Object.values(data))
       return
     })
-    // Get/Delete data from Active projects
-    //  projectData = filteredProject;
+    // to do  - Get/Delete data from Active projects api    
   }
 
   const links = ['Edit', 'Delete', 'Allocations']

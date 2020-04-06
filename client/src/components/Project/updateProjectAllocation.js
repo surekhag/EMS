@@ -39,9 +39,7 @@ export const UpdateProjectAllocation = props => {
   )
   const deallocateProjectStatus = useSelector(deallocateProjectSuccess)
   const deallocateProjectErr = useSelector(deallocateProjectError)
-
   const delProjectAllocationStatus = useSelector(delProjectAllocationSuccess)
-
   const delProjectAllocationErr = useSelector(delProjectAllocationError)
 
   const [projectAllocations, setProjectAllocations] = useState([])
@@ -177,7 +175,7 @@ export const UpdateProjectAllocation = props => {
             <h4 className={classes.cardTitleWhite}>Project Allocation</h4>
           </CardHeader>
           <CardBody>
-            {projectAllocations && projectAllocations.length == 0 ? (
+            {projectAllocations && projectAllocations.length === 0 ? (
               <p className={classes.noteToUser}>
                 Any user is not assiged to project yet.
               </p>
@@ -196,7 +194,6 @@ export const UpdateProjectAllocation = props => {
         </Card>
         <Button
           color="primary"
-          //   disabled={isSubmitting}
           onClick={() => {
             setPageView('projectListing')
             setUpdateAction()
