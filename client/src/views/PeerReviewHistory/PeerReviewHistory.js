@@ -117,7 +117,7 @@ const PeerReviewHistory = props => {
                                 />
                             )
                         },
-                        currentUser.userRole === "manager" ? {
+                        currentUser.userRole === "manager" && {
                             tabName: "Employee Reviews",
                             tabIcon: GroupIcon,
                             tabContent: (
@@ -130,7 +130,7 @@ const PeerReviewHistory = props => {
                                     onClickHandler={onClickEmployeeDetailsHandler}
                                 />
                             )
-                        } : {}
+                        }
 
                     ]}
                 />
