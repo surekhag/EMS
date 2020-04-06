@@ -45,8 +45,6 @@ function* workerProjectAllocationDataSaga({ payload }) {
   const { id } = payload
   try {
     const projectAllocationData = yield call(projectAllocationDataApi, id)
-
-    console.log('saga', projectAllocationData.data.data)
     yield put(setProjectAllocationData(projectAllocationData.data.data))
   } catch (e) {
     if (e.response.data && e.response.data.message) {

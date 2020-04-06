@@ -40,7 +40,7 @@ module.exports = {
        
         //Get Employees allocated to Project id 
        getProjectAllocations: function (req, res, next) {
-    Project_Allocation_Model.find({ project: req.params.id })
+    Project_Allocation_Model.find({ project: req.params.id, status : 'Active' })
       .populate('project', 'title')
       .populate('employee', 'firstname lastname')
       .populate('functional_manager', 'firstname lastname')
@@ -97,7 +97,7 @@ module.exports = {
   delete: function (req, res, next) {
     Project_Allocation_Model.findOneAndUpdate({ _id: req.params.id },
       {
-        // status: "Inactive"
+        status: "Inactive"
       },
       function (err, userInfo) {
         if (err) {

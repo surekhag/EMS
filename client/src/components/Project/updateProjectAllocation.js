@@ -65,9 +65,7 @@ export const UpdateProjectAllocation = props => {
         autoDismiss: true
       })
       dispatch(clearProjectAllocationMsg())
-      //action to fetch data again in sorted order
-
-      //  dispatch(getProjectAllocationData(project_id))
+      //data in sorted order
     }
   }, [deallocateProjectStatus, addToast, dispatch])
 
@@ -78,8 +76,9 @@ export const UpdateProjectAllocation = props => {
         autoDismiss: true
       })
       dispatch(clearProjectAllocationMsg())
-      //to do fetch data again only for active users
-      //  dispatch(getProjectAllocationData(project_id))
+      if (project_id) {
+        dispatch(getProjectAllocationData(project_id))
+      }
     }
   }, [delProjectAllocationStatus, addToast, dispatch])
 
@@ -116,13 +115,7 @@ export const UpdateProjectAllocation = props => {
   useEffect(() => {
     if (projectAllocationDetails) {
       //to do sort data before display
-      //need filter for active data only
-      console.log(projectAllocationDetails)
-      //to do remove this line update - projectAllocationDetails1
-      // let projectAllocationDetails1 = [
-      //   ...projectAllocationDetails,
-      //   ...projectAllocationDetails
-      // ]
+
       const data = projectAllocationDetails.map(prop => {
         let {
           employee: { firstname },
@@ -150,8 +143,7 @@ export const UpdateProjectAllocation = props => {
         }
         return Object.values(projectAllocationData)
       })
-
-      setProjectAllocations(projectAllocations.concat(data))
+      setProjectAllocations([...data])
     }
   }, [projectAllocationDetails])
 
@@ -185,19 +177,21 @@ export const UpdateProjectAllocation = props => {
             <h4 className={classes.cardTitleWhite}>Project Allocation</h4>
           </CardHeader>
           <CardBody>
-            <Table
-              tableHeaderColor="gray"
-              tableHead={
-                projectAllocations && projectAllocations.length > 0
-                  ? projectListingHeader
-                  : null
-              }
-              tableData={projectAllocations || null}
-              addLinks={links}
-              deleteUser={deleteProjectAllocation}
-              deallocateProject={deallocateProject}
-              showLink={false}
-            />
+            {projectAllocations && projectAllocations.length == 0 ? (
+              <p className={classes.noteToUser}>
+                Any user is not assiged to project yet.
+              </p>
+            ) : (
+              <Table
+                tableHeaderColor="gray"
+                tableHead={projectListingHeader}
+                tableData={projectAllocations || null}
+                addLinks={links}
+                deleteUser={deleteProjectAllocation}
+                deallocateProject={deallocateProject}
+                showLink={false}
+              />
+            )}
           </CardBody>
         </Card>
         <Button

@@ -60,7 +60,9 @@ export default function projectAllocationReducer(state = initialState, action) {
         projectAllocationError: null,
         projectAllocationStatus: null,
         deallocateProjectStatus: null,
-        deallocateProjectError: null
+        deallocateProjectError: null,
+        deleteProjectAllocationSuccess: null,
+        deleteProjectAllocationError: null
       }
 
     case DELETE_PROJECT_ALLOCATION_SUCCESS:

@@ -7,6 +7,7 @@ import TableHead from '@material-ui/core/TableHead'
 import TableRow from '@material-ui/core/TableRow'
 import TableBody from '@material-ui/core/TableBody'
 import TableCell from '@material-ui/core/TableCell'
+import { formatDateDDMMYYYY } from '../../helpers/formatDates'
 // core components
 import Button from '../../components/CustomButtons/Button'
 import styles from '../../assets/jss/material-dashboard-react/components/tableStyle'
@@ -112,6 +113,11 @@ export default function CustomTable(props) {
                               color="primary"
                               size="sm"
                               className={classes.links}
+                              disabled={
+                                prop[3] <= formatDateDDMMYYYY(new Date())
+                                  ? 'disabled'
+                                  : null
+                              }
                               onClick={e => deallocateProject(prop, k)}
                             >
                               {item}
