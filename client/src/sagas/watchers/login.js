@@ -1,13 +1,10 @@
 import { put, takeLatest, call } from 'redux-saga/effects'
 import { LOGIN_TO_SITE, USER_ATHENTICATION } from '../../actions/actionTypes'
-import {
-  loginToSiteSuccess,
-  loginToSiteError  
-} from '../../actions/loginAction'
+import { loginToSiteSuccess, loginToSiteError } from '../../actions/loginAction'
 import { logInToSiteApi, userSessionApi } from '../../api/loginApi'
-import { setToken} from '../../helpers/auth'
+import { setToken } from '../../helpers/auth'
 
-import {sessionExpiryHandler} from './sessionExpiryHandler'
+import { sessionExpiryHandler } from './sessionExpiryHandler'
 
 function* workerLoginSaga({ payload }) {
   const { username, password } = payload.data
@@ -24,7 +21,7 @@ function* workerLoginSaga({ payload }) {
   } catch (e) {
     if (e.response.data && e.response.data.message) {
       if (e.response.data.message === 'Invalid Token') {
-         yield sessionExpiryHandler();
+        yield sessionExpiryHandler()
       } else yield put(loginToSiteError(e.response.data.message))
     } else yield put(loginToSiteError(e))
   }
@@ -40,8 +37,8 @@ function* workerAuthenticateSaga() {
     yield put(loginToSiteSuccess(userSessionData))
   } catch (e) {
     if (e.response.data && e.response.data.message) {
-      if (e.response.data.message === 'Invalid Token') {     
-       yield sessionExpiryHandler();
+      if (e.response.data.message === 'Invalid Token') {
+        yield sessionExpiryHandler()
       } else yield put(loginToSiteError(e.response.data.message))
     }
   }
