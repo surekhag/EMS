@@ -8,8 +8,8 @@ import {
 } from '../../actions/userActions'
 import { loadAllEmployeeData } from '../../actions/employeeAction'
 import { addNewUserApi, updateUserApi } from '../../api/userApi'
-import { sessionExpired } from '../../actions/loginAction'
-import { removeToken } from '../../helpers/auth'
+import { sessionExpiryHandler } from './sessionExpiryHandler'
+
 
 function* workerUserSaga(userinfo) {
   try {
@@ -23,8 +23,7 @@ function* workerUserSaga(userinfo) {
         yield put(setNewUserError('User Already Exist!'))
       } else {
         if (e.response.data.message === 'Invalid Token') {
-          removeToken()
-          yield put(sessionExpired())
+           yield sessionExpiryHandler()
         } else yield put(setNewUserError(e.response.data.message))
       }
     } else {
@@ -45,8 +44,7 @@ function* workerUpadateUserSaga({ payload }) {
   } catch (e) {
     if (e.response.data && e.response.data.message) {
       if (e.response.data.message === 'Invalid Token') {
-        removeToken()
-        yield put(sessionExpired())
+         yield sessionExpiryHandler()
       } else yield put(setUpdateUserError(e.response.data.message))
     } else yield put(setUpdateUserError(e))
   }
