@@ -79,9 +79,11 @@ module.exports = {
     );
   },
   authenticate: function (req, res, next) {
-    userModel.findOne({ $or: [{userName: req.body.userName}, {email: req.body.userName}]}, function (err, userInfo) {
+    userModel.findOne({ $and: [
+      {$or: [{userName: req.body.userName}, {email: req.body.userName}]},
+      {status : "Active"}]
+      }, function (err, userInfo) {
       if (err) {
-        console.log("in err");
         next(err);
       } else {
         if (
@@ -146,7 +148,6 @@ module.exports = {
       },
       function (err, userInfo) {
         if (err) {
-          console.log("in err");
           next(err);
         }
         else {
