@@ -3,31 +3,33 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const ProjectAllocationSchema = new Schema({   
-    project_id  : {
-        type: String,
+    project  : {
+       type: mongoose.Schema.Types.ObjectId,
+        ref: 'Project',
         trim: true,
         required: true,
-        unique : true      
       },
-    employee_id  : {
-        type: Number,
-        trim: true,
+    employee : {
+       type: mongoose.Schema.Types.ObjectId,
+       ref: 'User',
+       trim: true,
         required: true,        
       },
-    start_date  : {
+    startdate  : {
         type: Date,
         trim: true,
         required: true,        
       },
-    end_date  : {
+    enddate  : {
         type: Date,
         trim: true,
         required: false,        
       },
-    manager_employee_id  : {
-        type: Number,
-        trim: true,
-        required: true,        
+    functional_manager  : {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    trim: true,
+    required: true,        
       },
     created_date  : {
         type: Date,
@@ -49,6 +51,11 @@ const ProjectAllocationSchema = new Schema({
         trim: true,
         required: true,        
       },
+    status : {
+    type: String,
+    trim: true,
+    required: true
+  },
 });
 
 module.exports = mongoose.model("Project_Allocation", ProjectAllocationSchema);

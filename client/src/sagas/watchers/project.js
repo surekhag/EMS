@@ -95,7 +95,9 @@ function* workerUpadateProjectSaga({ payload }) {
     yield put(loadAllProjects())
   } catch (e) {
     if (e.response.data && e.response.data.message) {
-      if (e.response.data.message === 'Invalid Token') {
+      if (e.response.data.message.indexOf('duplicate') !== -1) {
+        yield put(setUpdateProjectError('Project Already Exist!'))
+      } else if (e.response.data.message === 'Invalid Token') {
         yield sessionExpiryHandler()
       } else yield put(setUpdateProjectError(e.response.data.message))
     } else {
