@@ -92,7 +92,6 @@ const PeerReviewHistory = props => {
         setShowDetail(true)
     }
     const onClickEmployeeDetailsHandler = key => {
-        console.log("hey", filteredEmployeeReview, key)
         setPeerDetails(filteredEmployeeReview[key])
         setShowDetail(true)
     }
@@ -147,14 +146,13 @@ const PeerReviewHistory = props => {
                             reviewData={peerDetails}
                             showButtons={false}
                         ></PeerReviewDetails>
-
                         <Button
                             color="primary"
                             size="sm"
                             onClick={() => setShowDetail(false)}
                         >
                             Close
-            </Button>
+                        </Button>
                     </GridItem>
                 </DialogActions>
             </Dialog>
