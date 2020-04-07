@@ -54,7 +54,7 @@ export const UpdateProjectAllocation = props => {
     if (projectId) {
       dispatch(getProjectAllocationData(projectId))
     }
-  }, [projectId])
+  }, [projectId, dispatch])
 
   useEffect(() => {
     if (deallocateProjectStatus) {
@@ -119,12 +119,10 @@ export const UpdateProjectAllocation = props => {
 
       const data = projectAllocationDetails.map(prop => {
         let {
-          employee: { firstname },
-          employee: { lastname },
+          employee: { firstname, lastname },
           startdate,
           enddate,
-          functional_manager: { firstname: mgr_firstname },
-          functional_manager: { lastname: mgr_lastname },
+          functional_manager: { firstname: mgr_firstname, lastname: mgr_lastname },
           project: { title },
           _id
         } = prop

@@ -162,7 +162,7 @@ export function setProjectAllocationDataErr(data) {
 export function unassignProject(id, enddate) {
   return {
     type: DEALLOCATE_PROJECT,
-    payload: { id: id, enddate: enddate }
+    payload: { id, enddate }
   }
 }
 

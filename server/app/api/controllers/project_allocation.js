@@ -85,7 +85,6 @@ module.exports = {
           next(err);
         }
         else {
-          console.log("in update ",  req.params.id,req.body )
           res.json({
             status: "success",
             message: "Deallocated Employee successfully!!!",
