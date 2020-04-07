@@ -22,8 +22,7 @@ import {
   setUpdateProjectError,
   setAllProjectsDataError
 } from '../../actions/projectAction'
-import { sessionExpired } from '../../actions/loginAction'
-import { removeToken } from '../../helpers/auth'
+import {sessionExpiryHandler} from './sessionExpiryHandler'
 
 function* workerLoadAllProjects() {
   try {
@@ -32,8 +31,7 @@ function* workerLoadAllProjects() {
   } catch (e) {
     if (e.response.data && e.response.data.message) {
       if (e.response.data.message === 'Invalid Token') {
-        removeToken()
-        yield put(sessionExpired())
+         yield sessionExpiryHandler();
       } else yield put(setAllProjectsDataError(e.response.data.message))
     } else {
       yield put(setAllProjectsDataError(e))
@@ -54,8 +52,7 @@ function* workerDeleteProjectSaga({ payload }) {
   } catch (e) {
     if (e.response.data && e.response.data.message) {
       if (e.response.data.message === 'Invalid Token') {
-        removeToken()
-        yield put(sessionExpired())
+        yield sessionExpiryHandler();
       } else yield put(deleteProjectError(e.response.data.message))
     } else {
       yield put(deleteProjectError(e))
@@ -77,8 +74,7 @@ function* workerAddProjectSaga(userinfo) {
       if (e.response.data.message.indexOf('duplicate') !== -1) {
         yield put(setNewProjectError('Project Already Exist!'))
       } else if (e.response.data.message === 'Invalid Token') {
-        removeToken()
-        yield put(sessionExpired())
+       yield sessionExpiryHandler();
       } else {
         yield put(setNewProjectError(e.response.data.message))
       }
@@ -96,13 +92,11 @@ function* workerUpadateProjectSaga({ payload }) {
   try {
     const updateUserResponse = yield call(updateProjectApi, payload)
     yield put(setUpdateProjectSuccess(updateUserResponse.data.message))
-    // yield put(loadAllEmployeeData())
     yield put(loadAllProjects())
   } catch (e) {
     if (e.response.data && e.response.data.message) {
       if (e.response.data.message === 'Invalid Token') {
-        removeToken()
-        yield put(sessionExpired())
+        yield sessionExpiryHandler();
       } else yield put(setUpdateProjectError(e.response.data.message))
     } else {
       yield put(setUpdateProjectError(e))

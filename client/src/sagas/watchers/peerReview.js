@@ -24,8 +24,7 @@ import {
   peerReviewDeleteSuccess,
   peerReviewDeleteFailue
 } from '../../actions/peerReviewAction'
-import { sessionExpired } from '../../actions/loginAction'
-import { removeToken } from '../../helpers/auth'
+import {sessionExpiryHandler} from './sessionExpiryHandler'
 
 // Load All Peer Reviews
 function* workerLoadAllPeerReviewSaga() {
@@ -35,8 +34,7 @@ function* workerLoadAllPeerReviewSaga() {
   } catch (e) {
     if (e.response.data && e.response.data.message) {
       if (e.response.data.message === 'Invalid Token') {
-        removeToken()
-        yield put(sessionExpired())
+         yield sessionExpiryHandler();
       } else yield put(setAllPeerReviewsError(e.response.data.message))
     } else yield put(setAllPeerReviewsError(e))
   }
@@ -55,8 +53,7 @@ function* workerCreatePeerReviewSaga({ payload }) {
   } catch (e) {
     if (e.response.data && e.response.data.message) {
       if (e.response.data.message === 'Invalid Token') {
-        removeToken()
-        yield put(sessionExpired())
+        yield sessionExpiryHandler();
       } else yield put(setPeerReviewSuccess(e.response.data.message))
     } else yield put(setPeerReviewSuccess(e))
   }
@@ -78,8 +75,7 @@ function* workerLoadUserPeerReviewSaga({ payload }) {
   } catch (e) {
     if (e.response.data && e.response.data.message) {
       if (e.response.data.message === 'Invalid Token') {
-        removeToken()
-        yield put(sessionExpired())
+        yield sessionExpiryHandler();
       } else yield put(setAllPeerForUserError(e.response.data.message))
     } else yield put(setAllPeerForUserError(e))
   }
@@ -102,8 +98,7 @@ function* workerUpdatePeerReviewSaga(data) {
   } catch (e) {
     if (e.response.data && e.response.data.message) {
       if (e.response.data.message === 'Invalid Token') {
-        removeToken()
-        yield put(sessionExpired())
+        yield sessionExpiryHandler();
       } else yield put(setUpdateReviewError(e.response.data.message))
     } else yield put(setUpdateReviewError(e))
   }
@@ -124,8 +119,7 @@ function* workerDaletePeerReviewSaga(data) {
   } catch (e) {
     if (e.response.data && e.response.data.message) {
       if (e.response.data.message === 'Invalid Token') {
-        removeToken()
-        yield put(sessionExpired())
+        yield sessionExpiryHandler();
       } else yield put(peerReviewDeleteFailue(e.response.data.message))
     } else yield put(peerReviewDeleteFailue(e))
   }
