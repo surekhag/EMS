@@ -122,7 +122,10 @@ export const UpdateProjectAllocation = props => {
           employee: { firstname, lastname },
           startdate,
           enddate,
-          functional_manager: { firstname: mgr_firstname, lastname: mgr_lastname },
+          functional_manager: {
+            firstname: mgr_firstname,
+            lastname: mgr_lastname
+          },
           project: { title },
           _id
         } = prop
