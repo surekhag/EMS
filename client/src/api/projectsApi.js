@@ -12,7 +12,7 @@ export function loadAllProjectsApi() {
 }
 
 export function deleteProjectApi(id) {
-  return axios.delete(PROJECT_URL + id)
+  return axios.delete(`${PROJECT_URL}${id}`)
 }
 
 export function addNewProjectApi(data) {
