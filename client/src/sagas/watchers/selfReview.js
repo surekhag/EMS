@@ -13,6 +13,8 @@ import {
   setUpdateReviewError,
   setUpdateReviewStatus
 } from '../../actions/selfReviewActions'
+import { sessionExpired } from '../../actions/loginAction'
+import { removeToken } from '../../helpers/auth'
 
 function* workerLoadAllUserSelfReviewSaga({ payload }) {
   const { id } = payload
@@ -21,8 +23,10 @@ function* workerLoadAllUserSelfReviewSaga({ payload }) {
     yield put(setAllSelfReviewsForUser(selfReviews.data.data))
   } catch (e) {
     if (e.response.data && e.response.data.message) {
-      // To do add code for all api calls .. invalid token case falls here
-      yield put(setAllSelfReviewsForUserError(e.response.data.message))
+      if (e.response.data.message === 'Invalid Token') {
+        removeToken()
+        yield put(sessionExpired())
+      } else yield put(setAllSelfReviewsForUserError(e.response.data.message))
     } else {
       yield put(setAllSelfReviewsForUserError(e))
     }
@@ -45,8 +49,10 @@ function* workerUpdateUserSelfReviewSaga({ payload }) {
     }
   } catch (e) {
     if (e.response.data && e.response.data.message) {
-      //To do add code for all api calls .. invalid token case falls here
-      yield put(setAllSelfReviewsForUserError(e.response.data.message))
+      if (e.response.data.message === 'Invalid Token') {
+        removeToken()
+        yield put(sessionExpired())
+      } else yield put(setAllSelfReviewsForUserError(e.response.data.message))
     } else {
       yield put(setAllSelfReviewsForUserError(e))
     }

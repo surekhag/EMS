@@ -22,6 +22,8 @@ import {
   setUpdateProjectError,
   setAllProjectsDataError
 } from '../../actions/projectAction'
+import { sessionExpired } from '../../actions/loginAction'
+import { removeToken } from '../../helpers/auth'
 
 function* workerLoadAllProjects() {
   try {
@@ -29,8 +31,10 @@ function* workerLoadAllProjects() {
     yield put(setAllProjectsData(projects))
   } catch (e) {
     if (e.response.data && e.response.data.message) {
-      // To do add code for all api calls .. invalid token case falls here
-      yield put(setAllProjectsDataError(e.response.data.message))
+      if (e.response.data.message === 'Invalid Token') {
+        removeToken()
+        yield put(sessionExpired())
+      } else yield put(setAllProjectsDataError(e.response.data.message))
     } else {
       yield put(setAllProjectsDataError(e))
     }
@@ -41,7 +45,6 @@ export function* watchLoadAllProjects() {
   yield takeLatest(FETCH_ALL_PROJECTS_SAGA, workerLoadAllProjects)
 }
 
-// Delete Project and fetch data again
 function* workerDeleteProjectSaga({ payload }) {
   const { id } = payload
   try {
@@ -50,7 +53,10 @@ function* workerDeleteProjectSaga({ payload }) {
     yield put(loadAllProjects())
   } catch (e) {
     if (e.response.data && e.response.data.message) {
-      yield put(deleteProjectError(e.response.data.message))
+      if (e.response.data.message === 'Invalid Token') {
+        removeToken()
+        yield put(sessionExpired())
+      } else yield put(deleteProjectError(e.response.data.message))
     } else {
       yield put(deleteProjectError(e))
     }
@@ -70,8 +76,10 @@ function* workerAddProjectSaga(userinfo) {
     if (e.response.data && e.response.data.message) {
       if (e.response.data.message.indexOf('duplicate') !== -1) {
         yield put(setNewProjectError('Project Already Exist!'))
+      } else if (e.response.data.message === 'Invalid Token') {
+        removeToken()
+        yield put(sessionExpired())
       } else {
-        // To do add code for all api calls .. invalid token case falls here
         yield put(setNewProjectError(e.response.data.message))
       }
     } else {
@@ -92,8 +100,10 @@ function* workerUpadateProjectSaga({ payload }) {
     yield put(loadAllProjects())
   } catch (e) {
     if (e.response.data && e.response.data.message) {
-      // To do add code for all api calls .. invalid token case falls here
-      yield put(setUpdateProjectError(e.response.data.message))
+      if (e.response.data.message === 'Invalid Token') {
+        removeToken()
+        yield put(sessionExpired())
+      } else yield put(setUpdateProjectError(e.response.data.message))
     } else {
       yield put(setUpdateProjectError(e))
     }

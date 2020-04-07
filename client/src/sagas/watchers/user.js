@@ -8,6 +8,8 @@ import {
 } from '../../actions/userActions'
 import { loadAllEmployeeData } from '../../actions/employeeAction'
 import { addNewUserApi, updateUserApi } from '../../api/userApi'
+import { sessionExpired } from '../../actions/loginAction'
+import { removeToken } from '../../helpers/auth'
 
 function* workerUserSaga(userinfo) {
   try {
@@ -20,8 +22,10 @@ function* workerUserSaga(userinfo) {
         yield put(setNewUserError(null))
         yield put(setNewUserError('User Already Exist!'))
       } else {
-        // To do add code for all api calls .. invalid token case falls here
-        yield put(setNewUserError(e.response.data.message))
+        if (e.response.data.message === 'Invalid Token') {
+          removeToken()
+          yield put(sessionExpired())
+        } else yield put(setNewUserError(e.response.data.message))
       }
     } else {
       yield put(setNewUserError(e))
@@ -40,11 +44,11 @@ function* workerUpadateUserSaga({ payload }) {
     yield put(loadAllEmployeeData())
   } catch (e) {
     if (e.response.data && e.response.data.message) {
-      // To do add code for all api calls .. invalid token case falls here
-      yield put(setUpdateUserError(e.response.data.message))
-    } else {
-      yield put(setUpdateUserError(e))
-    }
+      if (e.response.data.message === 'Invalid Token') {
+        removeToken()
+        yield put(sessionExpired())
+      } else yield put(setUpdateUserError(e.response.data.message))
+    } else yield put(setUpdateUserError(e))
   }
 }
 

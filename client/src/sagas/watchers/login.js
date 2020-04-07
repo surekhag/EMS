@@ -20,7 +20,12 @@ function* workerLoginSaga({ payload }) {
       setToken(loginStatus.data.data.token)
     }
   } catch (e) {
-    yield put(loginToSiteError(e))
+    if (e.response.data && e.response.data.message) {
+      if (e.response.data.message === 'Invalid Token') {
+        removeToken()
+        yield put(sessionExpired())
+      } else yield put(loginToSiteError(e.response.data.message))
+    } else yield put(loginToSiteError(e))
   }
 }
 
@@ -37,9 +42,7 @@ function* workerAuthenticateSaga() {
       if (e.response.data.message === 'Invalid Token') {
         removeToken()
         yield put(sessionExpired())
-      } else {
-        yield put(loginToSiteError(e.response.data.message))
-      }
+      } else yield put(loginToSiteError(e.response.data.message))
     }
   }
 }
