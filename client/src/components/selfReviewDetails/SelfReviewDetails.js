@@ -147,8 +147,6 @@ const SelfReviewDetails = props => {
           >
             UPDATE REVIEW
           </Button>
-
-          {/* className={classes.disabledButton} */}
           <Button type="submit" color="white" onClick={ClickHandler}>
             Close
           </Button>

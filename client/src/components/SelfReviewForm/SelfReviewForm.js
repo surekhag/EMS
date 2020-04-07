@@ -44,6 +44,7 @@ const useStyles = makeStyles(styles)
 
 const SelfReviewForm = ({ selfReviewInfo, clickHandler }) => {
   const classes = useStyles()
+  const { cardTitleWhite, container, grid, hoverEffect, footerDisplay, marginTop, colorRed } = classes
   const { addToast } = useToasts()
   const {
     employee,
@@ -142,11 +143,11 @@ const SelfReviewForm = ({ selfReviewInfo, clickHandler }) => {
           <Card>
             <Form>
               <CardHeader color="primary">
-                <h4 className={classes.cardTitleWhite}>CREATE SELF REVIEW FORM</h4>
+                <h4 className={cardTitleWhite}>CREATE SELF REVIEW FORM</h4>
               </CardHeader>
               <CardBody>
-                <Grid className={classes.container} container>
-                  <Grid xs={6} sm={6} md={3} className={classes.grid} item>
+                <Grid className={container} container>
+                  <Grid xs={6} sm={6} md={3} className={grid} item>
                     Employee *
                   </Grid>
                   <Grid xs={6} sm={6} md={3} item>
@@ -157,21 +158,21 @@ const SelfReviewForm = ({ selfReviewInfo, clickHandler }) => {
                       value={values.employee}
                     >
                       {employeeData
-                        ? employeeData.map((prop, key) => {
-                          return prop.status !== 'Inactive' ? (
+                        && employeeData.map((prop, key) => {
+                          return prop.status !== 'Inactive' && (
                             <MenuItem
-                              className={classes.hoverEffect}
+                              className={hoverEffect}
                               value={prop._id}
                               key={key}
                             >
                               {prop.firstname} {prop.lastname}
                             </MenuItem>
-                          ) : null
+                          )
                         })
-                        : null}
+                      }
                     </SelectMenu>
                   </Grid>
-                  <Grid xs={6} sm={6} md={3} className={classes.grid} item>
+                  <Grid xs={6} sm={6} md={3} className={grid} item>
                     Projects *
                   </Grid>
                   <Grid xs={6} sm={6} md={3} item>
@@ -183,10 +184,10 @@ const SelfReviewForm = ({ selfReviewInfo, clickHandler }) => {
                       multiple
                     >
                       {projectsData
-                        ? projectsData.map((prop, key) => {
+                        && projectsData.map((prop, key) => {
                           return (
                             <MenuItem
-                              className={classes.hoverEffect}
+                              className={hoverEffect}
                               value={prop._id}
                               key={key}
                             >
@@ -194,12 +195,12 @@ const SelfReviewForm = ({ selfReviewInfo, clickHandler }) => {
                             </MenuItem>
                           )
                         })
-                        : null}
+                      }
                     </SelectMenu>
                   </Grid>
                 </Grid>
-                <Grid className={classes.container} container>
-                  <Grid xs={6} sm={6} md={3} className={classes.grid} item>
+                <Grid className={container} container>
+                  <Grid xs={6} sm={6} md={3} className={grid} item>
                     Functional Manager *
                   </Grid>
                   <Grid xs={6} sm={6} md={3} item>
@@ -210,20 +211,20 @@ const SelfReviewForm = ({ selfReviewInfo, clickHandler }) => {
                       value={values.functional_manager}
                     >
                       {managers
-                        ? managers.map(item => {
+                        && managers.map(item => {
                           return (
                             <MenuItem
                               value={item._id}
-                              className={classes.hoverEffect}
+                              className={hoverEffect}
                             >
-                              {item.firstname + ' ' + item.lastname}
+                              {item.firstname} {item.lastname}
                             </MenuItem>
                           )
                         })
-                        : null}
+                      }
                     </SelectMenu>
                   </Grid>
-                  <Grid xs={6} sm={6} md={3} className={classes.grid} item>
+                  <Grid xs={6} sm={6} md={3} className={grid} item>
                     Google Form Link *
                   </Grid>
                   <Grid xs={6} sm={6} md={3} item>
@@ -232,7 +233,7 @@ const SelfReviewForm = ({ selfReviewInfo, clickHandler }) => {
                       id="review_form_link"
                       formControlProps={{
                         fullWidth: true,
-                        className: classes.marginTop
+                        className: marginTop
                       }}
                       inputProps={{
                         value: values.review_form_link,
@@ -241,14 +242,14 @@ const SelfReviewForm = ({ selfReviewInfo, clickHandler }) => {
                       }}
                     ></CustomInput>
                     <ErrorMessage
-                      className={classes.colorRed}
+                      className={colorRed}
                       name="review_form_link"
                       component="div"
                     />
                   </Grid>
                 </Grid>
-                <Grid className={classes.container} container>
-                  <Grid xs={6} sm={6} md={3} className={classes.grid} item>
+                <Grid className={container} container>
+                  <Grid xs={6} sm={6} md={3} className={grid} item>
                     Review From Date *
                   </Grid>
                   <Grid xs={6} sm={6} md={3}>
@@ -258,7 +259,7 @@ const SelfReviewForm = ({ selfReviewInfo, clickHandler }) => {
                       onChange={date => setFieldValue('from_date', date)}
                     />
                   </Grid>
-                  <Grid xs={6} sm={6} md={3} className={classes.grid} item>
+                  <Grid xs={6} sm={6} md={3} className={grid} item>
                     Review To Date *
                   </Grid>
                   <Grid xs={6} sm={6} md={3} item>
@@ -269,8 +270,8 @@ const SelfReviewForm = ({ selfReviewInfo, clickHandler }) => {
                     />
                   </Grid>
                 </Grid>
-                <Grid className={classes.container} container>
-                  <Grid xs={6} sm={6} md={3} className={classes.grid} item>
+                <Grid className={container} container>
+                  <Grid xs={6} sm={6} md={3} className={grid} item>
                     Due From Date *
                   </Grid>
                   <Grid xs={6} sm={6} md={3} item>
@@ -280,7 +281,7 @@ const SelfReviewForm = ({ selfReviewInfo, clickHandler }) => {
                       onChange={date => setFieldValue('due_from', date)}
                     />
                   </Grid>
-                  <Grid xs={6} sm={6} md={3} className={classes.grid} item>
+                  <Grid xs={6} sm={6} md={3} className={grid} item>
                     Due To Date *
                   </Grid>
                   <Grid xs={6} sm={6} md={3} item>
@@ -292,7 +293,7 @@ const SelfReviewForm = ({ selfReviewInfo, clickHandler }) => {
                   </Grid>
                 </Grid>
               </CardBody>
-              <CardFooter className={classes.footerDisplay}>
+              <CardFooter className={footerDisplay}>
                 {selfReviewInfo ? (
                   <Button type="submit" color="primary" disabled={isSubmitting}>
                     UPDATE SELF REVIEW
