@@ -1,11 +1,10 @@
 import axios from 'axios'
 
 const interceptors = () => {
-  const token = localStorage.getItem('token')
-  if (token) {
+  if (localStorage.getItem('token')) {
     axios.interceptors.request.use(
       config => {
-        config.headers.Authorization = 'Bearer ' + token
+        config.headers.Authorization = `Bearer ${localStorage.getItem('token')}`
         return config
       },
       error => {
