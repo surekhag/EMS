@@ -15,10 +15,14 @@ const withAuth = WrappedComponent => props => {
   const isLoading = useSelector(state => state.loginReducer.isLoading)
 
   useEffect(() => {
+    console.log('with auth..', localStorage.getItem('token'),'      ', getToken())
     interceptors()
     if (!currentUser) {
       if (getToken()) {
         dispatch(authenticateUserSession())
+      }
+      else{
+        console.log('in auth',  localStorage.getItem('token'))
       }
     }
   }, [])

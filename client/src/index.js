@@ -7,16 +7,18 @@ import * as serviceWorker from './serviceWorker'
 import { Provider } from 'react-redux'
 import store from '../src/store/index'
 import { Router, Route, Switch, Redirect } from 'react-router-dom'
-import interceptors from './helpers/interceptors'
+import interceptors from '../src/helpers/interceptors'
 import User from './layouts/User/User'
 import Login from './components/Login/Login'
+import { getToken } from '../src/helpers/auth'
 import UserContexProvider from './context-provider/user-context'
 
 const hist = createBrowserHistory()
 
 const Index = props => {
   useEffect(() => {
-    interceptors()
+    console.log('inside index ', getToken())
+    // interceptors()
     // relogin to site if token is available
   }, [])
 

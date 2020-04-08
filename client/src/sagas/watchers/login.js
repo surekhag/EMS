@@ -7,11 +7,12 @@ import {
 } from '../../actions/loginAction'
 import { logInToSiteApi, userSessionApi } from '../../api/loginApi'
 import { setToken, removeToken } from '../../helpers/auth'
+import interceptors from '../../helpers/interceptors'
 function* workerLoginSaga(userinfo) {
   const { username, password } = userinfo.payload
   try {
     const loginStatus = yield call(logInToSiteApi, username, password)
-
+setToken();
     if (loginStatus.data.status === 'error') {
       yield put(loginToSiteError(loginStatus.data.message))
     }
@@ -36,6 +37,7 @@ function* workerAuthenticateSaga() {
     if (e.response.data && e.response.data.message) {
       if (e.response.data.message === 'Invalid Token') {
         removeToken()
+        // interceptors()
         yield put(sessionExpired())
       } else {
         yield put(loginToSiteError(e.response.data.message))

@@ -48,13 +48,15 @@ const Login = props => {
   const error = useSelector(state => state.loginReducer.error)
 
   const handleFormSubmit = e => {
+//       console.log("in login handleFormSubmit", localStorage.getItem('token'));
+// interceptors()
     e.preventDefault()
     dispatch(loginToSite(username, password))
   }
 
   useEffect(() => {
     if (userInfo) {
-      interceptors()
+      // interceptors()
       setRedirect(true)
     }
   }, [userInfo])

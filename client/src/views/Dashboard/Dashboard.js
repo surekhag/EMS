@@ -23,6 +23,7 @@ import styles from '../../assets/jss/material-dashboard-react/views/dashboardSty
 import withAuth from '../../HOC/withAuth'
 import { UserContext } from '../../context-provider/user-context'
 import { formatDate } from '../../helpers/formatDates'
+import interceptors from '../../helpers/interceptors'
 import {
   userPeerReview,
   userSelfReviewDeatils
@@ -56,6 +57,9 @@ const Dashboard = props => {
   const peerReviews = useSelector(userPeerReview)
   const userSelfReviews = useSelector(userSelfReviewDeatils)
   useEffect(() => {
+    // console.log("in dashboard", localStorage.getItem('token'));
+    console.log('in dashboard')
+    interceptors();
     dispatch(loadAllPeerForUser(currentUser._id))
     dispatch(loadAllSelfReviewsForUser(currentUser._id))
   }, [dispatch])
