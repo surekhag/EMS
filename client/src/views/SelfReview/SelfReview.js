@@ -184,7 +184,7 @@ const SelfReview = props => {
                   </MenuItem>
                   {employeeData
                     ? employeeData.map((prop, key) => {
-                      const { firstname, lastname } = props
+                      const { firstname, lastname } = prop
                       return prop.status !== 'Inactive' ? (
                         <MenuItem
                           className={classes.hoverEffect}
