@@ -10,7 +10,6 @@ import { loadAllEmployeeData } from '../../actions/employeeAction'
 import { addNewUserApi, updateUserApi } from '../../api/userApi'
 import { sessionExpiryHandler } from './sessionExpiryHandler'
 
-
 function* workerUserSaga(userinfo) {
   try {
     const addUserResponse = yield call(addNewUserApi, userinfo)
@@ -23,7 +22,7 @@ function* workerUserSaga(userinfo) {
         yield put(setNewUserError('User Already Exist!'))
       } else {
         if (e.response.data.message === 'Invalid Token') {
-           yield sessionExpiryHandler()
+          yield sessionExpiryHandler()
         } else yield put(setNewUserError(e.response.data.message))
       }
     } else {
@@ -44,7 +43,7 @@ function* workerUpadateUserSaga({ payload }) {
   } catch (e) {
     if (e.response.data && e.response.data.message) {
       if (e.response.data.message === 'Invalid Token') {
-         yield sessionExpiryHandler()
+        yield sessionExpiryHandler()
       } else yield put(setUpdateUserError(e.response.data.message))
     } else yield put(setUpdateUserError(e))
   }

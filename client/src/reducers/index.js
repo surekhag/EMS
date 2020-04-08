@@ -5,12 +5,13 @@ import peerReviewReducer from './peerReviewReducer'
 import projectReducer from './projectReducer'
 import userReducer from './userReducer'
 import selfReviewReducer from './selfReviewReducer'
-
+import projectAllocationReducer from './projectAllocationReducer'
 export default combineReducers({
   EmployeeInfo,
   loginReducer,
   peerReviewReducer,
   projectReducer,
   userReducer,
-  selfReviewReducer
+  selfReviewReducer,
+  projectAllocationReducer
 })
