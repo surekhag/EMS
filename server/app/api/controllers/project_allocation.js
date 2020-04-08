@@ -37,28 +37,16 @@ module.exports = {
             }
           );
         },
-       
-        //Get Employees allocated to Project id 
-       getProjectAllocations: function (req, res, next) {
-    Project_Allocation_Model.find({ project: req.params.id, status : 'Active' })
-      .populate('project', 'title')
-      .populate('employee', 'firstname lastname')
-      .populate('functional_manager', 'firstname lastname')
-      .exec(function (err, reviews) {
-        if (err) {
-          next(err);
-        } else {
-          res.json({
-            status: "success",
-            message: "Project Allocation list found!!!",
-            data: reviews
-          });
-        }
-      });
-  },
-
+              
+    // Get all project allocation info using employee or project as query params
          getAll: function (req, res, next) {
-    Project_Allocation_Model.find()
+           const status ='Active'
+           const employee = req.query.employee
+            const project = req.query.project
+           const query =employee ? 
+           {employee,status} : project?
+           {project, status} :{status}
+    Project_Allocation_Model.find(query)
       .populate('project', 'title')
       .populate('employee', 'firstname lastname')
       .populate('functional_manager', 'firstname lastname')
