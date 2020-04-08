@@ -63,11 +63,9 @@ const Dashboard = props => {
   let filteredEmployee
   if (peerReviews) {
     filteredEmployee = peerReviews.filter(
-      cls =>
-        cls.status !== 'Done' &&
-        cls.status !== 'Inactive'
+      cls => cls.status !== 'Done' && cls.status !== 'Inactive'
     )
-    filteredEmployee.map((review) => {
+    filteredEmployee.map(review => {
       peerReviewsArray.push([
         `${review.employee_under_review.firstname} ${review.employee_under_review.lastname}`,
         review.project.title,
@@ -85,12 +83,10 @@ const Dashboard = props => {
     userReviewDetailsArr.length === 0
   ) {
     filteredSelfReview = userSelfReviews.filter(
-      cls =>
-        cls.status !== 'Done' &&
-        cls.status !== 'Inactive'
+      cls => cls.status !== 'Done' && cls.status !== 'Inactive'
     )
-    filteredSelfReview.map((review) => {
-      let projectsArr = review.projects.map(item => item.title)
+    filteredSelfReview.map(review => {
+      const projectsArr = review.projects.map(item => item.title)
       userReviewDetailsArr.push([
         projectsArr.join(',\n'),
         formatDate(review.from_date),
@@ -101,7 +97,7 @@ const Dashboard = props => {
     })
   }
 
-  const onClickHandler = key => {
+  const detailHandler = key => {
     setPeerDetails(filteredEmployee[key])
     setShowDetail(true)
   }
@@ -128,7 +124,7 @@ const Dashboard = props => {
         <SelfReviewDetails
           selfReviewDeatails={selfReviewDetails}
           projectDetails={projectDetails}
-          ClickHandler={closeSelfReiewDetails}
+          closeSelfReiewDetails={closeSelfReiewDetails}
           showButtons={true}
         />
       ) : (
@@ -151,7 +147,7 @@ const Dashboard = props => {
                         tableData={peerReviewsArray || null}
                         showLink={true}
                         buttonText="Details"
-                        onClickHandler={onClickHandler}
+                        detailHandler={detailHandler}
                       />
                     </CardBody>
                   </Card>
@@ -171,7 +167,7 @@ const Dashboard = props => {
                         tableData={userReviewDetailsArr || null}
                         showLink={true}
                         buttonText="Details"
-                        onClickHandler={handleSelfReviewDetails}
+                        detailHandler={handleSelfReviewDetails}
                       />
                     </CardBody>
                   </Card>

@@ -80,7 +80,6 @@ const dashboardStyle = {
       lineHeight: '1'
     }
   }
-
 }
 
 export default dashboardStyle

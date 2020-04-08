@@ -87,7 +87,7 @@ export default function User({ ...rest }) {
     }
   }, [currentUser])
   // initialize and destroy the PerfectScrollbar plugin
-  //To do  - not working in laptop; so commented for now.
+  // To do  - not working in laptop; so commented for now.
   // React.useEffect(() => {
   //   if (navigator.platform.indexOf('Win') > -1) {
   //     ps = new PerfectScrollbar(mainPanel.current, {

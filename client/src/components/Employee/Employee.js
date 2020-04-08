@@ -71,14 +71,14 @@ const Employee = props => {
       const managers = emp.filter(item => {
         if (item.userRole === 'manager' && item.status === 'Active') return item
       })
-      
+
       setManagers(managers)
     }
   }, [managerdata])
 
   useEffect(() => {
     if (addNewUserStatus || updateUserStatus) {
-      addToast(addNewUserStatus ? addNewUserStatus : updateUserStatus, {
+      addToast(addNewUserStatus || updateUserStatus, {
         appearance: 'success',
         autoDismiss: true
       })
@@ -94,7 +94,7 @@ const Employee = props => {
 
   useEffect(() => {
     if (error || updateUserError) {
-      addToast(error ? error : updateUserError, {
+      addToast(error || updateUserError, {
         appearance: 'error',
         autoDismiss: true
       })
@@ -426,9 +426,11 @@ const Employee = props => {
                         disabledName="None"
                         label="User Role *"
                         value={values.userRole}
-                      >                        
+                      >
                         {userRole.map(item => {
-                          return <MenuItem value={item.id}>{item.role}</MenuItem>
+                          return (
+                            <MenuItem value={item.id}>{item.role}</MenuItem>
+                          )
                         })}
                       </SelectMenu>
                     </GridItem>

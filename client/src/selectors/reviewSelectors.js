@@ -45,4 +45,4 @@ export function deleteSelfReviewSuccessSelector(state) {
 }
 export function deleteSelfReviewErrorSelector(state) {
   return state.selfReviewReducer.deleteSelfReviewError
-} 
+}

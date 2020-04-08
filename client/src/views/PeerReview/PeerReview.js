@@ -106,23 +106,25 @@ const PeerReview = props => {
     setReviewDetails(details)
     setShowDetailsDialog(true)
   }
-  const tempArr = []
+  const employeeReviewArr = []
   let filteredEmployee
   if (peerReviewData) {
-    filteredEmployee = peerReviewData.data.data.filter(
-      cls =>
-        (`${cls.employee_under_review.firstname} ${cls.employee_under_review.lastname}`)
+    const peerReviewDetails = peerReviewData.data.data
+    filteredEmployee = peerReviewDetails.filter(
+      review =>
+        `${review.employee_under_review.firstname} ${review.employee_under_review.lastname}`
           .toLowerCase()
           .includes(selectedEmployee.toLowerCase().trim()) &&
-        cls.status !== 'Inactive'
+        review.status !== 'Inactive'
     )
     filteredEmployee.map((review, key) => {
-      tempArr.push([
+      employeeReviewArr.push([
         <span
           className={classes.showPointer}
           onClick={() => viewDetailHandler(review)}
         >
-          {review.employee_under_review.firstname} {review.employee_under_review.lastname}
+          {review.employee_under_review.firstname}{' '}
+          {review.employee_under_review.lastname}
         </span>,
         `${review.employee_reviewing.firstname} ${review.employee_reviewing.lastname}`,
         review.project.title,
@@ -161,7 +163,7 @@ const PeerReview = props => {
       {isRedirectForm ? (
         <PeerReviewForm
           peerReviewInfo={peerReviewInfo}
-          clickHandler={detailsSwitchHandler}
+          detailsSwitchHandler={detailsSwitchHandler}
         ></PeerReviewForm>
       ) : (
           <GridContainer>
@@ -212,7 +214,7 @@ const PeerReview = props => {
                   <Table
                     tableHeaderColor="gray"
                     tableHead={peerReviewListingHeader}
-                    tableData={tempArr || null}
+                    tableData={employeeReviewArr || null}
                     addLinks={links}
                     updateUser={updateUser}
                     deleteUser={deleteUser}

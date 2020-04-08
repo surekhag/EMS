@@ -70,7 +70,9 @@ const SelfReview = props => {
   const links = ['Edit', 'Delete']
   const employeeData = useSelector(employeeDataSelector)
   const selfReviewData = useSelector(selfReviewDetailsSelector)
-  const selfReviewDeleteSuccessMessage = useSelector(deleteSelfReviewSuccessSelector)
+  const selfReviewDeleteSuccessMessage = useSelector(
+    deleteSelfReviewSuccessSelector
+  )
   const selfReviewDeleteError = useSelector(deleteSelfReviewErrorSelector)
   useEffect(() => {
     dispatch(loadAllEmployeeData())
@@ -107,13 +109,13 @@ const SelfReview = props => {
   if (selfReviewData) {
     filteredEmployee = selfReviewData.filter(
       cls =>
-        (`${cls.employee.firstname} ${cls.employee.lastname}`)
+        `${cls.employee.firstname} ${cls.employee.lastname}`
           .toLowerCase()
           .includes(selectedEmployee.toLowerCase().trim()) &&
         cls.status !== 'Inactive'
     )
     filteredEmployee.map((review, key) => {
-      let projectsArr = review.projects.map(item => item.title)
+      const projectsArr = review.projects.map(item => item.title)
       selfReviewArray.push([
         <span
           className={classes.showPointer}
@@ -159,7 +161,7 @@ const SelfReview = props => {
       {isRedirectForm ? (
         <SelfReviewForm
           selfReviewInfo={selfReviewInfo}
-          clickHandler={detailsSwitchHandler}
+          detailsSwitchHandler={detailsSwitchHandler}
         ></SelfReviewForm>
       ) : (
           <GridContainer>
@@ -182,7 +184,7 @@ const SelfReview = props => {
                   </MenuItem>
                   {employeeData
                     ? employeeData.map((prop, key) => {
-                      const { firstname, lastname } = props;
+                      const { firstname, lastname } = props
                       return prop.status !== 'Inactive' ? (
                         <MenuItem
                           className={classes.hoverEffect}
@@ -247,7 +249,6 @@ const SelfReview = props => {
               size="sm"
               onClick={() => setShowDetailsDialog(false)}
             >
-              {' '}
               Close
             </Button>
           </GridItem>

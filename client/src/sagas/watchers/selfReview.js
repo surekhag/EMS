@@ -44,7 +44,7 @@ function* workerLoadAllUserSelfReviewSaga({ payload }) {
 export function* watchUserSelfReviewSaga() {
   yield takeLatest(LOAD_ALL_USER_SELF_REVIEWS, workerLoadAllUserSelfReviewSaga)
 }
-//Load all self reviews
+// Load all self reviews
 function* workerLoadAllSelfReviewSaga() {
   try {
     const selfReviews = yield call(loadAllSelfReviews)
@@ -76,7 +76,7 @@ function* workerUpdateUserSelfReviewSaga({ payload }) {
     yield put(setAllSelfReviews(reviews.data.data))
   } catch (e) {
     if (e.response.data && e.response.data.message) {
-      //To do add code for all api calls .. invalid token case falls here
+      // To do add code for all api calls .. invalid token case falls here
       yield put(setUpdateReviewError(e.response.data.message))
     } else {
       yield put(setUpdateReviewError(e))
@@ -127,7 +127,7 @@ function* workerDeleteSelfReviewSaga({ payload }) {
     yield put(setAllSelfReviews(reviews.data.data))
   } catch (e) {
     if (e.response.data && e.response.data.message) {
-      //To do add code for all api calls .. invalid token case falls here
+      // To do add code for all api calls .. invalid token case falls here
       yield put(selfReviewDeleteFailue(e.response.data.message))
     } else {
       yield put(selfReviewDeleteFailue(e))

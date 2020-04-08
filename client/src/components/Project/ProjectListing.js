@@ -95,7 +95,6 @@ const ProjectListing = props => {
         enddate
       }
       projectDetails.push(Object.values(data))
-      return
     })
     // Get/Delete data from Active projects
     //  projectData = filteredProject;

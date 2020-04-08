@@ -46,8 +46,7 @@ const EmployeeListing = props => {
 
   const changeHandler = e => {
     setsearchText(e.target.value)
-    if (!searchText)
-      setEmployeeDetails([]);
+    if (!searchText) setEmployeeDetails([])
   }
 
   // Clear Search text on Update Cancel/Success
@@ -81,7 +80,7 @@ const EmployeeListing = props => {
   const searchHandler = () => {
     const employeeDetails = []
     if (employeeData && searchText) {
-      //To do - update api to get only active users
+      // To do - update api to get only active users
       filteredEmployee = employeeData.filter(
         cls =>
           cls.userName
@@ -122,7 +121,6 @@ const EmployeeListing = props => {
           managerName
         }
         employeeDetails.push(Object.values(data))
-        return
       })
     }
     setEmployeeDetails(employeeDetails)
@@ -140,13 +138,13 @@ const EmployeeListing = props => {
 
   const updateUser = val => {
     setUpdateAction('update')
-    //To do - update api to get only active users
+    // To do - update api to get only active users
     const user = getUserToUpdate(employeeData, val[0])
     setUserToUpdate(user)
   }
 
   const deleteUser = val => {
-    //To do - update api to get only active users
+    // To do - update api to get only active users
     const user = getUserToUpdate(employeeData, val[0])
     setUpdateAction('delete')
     setUserToUpdate(user)
@@ -171,65 +169,64 @@ const EmployeeListing = props => {
           setPageView={setPageView}
         />
       ) : (
-          <>
-            <GridItem xs={12} sm={12} md={12}>
-              <CustomInput
-                formControlProps={{
-                }}
-                inputProps={{
-                  onChange: changeHandler,
-                  placeholder: 'Search Employee',
-                  inputProps: {
-                    'aria-label': 'Search'
-                  }
-                }}
-              />
-              <Button
-                color="white"
-                aria-label="edit"
-                justIcon
-                round
-                onClick={searchHandler}
-              >
-                <Search />
-              </Button>
-            </GridItem>
-
-            <GridItem xs={12} sm={12} md={12}>
-              <Card plain>
-                <CardHeader plain color="primary">
-                  <h4 className={classes.cardTitleWhite}>Employee List</h4>
-                </CardHeader>
-                <CardBody>
-                  {employeeData && employeeDetails.length > 0 && searchText ? (
-                    <Table
-                      tableHeaderColor="gray"
-                      tableHead={
-                        employeeData && employeeDetails.length > 0 && searchText
-                          ? employeeListingHeader
-                          : null
-                      }
-                      tableData={employeeDetails || null}
-                      addLinks={links}
-                      updateUser={updateUser}
-                      deleteUser={deleteUser}
-                      showLink={false}
-                    />
-                  ) : (
-                      <p>**Please search for employee result</p>
-                    )}
-                </CardBody>
-              </Card>
-            </GridItem>
-            <AlertModal
-              title="Delete Employee"
-              showDelDialog={showDelDialog}
-              handleYesDelete={handleYesDelete}
-              handleNoDelete={handleNoDelete}
-              userInfo="Are you sure you want to delete this Employee ?"
+        <>
+          <GridItem xs={12} sm={12} md={12}>
+            <CustomInput
+              formControlProps={{}}
+              inputProps={{
+                onChange: changeHandler,
+                placeholder: 'Search Employee',
+                inputProps: {
+                  'aria-label': 'Search'
+                }
+              }}
             />
-          </>
-        )}
+            <Button
+              color="white"
+              aria-label="edit"
+              justIcon
+              round
+              onClick={searchHandler}
+            >
+              <Search />
+            </Button>
+          </GridItem>
+
+          <GridItem xs={12} sm={12} md={12}>
+            <Card plain>
+              <CardHeader plain color="primary">
+                <h4 className={classes.cardTitleWhite}>Employee List</h4>
+              </CardHeader>
+              <CardBody>
+                {employeeData && employeeDetails.length > 0 && searchText ? (
+                  <Table
+                    tableHeaderColor="gray"
+                    tableHead={
+                      employeeData && employeeDetails.length > 0 && searchText
+                        ? employeeListingHeader
+                        : null
+                    }
+                    tableData={employeeDetails || null}
+                    addLinks={links}
+                    updateUser={updateUser}
+                    deleteUser={deleteUser}
+                    showLink={false}
+                  />
+                ) : (
+                  <p>**Please search for employee result</p>
+                )}
+              </CardBody>
+            </Card>
+          </GridItem>
+          <AlertModal
+            title="Delete Employee"
+            showDelDialog={showDelDialog}
+            handleYesDelete={handleYesDelete}
+            handleNoDelete={handleNoDelete}
+            userInfo="Are you sure you want to delete this Employee ?"
+          />
+        </>
+      )}
     </>
   )
 }

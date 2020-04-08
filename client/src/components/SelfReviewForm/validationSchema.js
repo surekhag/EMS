@@ -7,7 +7,7 @@ const validationSchema = {
   to_date: yupRequiredDate('Review to date').test(
     '',
     'Must be greater than from date',
-    function (value) {
+    function(value) {
       const from_date = this.parent.from_date
       return value > from_date
     }
@@ -16,7 +16,7 @@ const validationSchema = {
   due_to: yupRequiredDate('Due to').test(
     '',
     'Must be greater than due from date',
-    function (value) {
+    function(value) {
       const due_from = this.parent.due_from
       return value > due_from
     }
