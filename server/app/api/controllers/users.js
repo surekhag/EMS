@@ -79,10 +79,11 @@ module.exports = {
     );
   },
   authenticate: function (req, res, next) {
-    userModel.findOne({ $and: [
-      {$or: [{userName: req.body.userName}, {email: req.body.userName}]},
-      {status : "Active"}]
-      }, function (err, userInfo) {
+    userModel.findOne({
+      $and: [
+        { $or: [{ userName: req.body.userName }, { email: req.body.userName }] },
+        { status: "Active" }]
+    }, function (err, userInfo) {
       if (err) {
         next(err);
       } else {
@@ -115,7 +116,7 @@ module.exports = {
     });
   },
   getAll: function (req, res, next) {
-    const query = req.query? req.query: {}
+    const query = req.query || {}
     userModel.find(query, function (err, users) {
       if (err) {
         next(err);

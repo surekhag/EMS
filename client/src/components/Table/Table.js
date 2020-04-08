@@ -22,7 +22,7 @@ export default function CustomTable(props) {
     tableHeaderColor,
     showLink,
     buttonText,
-    onClickHandler,
+    detailHandler,
     addLinks,
     updateUser,
     deleteUser,
@@ -134,7 +134,7 @@ export default function CustomTable(props) {
                         color="primary"
                         size="sm"
                         onClick={() => {
-                          onClickHandler(k)
+                          detailHandler(k)
                         }}
                       >
                         {buttonText}

@@ -88,8 +88,7 @@ export default function User({ ...rest }) {
       setSwitchRoutes(userSwitchRoutes)
     }
   }, [currentUser])
-  // initialize and destroy the PerfectScrollbar plugin
-   useEffect(() => {
+  useEffect(() => {
     if (navigator.platform.indexOf('Win') > -1) {
       ps = new PerfectScrollbar(mainPanel.current, {
         suppressScrollX: true,

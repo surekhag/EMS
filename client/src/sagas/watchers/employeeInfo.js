@@ -30,7 +30,7 @@ export function* watchEmployeeInfoSaga() {
   yield takeLatest(LOAD_ALL_EMPLOYEE_SAGA, workerEmployeeInfoSaga)
 }
 
-//load Manager Saga
+// load Manager Saga
 function* workerManagerSaga() {
   try {
     const managers = yield call(loadManagers)

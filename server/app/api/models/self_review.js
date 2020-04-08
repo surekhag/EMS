@@ -58,7 +58,7 @@ const SelfReviewSchema = new Schema({
   feedback: {
     type: String,
     trim: true,
-    required: true,
+    required: false,
   },
   created_date: {
     type: Date,
