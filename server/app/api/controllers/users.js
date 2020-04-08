@@ -129,7 +129,7 @@ module.exports = {
     });
   },
   getManagers: function (req, res, next) {
-    userModel.find({ userRole: "manager" }, function (err, users) {
+    userModel.find({ userRole: "manager", status : 'Active' }, function (err, users) {
       if (err) {
         next(err);
       } else {
