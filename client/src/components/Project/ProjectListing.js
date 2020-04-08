@@ -4,14 +4,14 @@ import Card from '../Card/Card'
 import CardHeader from '../Card/CardHeader'
 import CardBody from '../Card/CardBody'
 import React, { useState, useEffect } from 'react'
-// import GridItem from '../../components/Grid/GridItem'
 import { makeStyles } from '@material-ui/core/styles'
 import styles from '../../assets/jss/material-dashboard-react/views/dashboardStyle'
 import GridItem from '../Grid/GridItem'
 import { deleteProject, clearProjectMsg } from '../../actions/projectAction'
 import { AlertModal } from '../../components/Modal/modal'
 import { useToasts } from 'react-toast-notifications'
-import Employee from './Project'
+import Project from './Project'
+import { UpdateProjectAllocation } from './updateProjectAllocation'
 import {
   deleteProjectSuccessMsg,
   deleteProjectErrorMsg
@@ -58,11 +58,11 @@ const ProjectListing = props => {
     }
   }, [deleteProjectError, addToast, dispatch])
 
-  const projectDetails = []
+  let projectDetails = []
   let filteredProject
   if (projectData) {
     filteredProject = projectData.filter(cls => cls.status !== 'Inactive')
-    filteredProject.map((key, value) => {
+    const tempProjectData = filteredProject.map((key, value) => {
       let {
         title,
         technology,
@@ -95,12 +95,13 @@ const ProjectListing = props => {
         enddate
       }
       projectDetails.push(Object.values(data))
+      return Object.values(data)
     })
-    // Get/Delete data from Active projects
-    //  projectData = filteredProject;
+    projectDetails = [...tempProjectData]
+    // to do  - Get/Delete data from Active projects api
   }
 
-  const links = ['Edit', 'Delete']
+  const links = ['Edit', 'Delete', 'Allocations']
 
   const getprojectToUpdate = (projectData, title) => {
     return projectData.filter(item => {
@@ -108,19 +109,25 @@ const ProjectListing = props => {
     })
   }
 
-  const updateUser = val => {
+  //To do update all user to project..naming convention
+  const updateProject = val => {
     setUpdateAction('update')
-    const user = getprojectToUpdate(filteredProject, val[0])
-    setProjectToUpdate(user)
+    const project = getprojectToUpdate(filteredProject, val[0])
+    setProjectToUpdate(project)
   }
 
-  const deleteUser = val => {
-    const user = getprojectToUpdate(filteredProject, val[0])
+  const deleteProject = val => {
+    const project = getprojectToUpdate(filteredProject, val[0])
     setUpdateAction('delete')
-    setProjectToUpdate(user)
+    setProjectToUpdate(project)
     setShowDelDialog(true)
   }
 
+  const allocateProject = val => {
+    setUpdateAction('allocateProject')
+    const project = getprojectToUpdate(filteredProject, val[0])
+    setProjectToUpdate(project)
+  }
   const handleYesDelete = () => {
     dispatch(deleteProject(projectToUpdate[0]._id))
     setShowDelDialog(false)
@@ -129,48 +136,54 @@ const ProjectListing = props => {
   const handleNoDelete = () => {
     setShowDelDialog(false)
   }
-
   return (
     <>
       {updateAction === 'update' ? (
-        <Employee
+        <Project
+          setUpdateAction={setUpdateAction}
+          projectToUpdate={projectToUpdate}
+          setPageView={setPageView}
+        />
+      ) : updateAction === 'allocateProject' ? (
+        <UpdateProjectAllocation
           setUpdateAction={setUpdateAction}
           projectToUpdate={projectToUpdate}
           setPageView={setPageView}
         />
       ) : (
-        <>
-          <GridItem xs={12} sm={12} md={12}>
-            <Card plain>
-              <CardHeader plain color="primary">
-                <h4 className={classes.cardTitleWhite}>Project List</h4>
-              </CardHeader>
-              <CardBody>
-                <Table
-                  tableHeaderColor="gray"
-                  tableHead={
-                    projectData && projectDetails.length > 0
-                      ? projectListingHeader
-                      : null
-                  }
-                  tableData={projectDetails || null}
-                  addLinks={links}
-                  updateUser={updateUser}
-                  deleteUser={deleteUser}
-                  showLink={false}
-                />
-              </CardBody>
-            </Card>
-          </GridItem>
-          <AlertModal
-            title="Delete Project"
-            showDelDialog={showDelDialog}
-            handleYesDelete={handleYesDelete}
-            handleNoDelete={handleNoDelete}
-            userInfo="Are you sure you want to delete this project ?"
-          />
-        </>
-      )}
+            <>
+              <GridItem xs={12} sm={12} md={12}>
+                <Card plain>
+                  <CardHeader plain color="primary">
+                    <h4 className={classes.cardTitleWhite}>Project List</h4>
+                  </CardHeader>
+                  <CardBody>
+                    <Table
+                      tableHeaderColor="gray"
+                      tableHead={
+                        projectData && projectDetails.length > 0
+                          ? projectListingHeader
+                          : null
+                      }
+                      tableData={projectDetails || null}
+                      addLinks={links}
+                      updateUser={updateProject}
+                      deleteUser={deleteProject}
+                      allocateProject={allocateProject}
+                      showLink={false}
+                    />
+                  </CardBody>
+                </Card>
+              </GridItem>
+              <AlertModal
+                title="Delete Project"
+                showDelDialog={showDelDialog}
+                handleYesDelete={handleYesDelete}
+                handleNoDelete={handleNoDelete}
+                userInfo="Are you sure you want to delete this project ?"
+              />
+            </>
+          )}
     </>
   )
 }

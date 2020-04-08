@@ -25,6 +25,7 @@ import {
   selfReviewDeleteSuccess,
   selfReviewDeleteFailue
 } from '../../actions/selfReviewActions'
+import { sessionExpiryHandler } from './sessionExpiryHandler'
 
 function* workerLoadAllUserSelfReviewSaga({ payload }) {
   const { id } = payload
@@ -33,8 +34,9 @@ function* workerLoadAllUserSelfReviewSaga({ payload }) {
     yield put(setAllSelfReviewsForUser(selfReviews.data.data))
   } catch (e) {
     if (e.response.data && e.response.data.message) {
-      // To do add code for all api calls .. invalid token case falls here
-      yield put(setAllSelfReviewsForUserError(e.response.data.message))
+      if (e.response.data.message === 'Invalid Token') {
+        yield sessionExpiryHandler()
+      } else yield put(setAllSelfReviewsForUserError(e.response.data.message))
     } else {
       yield put(setAllSelfReviewsForUserError(e))
     }
@@ -78,6 +80,9 @@ function* workerUpdateUserSelfReviewSaga({ payload }) {
     if (e.response.data && e.response.data.message) {
       // To do add code for all api calls .. invalid token case falls here
       yield put(setUpdateReviewError(e.response.data.message))
+      if (e.response.data.message === 'Invalid Token') {
+        yield sessionExpiryHandler()
+      } else yield put(setAllSelfReviewsForUserError(e.response.data.message))
     } else {
       yield put(setUpdateReviewError(e))
     }

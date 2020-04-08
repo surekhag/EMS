@@ -24,6 +24,7 @@ import {
   peerReviewDeleteSuccess,
   peerReviewDeleteFailue
 } from '../../actions/peerReviewAction'
+import { sessionExpiryHandler } from './sessionExpiryHandler'
 
 // Load All Peer Reviews
 function* workerLoadAllPeerReviewSaga() {
@@ -32,10 +33,10 @@ function* workerLoadAllPeerReviewSaga() {
     yield put(setAllPeerReviews(peerReviews))
   } catch (e) {
     if (e.response.data && e.response.data.message) {
-      yield put(setAllPeerReviewsError(e.response.data.message))
-    } else {
-      yield put(setAllPeerReviewsError(e))
-    }
+      if (e.response.data.message === 'Invalid Token') {
+        yield sessionExpiryHandler()
+      } else yield put(setAllPeerReviewsError(e.response.data.message))
+    } else yield put(setAllPeerReviewsError(e))
   }
 }
 
@@ -51,10 +52,10 @@ function* workerCreatePeerReviewSaga({ payload }) {
     yield put(setPeerReviewSuccess(message))
   } catch (e) {
     if (e.response.data && e.response.data.message) {
-      yield put(setPeerReviewSuccess(e.response.data.message))
-    } else {
-      yield put(setPeerReviewSuccess(e))
-    }
+      if (e.response.data.message === 'Invalid Token') {
+        yield sessionExpiryHandler()
+      } else yield put(setPeerReviewSuccess(e.response.data.message))
+    } else yield put(setPeerReviewSuccess(e))
   }
   const reviews = yield call(loadAllPeerReviews)
   yield put(setAllPeerReviews(reviews))
@@ -73,10 +74,10 @@ function* workerLoadUserPeerReviewSaga({ payload }) {
     yield put(setAllPeerForUser(peerReviews.data.data))
   } catch (e) {
     if (e.response.data && e.response.data.message) {
-      yield put(setAllPeerForUserError(e.response.data.message))
-    } else {
-      yield put(setAllPeerForUserError(e))
-    }
+      if (e.response.data.message === 'Invalid Token') {
+        yield sessionExpiryHandler()
+      } else yield put(setAllPeerForUserError(e.response.data.message))
+    } else yield put(setAllPeerForUserError(e))
   }
 }
 
@@ -96,11 +97,12 @@ function* workerUpdatePeerReviewSaga(data) {
     yield put(setUpdateReviewStatus(status))
   } catch (e) {
     if (e.response.data && e.response.data.message) {
-      yield put(setUpdateReviewError(e.response.data.message))
-    } else {
-      yield put(setUpdateReviewError(e))
-    }
+      if (e.response.data.message === 'Invalid Token') {
+        yield sessionExpiryHandler()
+      } else yield put(setUpdateReviewError(e.response.data.message))
+    } else yield put(setUpdateReviewError(e))
   }
+
   const reviews = yield call(loadAllPeerReviews)
   yield put(setAllPeerReviews(reviews))
 }
@@ -116,10 +118,10 @@ function* workerDaletePeerReviewSaga(data) {
     yield put(peerReviewDeleteSuccess(status))
   } catch (e) {
     if (e.response.data && e.response.data.message) {
-      yield put(peerReviewDeleteFailue(e.response.data.message))
-    } else {
-      yield put(peerReviewDeleteFailue(e))
-    }
+      if (e.response.data.message === 'Invalid Token') {
+        yield sessionExpiryHandler()
+      } else yield put(peerReviewDeleteFailue(e.response.data.message))
+    } else yield put(peerReviewDeleteFailue(e))
   }
   const reviews = yield call(loadAllPeerReviews)
   yield put(setAllPeerReviews(reviews))

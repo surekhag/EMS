@@ -1,5 +1,5 @@
 export function formatDate(date) {
-  return date.slice(0, 10)
+  return formatDateDDMMYYYY(date.slice(0, 10))
 }
 
 export function getMonthOfDate(date) {
@@ -8,4 +8,11 @@ export function getMonthOfDate(date) {
 
 export function getDayOfDate(date) {
   return ('0' + date.getDate()).slice(-2)
+}
+
+export function formatDateDDMMYYYY(date) {
+  const newdate = new Date(date)
+  const mnth = getMonthOfDate(newdate)
+  const day = getDayOfDate(newdate)
+  return [day, mnth, newdate.getFullYear()].join('/')
 }

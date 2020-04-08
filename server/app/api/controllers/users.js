@@ -79,9 +79,12 @@ module.exports = {
     );
   },
   authenticate: function (req, res, next) {
-    userModel.findOne({ $or: [{ userName: req.body.userName }, { email: req.body.userName }] }, function (err, userInfo) {
+    userModel.findOne({
+      $and: [
+        { $or: [{ userName: req.body.userName }, { email: req.body.userName }] },
+        { status: "Active" }]
+    }, function (err, userInfo) {
       if (err) {
-        console.log("in err");
         next(err);
       } else {
         if (
@@ -105,7 +108,7 @@ module.exports = {
         } else {
           res.json({
             status: "error",
-            message: "Invalid Username/Password!!!",
+            message: "Invalid Username/Email or Password!!!",
             data: null
           });
         }
@@ -127,7 +130,7 @@ module.exports = {
     });
   },
   getManagers: function (req, res, next) {
-    userModel.find({ userRole: "manager"}, function (err, users) {
+    userModel.find({ userRole: "manager" }, function (err, users) {
       if (err) {
         next(err);
       } else {
@@ -146,7 +149,6 @@ module.exports = {
       },
       function (err, userInfo) {
         if (err) {
-          console.log("in err");
           next(err);
         }
         else {
@@ -165,7 +167,6 @@ module.exports = {
       },
       function (err, userInfo) {
         if (err) {
-          console.log("in err");
           next(err);
         }
         else {

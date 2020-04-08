@@ -7,11 +7,10 @@ import CardHeader from '../../components/Card/CardHeader'
 import CardBody from '../../components/Card/CardBody'
 import CardFooter from '../../components/Card/CardFooter'
 import Button from '../../components/CustomButtons/Button'
-import CustomInput from '../../components/CustomInput/CustomInput'
 import { useToasts } from 'react-toast-notifications'
 import { employeeStyles } from './Styles'
 import MenuItem from '@material-ui/core/MenuItem'
-import { Formik, Form, ErrorMessage } from 'formik'
+import { Formik, Form } from 'formik'
 import { useSelector, useDispatch } from 'react-redux'
 import SelectMenu from '../FromComponents/SelectMenu'
 import Input from '../FromComponents/Input'
@@ -63,7 +62,7 @@ const Employee = props => {
   // Load all emp info
   useEffect(() => {
     dispatch(loadManagers())
-  }, [])
+  }, [dispatch])
 
   useEffect(() => {
     if (managerdata) {
@@ -90,7 +89,7 @@ const Employee = props => {
       userForm.current.reset()
       dispatch(clearUserStatus())
     }
-  }, [addNewUserStatus, updateUserStatus, addToast])
+  }, [addNewUserStatus, updateUserStatus, addToast, dispatch])
 
   useEffect(() => {
     if (error || updateUserError) {
@@ -100,13 +99,13 @@ const Employee = props => {
       })
       dispatch(clearUserStatus())
     }
-  }, [error, updateUserError, addToast])
+  }, [error, updateUserError, addToast, dispatch])
 
   const getStates = value => {
     if (value === null) return []
 
     const states = countryData.filter(item => {
-      if (item.country == value) {
+      if (item.country === value) {
         return item
       }
     })

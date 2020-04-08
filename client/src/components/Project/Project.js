@@ -9,7 +9,7 @@ import CardFooter from '../Card/CardFooter'
 import Button from '../CustomButtons/Button'
 import Input from '../FromComponents/Input'
 import 'date-fns'
-
+import { creatNewProjectValidations } from './projectFormData'
 import DatePicker from '../../components/FromComponents/DatePicker'
 import { useToasts } from 'react-toast-notifications'
 import { Formik, Form } from 'formik'
@@ -20,14 +20,12 @@ import {
   clearProjectMsg,
   updateProject
 } from '../../actions/projectAction'
-import * as Yup from 'yup'
 import {
   addProjectError,
   addNewProjectStatusMsg,
   updateProjectStatusMsg,
   updateProjectErrorMsg
 } from '../../selectors/projectSelectors'
-import { yupRequired, yupRequiredDate } from '../../helpers/yupValidations'
 
 const styles = projectStyles
 const useStyles = makeStyles(styles)
@@ -54,7 +52,7 @@ const Project = props => {
       dispatch(clearProjectMsg())
       setPageView('projectListing')
     }
-  }, [addNewProjectStatus, addToast, dispatch])
+  }, [addNewProjectStatus, addToast, dispatch, setPageView])
 
   useEffect(() => {
     if (updateProjectStatus) {
@@ -66,7 +64,7 @@ const Project = props => {
       dispatch(clearProjectMsg())
       if (props) props.setUpdateAction()
     }
-  }, [updateProjectStatus, addToast, dispatch])
+  }, [updateProjectStatus, addToast, dispatch, props])
 
   useEffect(() => {
     if (error) {
@@ -119,31 +117,7 @@ const Project = props => {
     props.setUpdateAction()
   }
 
-  const projectDataValidation = Yup.object().shape({
-    title: yupRequired('Project Title')
-      .min(2, 'Too Short!')
-      .max(50, 'Too Long!'),
-    description: yupRequired('Description')
-      .min(2, 'Too Short!')
-      .max(150, 'Too Long!'),
-    client: yupRequired('Client')
-      .min(2, 'Too Short!')
-      .max(50, 'Too Long!'),
-    client_location: yupRequired('Client Location'),
-    type: yupRequired('Project Type')
-      .min(2, 'Too Short!')
-      .max(50, 'Too Long!'),
-    technology: yupRequired('Technology')
-      .min(2, 'Too Short!')
-      .max(50, 'Too Long!'),
-    startdate: yupRequiredDate('Start Date').typeError(''),
-    enddate: yupRequiredDate('End Date')
-      .typeError('')
-      .test('', 'Must be greater than Start Date', function(value) {
-        const startdate = this.parent.startdate
-        return value > startdate
-      })
-  })
+  const projectDataValidation = creatNewProjectValidations
 
   return (
     <GridContainer>
@@ -262,14 +236,25 @@ const Project = props => {
                       </GridItem>
                     </>
                   ) : (
-                    <Button
-                      id="add"
-                      type="submit"
-                      color="primary"
-                      disabled={isSubmitting}
-                    >
-                      ADD PROJECT
-                    </Button>
+                    <>
+                      <GridItem xs={12} sm={12} md={6}>
+                        <Button
+                          id="add"
+                          type="submit"
+                          color="primary"
+                          disabled={isSubmitting}
+                        >
+                          ADD PROJECT
+                        </Button>
+                        <Button
+                          color="primary"
+                          disabled={isSubmitting}
+                          onClick={() => setPageView('projectListing')}
+                        >
+                          cancel
+                        </Button>
+                      </GridItem>
+                    </>
                   )}
                 </CardFooter>
               </Form>

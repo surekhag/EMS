@@ -7,6 +7,7 @@ import TableHead from '@material-ui/core/TableHead'
 import TableRow from '@material-ui/core/TableRow'
 import TableBody from '@material-ui/core/TableBody'
 import TableCell from '@material-ui/core/TableCell'
+import { formatDateDDMMYYYY } from '../../helpers/formatDates'
 // core components
 import Button from '../../components/CustomButtons/Button'
 import styles from '../../assets/jss/material-dashboard-react/components/tableStyle'
@@ -24,7 +25,9 @@ export default function CustomTable(props) {
     detailHandler,
     addLinks,
     updateUser,
-    deleteUser
+    deleteUser,
+    allocateProject,
+    deallocateProject
   } = props
   return (
     <div className={classes.tableResponsive}>
@@ -54,6 +57,10 @@ export default function CustomTable(props) {
               return (
                 <TableRow key={k} className={classes.tableBodyRow}>
                   {prop.map((prop, key) => {
+                    //This is only for deallocation of project where need _id in data but need not to show in UI.
+                    if (deallocateProject && key == 5) {
+                      return
+                    }
                     return (
                       <TableCell className={classes.tableCell} key={key}>
                         {prop}
@@ -89,6 +96,33 @@ export default function CustomTable(props) {
                               {item}
                             </Button>
                           )
+                        } else if (item === 'Allocations' && allocateProject) {
+                          return (
+                            <Button
+                              color="primary"
+                              size="sm"
+                              className={classes.links}
+                              onClick={e => allocateProject(prop, k)}
+                            >
+                              {item}
+                            </Button>
+                          )
+                        } else if (item === 'Deallocate' && deallocateProject) {
+                          return (
+                            <Button
+                              color="primary"
+                              size="sm"
+                              className={classes.links}
+                              disabled={
+                                prop[3] <= formatDateDDMMYYYY(new Date())
+                                  ? 'disabled'
+                                  : null
+                              }
+                              onClick={e => deallocateProject(prop, k)}
+                            >
+                              {item}
+                            </Button>
+                          )
                         }
                       })}
                     </TableCell>
@@ -103,8 +137,7 @@ export default function CustomTable(props) {
                           detailHandler(k)
                         }}
                       >
-                        {' '}
-                        {buttonText}{' '}
+                        {buttonText}
                       </Button>
                     </TableCell>
                   ) : null}
