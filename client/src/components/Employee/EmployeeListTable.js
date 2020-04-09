@@ -30,8 +30,8 @@ export const EmployeeListTable = props => {
             <TableRow className={classes.tableHeadRow}>
               {tableHead.map((heading, key) => (
                 <TableCell
-                  className={classes.tableCell + ' ' + classes.tableHeadCell}
-                  key={key + 'cell'}
+                  className={`${classes.tableCell} ${classes.tableHeadCell}`}
+                  key={`${key}cell`}
                 >
                   {heading}
                 </TableCell>
@@ -62,7 +62,7 @@ export const EmployeeListTable = props => {
                   </TableCell>
                   <TableCell
                     className={classes.tableCell}
-                    key={k + 'updateDelete'}
+                    key={`${k}updateDelete`}
                   >
                     <Button
                       color="primary"
