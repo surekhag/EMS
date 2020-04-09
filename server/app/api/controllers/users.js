@@ -118,6 +118,9 @@ module.exports = {
   getAll: function (req, res, next) {
     const query = req.query || {}
     userModel.find(query, function (err, users) {
+      users.sort((a, b) =>
+      a.status.toLowerCase() < b.status.toLowerCase() ? -1 : 1
+    )
       if (err) {
         next(err);
       } else {

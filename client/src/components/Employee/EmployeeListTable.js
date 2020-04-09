@@ -19,14 +19,12 @@ export const EmployeeListTable = props => {
     updateUser,
     deleteUser
   } = props
-  tableData.sort((a, b) =>
-    a.status.toLowerCase() < b.status.toLowerCase() ? -1 : 1
-  )
+
   return (
     <div className={classes.tableResponsive}>
       {tableHead !== undefined && tableData ? (
         <Table className={classes.table}>
-          <TableHead className={classes[tableHeaderColor + 'TableHeader']}>
+          <TableHead className={classes[`${tableHeaderColor}TableHeader`]}>
             <TableRow className={classes.tableHeadRow}>
               {tableHead.map((heading, key) => (
                 <TableCell
