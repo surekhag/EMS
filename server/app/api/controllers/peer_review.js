@@ -25,7 +25,7 @@ module.exports = {
         function (err, result) {
           if (err) next(err);
           else{
-             let peerName ="surekha.test.email";
+             const peerName ="surekha.test.email";
              emailProvider.sendEmail("surekha.gadkari@objectedge.com", 'Peer Review  ', emails.peerReviewEmailTemplate(peerName))
              res.json({
               status: "success",
