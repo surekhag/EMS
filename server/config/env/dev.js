@@ -5,8 +5,8 @@ module.exports = {
   secret: "#$up3r$up3r$3cr3t#@@#",
   tokenExpiry: "1h",
   aws: {
-        'key': 'AKIAI3PMW4UBQQVQ7HJA',
-        'secret': '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',
+        'key': '',
+        'secret': '',
         'ses': {
             'from': {
                 'default': '"objectedge.com" surekha.gadkari@objectedge.com', 

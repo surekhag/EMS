@@ -9,9 +9,7 @@ AWS.config.update({
 });
 
 const ses = new AWS.SES({apiVersion: '2010-12-01'});
-console.log(ses.endpoint.href, '  ses')
 
-// console.log(localStorage.getItem('token'))
 const sendEmail = (to, subject, message) => {
     const from = 'surekha.gadkari@objectedge.com';
     const params = {
