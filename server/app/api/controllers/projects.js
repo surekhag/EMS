@@ -57,11 +57,9 @@ module.exports = {
       }
     });
   },
-  getAll: function(req, res, next) {    
-    //todo - remove or optimize it
-    const status = req.query.status
-    const query = status ? {status} : {}
-    projectModel.find(query, function(err, projects) {
+  getAll: function(req, res, next) { 
+    let {status} = req.query;  
+    projectModel.find(status ? {status} : {}, function(err, projects) {
       if (err) {
         next(err);
       } else {
