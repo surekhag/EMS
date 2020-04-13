@@ -116,8 +116,9 @@ module.exports = {
     });
   },
   getAll: function (req, res, next) {
-    const query = req.query || {}
-    userModel.find(query, function (err, users) {
+    const status = req.query.status
+    const query = status ? {status} : {}
+   userModel.find(query, function (err, users) {
       if (err) {
         next(err);
       } else {

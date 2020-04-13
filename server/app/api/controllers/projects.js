@@ -59,7 +59,8 @@ module.exports = {
   },
   getAll: function(req, res, next) {    
     //todo - remove or optimize it
-     const query = req.query? req.query: {}
+    const status = req.query.status
+    const query = status ? {status} : {}
     projectModel.find(query, function(err, projects) {
       if (err) {
         next(err);
