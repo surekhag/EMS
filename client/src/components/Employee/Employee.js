@@ -77,7 +77,7 @@ const Employee = props => {
 
   useEffect(() => {
     if (addNewUserStatus || updateUserStatus) {
-      addToast(addNewUserStatus ? addNewUserStatus : updateUserStatus, {
+      addToast(addNewUserStatus || updateUserStatus, {
         appearance: 'success',
         autoDismiss: true
       })
@@ -93,7 +93,7 @@ const Employee = props => {
 
   useEffect(() => {
     if (error || updateUserError) {
-      addToast(error ? error : updateUserError, {
+      addToast(error || updateUserError, {
         appearance: 'error',
         autoDismiss: true
       })

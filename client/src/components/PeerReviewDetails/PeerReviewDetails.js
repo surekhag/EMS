@@ -41,34 +41,39 @@ const PeerReviewDetails = props => {
   const tableDataArray = []
   const peerReviewDetailHeader = []
   const [selectedStatus, setSelectedStatus] = useState('Active')
-
+  const {
+    _id,
+    employee_under_review,
+    employee_reviewing,
+    project,
+    functional_manager,
+    from_date,
+    to_date,
+    due_from,
+    due_to,
+    review_form_link
+  } = reviewData
   if (reviewData) {
     tableDataArray.push(
       [
         <span className={classes.boldFont}>Employee Under Review</span>,
-        reviewData.employee_under_review.firstname +
-          ' ' +
-          reviewData.employee_under_review.lastname,
+        `${employee_under_review.firstname} ${employee_under_review.lastname}`,
         <span className={classes.boldFont}>Employee Reviewing</span>,
-        reviewData.employee_reviewing.firstname +
-          ' ' +
-          reviewData.employee_reviewing.lastname,
+        `${employee_reviewing.firstname} ${employee_reviewing.lastname}`,
         <span className={classes.boldFont}>Project</span>,
-        reviewData.project.title,
+        project.title,
         <span className={classes.boldFont}>Functional Manager</span>,
-        reviewData.functional_manager.firstname +
-          ' ' +
-          reviewData.functional_manager.lastname
+        `${functional_manager.firstname} ${functional_manager.lastname}`
       ],
       [
         <span className={classes.boldFont}>Review From Date</span>,
-        formatDate(reviewData.from_date),
+        formatDate(from_date),
         <span className={classes.boldFont}>Review To Date</span>,
-        formatDate(reviewData.to_date),
+        formatDate(to_date),
         <span className={classes.boldFont}>Due From Date</span>,
-        formatDate(reviewData.due_from),
+        formatDate(due_from),
         <span className={classes.boldFont}>Due To Date</span>,
-        formatDate(reviewData.due_to)
+        formatDate(due_to)
       ]
     )
   }
@@ -82,6 +87,7 @@ const PeerReviewDetails = props => {
           appearance: 'success',
           autoDismiss: true
         })
+        closeHandler()
       } else {
         addToast('Error while saving form', {
           appearance: 'error',
@@ -90,9 +96,9 @@ const PeerReviewDetails = props => {
       }
       dispatch(setUpdateReviewStatus(''))
     }
-  }, [peerReviewUpdateStatus, addToast, dispatch])
+  }, [peerReviewUpdateStatus, addToast, dispatch, closeHandler])
   const updateHandler = () => {
-    dispatch(updatePeerReview(reviewData._id, { status: selectedStatus }))
+    dispatch(updatePeerReview(_id, { status: selectedStatus }))
     dispatch(loadAllPeerForUser())
   }
   return (
@@ -115,7 +121,7 @@ const PeerReviewDetails = props => {
               {showButtons ? (
                 <iframe
                   title="myFrame"
-                  src={reviewData.review_form_link}
+                  src={review_form_link}
                   width="100%"
                   height="800"
                 >

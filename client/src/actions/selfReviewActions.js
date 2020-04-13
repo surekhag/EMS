@@ -102,13 +102,13 @@ export function deleteSelfReview(id) {
     payload: { id }
   }
 }
-export function peerReviewDeleteSuccess(data) {
+export function selfReviewDeleteSuccess(data) {
   return {
     type: DELETE_SELF_REVIEW_SUCCESS,
     payload: { data }
   }
 }
-export function peerReviewDeleteFailue(data) {
+export function selfReviewDeleteFailue(data) {
   return {
     type: DELETE_SELF_REVIEW_ERROR,
     payload: { data }

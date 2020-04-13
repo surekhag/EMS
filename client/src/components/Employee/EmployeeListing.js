@@ -46,6 +46,7 @@ const EmployeeListing = props => {
 
   const changeHandler = e => {
     setsearchText(e.target.value)
+    if (!searchText) setEmployeeDetails([])
   }
 
   // Clear Search text on Update Cancel/Success
@@ -79,7 +80,7 @@ const EmployeeListing = props => {
   const searchHandler = () => {
     const employeeDetails = []
     if (employeeData && searchText) {
-      //To do - update api to get only active users
+      // To do - update api to get only active users
       filteredEmployee = employeeData.filter(
         cls =>
           cls.userName
@@ -107,10 +108,10 @@ const EmployeeListing = props => {
           }
         })
         const managerName = manager[0]
-          ? manager[0].firstname + ' ' + manager[0].lastname
+          ? `${manager[0].firstname} ${manager[0].lastname}`
           : 'NA'
 
-        const name = firstname + ' ' + lastname
+        const name = `${firstname} ${lastname}`
         const data = {
           employee_id,
           name,
@@ -120,7 +121,6 @@ const EmployeeListing = props => {
           managerName
         }
         employeeDetails.push(Object.values(data))
-        return
       })
     }
     setEmployeeDetails(employeeDetails)
@@ -138,13 +138,13 @@ const EmployeeListing = props => {
 
   const updateUser = val => {
     setUpdateAction('update')
-    //To do - update api to get only active users
+    // To do - update api to get only active users
     const user = getUserToUpdate(employeeData, val[0])
     setUserToUpdate(user)
   }
 
   const deleteUser = val => {
-    //To do - update api to get only active users
+    // To do - update api to get only active users
     const user = getUserToUpdate(employeeData, val[0])
     setUpdateAction('delete')
     setUserToUpdate(user)
@@ -172,9 +172,7 @@ const EmployeeListing = props => {
         <>
           <GridItem xs={12} sm={12} md={12}>
             <CustomInput
-              formControlProps={{
-                className: classes.margin + ' ' + classes.search
-              }}
+              formControlProps={{}}
               inputProps={{
                 onChange: changeHandler,
                 placeholder: 'Search Employee',
@@ -215,7 +213,7 @@ const EmployeeListing = props => {
                     showLink={false}
                   />
                 ) : (
-                  '**Please search for employee result'
+                  <p>**Please search for employee result</p>
                 )}
               </CardBody>
             </Card>

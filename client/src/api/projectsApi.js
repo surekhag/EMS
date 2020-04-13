@@ -30,7 +30,7 @@ export function allocateProjectApi(data) {
 }
 
 export function projectAllocationDataApi(id) {
-  return axios.get(`${ALLOCATE_PROJECT_URL}${id}`)
+  return axios.get(`${ALLOCATE_PROJECT_URL}?project=${id}`)
 }
 
 export function deallocateProjectApi(payload) {

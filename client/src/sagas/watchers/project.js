@@ -100,9 +100,7 @@ function* workerUpadateProjectSaga({ payload }) {
       } else if (e.response.data.message === 'Invalid Token') {
         yield sessionExpiryHandler()
       } else yield put(setUpdateProjectError(e.response.data.message))
-    } else {
-      yield put(setUpdateProjectError(e))
-    }
+    } else yield put(setUpdateProjectError(e))
   }
 }
 

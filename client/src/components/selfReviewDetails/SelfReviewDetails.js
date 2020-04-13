@@ -12,6 +12,7 @@ import CardHeader from '../Card/CardHeader'
 import { selfReviewStyles } from './SelfReviewStyles'
 import Table from '../Table/Table'
 import CardBody from '../Card/CardBody'
+import { formatDate } from '../../helpers/formatDates'
 import CardFooter from '../Card/CardFooter'
 import { UserContext } from '../../context-provider/user-context'
 import {
@@ -30,25 +31,28 @@ const styles = selfReviewStyles
 const useStyles = makeStyles(styles)
 const SelfReviewDetails = props => {
   const classes = useStyles()
-  const { selfReviewDeatails, projectDetails, ClickHandler } = props
+  const {
+    selfReviewDeatails,
+    projectDetails,
+    closeSelfReiewDetails,
+    showButtons
+  } = props
   const { addToast } = useToasts()
   const dispatch = useDispatch()
   const selfReviewDetailHeader = ['Self Review Details', '']
-  let tableData = []
+  const tableData = []
   tableData.push(
     [
       'Employee',
-      selfReviewDeatails.employee.firstname +
-        ' ' +
-        selfReviewDeatails.employee.lastname
+      `${selfReviewDeatails.employee.firstname} ${selfReviewDeatails.employee.lastname}`
     ],
     ['Projects', projectDetails[0]],
-    ['From Date', projectDetails[1]],
-    ['To Date', projectDetails[2]],
-    ['Due From', projectDetails[3]],
+    ['From Date', formatDate(selfReviewDeatails.from_date)],
+    ['To Date', formatDate(selfReviewDeatails.to_date)],
+    ['Due From', formatDate(selfReviewDeatails.due_from)],
     [
       'Due To',
-      selfReviewDeatails.due_to ? selfReviewDeatails.due_to.slice(0, 10) : null
+      selfReviewDeatails.due_to ? formatDate(selfReviewDeatails.due_to) : null
     ],
     ['Feedback', selfReviewDeatails.feedback],
     ['Status', selfReviewDeatails.status],
@@ -68,9 +72,15 @@ const SelfReviewDetails = props => {
       })
       dispatch(loadAllSelfReviewsForUser(currentUser.employee_id))
       dispatch(clearReviewStatus())
-      ClickHandler()
+      closeSelfReiewDetails()
     }
-  }, [userSelfReviewUpdateStatus, addToast])
+  }, [
+    userSelfReviewUpdateStatus,
+    addToast,
+    closeSelfReiewDetails,
+    currentUser.employee_id,
+    dispatch
+  ])
 
   useEffect(() => {
     if (userSelfReviewUpdateError) {
@@ -80,7 +90,7 @@ const SelfReviewDetails = props => {
       })
       dispatch(clearReviewStatus())
     }
-  }, [userSelfReviewUpdateError, addToast])
+  }, [userSelfReviewUpdateError, addToast, dispatch])
 
   const changeHandler = e => {
     if (e.target.checked === true) setSelectedStatus('Done')
@@ -107,50 +117,55 @@ const SelfReviewDetails = props => {
                 showLink={false}
               />
             </Grid>
-            <Grid xs={12} sm={12} md={12} item>
-              <iframe
-                src={selfReviewDeatails.review_form_link}
-                width="100%"
-                height="800"
-              >
-                Loading...
-              </iframe>
-            </Grid>
-            <Grid xs={6} sm={6} md={6} item>
-              <div>
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      onChange={changeHandler}
-                      checkedIcon={<Check className={classes.checkedIcon} />}
-                      icon={<Check className={classes.uncheckedIcon} />}
-                      classes={{
-                        checked: classes.checked,
-                        root: classes.root
-                      }}
-                    />
-                  }
-                  label={' I have submitted Form'}
-                />
-              </div>
-            </Grid>
+            {showButtons ? (
+              <Grid xs={12} sm={12} md={12} item>
+                <iframe
+                  src={selfReviewDeatails.review_form_link}
+                  width="100%"
+                  height="800"
+                  title="selfReviewDetailsFrame"
+                >
+                  Loading...
+                </iframe>
+              </Grid>
+            ) : null}
+            {showButtons ? (
+              <Grid xs={6} sm={6} md={6} item>
+                <div>
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        onChange={changeHandler}
+                        checkedIcon={<Check className={classes.checkedIcon} />}
+                        icon={<Check className={classes.uncheckedIcon} />}
+                        classes={{
+                          checked: classes.checked,
+                          root: classes.root
+                        }}
+                      />
+                    }
+                    label={' I have submitted Form'}
+                  />
+                </div>
+              </Grid>
+            ) : null}
           </Grid>
         </CardBody>
-        <CardFooter className={classes.footer}>
-          <Button
-            type="submit"
-            color="primary"
-            onClick={updateHandler}
-            disabled={selectedStatus === 'Active' ? 'disabled' : null}
-          >
-            UPDATE REVIEW
-          </Button>
-
-          {/* className={classes.disabledButton} */}
-          <Button type="submit" color="primary" onClick={ClickHandler}>
-            Close
-          </Button>
-        </CardFooter>
+        {showButtons ? (
+          <CardFooter className={classes.footer}>
+            <Button
+              type="submit"
+              color="primary"
+              onClick={updateHandler}
+              disabled={selectedStatus === 'Active' ? 'disabled' : null}
+            >
+              UPDATE REVIEW
+            </Button>
+            <Button type="submit" color="white" onClick={closeSelfReiewDetails}>
+              Close
+            </Button>
+          </CardFooter>
+        ) : null}
       </Card>
     </Grid>
   )
