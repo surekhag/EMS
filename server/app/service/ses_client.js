@@ -39,7 +39,6 @@ const sendEmail = (to, subject, message) => {
     };
 
     ses.sendEmail(params, (err, data) => {
-        console.log("params ",  params,)
         if (err) {       
             return console.log(err, err.stack);
         } else {
