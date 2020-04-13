@@ -1,6 +1,6 @@
 const AWS = require('aws-sdk');
 
-const config = require("../../../config");
+const config = require("../../config");
 
 AWS.config.update({
     accessKeyId: config.aws.key,
@@ -10,9 +10,10 @@ AWS.config.update({
 
 const ses = new AWS.SES({apiVersion: '2010-12-01'});
 console.log(ses.endpoint.href, '  ses')
+
 // console.log(localStorage.getItem('token'))
-const sendEmail = (to, subject, message, from) => {
-    console.log("to, subject, message, from : ", to, subject, message, from)
+const sendEmail = (to, subject, message) => {
+    const from = 'surekha.gadkari@objectedge.com';
     const params = {
         Destination: {
             ToAddresses: [to]
@@ -41,20 +42,10 @@ const sendEmail = (to, subject, message, from) => {
 
     ses.sendEmail(params, (err, data) => {
         console.log("params ",  params,)
-        if (err) {
-        //      res.json({
-        //     status: "error",
-        //     message: "Email failed!",
-        //     // data: null
-        //   });
+        if (err) {       
             return console.log(err, err.stack);
         } else {
-            console.log("Email sent.", data);
-        //     res.json({
-        //     status: "success",
-        //     message: "Email sent successfully!!!",
-        //     // data: null
-        //   });
+            console.log("Email sent.", data);        
         }
     });
 };
