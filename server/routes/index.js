@@ -5,6 +5,7 @@ const authorization = require("./authorization");
 const peersReview = require("./peer_review");
 const validateUser = require("../middleware/validate-user");
 const review = require("./self_review");
+const leaves = require("./leaves_application")
 module.exports = app => {
   // public route
   app.use("/users", users);
@@ -12,9 +13,10 @@ module.exports = app => {
   // private route
   app.use("/projects", projects);
   app.use("/authorization", authorization);
-app.use("/allocateProject", projectAllocation)
+  app.use("/allocateProject", projectAllocation)
   app.use("/peersReview",peersReview);
-app.use("/review", review);
+  app.use("/review", review);
+  app.use("/leaves", leaves);
   //app.use(logger('dev'));
   app.get("/", function(req, res) {
     res.json({
