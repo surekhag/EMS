@@ -63,14 +63,14 @@ module.exports = {
       .populate('employee', 'firstname lastname')
       .populate('functional_manager', 'firstname lastname')
       .populate('approved_by', 'firstname lastname')
-      .exec(function(err, users) {
+      .exec(function(err, leaves) {
       if (err) {
         next(err);
       } else {
         res.json({
           status: "success",
           message: "Employee Leave Information found!!!",
-          data: users
+          data: leaves
         });
       }
     });
