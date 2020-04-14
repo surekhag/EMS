@@ -10,9 +10,8 @@ AWS.config.update({
 
 const ses = new AWS.SES({apiVersion: '2010-12-01'});
 
-const sendEmail = (to, subject, message) => {
-    const from = 'surekha.gadkari@objectedge.com';
-    const params = {
+const sendEmail = (to, from, subject, message) => {
+        const params = {
         Destination: {
             ToAddresses: [to]
         },

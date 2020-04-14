@@ -26,7 +26,10 @@ module.exports = {
           if (err) next(err);
           else{
              const peerName ="surekha.test.email";
-             emailProvider.sendEmail("surekha.gadkari@objectedge.com", 'Peer Review  ', emails.peerReviewEmailTemplate(peerName))
+             const to = "surekha.gadkari@objectedge.com";
+             const from = "surekha.gadkari@objectedge.com";
+             const subject = 'Peer Review';
+             emailProvider.sendEmail(to,from, subject, emails.peerReviewEmailTemplate(peerName))
              res.json({
               status: "success",
               message: " Peer Review added successfully!!!"
