@@ -19,7 +19,7 @@ module.exports = {
           created_by: req.user.userName,
           last_updated_by: req.user.userName
         },
-        function (err, result) {
+        function (err) {
           if (err) next(err);
           else
             res.json({
@@ -41,7 +41,7 @@ module.exports = {
         updated_date: new Date(),
         last_updated_by: req.user.userName
       },
-      function (err, peerInfo) {
+      function (err) {
         if (err) {
           next(err);
         } else {
@@ -98,7 +98,7 @@ module.exports = {
         updated_date : new Date(),
         last_updated_by : req.user.userName,
       },
-      function (err, info) {
+      function (err) {
         if (err) {
           next(err);
         } else {

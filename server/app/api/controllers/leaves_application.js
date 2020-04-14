@@ -30,7 +30,7 @@ module.exports = {
                 created_by,
                 last_updated_by,
             },
-            function(err, result) {
+            function(err) {
               if (err) next(err);
               else
                 res.json({
@@ -84,7 +84,7 @@ module.exports = {
         updated_date : new Date(),
         last_updated_by : req.user.userName,
       },
-      function (err, info) {
+      function (err) {
         if (err) {
           next(err);
         }
@@ -104,7 +104,7 @@ module.exports = {
         updated_date : new Date(),
         last_updated_by : req.user.userName
       },
-      function (err,info) {
+      function (err) {
         if (err) {
           next(err);
         }
