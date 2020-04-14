@@ -1,4 +1,7 @@
 const Peer_Review_Model = require("../models/peer_review");
+const emailProvider = require("../../service/ses_client");
+const emails = require('../../emailTemplates/peerReviewTemplate')
+
 module.exports = {
   create: function (req, res, next) {
     req.body.employee_reviewing.map((employee_reviewing) => {
@@ -21,11 +24,17 @@ module.exports = {
         },
         function (err, result) {
           if (err) next(err);
-          else
-            res.json({
+          else{
+             const peerName ="surekha.test.email";
+             const to = "surekha.gadkari@objectedge.com";
+             const from = "surekha.gadkari@objectedge.com";
+             const subject = 'Peer Review';
+             emailProvider.sendEmail(to,from, subject, emails.peerReviewEmailTemplate(peerName))
+             res.json({
               status: "success",
               message: " Peer Review added successfully!!!"
-            });
+            });         
+            }
         }
       );
     })
@@ -46,6 +55,7 @@ module.exports = {
           console.log("in err");
           next(err);
         } else {
+             
           res.json({
             status: "success",
             message: "Review updated successfully!!!"
