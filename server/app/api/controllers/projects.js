@@ -58,7 +58,7 @@ module.exports = {
     });
   },
   getAll: function(req, res, next) { 
-    let {status} = req.query;  
+    const {status} = req.query;  
     projectModel.find(status ? {status} : {}, function(err, projects) {
       if (err) {
         next(err);
