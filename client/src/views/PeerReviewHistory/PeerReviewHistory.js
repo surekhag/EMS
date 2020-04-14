@@ -142,7 +142,7 @@ const PeerReviewHistory = props => {
               tabName: 'Employee Reviews',
               tabIcon: GroupIcon,
               tabContent: (
-                <div>
+                <div className={classes.widthSetting}>
                   <FormControl className={classes.formControl}>
                     <InputLabel htmlFor="SelectQuarter">
                       {' '}
@@ -203,9 +203,9 @@ const PeerReviewHistory = props => {
                   </FormControl>
 
                   {managerPeerReviewArray &&
-                  managerPeerReviews &&
-                  selectedQuarter &&
-                  selectedYear ? (
+                    managerPeerReviews &&
+                    selectedQuarter &&
+                    selectedYear ? (
                       <Table
                         tableHeaderColor="gray"
                         tableHead={employeeReviewListingHeader}
@@ -217,8 +217,8 @@ const PeerReviewHistory = props => {
                     ) : selectedQuarter && selectedYear ? (
                       <p>** No Reviews Available</p>
                     ) : (
-                      <p>** Please Select Quarter and Year</p>
-                    )}
+                        <p>** Please Select Quarter and Year</p>
+                      )}
                 </div>
               )
             }

@@ -13,6 +13,9 @@ const styles = {
       color: 'white',
       opacity: '0.5'
     }
+  },
+  widthSetting: {
+    width: '71vw'
   }
 }
 export default styles

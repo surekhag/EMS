@@ -92,12 +92,36 @@ module.exports = {
       });
   },
   getForManager: function (req, res, next) {
-    const { functional_manager, startDate, endDate, selectedYear } = req.query
+    const { functional_manager, selectedYear, value } = req.query
+    let startDate, endDate
+    switch (value) {
+      case 'Quarter 1':
+        startDate = new Date(`2 January ${selectedYear}`);
+        endDate = new Date(`1 April ${selectedYear}`)
+        break;
+      case 'Quarter 2':
+        startDate = new Date(`2 April ${selectedYear}`);
+        endDate = new Date(`1 July ${selectedYear}`)
+        break;
+      case 'Quarter 3':
+        startDate = new Date(`2 July ${selectedYear}`);
+        endDate = new Date(`1 October ${selectedYear}`)
+        break;
+      case 'Quarter 4':
+        startDate = new Date(`2 October ${selectedYear}`);
+        endDate = new Date(`1 January ${Number(selectedYear) + 1}`)
+        break;
+      default:
+        startDate = '';
+        endDate = ''
+        break;
+    }
+    console.log(startDate, endDate)
     Peer_Review_Model
       .find({
         functional_manager: functional_manager,
-        from_date: { $gte: selectedYear + startDate },
-        to_date: { $lte: selectedYear + endDate },
+        from_date: { $gte: startDate },
+        to_date: { $lte: endDate },
         status: "Done"
       })
       .populate('employee_under_review', 'firstname lastname')

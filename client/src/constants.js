@@ -141,24 +141,20 @@ export const countryData = [
 ]
 export const quarterInfo = [
   {
-    startDate: '-01-01T00:00:00.000Z',
-    endDate: '-03-31T23:59:59.000Z',
-    name: 'Quarter 1'
+    value: 'Quarter 1',
+    name: 'Quarter 1 (January to March)'
   },
   {
-    startDate: '-04-01T00:00:00.000Z',
-    endDate: '-06-30T23:59:59.000Z',
-    name: 'Quarter 2'
+    value: 'Quarter 2',
+    name: 'Quarter 2 (April to June)'
   },
   {
-    startDate: '-07-01T00:00:00.000Z',
-    endDate: '-09-30T23:59:59.000Z',
-    name: 'Quarter 3'
+    value: 'Quarter 3',
+    name: 'Quarter 3 (July to September)'
   },
   {
-    startDate: '-10-01T00:00:00.000Z',
-    endDate: '-12-31T23:59:59.000Z',
-    name: 'Quarter 4'
+    value: 'Quarter 4',
+    name: 'Quarter 4 (October to December)'
   }
 ]
 
