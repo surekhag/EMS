@@ -6,12 +6,11 @@ export const work_location = [
   { id: 'BR', location: 'Brazil' }
 ]
 
-
 export const userRole = [
-   { id: 'admin', role: 'Admin' },
-   { id: 'manager', role: 'Manager' },
-   { id: 'employee', role: 'Employee' }]
-
+  { id: 'admin', role: 'Admin' },
+  { id: 'manager', role: 'Manager' },
+  { id: 'employee', role: 'Employee' }
+]
 
 export const shift_timing = ['9 to 6', '8 to 5', '11 to 8']
 export const status = ['Active', 'InActive']
@@ -33,7 +32,6 @@ export const designation = [
 ]
 
 export const employment_status = ['Part Time', 'Full time', 'Contractor']
-
 
 export const countryData = [
   {
@@ -141,3 +139,34 @@ export const countryData = [
     ]
   }
 ]
+export const quarterInfo = [
+  {
+    startDate: '-01-01T00:00:00.000Z',
+    endDate: '-03-31T23:59:59.000Z',
+    name: 'Quarter 1'
+  },
+  {
+    startDate: '-04-01T00:00:00.000Z',
+    endDate: '-06-30T23:59:59.000Z',
+    name: 'Quarter 2'
+  },
+  {
+    startDate: '-07-01T00:00:00.000Z',
+    endDate: '-09-30T23:59:59.000Z',
+    name: 'Quarter 3'
+  },
+  {
+    startDate: '-10-01T00:00:00.000Z',
+    endDate: '-12-31T23:59:59.000Z',
+    name: 'Quarter 4'
+  }
+]
+
+export const years = () => {
+  const yearsArray = []
+  const currentYear = new Date().getFullYear()
+  for (let i = 0; i < 10; i++) {
+    yearsArray.push(`${currentYear - i}`)
+  }
+  return yearsArray
+}

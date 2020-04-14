@@ -1,7 +1,8 @@
 import axios from 'axios'
 import {
   FETCH_PEER_REVIEW,
-  CREATE_PEER_REVIEW
+  CREATE_PEER_REVIEW,
+  FETCH_PEER_REVIEW_FOR_MANAGER
 } from '../configurations/endPoints'
 
 export function loadAllPeerReviews() {
@@ -9,6 +10,9 @@ export function loadAllPeerReviews() {
 }
 export function loadAllUserPeerReviews(id) {
   return axios.get(FETCH_PEER_REVIEW + id)
+}
+export function loadAllPeerReviewsForManager(body) {
+  return axios.get(FETCH_PEER_REVIEW_FOR_MANAGER, { params: body })
 }
 export function createPeerReview(body) {
   return axios.post(CREATE_PEER_REVIEW, body)

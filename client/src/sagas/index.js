@@ -12,7 +12,8 @@ import {
   watchCreatePeerReviewSaga,
   watchLoadUserPeerReviewSaga,
   watchUpdatePeerReviewSaga,
-  watchDeletePeerReviewSaga
+  watchDeletePeerReviewSaga,
+  watchPeerReviewForManagerSaga
 } from './watchers/peerReview'
 import {
   watchLoadAllProjects,
@@ -20,6 +21,12 @@ import {
   watchAddProjectSaga,
   watchUpadateProjectSaga
 } from './watchers/project'
+import {
+  watchAllocateProjectSaga,
+  watchProjectAllocationDataSaga,
+  watchDeallocateProjectSaga,
+  watchDeleteProjectAllocationSaga
+} from './watchers/projectAllocation'
 import { watchUserSaga, watchUpadateUserSaga } from './watchers/user'
 import {
   watchUserSelfReviewSaga,
@@ -52,6 +59,11 @@ export default function* root() {
     fork(watchUpdateUserSelfReviewSaga),
     fork(watchSelfReviewSaga),
     fork(watchCreateSelfReviewSaga),
-    fork(watchDeleteSelfReviewSaga)
+    fork(watchDeleteSelfReviewSaga),
+    fork(watchAllocateProjectSaga),
+    fork(watchProjectAllocationDataSaga),
+    fork(watchDeallocateProjectSaga),
+    fork(watchDeleteProjectAllocationSaga),
+    fork(watchPeerReviewForManagerSaga)
   ])
 }

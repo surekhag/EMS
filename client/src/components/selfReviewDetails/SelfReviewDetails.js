@@ -31,11 +31,16 @@ const styles = selfReviewStyles
 const useStyles = makeStyles(styles)
 const SelfReviewDetails = props => {
   const classes = useStyles()
-  const { selfReviewDeatails, projectDetails, ClickHandler, showButtons } = props
+  const {
+    selfReviewDeatails,
+    projectDetails,
+    closeSelfReiewDetails,
+    showButtons
+  } = props
   const { addToast } = useToasts()
   const dispatch = useDispatch()
   const selfReviewDetailHeader = ['Self Review Details', '']
-  let tableData = []
+  const tableData = []
   tableData.push(
     [
       'Employee',
@@ -67,9 +72,15 @@ const SelfReviewDetails = props => {
       })
       dispatch(loadAllSelfReviewsForUser(currentUser.employee_id))
       dispatch(clearReviewStatus())
-      ClickHandler()
+      closeSelfReiewDetails()
     }
-  }, [userSelfReviewUpdateStatus, addToast, ClickHandler, currentUser.employee_id, dispatch])
+  }, [
+    userSelfReviewUpdateStatus,
+    addToast,
+    closeSelfReiewDetails,
+    currentUser.employee_id,
+    dispatch
+  ])
 
   useEffect(() => {
     if (userSelfReviewUpdateError) {
@@ -106,51 +117,55 @@ const SelfReviewDetails = props => {
                 showLink={false}
               />
             </Grid>
-            {showButtons ? <Grid xs={12} sm={12} md={12} item>
-              <iframe
-                src={selfReviewDeatails.review_form_link}
-                width="100%"
-                height="800"
-                title="selfReviewDetailsFrame"
-              >
-                Loading...
-              </iframe>
-            </Grid> : null}
-            {showButtons ? <Grid xs={6} sm={6} md={6} item>
-              <div>
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      onChange={changeHandler}
-                      checkedIcon={<Check className={classes.checkedIcon} />}
-                      icon={<Check className={classes.uncheckedIcon} />}
-                      classes={{
-                        checked: classes.checked,
-                        root: classes.root
-                      }}
-                    />
-                  }
-                  label={' I have submitted Form'}
-                />
-              </div>
-            </Grid> : null}
+            {showButtons ? (
+              <Grid xs={12} sm={12} md={12} item>
+                <iframe
+                  src={selfReviewDeatails.review_form_link}
+                  width="100%"
+                  height="800"
+                  title="selfReviewDetailsFrame"
+                >
+                  Loading...
+                </iframe>
+              </Grid>
+            ) : null}
+            {showButtons ? (
+              <Grid xs={6} sm={6} md={6} item>
+                <div>
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        onChange={changeHandler}
+                        checkedIcon={<Check className={classes.checkedIcon} />}
+                        icon={<Check className={classes.uncheckedIcon} />}
+                        classes={{
+                          checked: classes.checked,
+                          root: classes.root
+                        }}
+                      />
+                    }
+                    label={' I have submitted Form'}
+                  />
+                </div>
+              </Grid>
+            ) : null}
           </Grid>
         </CardBody>
-        {showButtons ? <CardFooter className={classes.footer}>
-          <Button
-            type="submit"
-            color="primary"
-            onClick={updateHandler}
-            disabled={selectedStatus === 'Active' ? 'disabled' : null}
-          >
-            UPDATE REVIEW
-          </Button>
-
-          {/* className={classes.disabledButton} */}
-          <Button type="submit" color="white" onClick={ClickHandler}>
-            Close
-          </Button>
-        </CardFooter> : null}
+        {showButtons ? (
+          <CardFooter className={classes.footer}>
+            <Button
+              type="submit"
+              color="primary"
+              onClick={updateHandler}
+              disabled={selectedStatus === 'Active' ? 'disabled' : null}
+            >
+              UPDATE REVIEW
+            </Button>
+            <Button type="submit" color="white" onClick={closeSelfReiewDetails}>
+              Close
+            </Button>
+          </CardFooter>
+        ) : null}
       </Card>
     </Grid>
   )

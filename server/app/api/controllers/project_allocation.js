@@ -1,28 +1,31 @@
 const Project_Allocation_Model = require("../models/project_allocation");
+
 module.exports = {    
         create: function(req, res, next) {
           const {
-                project_id,
-                employee_id,
-                start_date,
-                end_date,
-                manager_employee_id,
+                project,
+                employee,
+                startdate,
+                enddate,
+                functional_manager,
                 created_date = new Date(),
                 updated_date = new Date(),
                 created_by = req.user.userName,
                 last_updated_by = req.user.userName,
+                status = "Active"
           } = req.body;
           Project_Allocation_Model.create(
             {   
-                project_id,
-                employee_id,
-                start_date,
-                end_date,
-                manager_employee_id,
+                project,
+                employee,
+                startdate,
+                enddate,
+                functional_manager,
                 created_date,
                 updated_date,
                 created_by,
-                last_updated_by           
+                last_updated_by,
+                status           
             },
             function(err, result) {
               if (err) next(err);
@@ -34,17 +37,66 @@ module.exports = {
             }
           );
         },
-        getAll: function(req, res, next) {
-          Project_Allocation_Model.find({}, function(err, users) {
-            if (err) {
-              next(err);
-            } else {
-              res.json({
-                status: "success",
-                message: "Project list found!!!",
-                data: users
-              });
-            }
+              
+    // Get all project allocation info using employee or project as query params
+         getAll: function (req, res, next) {
+           const status ='Active'
+           const employee = req.query.employee
+            const project = req.query.project
+           const query =employee ? 
+           {employee,status} : project?
+           {project, status} :{status}
+    Project_Allocation_Model.find(query)
+      .populate('project', 'title')
+      .populate('employee', 'firstname lastname')
+      .populate('functional_manager', 'firstname lastname')
+      .exec(function (err, projectAllocations) {
+        if (err) {
+          next(err);
+        } else {
+          res.json({
+            status: "success",
+            message: "Project Allocation list found!!! ",
+            data: projectAllocations
           });
         }
+      });
+  },
+
+   update: function (req, res, next) {
+    Project_Allocation_Model.findOneAndUpdate({ _id: req.params.id },
+      {
+        $set: req.body
+      },
+      function (err, info) {
+        if (err) {
+          next(err);
+        }
+        else {
+          res.json({
+            status: "success",
+            message: "Deallocated Employee successfully!!!",
+          });
+        }
+      });
+  },
+
+  delete: function (req, res, next) {
+    Project_Allocation_Model.findOneAndUpdate({ _id: req.params.id },
+      {
+        status: "Inactive"
+      },
+      function (err, userInfo) {
+        if (err) {
+          next(err);
+        }
+        else {
+           console.log("in del : ",  req.params.id);
+          res.json({
+            status: "success",
+            message: "Project Allocation Info deleted successfully!!!",
+          });
+        }
+      });
+  }
 };

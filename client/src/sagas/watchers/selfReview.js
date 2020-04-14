@@ -25,6 +25,7 @@ import {
   selfReviewDeleteSuccess,
   selfReviewDeleteFailue
 } from '../../actions/selfReviewActions'
+import { sessionExpiryHandler } from './sessionExpiryHandler'
 
 function* workerLoadAllUserSelfReviewSaga({ payload }) {
   const { id } = payload
@@ -33,8 +34,9 @@ function* workerLoadAllUserSelfReviewSaga({ payload }) {
     yield put(setAllSelfReviewsForUser(selfReviews.data.data))
   } catch (e) {
     if (e.response.data && e.response.data.message) {
-      // To do add code for all api calls .. invalid token case falls here
-      yield put(setAllSelfReviewsForUserError(e.response.data.message))
+      if (e.response.data.message === 'Invalid Token') {
+        yield sessionExpiryHandler()
+      } else yield put(setAllSelfReviewsForUserError(e.response.data.message))
     } else {
       yield put(setAllSelfReviewsForUserError(e))
     }
@@ -44,7 +46,7 @@ function* workerLoadAllUserSelfReviewSaga({ payload }) {
 export function* watchUserSelfReviewSaga() {
   yield takeLatest(LOAD_ALL_USER_SELF_REVIEWS, workerLoadAllUserSelfReviewSaga)
 }
-//Load all self reviews
+// Load all self reviews
 function* workerLoadAllSelfReviewSaga() {
   try {
     const selfReviews = yield call(loadAllSelfReviews)
@@ -72,12 +74,15 @@ function* workerUpdateUserSelfReviewSaga({ payload }) {
     if (selfReviews.data.status === 'success') {
       yield put(setUpdateReviewStatus(selfReviews.data.message))
     }
-    const Reviews = yield call(loadAllSelfReviews)
-    yield put(setAllSelfReviews(Reviews.data.data))
+    const reviews = yield call(loadAllSelfReviews)
+    yield put(setAllSelfReviews(reviews.data.data))
   } catch (e) {
     if (e.response.data && e.response.data.message) {
-      //To do add code for all api calls .. invalid token case falls here
+      // To do add code for all api calls .. invalid token case falls here
       yield put(setUpdateReviewError(e.response.data.message))
+      if (e.response.data.message === 'Invalid Token') {
+        yield sessionExpiryHandler()
+      } else yield put(setAllSelfReviewsForUserError(e.response.data.message))
     } else {
       yield put(setUpdateReviewError(e))
     }
@@ -98,8 +103,8 @@ function* workerCreateSelfReviewSaga({ payload }) {
     if (selfReviews.data.status === 'success') {
       yield put(setSelfReviewSuccess(selfReviews.data.message))
     }
-    const Reviews = yield call(loadAllSelfReviews)
-    yield put(setAllSelfReviews(Reviews.data.data))
+    const reviews = yield call(loadAllSelfReviews)
+    yield put(setAllSelfReviews(reviews.data.data))
   } catch (e) {
     if (e.response.data && e.response.data.message) {
       yield put(setSelfReviewError(e.response.data.message))
@@ -123,11 +128,11 @@ function* workerDeleteSelfReviewSaga({ payload }) {
     if (selfReviews.data.status === 'success') {
       yield put(selfReviewDeleteSuccess(selfReviews.data.message))
     }
-    const Reviews = yield call(loadAllSelfReviews)
-    yield put(setAllSelfReviews(Reviews.data.data))
+    const reviews = yield call(loadAllSelfReviews)
+    yield put(setAllSelfReviews(reviews.data.data))
   } catch (e) {
     if (e.response.data && e.response.data.message) {
-      //To do add code for all api calls .. invalid token case falls here
+      // To do add code for all api calls .. invalid token case falls here
       yield put(selfReviewDeleteFailue(e.response.data.message))
     } else {
       yield put(selfReviewDeleteFailue(e))

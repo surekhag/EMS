@@ -19,7 +19,8 @@ const useStyles = makeStyles(styles)
 const UserProfile = () => {
   const classes = useStyles()
   const { currentUser } = useContext(UserContext)
-  const { employee_id,
+  const {
+    employee_id,
     email,
     userName,
     firstname,
@@ -45,7 +46,8 @@ const UserProfile = () => {
     contact_no,
     skills,
     certifications,
-    achievements } = currentUser
+    achievements
+  } = currentUser
   let employeeDataArray = []
   const headerArray = ['', '']
   if (currentUser) {
@@ -53,25 +55,48 @@ const UserProfile = () => {
       [<span className={classes.boldText}>Employee Id</span>, employee_id],
       [<span className={classes.boldText}>Email</span>, email],
       [<span className={classes.boldText}>User Name</span>, userName],
-      [<span className={classes.boldText}>Name</span>, `${firstname} ${middlename} ${lastname}`],
-      [<span className={classes.boldText}>Address</span>, `${address1},${city},${state},${country},${zip}`],
+      [
+        <span className={classes.boldText}>Name</span>,
+        `${firstname} ${middlename} ${lastname}`
+      ],
+      [
+        <span className={classes.boldText}>Address</span>,
+        `${address1},${city},${state},${country},${zip}`
+      ],
       [<span className={classes.boldText}>Gender</span>, gender],
       [<span className={classes.boldText}>Status</span>, status],
-      [<span className={classes.boldText}>Date of birth</span>, formatDate(dateofbirth)],
-      [<span className={classes.boldText}>Date of Joining</span>, formatDate(dateofjoining)],
-      [<span className={classes.boldText}>Experience at joining</span>, experience_at_joining],
+      [
+        <span className={classes.boldText}>Date of birth</span>,
+        formatDate(dateofbirth)
+      ],
+      [
+        <span className={classes.boldText}>Date of Joining</span>,
+        formatDate(dateofjoining)
+      ],
+      [
+        <span className={classes.boldText}>Experience at joining</span>,
+        experience_at_joining
+      ],
       [<span className={classes.boldText}>Work Location</span>, work_location],
       [<span className={classes.boldText}>Timezone</span>, timezone],
       [<span className={classes.boldText}>Shift Timing</span>, shift_timing],
       [<span className={classes.boldText}>Designation</span>, designation],
-      [<span className={classes.boldText}>Employment Status</span>, employment_status],
+      [
+        <span className={classes.boldText}>Employment Status</span>,
+        employment_status
+      ],
       [<span className={classes.boldText}>User Role</span>, userRole],
-      [<span className={classes.boldText}>Reporting Manager</span>, reporting_manager],
+      [
+        <span className={classes.boldText}>Reporting Manager</span>,
+        reporting_manager
+      ],
       [<span className={classes.boldText}>contact Number</span>, contact_no],
       [<span className={classes.boldText}>Skills</span>, skills],
-      [<span className={classes.boldText}>Certifications</span>, certifications],
-      [<span className={classes.boldText}>Achievements</span>, achievements],
-
+      [
+        <span className={classes.boldText}>Certifications</span>,
+        certifications
+      ],
+      [<span className={classes.boldText}>Achievements</span>, achievements]
     ]
   }
   return (
@@ -84,13 +109,13 @@ const UserProfile = () => {
             </CardHeader>
             <CardBody>
               <GridContainer>
-                {employeeDataArray ?
+                {employeeDataArray ? (
                   <Table
                     tableHeaderColor="gray"
                     tableHead={headerArray}
                     tableData={employeeDataArray}
-                  /> : null
-                }
+                  />
+                ) : null}
               </GridContainer>
             </CardBody>
           </Card>

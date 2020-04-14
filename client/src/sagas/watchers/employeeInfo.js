@@ -17,6 +17,7 @@ import {
   loadManagers,
   deleteEmployeeApi
 } from '../../api/employeeApi'
+import { sessionExpiryHandler } from './sessionExpiryHandler'
 
 function* workerEmployeeInfoSaga() {
   try {
@@ -29,13 +30,17 @@ export function* watchEmployeeInfoSaga() {
   yield takeLatest(LOAD_ALL_EMPLOYEE_SAGA, workerEmployeeInfoSaga)
 }
 
-//load Manager Saga
+// load Manager Saga
 function* workerManagerSaga() {
   try {
     const managers = yield call(loadManagers)
     yield put(setManagers(managers.data.data))
   } catch (e) {
-    setManagerError(e)
+    if (e.response.data && e.response.data.message) {
+      if (e.response.data.message === 'Invalid Token') {
+        yield sessionExpiryHandler()
+      } else yield put(setManagerError(e.response.data.message))
+    } else setManagerError(e)
   }
 }
 
@@ -53,7 +58,9 @@ function* workerDeleteEmployeeSaga({ payload }) {
     yield put(setAllEmployeeData(employees))
   } catch (e) {
     if (e.response.data && e.response.data.message) {
-      yield put(deleteEmployeeError(e.response.data.message))
+      if (e.response.data.message === 'Invalid Token') {
+        yield sessionExpiryHandler()
+      } else yield put(deleteEmployeeError(e.response.data.message))
     } else {
       yield put(deleteEmployeeError(e))
     }

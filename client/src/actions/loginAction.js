@@ -7,12 +7,11 @@ import {
   CLEAR_LOGIN_ERRORS
 } from './actionTypes'
 
-export const loginToSite = (username, password) => {
+export const loginToSite = data => {
   return {
     type: LOGIN_TO_SITE,
     payload: {
-      username: username,
-      password: password
+      data
     }
   }
 }

@@ -13,7 +13,10 @@ import {
   SET_PEER_ERROR,
   DELETE_PEER_REVIEW,
   DELETE_PEER_REVIEW_SUCCESS,
-  DELETE_PEER_REVIEW_ERROR
+  DELETE_PEER_REVIEW_ERROR,
+  LOAD_PEER_REVIEWS_FOR_MANAGER,
+  SET_PEER_REVIEWS_FOR_MANAGER,
+  SET_PEER_REVIEWS_FOR_MANAGER_ERROR
 } from './actionTypes'
 
 export function loadAllPeerReviews() {
@@ -110,6 +113,24 @@ export function peerReviewDeleteSuccess(data) {
 export function peerReviewDeleteFailue(data) {
   return {
     type: DELETE_PEER_REVIEW_ERROR,
+    payload: { data }
+  }
+}
+export function loadPeerReviewsForManager(body) {
+  return {
+    type: LOAD_PEER_REVIEWS_FOR_MANAGER,
+    payload: { body }
+  }
+}
+export function setPeerReviewsForManager(data) {
+  return {
+    type: SET_PEER_REVIEWS_FOR_MANAGER,
+    payload: { data }
+  }
+}
+export function setPeerReviewsForManagerError(data) {
+  return {
+    type: SET_PEER_REVIEWS_FOR_MANAGER_ERROR,
     payload: { data }
   }
 }

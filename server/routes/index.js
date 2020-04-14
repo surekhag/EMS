@@ -1,4 +1,5 @@
 const projects = require("./projects");
+const projectAllocation = require("./project_allocation")
 const users = require("./users");
 const authorization = require("./authorization");
 const peersReview = require("./peer_review");
@@ -11,7 +12,7 @@ module.exports = app => {
   // private route
   app.use("/projects", projects);
   app.use("/authorization", authorization);
-
+app.use("/allocateProject", projectAllocation)
   app.use("/peersReview",peersReview);
 app.use("/review", review);
   //app.use(logger('dev'));

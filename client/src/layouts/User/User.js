@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import { Switch, Route, Redirect } from 'react-router-dom'
 import PerfectScrollbar from 'perfect-scrollbar'
 import 'perfect-scrollbar/css/perfect-scrollbar.css'
@@ -58,6 +58,7 @@ const useStyles = makeStyles(styles)
 export default function User({ ...rest }) {
   const { currentUser } = useContext(UserContext)
   const [routes, setRoutes] = useState(null)
+  const [adminUserRoutes, setAdminUserRoutes] = useState(null)
   const [switchRoutes, setSwitchRoutes] = useState()
 
   // styles
@@ -77,40 +78,40 @@ export default function User({ ...rest }) {
       setMobileOpen(false)
     }
   }
-  React.useEffect(() => {
+  useEffect(() => {
     if (currentUser && currentUser.userRole === 'admin') {
-      setRoutes(userRoutes.concat(adminRoutes))
+      setRoutes(userRoutes)
+      setAdminUserRoutes(adminRoutes)
       setSwitchRoutes(adminSwitchRoutes)
     } else {
       setRoutes(userRoutes)
       setSwitchRoutes(userSwitchRoutes)
     }
   }, [currentUser])
-  // initialize and destroy the PerfectScrollbar plugin
-  //To do  - not working in laptop; so commented for now.
-  // React.useEffect(() => {
-  //   if (navigator.platform.indexOf('Win') > -1) {
-  //     ps = new PerfectScrollbar(mainPanel.current, {
-  //       suppressScrollX: true,
-  //       suppressScrollY: false
-  //     })
-  //     document.body.style.overflow = 'hidden'
-  //   }
-  //   window.addEventListener('resize', resizeFunction)
-  //   // Specify how to clean up after this effect:
-  //   return function cleanup() {
-  //     if (navigator.platform.indexOf('Win') > -1) {
-  //       ps.destroy()
-  //     }
-  //     window.removeEventListener('resize', resizeFunction)
-  //   }
-  // }, [mainPanel])
+  useEffect(() => {
+    if (navigator.platform.indexOf('Win') > -1) {
+      ps = new PerfectScrollbar(mainPanel.current, {
+        suppressScrollX: true,
+        suppressScrollY: false
+      })
+      document.body.style.overflow = 'hidden'
+    }
+    window.addEventListener('resize', resizeFunction)
+    // Specify how to clean up after this effect:
+    return function cleanup() {
+      if (navigator.platform.indexOf('Win') > -1) {
+        ps.destroy()
+      }
+      window.removeEventListener('resize', resizeFunction)
+    }
+  }, [mainPanel])
   return (
     <div className={classes.wrapper}>
       {routes && switchRoutes ? (
         <>
           <Sidebar
             routes={routes}
+            adminRoutes={adminUserRoutes}
             logoText={'Object Edge'}
             logo={logo}
             image={bgImage}
