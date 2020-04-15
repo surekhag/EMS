@@ -1,4 +1,4 @@
-import Table from '../../components/Table/Table'
+import EmployeeListTable from './EmployeeListTable'
 import { useSelector, useDispatch } from 'react-redux'
 import Card from '../../components/Card/Card'
 import CardHeader from '../../components/Card/CardHeader'
@@ -81,14 +81,12 @@ const EmployeeListing = props => {
     const employeeDetails = []
     if (employeeData && searchText) {
       // To do - update api to get only active users
-      filteredEmployee = employeeData.filter(
-        cls =>
-          cls.userName
-            .toLowerCase()
-            .includes(searchText.toLowerCase().trim()) &&
-          cls.status !== 'Inactive'
+      filteredEmployee = employeeData.filter(employee =>
+        employee.userName
+          .toLowerCase()
+          .includes(searchText.toLowerCase().trim())
       )
-      filteredEmployee.map((key, value) => {
+      filteredEmployee.map(employee => {
         const {
           employee_id,
           firstname,
@@ -96,9 +94,9 @@ const EmployeeListing = props => {
           contact_no,
           email,
           reporting_manager,
-          designation
-        } = key
-
+          designation,
+          status
+        } = employee
         const manager = filteredEmployee.filter(item => {
           if (
             item.userRole === 'manager' &&
@@ -118,9 +116,10 @@ const EmployeeListing = props => {
           designation,
           contact_no,
           email,
-          managerName
+          managerName,
+          status
         }
-        employeeDetails.push(Object.values(data))
+        employeeDetails.push(data)
       })
     }
     setEmployeeDetails(employeeDetails)
@@ -138,14 +137,12 @@ const EmployeeListing = props => {
 
   const updateUser = val => {
     setUpdateAction('update')
-    // To do - update api to get only active users
-    const user = getUserToUpdate(employeeData, val[0])
+    const user = getUserToUpdate(employeeData, val)
     setUserToUpdate(user)
   }
 
   const deleteUser = val => {
-    // To do - update api to get only active users
-    const user = getUserToUpdate(employeeData, val[0])
+    const user = getUserToUpdate(employeeData, val)
     setUpdateAction('delete')
     setUserToUpdate(user)
     setShowDelDialog(true)
@@ -199,7 +196,7 @@ const EmployeeListing = props => {
               </CardHeader>
               <CardBody>
                 {employeeData && employeeDetails.length > 0 && searchText ? (
-                  <Table
+                  <EmployeeListTable
                     tableHeaderColor="gray"
                     tableHead={
                       employeeData && employeeDetails.length > 0 && searchText
@@ -210,7 +207,6 @@ const EmployeeListing = props => {
                     addLinks={links}
                     updateUser={updateUser}
                     deleteUser={deleteUser}
-                    showLink={false}
                   />
                 ) : (
                   <p>**Please search for employee result</p>

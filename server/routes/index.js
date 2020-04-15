@@ -9,6 +9,7 @@ const leaves = require("./leaves_application")
 module.exports = app => {
   // public route
   app.use("/users", users);
+  
 
   // private route
   app.use("/projects", projects);
