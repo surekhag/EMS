@@ -3,7 +3,6 @@ const jwt = require("./middleware/jwt");
 const errorHandler = require("./middleware/error-handler");
 const cors = require("cors");
 const app = express();
-const logger = require("./logs/util/logger")
 const httpLogger  = require("./logs/util/httpLogger")
 app.use(httpLogger)
 const config = require("./config");
