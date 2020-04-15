@@ -11,7 +11,7 @@ AWS.config.update({
 const ses = new AWS.SES({apiVersion: '2010-12-01'});
 
 const sendEmail = (to, from, subject, message) => {
-        const params = {
+       const params = {
         Destination: {
             ToAddresses: [to]
         },
@@ -21,13 +21,7 @@ const sendEmail = (to, from, subject, message) => {
                     Charset: 'UTF-8',
                     Data: message
                 },
-                /* replace Html attribute with the following if you want to send plain text emails. 
-                Text: {
-                    Charset: "UTF-8",
-                    Data: message
-                }
-             */
-            },
+             },
             Subject: {
                 Charset: 'UTF-8',
                 Data: subject
