@@ -55,7 +55,8 @@ module.exports = {
     );
   },
   getAll: function (req, res, next) {
-    Peer_Review_Model.find()
+    const { status } = req.query
+    Peer_Review_Model.find({ status: status })
       .populate('employee_under_review', 'firstname lastname')
       .populate('employee_reviewing', 'firstname lastname')
       .populate('project', 'title')
@@ -116,7 +117,6 @@ module.exports = {
         endDate = ''
         break;
     }
-    console.log(startDate, endDate)
     Peer_Review_Model
       .find({
         functional_manager: functional_manager,

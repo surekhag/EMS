@@ -5,8 +5,8 @@ import {
   FETCH_PEER_REVIEW_FOR_MANAGER
 } from '../configurations/endPoints'
 
-export function loadAllPeerReviews() {
-  return axios.get(FETCH_PEER_REVIEW)
+export function loadAllPeerReviews(status) {
+  return axios.get(FETCH_PEER_REVIEW, { params: status })
 }
 export function loadAllUserPeerReviews(id) {
   return axios.get(FETCH_PEER_REVIEW + id)

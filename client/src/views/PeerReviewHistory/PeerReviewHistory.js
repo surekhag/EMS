@@ -3,7 +3,6 @@ import { useSelector, useDispatch } from 'react-redux'
 import { makeStyles } from '@material-ui/core/styles'
 import {
   loadAllPeerForUser,
-  loadAllPeerReviews,
   loadPeerReviewsForManager
 } from '../../actions/peerReviewAction'
 import GroupIcon from '@material-ui/icons/Group'

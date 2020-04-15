@@ -31,9 +31,10 @@ import {
 import { sessionExpiryHandler } from './sessionExpiryHandler'
 
 // Load All Peer Reviews
-function* workerLoadAllPeerReviewSaga() {
+function* workerLoadAllPeerReviewSaga(data) {
+  const { status } = data.payload
   try {
-    const peerReviews = yield call(loadAllPeerReviews)
+    const peerReviews = yield call(loadAllPeerReviews, status)
     yield put(setAllPeerReviews(peerReviews))
   } catch (e) {
     if (e.response.data && e.response.data.message) {

@@ -19,10 +19,10 @@ import {
   SET_PEER_REVIEWS_FOR_MANAGER_ERROR
 } from './actionTypes'
 
-export function loadAllPeerReviews() {
+export function loadAllPeerReviews(status) {
   return {
     type: LOAD_ALL_PEER_SAGA,
-    payload: {}
+    payload: { status }
   }
 }
 export function setAllPeerReviews(data) {
