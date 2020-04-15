@@ -1,5 +1,5 @@
 const AWS = require('aws-sdk');
-
+const logger = require('../../logs/util/logger')
 const config = require("../../config");
 
 AWS.config.update({
@@ -33,9 +33,9 @@ const sendEmail = (to, from, subject, message) => {
 
     ses.sendEmail(params, (err, data) => {
         if (err) {       
-            return console.log(err, err.stack);
+            return logger.error("%o %o",err, err.stack);                
         } else {
-            console.log("Email sent.", data);        
+            logger.info("Email sent. %O ", data)
         }
     });
 };

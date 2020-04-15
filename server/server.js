@@ -1,22 +1,16 @@
 const express = require("express");
-const logger = require("morgan");
 const jwt = require("./middleware/jwt");
 const errorHandler = require("./middleware/error-handler");
 const cors = require("cors");
 const app = express();
-
-var fs = require('fs')
-var path = require('path')
-const morgan = require("morgan");
-var accessLogStream = fs.createWriteStream(path.join(__dirname+ '/logs/access.log'), { flags: 'a' })
-// app.use(morgan(':method :url :status :response-time ms - :res[content-length]',{ stream: accessLogStream }))
-app.use(morgan('combined',{ stream: accessLogStream }))
+const logger = require("./logs/util/logger")
+const httpLogger  = require("./logs/util/httpLogger")
+app.use(httpLogger)
 const config = require("./config");
 app.use(cors());
 app.use(express.json());
 app.use(jwt());
 require("./routes")(app);
-
 const mongoose = require("./config/database"); //database configuration
 
 // connection to mongodb
