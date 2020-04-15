@@ -117,7 +117,7 @@ module.exports = {
   },
   getAll: function (req, res, next) {
     const {status} = req.query;    
-   userModel.find(status ? {status} : {}, function (err, users) {
+   userModel.find(status ? {status} : {}, null,{sort: 'status'}, function (err, users) {
       if (err) {
         next(err);
       } else {
