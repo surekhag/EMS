@@ -4,6 +4,16 @@ import {
   yupRequiredNumber,
   yupRequiredDate
 } from '../../helpers/yupValidations'
+import {
+  gender,
+  work_location,
+  shift_timing,
+  designation,
+  employment_status,
+  userRole,
+  countryData
+} from '../../constants'
+
 export const formikInitialValues = userToUpdate => {
   const {
     firstname,
@@ -139,3 +149,67 @@ export const formikUpdateValidations = Yup.object().shape({
   }),
   skills: yupRequired('Skill')
 })
+
+export const onlyAddEmployeeInputList = [
+  { md: 6, name: 'employee_id', labelText: 'Employee Id * ' },
+  { md: 6, name: 'email', labelText: 'Email Address *' },
+  { md: 6, name: 'userName', labelText: 'UserName *' },
+  { md: 6, name: 'password', labelText: 'Password * ' }
+]
+export const commonInputList1 = [
+  { md: 4, name: 'firstname', labelText: 'Firstname * ' },
+  { md: 4, name: 'middlename', labelText: 'Middlename' },
+  { md: 4, name: 'lastname', labelText: 'Lastname *' },
+  { md: 6, name: 'address1', labelText: 'Address 1 *' },
+  { md: 6, name: 'address2', labelText: 'Address 2' }
+]
+export const commonInputList2 = [
+  { md: 4, name: 'city', labelText: 'City *' },
+  { md: 4, name: 'zip', labelText: 'Zip *' },
+  { md: 4, name: 'contact_no', labelText: 'Conatct Number *' },
+  {
+    md: 4,
+    name: 'experience_at_joining',
+    labelText: 'Experience At Joining *'
+  }
+]
+export const commonInputList3 = [
+  { md: 6, name: 'skills', labelText: 'Skills *' },
+  { md: 6, name: 'certifications', labelText: 'Certifications' },
+  { md: 12, name: 'achievements', labelText: 'Achievements' }
+]
+
+export const selectMenuList = [
+  { md: 6, name: 'gender', labelText: 'Gender *', menuItems: gender },
+  {
+    md: 6,
+    name: 'work_location',
+    labelText: 'Work Location *',
+    menuItems: work_location
+  },
+  {
+    md: 6,
+    name: 'timezone',
+    labelText: 'Timezone *',
+    menuItems: work_location
+  },
+  {
+    md: 6,
+    name: 'shift_timing',
+    labelText: 'Shift Timing *',
+    menuItems: shift_timing
+  },
+  {
+    md: 6,
+    name: 'designation',
+    labelText: 'Designation *',
+    menuItems: designation
+  },
+  {
+    md: 6,
+    name: 'employment_status',
+    labelText: 'Employment Status *',
+    menuItems: employment_status
+  },
+  { md: 6, name: 'userRole', labelText: 'User Role *', menuItems: userRole }
+]
