@@ -39,7 +39,7 @@ export const employeeStyles = {
     paddingLeft: 11,
     paddingRight: 11
   },
-  menuItem: {
+  textCapitalize: {
     textTransform: 'capitalize'
   }
 }

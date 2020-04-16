@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useEffect, useRef } from 'react'
 import GridContainer from '../Grid/GridContainer'
 import { useToasts } from 'react-toast-notifications'
 import { Formik } from 'formik'
@@ -26,8 +26,7 @@ import {
 } from '../../selectors/employeeSelectors'
 
 const AddEmployeeForm = props => {
-  const [managers, setManagers] = useState()
-  const { setPageView, userToUpdate } = props
+  const { setPageView, userToUpdate, setUpdateAction } = props
   const { addToast } = useToasts()
   const dispatch = useDispatch()
   const error = useSelector(addNewUserError)
@@ -43,17 +42,6 @@ const AddEmployeeForm = props => {
   }, [dispatch])
 
   useEffect(() => {
-    if (managerdata) {
-      const emp = managerdata
-      const managers = emp.filter(item => {
-        if (item.userRole === 'manager' && item.status === 'Active') return item
-      })
-
-      setManagers(managers)
-    }
-  }, [managerdata])
-
-  useEffect(() => {
     if (addNewUserStatus || updateUserStatus) {
       addToast(addNewUserStatus || updateUserStatus, {
         appearance: 'success',
@@ -62,7 +50,7 @@ const AddEmployeeForm = props => {
       if (addNewUserStatus) setPageView(true)
 
       if (updateUserStatus) {
-        if (props) props.setUpdateAction()
+        setUpdateAction()
       }
       userForm.current.reset()
       dispatch(clearUserStatus())
@@ -107,7 +95,7 @@ const AddEmployeeForm = props => {
   }
 
   const handleSeachView = () => {
-    props.setUpdateAction()
+    setUpdateAction()
   }
 
   let userDataValidation
@@ -135,7 +123,7 @@ const AddEmployeeForm = props => {
             formHandlerData={formHandlerData}
             handleSeachView={handleSeachView}
             getStates={getStates}
-            managers={managers}
+            managers={managerdata}
             userForm={userForm}
             userToUpdate={userToUpdate}
           />

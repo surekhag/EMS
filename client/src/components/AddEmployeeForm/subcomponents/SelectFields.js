@@ -10,7 +10,7 @@ const useStyles = makeStyles(styles)
 
 const SelectFields = ({ selectList = [], values, handleChange }) => {
   const classes = useStyles()
-  const { menuItem } = classes
+  const { textCapitalize } = classes
 
   return (
     <>
@@ -23,6 +23,7 @@ const SelectFields = ({ selectList = [], values, handleChange }) => {
             <GridItem key={`select${name}`} xs={12} sm={12} md={md}>
               <SelectMenu
                 name={name}
+                className={textCapitalize}
                 onChange={handleChange}
                 disabledName="None"
                 label={labelText}
@@ -31,7 +32,7 @@ const SelectFields = ({ selectList = [], values, handleChange }) => {
                 {menuItems.map(item => {
                   return name === 'work_location' || name === 'timezone' ? (
                     <MenuItem
-                      className={menuItem}
+                      className={textCapitalize}
                       key={`menu${item}`}
                       value={item.id}
                     >
@@ -39,7 +40,7 @@ const SelectFields = ({ selectList = [], values, handleChange }) => {
                     </MenuItem>
                   ) : (
                     <MenuItem
-                      className={menuItem}
+                      className={textCapitalize}
                       key={`menu${item}`}
                       value={item}
                     >

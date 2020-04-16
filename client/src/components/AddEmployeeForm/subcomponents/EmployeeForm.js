@@ -85,9 +85,11 @@ const EmployeeForm = ({
                     }}
                     value={country}
                   >
-                    {countryData.map(item => {
+                    {countryData.map((item, key) => {
                       return (
-                        <MenuItem value={item.country}>{item.name}</MenuItem>
+                        <MenuItem key={`country${key}`} value={item.country}>
+                          {item.name}
+                        </MenuItem>
                       )
                     })}
                   </SelectMenu>
@@ -102,10 +104,12 @@ const EmployeeForm = ({
                   >
                     {countryData.map(item => {
                       if (country && item.country === country) {
-                        return getStates(country).map(item => {
+                        return getStates(country).map((item, key) => {
                           if (item) {
                             return (
-                              <MenuItem value={item.code}>{item.name}</MenuItem>
+                              <MenuItem key={`state${key}`} value={item.code}>
+                                {item.name}
+                              </MenuItem>
                             )
                           }
                         })
@@ -154,13 +158,10 @@ const EmployeeForm = ({
                     value={reporting_manager}
                   >
                     {managers &&
-                      managers.map(item => {
+                      managers.map((item, key) => {
                         const { employee_id, firstname, lastname } = item
                         return (
-                          <MenuItem
-                            key={`manager${employee_id}`}
-                            value={employee_id}
-                          >
+                          <MenuItem key={`manager${key}`} value={employee_id}>
                             {`${firstname} ${lastname}`}
                           </MenuItem>
                         )
