@@ -92,6 +92,7 @@ export const formikAddNewUserValidations = Yup.object().shape({
     'Password must be at least 8 characters long!'
   )
 })
+const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/ // for Mobile Numbers
 
 export const formikUpdateValidations = Yup.object().shape({
   firstname: yupRequired('Firstname')
@@ -100,11 +101,10 @@ export const formikUpdateValidations = Yup.object().shape({
   lastname: yupRequired('Lastname')
     .min(2, 'Too Short!')
     .max(50, 'Too Long!'),
-  contact_no: yupRequiredNumber('Contact Number')
-    .typeError("Doesn't seems valid Contact Number")
-    .positive()
-    .integer("A phone number can't include a decimal point")
-    .min(10, 'Enter valid valid Contact number of min 10 digits!'),
+  contact_no: Yup.string()
+    .required('Contact number is required.')
+    .length(10, 'Please enter a valid contact number.')
+    .matches(phoneRegExp, 'Please enter a valid contact number.'),
   address1: yupRequired('Address1').min(2, 'Too Short!'),
   city: yupRequired('City'),
   zip: yupRequired('Zip').min(6, 'Enter minimum 6 length Zip Code'),

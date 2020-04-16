@@ -60,13 +60,13 @@ const EmployeeSearch = props => {
 
   let filteredEmployee
   const searchHandler = () => {
-    const employeeDetails = []
+    let employeeDetails = []
     if (employeeData && searchText) {
       // To do - update api to get only active users
       filteredEmployee = employeeData.filter(cls =>
         cls.userName.toLowerCase().includes(searchText.toLowerCase().trim())
       )
-      filteredEmployee.map(employee => {
+      employeeDetails = filteredEmployee.map(employee => {
         const {
           employee_id,
           firstname,
@@ -91,7 +91,7 @@ const EmployeeSearch = props => {
           : 'NA'
 
         const name = `${firstname} ${lastname}`
-        const data = {
+        return {
           employee_id,
           name,
           designation,
@@ -100,7 +100,6 @@ const EmployeeSearch = props => {
           managerName,
           status
         }
-        employeeDetails.push(data)
       })
     }
     setEmployeeDetails(employeeDetails)

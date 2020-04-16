@@ -47,15 +47,19 @@ const AddEmployeeForm = props => {
         appearance: 'success',
         autoDismiss: true
       })
-      if (addNewUserStatus) setPageView(true)
-
-      if (updateUserStatus) {
-        setUpdateAction()
-      }
+      addNewUserStatus && setPageView(true)
+      updateUserStatus && setUpdateAction()
       userForm.current.reset()
       dispatch(clearUserStatus())
     }
-  }, [addNewUserStatus, updateUserStatus, addToast, dispatch])
+  }, [
+    addNewUserStatus,
+    updateUserStatus,
+    addToast,
+    dispatch,
+    setPageView,
+    setUpdateAction
+  ])
 
   useEffect(() => {
     if (error || updateUserError) {
@@ -84,29 +88,18 @@ const AddEmployeeForm = props => {
       : dispatch(addNewUser(values))
   }
 
-  let initialValues
   const initialValuesAddUser = formikInitialValuesAddUser
-  initialValues = formikInitialValues(userToUpdate)
-
-  if (userToUpdate) {
-    initialValues = initialValues
-  } else {
-    initialValues = { ...initialValues, ...initialValuesAddUser }
-  }
+  const initialValues = userToUpdate
+    ? formikInitialValues(userToUpdate)
+    : { ...formikInitialValues(userToUpdate), ...initialValuesAddUser }
 
   const handleSeachView = () => {
     setUpdateAction()
   }
 
-  let userDataValidation
-  const addNewUserValidations = formikAddNewUserValidations
-  const updateValidations = formikUpdateValidations
-
-  if (userToUpdate) {
-    userDataValidation = updateValidations
-  } else {
-    userDataValidation = updateValidations.concat(addNewUserValidations)
-  }
+  const userDataValidation = userToUpdate
+    ? formikUpdateValidations
+    : formikUpdateValidations.concat(formikAddNewUserValidations)
 
   return (
     <GridContainer>

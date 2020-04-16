@@ -9,6 +9,7 @@ const InputFields = ({ inputList = [], values, handleChange }) => {
         inputList.map(inputData => {
           const { name, labelText, md } = inputData
           const value = values[name]
+          const type = name === 'password' ? 'password' : 'text'
 
           return (
             <GridItem key={`input${name}`} xs={12} sm={12} md={md}>
@@ -17,7 +18,7 @@ const InputFields = ({ inputList = [], values, handleChange }) => {
                 value={value}
                 onChange={handleChange}
                 labelText={labelText}
-                type={name === 'password' && 'password'}
+                type={type}
               />
             </GridItem>
           )
