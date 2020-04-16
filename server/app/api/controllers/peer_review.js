@@ -56,7 +56,7 @@ module.exports = {
   },
   getAll: function (req, res, next) {
     const { status } = req.query
-    Peer_Review_Model.find({ status: status })
+    Peer_Review_Model.find(status ? { status: status } : {})
       .populate('employee_under_review', 'firstname lastname')
       .populate('employee_reviewing', 'firstname lastname')
       .populate('project', 'title')
@@ -74,8 +74,9 @@ module.exports = {
       });
   },
   getForUser: function (req, res, next) {
+    const { status } = req.query
     Peer_Review_Model
-      .find({ employee_reviewing: req.params.employee_id })
+      .find(status ? { employee_reviewing: req.params.employee_id, status: status } : { employee_reviewing: req.params.employee_id })
       .populate('employee_under_review', 'firstname lastname')
       .populate('employee_reviewing', 'firstname lastname')
       .populate('project', 'title')

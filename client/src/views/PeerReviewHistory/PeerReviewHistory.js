@@ -59,7 +59,7 @@ const PeerReviewHistory = props => {
     'Status'
   ]
   useEffect(() => {
-    dispatch(loadAllPeerForUser(currentUser._id))
+    dispatch(loadAllPeerForUser(currentUser._id, { status: "Done" }))
   }, [currentUser._id, dispatch])
 
   useEffect(() => {

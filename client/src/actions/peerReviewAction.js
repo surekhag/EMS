@@ -59,10 +59,10 @@ export function setPeerReviewError(data) {
   }
 }
 
-export function loadAllPeerForUser(data) {
+export function loadAllPeerForUser(data, status) {
   return {
     type: LOAD_ALL_USER_PEER_SAGA,
-    payload: { data }
+    payload: { data, status }
   }
 }
 export function setAllPeerForUser(data) {

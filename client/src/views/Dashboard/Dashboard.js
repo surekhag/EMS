@@ -55,17 +55,13 @@ const Dashboard = props => {
   const peerReviews = useSelector(userPeerReview)
   const userSelfReviews = useSelector(userSelfReviewDeatils)
   useEffect(() => {
-    dispatch(loadAllPeerForUser(currentUser._id))
-    dispatch(loadAllSelfReviewsForUser(currentUser._id))
+    dispatch(loadAllPeerForUser(currentUser._id, { status: "Active" }))
+    dispatch(loadAllSelfReviewsForUser(currentUser._id, { status: "Active" }))
   }, [currentUser._id, dispatch])
 
   const peerReviewsArray = []
-  let filteredEmployee
   if (peerReviews) {
-    filteredEmployee = peerReviews.filter(
-      cls => cls.status !== 'Done' && cls.status !== 'Inactive'
-    )
-    filteredEmployee.map(review => {
+    peerReviews.map(review => {
       peerReviewsArray.push([
         `${review.employee_under_review.firstname} ${review.employee_under_review.lastname}`,
         review.project.title,
@@ -76,16 +72,12 @@ const Dashboard = props => {
     })
   }
   const userReviewDetailsArr = []
-  let filteredSelfReview
   if (
     userSelfReviews &&
     userSelfReviews.length > 0 &&
     userReviewDetailsArr.length === 0
   ) {
-    filteredSelfReview = userSelfReviews.filter(
-      cls => cls.status !== 'Done' && cls.status !== 'Inactive'
-    )
-    filteredSelfReview.map(review => {
+    userSelfReviews.map(review => {
       const projectsArr = review.projects.map(item => item.title)
       userReviewDetailsArr.push([
         projectsArr.join(',\n'),
@@ -98,7 +90,7 @@ const Dashboard = props => {
   }
 
   const detailHandler = key => {
-    setPeerDetails(filteredEmployee[key])
+    setPeerDetails(peerReviews[key])
     setShowDetail(true)
   }
   const handleSelfReviewDetails = key => {
@@ -128,53 +120,53 @@ const Dashboard = props => {
           showButtons={true}
         />
       ) : (
-        <GridContainer>
-          <GridItem xs={12} sm={12} md={12}>
-            <InputLabel className={classes.cardTitle}>
-              Welcome {currentUser ? currentUser.userName : null}
-            </InputLabel>
-          </GridItem>
-          {peerReviews && peerReviewsArray.length > 0 ? (
-            <GridItem xs={12} sm={12} md={12}>
-              <Card plain>
-                <CardHeader plain color="primary">
-                  <h4 className={classes.cardTitleWhite}>PEER REVIEWS</h4>
-                </CardHeader>
-                <CardBody>
-                  <Table
-                    tableHeaderColor="gray"
-                    tableHead={peerReviewListingHeader}
-                    tableData={peerReviewsArray || null}
-                    showLink={true}
-                    buttonText="Details"
-                    detailHandler={detailHandler}
-                  />
-                </CardBody>
-              </Card>
-            </GridItem>
-          ) : null}
+            <GridContainer>
+              <GridItem xs={12} sm={12} md={12}>
+                <InputLabel className={classes.cardTitle}>
+                  Welcome {currentUser ? currentUser.userName : null}
+                </InputLabel>
+              </GridItem>
+              {peerReviews && peerReviewsArray.length > 0 ? (
+                <GridItem xs={12} sm={12} md={12}>
+                  <Card plain>
+                    <CardHeader plain color="primary">
+                      <h4 className={classes.cardTitleWhite}>PEER REVIEWS</h4>
+                    </CardHeader>
+                    <CardBody>
+                      <Table
+                        tableHeaderColor="gray"
+                        tableHead={peerReviewListingHeader}
+                        tableData={peerReviewsArray || null}
+                        showLink={true}
+                        buttonText="Details"
+                        detailHandler={detailHandler}
+                      />
+                    </CardBody>
+                  </Card>
+                </GridItem>
+              ) : null}
 
-          {userSelfReviews && userReviewDetailsArr.length > 0 ? (
-            <GridItem xs={12} sm={12} md={12}>
-              <Card plain>
-                <CardHeader plain color="primary">
-                  <h4 className={classes.cardTitleWhite}>SELF REVIEW</h4>
-                </CardHeader>
-                <CardBody>
-                  <Table
-                    tableHeaderColor="gray"
-                    tableHead={SelfReviewListingHeader}
-                    tableData={userReviewDetailsArr || null}
-                    showLink={true}
-                    buttonText="Details"
-                    detailHandler={handleSelfReviewDetails}
-                  />
-                </CardBody>
-              </Card>
-            </GridItem>
-          ) : null}
-        </GridContainer>
-      )}
+              {userSelfReviews && userReviewDetailsArr.length > 0 ? (
+                <GridItem xs={12} sm={12} md={12}>
+                  <Card plain>
+                    <CardHeader plain color="primary">
+                      <h4 className={classes.cardTitleWhite}>SELF REVIEW</h4>
+                    </CardHeader>
+                    <CardBody>
+                      <Table
+                        tableHeaderColor="gray"
+                        tableHead={SelfReviewListingHeader}
+                        tableData={userReviewDetailsArr || null}
+                        showLink={true}
+                        buttonText="Details"
+                        detailHandler={handleSelfReviewDetails}
+                      />
+                    </CardBody>
+                  </Card>
+                </GridItem>
+              ) : null}
+            </GridContainer>
+          )}
     </div>
   )
 }

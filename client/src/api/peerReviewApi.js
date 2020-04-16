@@ -8,8 +8,8 @@ import {
 export function loadAllPeerReviews(status) {
   return axios.get(FETCH_PEER_REVIEW, { params: status })
 }
-export function loadAllUserPeerReviews(id) {
-  return axios.get(FETCH_PEER_REVIEW + id)
+export function loadAllUserPeerReviews(id, status) {
+  return axios.get(FETCH_PEER_REVIEW + id, { params: status })
 }
 export function loadAllPeerReviewsForManager(body) {
   return axios.get(FETCH_PEER_REVIEW_FOR_MANAGER, { params: body })
