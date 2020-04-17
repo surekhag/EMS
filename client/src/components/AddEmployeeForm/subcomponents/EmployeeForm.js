@@ -14,7 +14,7 @@ import SelectMenu from '../../FromComponents/SelectMenu'
 import SelectFields from './SelectFields'
 import DatePicker from '../../FromComponents/DatePicker'
 import { countryData } from '../../../constants'
-import InputFields from './InputFields'
+import InputFields from '../../FromComponents/InputFields'
 import {
   onlyAddEmployeeInputList,
   commonInputList1,
