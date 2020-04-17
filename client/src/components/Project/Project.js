@@ -7,15 +7,17 @@ import CardHeader from '../Card/CardHeader'
 import CardBody from '../Card/CardBody'
 import CardFooter from '../Card/CardFooter'
 import Button from '../CustomButtons/Button'
-import Input from '../FromComponents/Input'
 import 'date-fns'
-import { creatNewProjectValidations, projectInputList, projectDatePickerList } from './projectFormData'
-import DatePickerFields from '../../components/FromComponents/DatePickerFields'
-import DatePicker from '../../components/FromComponents/DatePicker'
+import {
+  creatNewProjectValidations,
+  projectInputList,
+  projectDatePickerList
+} from './projectFormData'
+import DatePickerFields from '../FromComponents/DatePickerField'
+import InputFields from '../FromComponents/InputFields'
 import { useToasts } from 'react-toast-notifications'
 import { Formik, Form } from 'formik'
 import { projectStyles } from './styles'
-import InputFields from '../AddEmployeeForm/subcomponents/InputFields'
 import { useSelector, useDispatch } from 'react-redux'
 import {
   addNewProject,
@@ -146,32 +148,14 @@ const Project = props => {
                     <InputFields
                       inputList={projectInputList}
                       values={values}
-                      handleChange={setFieldValue}
+                      handleChange={handleChange}
                     />
                     <DatePickerFields
                       inputList={projectDatePickerList}
                       values={values}
                       handleChange={setFieldValue}
-                      form={projectForm}
                     />
-                     {/* <GridItem xs={12} sm={12} md={6}>
-                      <DatePicker
-                        name="startdate"
-                        value={values.startdate}
-                        label="Start Date *"
-                        onChange={date => setFieldValue('startdate', date)}
-                      />
-                    </GridItem>
-
-                    <GridItem xs={12} sm={12} md={6}>
-                      <DatePicker
-                        name="enddate"
-                        value={values.enddate}
-                        label="End Date *"
-                        onChange={date => setFieldValue('enddate', date)}
-                      />
-                    </GridItem> */}
-                  </GridContainer>
+                </GridContainer>
                 </CardBody>
 
                 <CardFooter>

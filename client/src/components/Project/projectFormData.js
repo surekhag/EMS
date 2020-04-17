@@ -59,5 +59,5 @@ export const projectInputList = [
 
 export const projectDatePickerList = [
   { md: 6, name: 'startdate', label: 'Start Date *' },
-  { md: 6, name: 'enddate', label: 'End Date *' }  
+  { md: 6, name: 'enddate', label: 'End Date *' }
 ]
