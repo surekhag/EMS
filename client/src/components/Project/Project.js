@@ -9,11 +9,13 @@ import CardFooter from '../Card/CardFooter'
 import Button from '../CustomButtons/Button'
 import Input from '../FromComponents/Input'
 import 'date-fns'
-import { creatNewProjectValidations } from './projectFormData'
+import { creatNewProjectValidations, projectInputList, projectDatePickerList } from './projectFormData'
+import DatePickerFields from '../../components/FromComponents/DatePickerFields'
 import DatePicker from '../../components/FromComponents/DatePicker'
 import { useToasts } from 'react-toast-notifications'
 import { Formik, Form } from 'formik'
 import { projectStyles } from './styles'
+import InputFields from '../AddEmployeeForm/subcomponents/InputFields'
 import { useSelector, useDispatch } from 'react-redux'
 import {
   addNewProject,
@@ -141,60 +143,18 @@ const Project = props => {
 
                 <CardBody>
                   <GridContainer>
-                    <GridItem xs={12} sm={12} md={6}>
-                      <Input
-                        name="title"
-                        value={values.title}
-                        onChange={handleChange}
-                        labelText="Project Title * "
-                      />
-                    </GridItem>
-
-                    <GridItem xs={12} sm={12} md={6}>
-                      <Input
-                        name="description"
-                        value={values.description}
-                        onChange={handleChange}
-                        labelText="Description * "
-                      />
-                    </GridItem>
-
-                    <GridItem xs={12} sm={12} md={6}>
-                      <Input
-                        name="client"
-                        value={values.client}
-                        onChange={handleChange}
-                        labelText="Client *"
-                      />
-                    </GridItem>
-                    <GridItem xs={12} sm={12} md={6}>
-                      <Input
-                        name="client_location"
-                        value={values.client_location}
-                        onChange={handleChange}
-                        labelText="Client Location * "
-                      />
-                    </GridItem>
-
-                    <GridItem xs={12} sm={12} md={6}>
-                      <Input
-                        name="technology"
-                        value={values.technology}
-                        onChange={handleChange}
-                        labelText="Technology * "
-                      />
-                    </GridItem>
-
-                    <GridItem xs={12} sm={12} md={6}>
-                      <Input
-                        name="type"
-                        value={values.type}
-                        onChange={handleChange}
-                        labelText="Project Type * "
-                      />
-                    </GridItem>
-
-                    <GridItem xs={12} sm={12} md={6}>
+                    <InputFields
+                      inputList={projectInputList}
+                      values={values}
+                      handleChange={setFieldValue}
+                    />
+                    <DatePickerFields
+                      inputList={projectDatePickerList}
+                      values={values}
+                      handleChange={setFieldValue}
+                      form={projectForm}
+                    />
+                     {/* <GridItem xs={12} sm={12} md={6}>
                       <DatePicker
                         name="startdate"
                         value={values.startdate}
@@ -210,7 +170,7 @@ const Project = props => {
                         label="End Date *"
                         onChange={date => setFieldValue('enddate', date)}
                       />
-                    </GridItem>
+                    </GridItem> */}
                   </GridContainer>
                 </CardBody>
 
