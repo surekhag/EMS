@@ -98,20 +98,20 @@ module.exports = {
     let startDate, endDate
     switch (value) {
       case 'Quarter 1':
-        startDate = new Date(`2 January ${selectedYear}`);
-        endDate = new Date(`1 April ${selectedYear}`)
+        startDate = new Date(`${selectedYear}-01-01T23:59`);
+        endDate = new Date(`${selectedYear}-03-31T23:59`)
         break;
       case 'Quarter 2':
-        startDate = new Date(`2 April ${selectedYear}`);
-        endDate = new Date(`1 July ${selectedYear}`)
+        startDate = new Date(`${selectedYear}-04-01T23:59`);
+        endDate = new Date(`${selectedYear}-06-30T23:59`)
         break;
       case 'Quarter 3':
-        startDate = new Date(`2 July ${selectedYear}`);
-        endDate = new Date(`1 October ${selectedYear}`)
+        startDate = new Date(`${selectedYear}-07-01T23:59`);
+        endDate = new Date(`${selectedYear}-09-30T23:59`)
         break;
       case 'Quarter 4':
-        startDate = new Date(`2 October ${selectedYear}`);
-        endDate = new Date(`1 January ${Number(selectedYear) + 1}`)
+        startDate = new Date(`${selectedYear}-10-01T23:59`);
+        endDate = new Date(`${selectedYear}-12-31T23:59`)
         break;
       default:
         startDate = '';
