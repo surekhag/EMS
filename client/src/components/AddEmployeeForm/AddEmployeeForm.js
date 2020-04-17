@@ -73,7 +73,6 @@ const AddEmployeeForm = props => {
 
   const getStates = value => {
     if (value === null) return []
-
     const states = countryData.filter(item => {
       if (item.country === value) {
         return item

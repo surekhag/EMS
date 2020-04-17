@@ -1,6 +1,6 @@
 import React from 'react'
-import GridItem from '../../Grid/GridItem'
-import Input from '../../FromComponents/Input'
+import GridItem from '../Grid/GridItem'
+import Input from './Input'
 
 const InputFields = ({ inputList = [], values, handleChange }) => {
   return (
