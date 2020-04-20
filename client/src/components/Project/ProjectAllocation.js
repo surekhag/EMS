@@ -25,9 +25,13 @@ import {
   clearProjectAllocationMsg
 } from '../../actions/projectAction'
 import {
+  projectDatePickerList
+} from './projectFormData'
+import {
   projectAllocationStatus,
   projectAllocationError
 } from '../../selectors/projectAllocationSelector'
+import DatePickerFields from '../FromComponents/DatePickerField'
 import {
   projectAllocationValidations,
   projectAllocationInitialValues
@@ -156,25 +160,11 @@ const Project = props => {
                           })}
                       </SelectMenu>
                     </GridItem>
-                    <GridItem xs={12} sm={12} md={6}>
-                      <DatePicker
-                        name="startdate"
-                        value={values.startdate}
-                        label="Start Date *"
-                        onChange={date => setFieldValue('startdate', date)}
-                      />
-                    </GridItem>
-
-                    <GridItem xs={12} sm={12} md={6}>
-                      <DatePicker
-                        name="enddate"
-                        value={values.enddate}
-                        label="End Date *"
-                        onChange={date => {
-                          setFieldValue('enddate', date)
-                        }}
-                      />
-                    </GridItem>
+                    <DatePickerFields
+                      inputList={projectDatePickerList}
+                      values={values}
+                      handleChange={setFieldValue}
+                    />                   
                     <GridItem xs={12} sm={12} md={6}>
                       <SelectMenu
                         name="functional_manager"
