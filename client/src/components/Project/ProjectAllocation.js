@@ -24,9 +24,7 @@ import {
   allocateProject,
   clearProjectAllocationMsg
 } from '../../actions/projectAction'
-import {
-  projectDatePickerList
-} from './projectFormData'
+import { projectDatePickerList } from './projectFormData'
 import {
   projectAllocationStatus,
   projectAllocationError
@@ -164,7 +162,7 @@ const Project = props => {
                       inputList={projectDatePickerList}
                       values={values}
                       handleChange={setFieldValue}
-                    />                   
+                    />
                     <GridItem xs={12} sm={12} md={6}>
                       <SelectMenu
                         name="functional_manager"

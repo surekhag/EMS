@@ -155,7 +155,7 @@ const Project = props => {
                       values={values}
                       handleChange={setFieldValue}
                     />
-                </GridContainer>
+                  </GridContainer>
                 </CardBody>
 
                 <CardFooter>
