@@ -22,7 +22,7 @@ module.exports = {
           created_by: req.user.userName,
           last_updated_by: req.user.userName
         },
-        function (err, result) {
+        function (err) {
           if (err) next(err);
           else{
              const peerName ="surekha.test.email";
@@ -50,9 +50,8 @@ module.exports = {
         updated_date: new Date(),
         last_updated_by: req.user.userName
       },
-      function (err, peerInfo) {
+      function (err) {
         if (err) {
-          console.log("in err");
           next(err);
         } else {
              
@@ -105,11 +104,12 @@ module.exports = {
     Peer_Review_Model.findOneAndUpdate(
       { _id: req.params.id },
       {
-        status: "Inactive"
+        status: "Inactive",
+        updated_date : new Date(),
+        last_updated_by : req.user.userName,
       },
-      function (err, userInfo) {
+      function (err) {
         if (err) {
-          console.log("in err");
           next(err);
         } else {
           res.json({
